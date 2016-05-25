@@ -80,6 +80,7 @@ function $Reporter(runner) {
     });
 
     runner.on('test', function (test) {
+        // TODO Use a more formal log output format so we could conceivably capture stdout/stderr for each test run and associate it.
         Ti.API.info('Started: ' + test.title);
         started = new Date().getTime();
     });
@@ -96,7 +97,7 @@ function $Reporter(runner) {
             duration: tdiff,
             suite: title,
             title: test.title,
-            error: test.err
+            error: test.err // TODO Include the message property!
         });
     });
 };
@@ -108,12 +109,20 @@ mocha.setup({
 
 // dump the output, which will get interpreted above in the logging code
 mocha.run(function () {
+    var str,
+        i;
     win.backgroundColor = failed ? 'red' : 'green';
-
-    Ti.API.info('!TEST_RESULTS_START!\n' +
-        (JSON.stringify({
-            date: new Date,
-            results: $results
-        })) +
-    '\n!TEST_RESULTS_STOP!');
+    // Android truncates after 4036 characters. Split this up into smaller
+    // chunks and log it.
+    Ti.API.info('!TEST_RESULTS_START!\n');
+    Ti.API.info('{"date":' + JSON.stringify(new Date()) + ',"results":[');
+    for (i = 0; i < $results.length; i++) {
+        str = JSON.stringify($results[i]);
+        if (i != $results.length - 1) {
+            str += ',';
+        }
+        Ti.API.info(str);
+    }
+    Ti.API.info(']}');
+    Ti.API.info('!TEST_RESULTS_STOP!');
 });

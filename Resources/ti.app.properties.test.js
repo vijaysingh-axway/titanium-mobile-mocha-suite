@@ -15,7 +15,12 @@ Array.prototype.contains = function (obj) {
 describe('Titanium.App.Properties', function () {
 
     it('apiName', function (finish) {
-        should(Ti.App.Properties.apiName).be.eql("Titanium.App.Properties");
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.App.Properties.apiName).be.eql('Titanium.App.Properties');
+        } else {
+            should(Ti.App.Properties.apiName).be.eql('Ti.App.Properties');
+        }
         finish();
     });
 

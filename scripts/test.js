@@ -40,7 +40,7 @@ function installSDK(sdkVersion, next) {
 	});
 	prc.on('close', function (code) {
 		if (code != 0) {
-			next("Failed to install SDK");
+			next('Failed to install SDK');
 		} else {
 			next();
 		}
@@ -59,7 +59,7 @@ function generateProject(next) {
 	prc.on('close', function (code) {
 		var setProcess;
 		if (code != 0) {
-			next("Failed to create project");
+			next('Failed to create project');
 		} else {
 			next();
 		}
@@ -165,7 +165,7 @@ function handleBuild(prc, next) {
 		results,
 		done = false;
 	prc.stdout.on('data', function (data) {
-		console.log(data.toString());
+		console.log(data.toString().trim());
 		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
 		for (var i = 0; i < lines.length; i++) {
 			var str = lines[i],
@@ -196,7 +196,7 @@ function handleBuild(prc, next) {
 			// Handle when app crashes and we haven't finished tests yet!
 			if ((index = str.indexOf('-- End application log ----')) != -1) {
 				prc.kill(); // quit this build...
-				next("failed to get test results before log ended!"); // failed too many times
+				next('failed to get test results before log ended!'); // failed too many times
 			}
 		}
 	});
@@ -210,7 +210,7 @@ function removeSDK(sdkVersion, next) {
 	prc = spawn('titanium', ['sdk', 'uninstall', sdkVersion, '--force']);
 	prc.on('close', function (code) {
 		if (code != 0) {
-			next("Failed to uninstall SDK");
+			next('Failed to uninstall SDK');
 		} else {
 			next();
 		}
@@ -237,7 +237,7 @@ function killAndroidSimulator(next) {
  */
 function parseTestResults(testResults, next) {
 	if (!testResults) {
-		return next("Failed to retrieve any tests results!");
+		return next('Failed to retrieve any tests results!');
 	}
 
 	// preserve newlines, etc - use valid JSON
@@ -250,7 +250,7 @@ function parseTestResults(testResults, next) {
 			   .replace(/\\b/g, "\\b")
 			   .replace(/\\f/g, "\\f");
 	// remove non-printable and other non-valid JSON chars
-	testResults = testResults.replace(/[\u0000-\u0019]+/g,"");
+	testResults = testResults.replace(/[\u0000-\u0019]+/g,'');
 	next(null, JSON.parse(testResults));
 }
 
@@ -305,7 +305,7 @@ function test(sdkVersion, callback) {
 			// TODO Kill iOS simulator?
 			async.parallel([
 				function (cb) {
-					console.log("Install SDK");
+					console.log('Install SDK');
 					installSDK(sdkVersion, cb);
 				},
 				function (cb) {
@@ -314,25 +314,26 @@ function test(sdkVersion, callback) {
 			], next);
 		},
 		function (next) {
-			console.log("Generating project");
+			console.log('Generating project');
 			generateProject(next);
 		},
 		function (next) {
-			console.log("Adding properties for tiapp.xml");
+			console.log('Adding properties for tiapp.xml');
 			addTiAppProperties(next);
 		},
 		function (next) {
-			console.log("Copying assets into project");
+			console.log('Copying assets into project');
 			copyMochaAssets(next);
 		},
 		// TODO Specify the platform we want to test rather than hard-code Android then iOS?
 		function (next) {
-			console.log("Launching android test project in emulator");
+			console.log('Launching android test project in emulator');
 			runAndroidBuild(function (err, result) {
 				if (err) {
 					return next(err);
 				}
 				androidResults = result;
+				next();
 			});
 		},
 		function (next) {
@@ -348,9 +349,9 @@ function test(sdkVersion, callback) {
 			outputJUnitXML(androidResults, 'android', next);
 		},
 		function (next) {
-			// FIXME iOS prompts for access to contacts in UI! We need to find some way to "click" OK for user...
-			// FIXME I think iOS shows red screen of death on assertion failures and may abort if one is already up...
-			console.log("Launching ios test project in simulator");
+			// FIXME iOS prompts for access to contacts in UI! We need to find some way to 'click' OK for user...
+			// FIXME When an assertion fails, iOS opens the 'red screen of death' and WILL NOT open other views. We need to dismiss the error view! (or set some property to avoid it?)
+			console.log('Launching ios test project in simulator');
 			runIOSBuild(function (err, result) {
 				if (err) {
 					return next(err);
@@ -385,7 +386,7 @@ exports.test = test;
 //
 
 // When run as single script.
-if (module.id === ".") {
+if (module.id === '.') {
 	test('master', function(err, results) {
 		if (err) {
 			console.error(err.toString().red);

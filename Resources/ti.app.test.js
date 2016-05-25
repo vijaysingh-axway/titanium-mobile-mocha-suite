@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -34,8 +34,12 @@ describe('Titanium.App', function () {
     });
 
     it('apiName', function (finish) {
-        should(Ti.App.apiName).be.a.String;
-        should(Ti.App.apiName).be.eql("Titanium.App");
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.App.apiName).be.eql('Titanium.App');
+        } else {
+            should(Ti.App.apiName).be.eql('Ti.App');
+        }
         finish();
     });
 
@@ -122,7 +126,7 @@ describe('Titanium.App', function () {
         should(Ti.App.getDisableNetworkActivityIndicator()).be.a.Boolean;
         finish();
     });
-  
+
     it('forceSplashAsSnapshot', function (finish) {
         should(Ti.App.forceSplashAsSnapshot).be.a.Boolean;
         should(Ti.App.getForceSplashAsSnapshot).be.a.Function;

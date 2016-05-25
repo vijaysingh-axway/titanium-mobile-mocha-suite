@@ -6,15 +6,24 @@
  */
 var should = require('./should');
 
-describe("Titanium.Blob", function () {
+describe('Titanium.Blob', function () {
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.Blob.apiName).be.eql('Titanium.Blob');
+        } else {
+            should(Ti.Blob.apiName).be.eql('Ti.Blob');
+        }
+        finish();
+    });
 
     it.skip("constructed from File.read()", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
         should(blob).be.an.Object;
         should(blob).be.an.instanceof(Ti.Blob);
-        should(blob.apiName).be.eql("Titanium.Blob");
         finish();
     });
+
     it.skip("constructed from image", function (finish) {
         var window = Ti.UI.createWindow();
         var label = Ti.UI.createLabel({ text: 'test' });

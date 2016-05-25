@@ -6,13 +6,14 @@
  */
 var should = require('./should');
 
-describe("Titanium.Contacts.Person", function() {
-
+describe('Titanium.Contacts.Person', function() {
     it('apiName', function (finish) {
-        should(function () {
-            var person = Ti.Contacts.createPerson();
-            should(person.apiName).be.eql("Titanium.Contacts.Person");
-        }).not.throw();
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.Contacts.Person.apiName).be.eql('Titanium.Contacts.Person');
+        } else {
+            should(Ti.Contacts.Person.apiName).be.eql('Ti.Contacts.Person');
+        }
         finish();
     });
 
@@ -25,6 +26,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('alternateBirthday', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -34,6 +36,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('birthday', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -44,6 +47,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('created', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -53,6 +57,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('date', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -64,6 +69,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('department', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -73,6 +79,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('email', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -84,6 +91,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('firstName', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -93,6 +101,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('firstPhonetic', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -102,6 +111,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('fullName', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -111,6 +121,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('id', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -126,6 +137,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('identifier', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -137,6 +149,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('image', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -146,6 +159,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('instantMessage', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -154,11 +168,12 @@ describe("Titanium.Contacts.Person", function() {
             // TODO Test modifying the instantMessage dictionary?
             // TODO Try unknown keys (known are 'home', 'work' and 'other')
             // TODO Test non-object values in the array of values
-            // TODO Test unknown keys in the objects (known are "service" and "username")
+            // TODO Test unknown keys in the objects (known are 'service' and 'username')
             // TODO Test non-string values for the service/username
         }).not.throw();
         finish();
     });
+
     it('jobTitle', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -168,6 +183,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('kind', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -179,6 +195,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('lastName', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -188,6 +205,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('lastPhonetic', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -197,6 +215,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('middleName', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -206,6 +225,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('middlePhonetic', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -215,6 +235,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('modified', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -224,6 +245,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('nickname', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -233,6 +255,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('note', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -242,6 +265,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('organization', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -251,6 +275,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('phone', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -262,6 +287,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('prefix', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -271,6 +297,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('recordId', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -281,6 +308,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('relatedNames', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -292,6 +320,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('socialProfile', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -299,11 +328,12 @@ describe("Titanium.Contacts.Person", function() {
             should(person.socialProfile).be.an.Object;
             // TODO Test modifying the socialProfile dictionary?
             // TODO Try unknown keys (known are home, work and/or other.)
-            // TODO Test unknown keys in the objects (known are "service" and "username")
+            // TODO Test unknown keys in the objects (known are 'service' and 'username')
             // TODO Test non-string values for the service/username
         }).not.throw();
         finish();
     });
+
     it('suffix', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();
@@ -313,6 +343,7 @@ describe("Titanium.Contacts.Person", function() {
         }).not.throw();
         finish();
     });
+
     it('url', function (finish) {
         should(function () {
         	var person = Ti.Contacts.createPerson();

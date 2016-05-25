@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -8,9 +8,17 @@
 var should = require('./should');
 
 describe('Titanium.Accelerometer', function () {
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.Accelerometer.apiName).be.eql('Titanium.Accelerometer');
+        } else {
+            should(Ti.Accelerometer.apiName).be.eql('Ti.Accelerometer');
+        }
+        finish();
+    });
+
     it('exists', function (finish) {
-        should(Ti.Accelerometer.apiName).be.a.String;
-        should(Ti.Accelerometer.apiName).be.eql("Titanium.Accelerometer");
         should(Ti.Accelerometer).not.be.undefined;
         should(Ti.Accelerometer).not.be.null;
         should(Ti.Accelerometer.addEventListener).be.a.Function;

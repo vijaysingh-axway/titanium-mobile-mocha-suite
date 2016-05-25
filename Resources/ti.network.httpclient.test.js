@@ -7,18 +7,18 @@
 var should = require('./should');
 
 describe("Titanium.Network.HTTPClient", function () {
-    it("apiName", function (finish) {
+    it('apiName', function (finish) {
         var xhr = Ti.Network.createHTTPClient();
         // See https://jira.appcelerator.org/browse/TIMOB-23346
         if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
-            should(xhr.apiName).be.eql("Titanium.Network.HTTPClient");
+            should(xhr.apiName).be.eql('Titanium.Network.HTTPClient');
         } else {
-            should(xhr.apiName).be.eql("Ti.Network.HTTPClient");
+            should(xhr.apiName).be.eql('Ti.Network.HTTPClient');
         }
         finish();
     });
 
-    (Ti.Platform.osname === 'windowsstore' ? it.skip : it)("responseXML", function (finish) {
+    (Ti.Platform.osname === 'windowsstore' ? it.skip : it)('responseXML', function (finish) {
         this.timeout(6e4);
 
         var xhr = Ti.Network.createHTTPClient();
