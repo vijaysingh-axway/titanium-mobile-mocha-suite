@@ -26,9 +26,15 @@ function clearPreviousApp(next) {
 	next();
 }
 
-function installSDK(version, next) {
-	var prc;
-	prc = spawn('titanium', ['sdk', 'install', version, '-d']);
+function installSDK(sdkVersion, next) {
+	var prc,
+		args = ['sdk', 'install'];
+	if (sdkVersion.indexOf('.') == -1) { // no period, probably mean a branch
+		args.push('-b');
+	}
+	args.push(sdkVersion);
+	args.push('-d'); // make default
+	prc = spawn('titanium', args);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
@@ -74,13 +80,14 @@ function addTiAppProperties(next) {
 		// TODO Have this look at the existing modules under the test app folder to inject them
 		// inject the test modules for require
 		else if (line.indexOf('<modules>') >= 0) {
-			content.push('<module version="1.0.0">commonjs.index_js</module>');
-			content.push('<module version="1.0.0">commonjs.index_json</module>');
+			// FIXME The non-legacy CommonJS modules requires this PR be merged: https://github.com/appcelerator/titanium_mobile/pull/8004
+			//content.push('<module version="1.0.0">commonjs.index_js</module>');
+			//content.push('<module version="1.0.0">commonjs.index_json</module>');
 			content.push('<module version="1.0.0">commonjs.legacy</module>');
 			content.push('<module version="1.0.0">commonjs.legacy.index_js</module>');
 			content.push('<module version="1.0.0">commonjs.legacy.index_json</module>');
 			content.push('<module version="1.0.0">commonjs.legacy.package</module>');
-			content.push('<module version="1.0.0">commonjs.package</module>');
+			//content.push('<module version="1.0.0">commonjs.package</module>');
 		}
 	});
 	fs.writeFileSync(tiapp_xml, content.join('\n'));
@@ -125,6 +132,7 @@ function runIOSBuild(next) {
  * @return {[type]} [description]
  */
 function unlockAndroid() {
+	// FIXME We need to know the location of adb, It's unlikely to be on the PATH!
 	var androidUnlock = spawn('adb', ['shell', 'input', 'keyevent', '82', '&']);
 	androidUnlock.stdout.on('data', function(data) {
 		console.log(data.toString());
@@ -142,7 +150,7 @@ function unlockAndroid() {
 
 function runAndroidBuild(next) {
 	var prc;
-	unlockAndroid();
+	//unlockAndroid();
 	prc = spawn('titanium', ['build', '--project-dir', PROJECT_DIR, '--platform', 'android', '--target', 'emulator', '--no-prompt', '--no-colors','--log-level', 'info']);
 	handleBuild(prc, next);
 }
@@ -275,7 +283,7 @@ function outputJUnitXML(jsonResults, prefix, next) {
 	var r = ejs.render('' + fs.readFileSync(path.join('.', 'junit.xml.ejs')),  { 'suites': values, 'prefix': prefix });
 
 	// Write the JUnit XML to a file
-	fs.writeFileSync(path.join(DIST_DIR, 'junit_report.xml'), r);
+	fs.writeFileSync(path.join(DIST_DIR, 'junit.' + prefix + '.xml'), r);
 	next();
 }
 
@@ -287,7 +295,7 @@ function outputJUnitXML(jsonResults, prefix, next) {
  * falls below the previous build, process exits with a fail.
  */
 function test(sdkVersion, callback) {
-	var iOSResults;
+	var iOSResults,
 		androidResults;
 	async.series([
 		function (next) {
@@ -304,7 +312,7 @@ function test(sdkVersion, callback) {
 					clearPreviousApp(cb);
 				}
 			], next);
-		}
+		},
 		function (next) {
 			console.log("Generating project");
 			generateProject(next);
@@ -340,6 +348,8 @@ function test(sdkVersion, callback) {
 			outputJUnitXML(androidResults, 'android', next);
 		},
 		function (next) {
+			// FIXME iOS prompts for access to contacts in UI! We need to find some way to "click" OK for user...
+			// FIXME I think iOS shows red screen of death on assertion failures and may abort if one is already up...
 			console.log("Launching ios test project in simulator");
 			runIOSBuild(function (err, result) {
 				if (err) {
@@ -376,7 +386,7 @@ exports.test = test;
 
 // When run as single script.
 if (module.id === ".") {
-	test(sdkVersion, function(err, results) {
+	test('master', function(err, results) {
 		if (err) {
 			console.error(err.toString().red);
 			process.exit(1);
