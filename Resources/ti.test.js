@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -10,10 +10,15 @@ var should = require('./should');
 describe('Titanium', function () {
 
     it('apiName', function (finish) {
-        should(Ti.apiName).be.a.String;
-        should(Ti.apiName).be.eql("Titanium");
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.apiName).be.eql('Titanium');
+        } else {
+            should(Ti.apiName).be.eql('Ti');
+        }
         finish();
     });
+
     it('version', function (finish) {
         should(Ti.version).be.a.String;
         should(Ti.getVersion).be.a.Function;

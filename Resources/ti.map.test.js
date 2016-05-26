@@ -1,18 +1,22 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should');
 
 describe('Titanium.Map', function () {
-     it('apiName', function (finish) {
-        should(function () {
-            should(Ti.Map.apiName).be.eql("Titanium.Map");
-        }).not.throw();
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.Map.apiName).be.eql('Titanium.Map');
+        } else {
+            should(Ti.Map.apiName).be.eql('Ti.Map');
+        }
         finish();
-    });   
+    });
+
     it('ANNOTATION_AZURE', function (finish) {
         should(function () {
             should(Ti.Map.ANNOTATION_AZURE).not.be.undefined;
@@ -279,7 +283,7 @@ describe('Titanium.Map', function () {
         // Confirm 'view' is an object
         //should(view).be.a.Object;
 		// TODO Confirm that it has certain properties, etc.
-        
+
         finish();
     });
 
@@ -289,7 +293,7 @@ describe('Titanium.Map', function () {
 
         var value = Ti.Map.isGooglePlayServicesAvailable();
         should(value).be.a.Number;
-        
+
         finish();
     });
 });

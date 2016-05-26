@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -8,11 +8,20 @@
 var should = require('./should');
 
 describe('Titanium.Locale', function () {
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.Locale.apiName).be.eql('Titanium.Locale');
+        } else {
+            should(Ti.Locale.apiName).be.eql('Ti.Locale');
+        }
+        finish();
+    });
+
     it('Ti.Locale', function (finish) {
         should(Ti.Locale).not.be.undefined;
         should(Ti.Locale).not.be.null;
         should(Ti.Locale).be.an.Object;
-        should(Ti.Locale.apiName).be.eql("Titanium.Locale");
         finish();
     });
 
@@ -103,7 +112,7 @@ describe('Titanium.Locale', function () {
         finish();
     });
 
-	it('Ti.Locale.setLanguage', function (finish) {
+    it('Ti.Locale.setLanguage', function (finish) {
         should(Ti.Locale.setLanguage).be.a.Function;
         Ti.Locale.setLanguage('en-GB');
         should(Ti.Locale.currentLocale).eql('en-GB');

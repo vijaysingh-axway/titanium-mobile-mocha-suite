@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -12,6 +12,17 @@ describe('Titanium.UI.Switch', function () {
         should(Ti.UI.Switch).not.be.undefined;
         finish();
     });
+
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.Switch.apiName).be.eql('Titanium.UI.Switch');
+        } else {
+            should(Ti.UI.Switch.apiName).be.eql('Ti.UI.Switch');
+        }
+        finish();
+    });
+
     it('createSwitch', function (finish) {
         should(Ti.UI.createSwitch).not.be.undefined;
         should(Ti.UI.createSwitch).be.a.Function;
@@ -30,5 +41,5 @@ describe('Titanium.UI.Switch', function () {
 
         finish();
     });
-    
+
 });

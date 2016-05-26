@@ -6,35 +6,35 @@
  */
 var should = require('./should');
 
-describe("Titanium.Network", function () {
+describe('Titanium.Network', function () {
 
-    it("apiName", function (finish) {
+    it('apiName', function (finish) {
         // See https://jira.appcelerator.org/browse/TIMOB-23346
         if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
-            should(Ti.Network.apiName).be.eql("Titanium.Network");
+            should(Ti.Network.apiName).be.eql('Titanium.Network');
         } else {
-            should(Ti.Network.apiName).be.eql("Ti.Network");
+            should(Ti.Network.apiName).be.eql('Ti.Network');
         }
         finish();
     });
 
-	it("encodeURIComponent", function (finish) {
+	it('encodeURIComponent', function (finish) {
         should(Ti.Network.encodeURIComponent).not.be.null;
         should(Ti.Network.encodeURIComponent).be.a.Function;
-        var text = Ti.Network.encodeURIComponent("Look what I found! I like this:");
-        text.should.eql("Look%20what%20I%20found!%20I%20like%20this%3A");
+        var text = Ti.Network.encodeURIComponent('Look what I found! I like this:');
+        text.should.eql('Look%20what%20I%20found!%20I%20like%20this%3A');
         finish();
     });
 
-    it("decodeURIComponent", function (finish) {
+    it('decodeURIComponent', function (finish) {
         should(Ti.Network.decodeURIComponent).not.be.null;
         should(Ti.Network.decodeURIComponent).be.a.Function;
-        var text = Ti.Network.decodeURIComponent("Look%20what%20I%20found!%20I%20like%20this%3A");
-        text.should.eql("Look what I found! I like this:");
+        var text = Ti.Network.decodeURIComponent('Look%20what%20I%20found!%20I%20like%20this%3A');
+        text.should.eql('Look what I found! I like this:');
         finish();
     });
 
-    it("createHTTPClient", function (finish) {
+    it('createHTTPClient', function (finish) {
         should(Ti.Network.createHTTPClient).not.be.null;
         should(Ti.Network.createHTTPClient).be.a.Function;
         finish();

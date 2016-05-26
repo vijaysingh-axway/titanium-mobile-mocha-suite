@@ -1,22 +1,23 @@
-
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should');
 
 describe("Titanium.UI.EmailDialog", function () {
-     it('apiName', function (finish) {
-        should(function () {
-            var email = Ti.UI.createEmailDialog();
-            should(email.apiName).be.a.String;
-            should(email.apiName).be.eql("Titanium.UI.EmailDialog");
-        }).not.throw();
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.EmailDialog.apiName).be.eql('Titanium.UI.EmailDialog');
+        } else {
+            should(Ti.UI.EmailDialog.apiName).be.eql('Ti.UI.EmailDialog');
+        }
         finish();
-    });   
-	// Check if FAILED exists and make sure it does not throw exception
+    });
+
+    // Check if FAILED exists and make sure it does not throw exception
     it('FAILED', function (finish) {
         should(function () {
             should(Ti.UI.EmailDialog.FAILED).not.be.undefined;

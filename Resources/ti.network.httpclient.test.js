@@ -6,7 +6,7 @@
  */
 var should = require('./should');
 
-describe("Titanium.Network.HTTPClient", function () {
+describe('Titanium.Network.HTTPClient', function () {
     it('apiName', function (finish) {
         var xhr = Ti.Network.createHTTPClient();
         // See https://jira.appcelerator.org/browse/TIMOB-23346
@@ -34,12 +34,12 @@ describe("Titanium.Network.HTTPClient", function () {
             finish(new Error('failed to retrieve RSS feed: ' + e));
         };
 
-        xhr.open("GET", "http://www.appcelerator.com/feed");
+        xhr.open('GET', 'http://www.appcelerator.com/feed');
         xhr.send();
     });
 
     // Test for TIMOB-4513
-    it.skip("secureValidateProperty", function (finish) {
+    it.skip('secureValidateProperty', function (finish) {
         var xhr = Ti.Network.createHTTPClient();
         should(xhr).be.an.Object;
 
@@ -57,7 +57,7 @@ describe("Titanium.Network.HTTPClient", function () {
         finish();
     });
 
-    it("downloadLargeFile", function (finish) {
+    it('downloadLargeFile', function (finish) {
         this.timeout(6e4);
 
         var xhr = Ti.Network.createHTTPClient();
@@ -72,11 +72,11 @@ describe("Titanium.Network.HTTPClient", function () {
             finish(new Error('failed to retrieve large image: ' + e));
         };
 
-        xhr.open("GET", "http://www.ambientreality.com/ingot/moon%20background.png");
+        xhr.open('GET', 'http://www.ambientreality.com/ingot/moon%20background.png');
         xhr.send();
     });
 
-    it("TIMOB-23127", function (finish) {
+    it('TIMOB-23127', function (finish) {
         this.timeout(6e4);
 
         var xhr = Ti.Network.createHTTPClient();
@@ -86,12 +86,12 @@ describe("Titanium.Network.HTTPClient", function () {
             finish();
         };
 
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.open("POST", "http://www.appcelerator.com/");
-        xhr.send("TIMOB-23127");
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.open('POST', 'http://www.appcelerator.com/');
+        xhr.send('TIMOB-23127');
     });
 
-    it("TIMOB-23214", function (finish) {
+    it('TIMOB-23214', function (finish) {
         this.timeout(6e4);
 
         var xhr = Ti.Network.createHTTPClient();
@@ -101,32 +101,32 @@ describe("Titanium.Network.HTTPClient", function () {
             finish();
         };
 
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.open("GET", "http://www.appcelerator.com/");
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.open('GET', 'http://www.appcelerator.com/');
         xhr.send();
     });
 
-    it("TIMOB-19042", function (finish) {
+    it('TIMOB-19042', function (finish) {
         this.timeout(6e4);
 
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(6e4);
 
         xhr.onload = function (e) {
-            finish(new Error("onload shouldn't fire for an URL returning 404"));
+            finish(new Error('onload shouldn\'t fire for an URL returning 404'));
         };
         xhr.onerror = function (e) {
             should(e.code).eql(404);
             finish();
         };
 
-        xhr.open("GET", "http://www.httpbin.org/gert"); // BAD URL, should get 404
+        xhr.open('GET', 'http://www.httpbin.org/gert'); // BAD URL, should get 404
         xhr.send();
     });
 
     // https://appcelerator.lighthouseapp.com/projects/32238/tickets/2156-android-invalid-redirect-alert-on-xhr-file-download
     // https://appcelerator.lighthouseapp.com/projects/32238/tickets/1381-android-buffer-large-xhr-downloads
-    it("largeFileWithRedirect", function (finish) {
+    it('largeFileWithRedirect', function (finish) {
         this.timeout(6e4);
 
         var xhr = Ti.Network.createHTTPClient();
@@ -141,12 +141,12 @@ describe("Titanium.Network.HTTPClient", function () {
             finish(new Error('failed to retrieve redirected large image: ' + e));
         };
 
-        xhr.open("GET", "http://www.ambientreality.com/ingot/moon.php");
+        xhr.open('GET', 'http://www.ambientreality.com/ingot/moon.php');
         xhr.send();
     });
 
     // https://appcelerator.lighthouseapp.com/projects/32238-titanium-mobile/tickets/1649-android-httpclientsend-with-no-argument-causes-npe
-    it("emptyPOSTSend", function (finish) {
+    it('emptyPOSTSend', function (finish) {
         this.timeout(3e4);
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(3e4);
@@ -157,19 +157,19 @@ describe("Titanium.Network.HTTPClient", function () {
             Ti.API.debug(e);
             finish(new Error('failed to post empty request: ' + e));
         };
-        xhr.open("POST", "http://www.ambientreality.com/ingot/post_test.php");
+        xhr.open('POST', 'http://www.ambientreality.com/ingot/post_test.php');
         xhr.send();
     });
 
     //https://appcelerator.lighthouseapp.com/projects/32238/tickets/2339
-    it.skip("responseHeadersBug", function (finish) {
+    it.skip('responseHeadersBug', function (finish) {
         this.timeout(3e4);
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(3e4);
         xhr.onload = function (e) {
             var allHeaders = xhr.getAllResponseHeaders();
-            should(allHeaders.indexOf("Server:")).be.within(0, 1 / 0);
-            var header = xhr.getResponseHeader("Server");
+            should(allHeaders.indexOf('Server:')).be.within(0, 1 / 0);
+            var header = xhr.getResponseHeader('Server');
             should(header.length).be.greaterThan(0);
             finish();
         };
@@ -177,11 +177,11 @@ describe("Titanium.Network.HTTPClient", function () {
             Ti.API.debug(e);
             finish(new Error('failed to retrieve headers: ' + e));
         };
-        xhr.open("GET", "http://www.appcelerator.com");
+        xhr.open('GET', 'http://www.appcelerator.com');
         xhr.send();
     });
 
-    it("requestHeaderMethods", function (finish) {
+    it('requestHeaderMethods', function (finish) {
         this.timeout(3e4);
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(3e4);
@@ -195,28 +195,28 @@ describe("Titanium.Network.HTTPClient", function () {
                 response['adhocHeader'].should.eql('notcleared');
                 response.should.not.have.property('clearedHeader');
             } else if (xhr.status != 503) { // service unavailable (over quota)
-                fail("Received unexpected response: " + xhr.status);
+                fail('Received unexpected response: ' + xhr.status);
                 return;
             }
             finish();
         };
         xhr.onerror = function (e) {
             if (xhr.status != 503) { // service unavailable (over quota)
-                fail("Received unexpected response: " + xhr.status);
+                fail('Received unexpected response: ' + xhr.status);
                 return;
             }
             finish();
         };
-        xhr.open("GET", "http://headers.jsontest.com/");
-        xhr.setRequestHeader("adhocHeader", "notcleared");
-        xhr.setRequestHeader("clearedHeader", "notcleared");
+        xhr.open('GET', 'http://headers.jsontest.com/');
+        xhr.setRequestHeader('adhocHeader', 'notcleared');
+        xhr.setRequestHeader('clearedHeader', 'notcleared');
         should(function () {
-            xhr.setRequestHeader("clearedHeader", null);
+            xhr.setRequestHeader('clearedHeader', null);
         }).not.throw();
         xhr.send();
     });
 
-    it("sendData", function (finish) {
+    it('sendData', function (finish) {
         this.timeout(3e4);
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(3e4);
@@ -227,19 +227,19 @@ describe("Titanium.Network.HTTPClient", function () {
             Ti.API.debug(e);
             finish(new Error('failed to send data: ' + e));
         };
-        xhr.open("POST", "http://www.ambientreality.com/ingot/post_test.php");
+        xhr.open('POST', 'http://www.ambientreality.com/ingot/post_test.php');
         xhr.send({
-            message: "check me out",
+            message: 'check me out',
             numericid: 1234
         });
     });
 
     // Confirms that only the selected cookie is deleted
-    it.skip("clearCookiePositiveTest", function (finish) {
+    it.skip('clearCookiePositiveTest', function (finish) {
         this.timeout(3e4);
         var timer = 0;
         var second_cookie_fn = function (e) {
-            var second_cookie_string = this.getResponseHeader("Set-Cookie").split.skip(";")[0];
+            var second_cookie_string = this.getResponseHeader('Set-Cookie').split.skip(';')[0];
             clearTimeout(timer);
             // New Cookie should be different.
             should(cookie_string).not.be.eql(second_cookie_string);
@@ -250,27 +250,27 @@ describe("Titanium.Network.HTTPClient", function () {
         var cookie_string;
         xhr.setTimeout(3e4);
         xhr.onload = function (e) {
-            cookie_string = this.getResponseHeader("Set-Cookie").split.skip(";")[0];
-            xhr.clearCookies("https://my.appcelerator.com");
+            cookie_string = this.getResponseHeader('Set-Cookie').split.skip(';')[0];
+            xhr.clearCookies('https://my.appcelerator.com');
             xhr.onload = second_cookie_fn;
-            xhr.open("GET", "https://my.appcelerator.com/auth/login");
+            xhr.open('GET', 'https://my.appcelerator.com/auth/login');
             xhr.send();
         };
         xhr.onerror = function (e) {
             clearTimeout(timer);
             should(e).should.be.type('undefined');
         };
-        xhr.open("GET", "https://my.appcelerator.com/auth/login");
+        xhr.open('GET', 'https://my.appcelerator.com/auth/login');
         xhr.send();
     });
 
     // Confirms that only the selected cookie is deleted
-    it.skip("clearCookieUnaffectedCheck", function (finish) {
+    it.skip('clearCookieUnaffectedCheck', function (finish) {
         this.timeout(3e4);
         var timer = 0;
         var second_cookie_fn = function (e) {
-            Ti.API.info("Second Load");
-            var second_cookie_string = this.getResponseHeader("Set-Cookie").split.skip(";")[0];
+            Ti.API.info('Second Load');
+            var second_cookie_string = this.getResponseHeader('Set-Cookie').split.skip(';')[0];
             clearTimeout(timer);
             // Cookie should be the same
             should(cookie_string).eql(second_cookie_string);
@@ -281,45 +281,45 @@ describe("Titanium.Network.HTTPClient", function () {
         var cookie_string;
         xhr.setTimeout(3e4);
         xhr.onload = function (e) {
-            cookie_string = this.getResponseHeader("Set-Cookie").split.skip(";")[0];
-            xhr.clearCookies("http://www.microsoft.com");
+            cookie_string = this.getResponseHeader('Set-Cookie').split.skip(';')[0];
+            xhr.clearCookies('http://www.microsoft.com');
             xhr.onload = second_cookie_fn;
-            xhr.open("GET", "https://my.appcelerator.com/auth/login");
+            xhr.open('GET', 'https://my.appcelerator.com/auth/login');
             xhr.send();
         };
         xhr.onerror = function (e) {
             clearTimeout(timer);
             should(e).should.be.type('undefined');
         };
-        xhr.open("GET", "https://my.appcelerator.com/auth/login");
+        xhr.open('GET', 'https://my.appcelerator.com/auth/login');
         xhr.send();
     });
 
     // https://jira.appcelerator.org/browse/TIMOB-2849
-    it.skip("setCookieClearCookieWithMultipleHTTPClients", function (finish) {
+    it.skip('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
         this.timeout(3e4);
-        var testServer = "http://www.ambientreality.com/ingot/cookie_test.php";
+        var testServer = 'http://www.ambientreality.com/ingot/cookie_test.php';
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(3e4);
         xhr.onload = function (e) {
-            should(this.responseText).eql("Set 2 cookies");
+            should(this.responseText).eql('Set 2 cookies');
             var xhr2 = Ti.Network.createHTTPClient();
             xhr2.setTimeout(3e4);
             xhr2.onload = function (e) {
-                Ti.API.info("Clear Cookie");
-                should(this.responseText).eql("Set 2 cookies to expire a year ago.");
+                Ti.API.info('Clear Cookie');
+                should(this.responseText).eql('Set 2 cookies to expire a year ago.');
                 finish();
             };
-            xhr2.open("GET", testServer + "?count=2&clear=true");
+            xhr2.open('GET', testServer + '?count=2&clear=true');
             xhr2.send();
         };
-        xhr.open("GET", testServer + "?count=2&clear=false");
+        xhr.open('GET', testServer + '?count=2&clear=false');
         xhr.send();
     });
 
     // https://jira.appcelerator.org/browse/TIMOB-11751
     // https://jira.appcelerator.org/browse/TIMOB-17403
-    it.skip("callbackTestForGETMethod", function (finish) {
+    it.skip('callbackTestForGETMethod', function (finish) {
         this.timeout(30000);
 
         var xhr = Ti.Network.createHTTPClient();
@@ -346,11 +346,11 @@ describe("Titanium.Network.HTTPClient", function () {
             should(e).should.be.type('undefined');
         };
 
-        xhr.open("GET", "http://www.appcelerator.com/assets/The_iPad_App_Wave.pdf");
+        xhr.open('GET', 'http://www.appcelerator.com/assets/The_iPad_App_Wave.pdf');
         xhr.send();
     });
 
-    it.skip("callbackTestForPOSTMethod", function (finish) {
+    it.skip('callbackTestForPOSTMethod', function (finish) {
         this.timeout(3e4);
         var xhr = Ti.Network.createHTTPClient();
         xhr.setTimeout(3e4);
@@ -368,16 +368,16 @@ describe("Titanium.Network.HTTPClient", function () {
         var buffer = Ti.createBuffer({
             length: 1024 * 10
         }).toBlob();
-        xhr.open("POST", "http://www.ambientreality.com/ingot/post_test.php");
+        xhr.open('POST', 'http://www.ambientreality.com/ingot/post_test.php');
         xhr.send({
             data: buffer,
-            username: "fgsandford1000",
-            password: "sanford1000",
-            message: "check me out"
+            username: 'fgsandford1000',
+            password: 'sanford1000',
+            message: 'check me out'
         });
     });
 
-    it("POST mulitpart/form-data containing Ti.Blob", function (finish) {
+    it('POST mulitpart/form-data containing Ti.Blob', function (finish) {
         this.timeout(6e4);
 
         var xhr = Ti.Network.createHTTPClient(),

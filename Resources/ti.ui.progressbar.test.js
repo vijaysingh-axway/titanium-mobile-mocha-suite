@@ -1,20 +1,19 @@
-
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should');
 
 describe("Titanium.UI.ProgressBar", function () {
-
-    it("apiName", function (finish) {
-        var bar = Ti.UI.createProgressBar({
-            message: "this is some text"
-        });
-        should(bar.apiName).be.a.String;
-        should(bar.apiName).be.eql("Titanium.UI.ProgressBar");
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.ProgressBar.apiName).be.eql('Titanium.UI.ProgressBar');
+        } else {
+            should(Ti.UI.ProgressBar.apiName).be.eql('Ti.UI.ProgressBar');
+        }
         finish();
     });
 

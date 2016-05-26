@@ -1,24 +1,25 @@
-
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should');
 
-describe("Titanium.UI.ActivityIndicator", function () {
-
-    it("apiName", function (finish) {
-        var activityIndicator = Ti.UI.createActivityIndicator();
-        should(activityIndicator.apiName).be.a.String;
-        should(activityIndicator.apiName).be.eql("Titanium.UI.ActivityIndicator");
+describe('Titanium.UI.ActivityIndicator', function () {
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.ActivityIndicator.apiName).be.eql('Titanium.UI.ActivityIndicator');
+        } else {
+            should(Ti.UI.ActivityIndicator.apiName).be.eql('Ti.UI.ActivityIndicator');
+        }
         finish();
     });
 
-    it("color", function (finish) {
+    it('color', function (finish) {
         var activityIndicator = Ti.UI.createActivityIndicator({
-            color: "#fff"
+            color: '#fff'
         });
         should(activityIndicator.color).be.a.String;
         should(activityIndicator.getColor).be.a.Function;
@@ -30,7 +31,7 @@ describe("Titanium.UI.ActivityIndicator", function () {
         finish();
     });
 
-    it("font", function (finish) {
+    it('font', function (finish) {
         var activityIndicator = Ti.UI.createActivityIndicator({
             font: {
                 fontSize: 24,
@@ -50,9 +51,9 @@ describe("Titanium.UI.ActivityIndicator", function () {
         finish();
     });
 
-    it("message", function (finish) {
+    it('message', function (finish) {
         var activityIndicator = Ti.UI.createActivityIndicator({
-            message: "this is some text"
+            message: 'this is some text'
         });
         should(activityIndicator.message).be.a.String;
         should(activityIndicator.getMessage).be.a.Function;
@@ -64,7 +65,7 @@ describe("Titanium.UI.ActivityIndicator", function () {
         finish();
     });
 
-    it("style", function (finish) {
+    it('style', function (finish) {
         var activityIndicator = Ti.UI.createActivityIndicator({
             style: Ti.UI.ActivityIndicatorStyle.BIG
         });
@@ -78,9 +79,9 @@ describe("Titanium.UI.ActivityIndicator", function () {
         finish();
     });
 
-    it("indicatorColor", function (finish) {
+    it('indicatorColor', function (finish) {
         var activityIndicator = Ti.UI.createActivityIndicator({
-            indicatorColor: "#fff"
+            indicatorColor: '#fff'
         });
         should(activityIndicator.indicatorColor).be.a.String;
         should(activityIndicator.getIndicatorColor).be.a.Function;
@@ -92,9 +93,9 @@ describe("Titanium.UI.ActivityIndicator", function () {
         finish();
     });
 
-    it("indicatorDiameter", function (finish) {
+    it('indicatorDiameter', function (finish) {
         var activityIndicator = Ti.UI.createActivityIndicator({
-            indicatorDiameter: "36"
+            indicatorDiameter: '36'
         });
         should(activityIndicator.indicatorDiameter).be.a.String;
         should(activityIndicator.getIndicatorDiameter).be.a.Function;

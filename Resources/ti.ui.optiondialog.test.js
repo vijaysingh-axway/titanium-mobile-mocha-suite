@@ -1,25 +1,26 @@
-
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should');
 
-describe("Titanium.UI.OptionDialog", function () {
-     it("apiName", function (finish) {
-        var bar = Ti.UI.createOptionDialog({
-            title: "this is some text"
-        });
-        should(bar.apiName).be.a.String;
-        should(bar.apiName).be.eql("Titanium.UI.OptionDialog");
+describe('Titanium.UI.OptionDialog', function () {
+
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.OptionDialog.apiName).be.eql('Titanium.UI.OptionDialog');
+        } else {
+            should(Ti.UI.OptionDialog.apiName).be.eql('Ti.UI.OptionDialog');
+        }
         finish();
     });
-     
-    it("title", function (finish) {
+
+    it('title', function (finish) {
         var bar = Ti.UI.createOptionDialog({
-            title: "this is some text"
+            title: 'this is some text'
         });
         should(bar.title).be.a.String;
         should(bar.getTitle).be.a.Function;
@@ -31,7 +32,7 @@ describe("Titanium.UI.OptionDialog", function () {
         finish();
     });
 
-    it("buttonNames", function (finish) {
+    it('buttonNames', function (finish) {
         var bar = Ti.UI.createOptionDialog({
         });
         should(bar.buttonNames).be.an.Array;
@@ -44,7 +45,7 @@ describe("Titanium.UI.OptionDialog", function () {
         finish();
     });
 
-    it("options", function (finish) {
+    it('options', function (finish) {
         var bar = Ti.UI.createOptionDialog({
         });
         should(bar.options).be.an.Array;
@@ -57,7 +58,7 @@ describe("Titanium.UI.OptionDialog", function () {
         finish();
     });
 
-    it("cancel", function (finish) {
+    it('cancel', function (finish) {
         var bar = Ti.UI.createOptionDialog({
         });
         should(bar.cancel).be.a.Number;
@@ -69,7 +70,7 @@ describe("Titanium.UI.OptionDialog", function () {
     });
 
 
-    it("persistent", function (finish) {
+    it('persistent', function (finish) {
         var bar = Ti.UI.createOptionDialog({
         });
         should(bar.persistent).be.a.Boolean;
@@ -82,7 +83,7 @@ describe("Titanium.UI.OptionDialog", function () {
         finish();
     });
 
-    it("selectedIndex", function (finish) {
+    it('selectedIndex', function (finish) {
         var bar = Ti.UI.createOptionDialog({
         });
         should(bar.selectedIndex).be.a.Number;

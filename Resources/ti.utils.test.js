@@ -10,11 +10,20 @@ var should = require('./should');
 describe('Titanium.Utils', function () {
     it('Ti.Utils', function (finish) {
         should(Ti.Utils).not.be.undefined;
-        should(Ti.Utils.apiName).be.a.String;
-        should(Ti.Utils.apiName).be.eql("Titanium.Utils");
         finish();
     });
-    it('base64decode', function (finish) {
+
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.Utils.apiName).be.eql('Titanium.Utils');
+        } else {
+            should(Ti.Utils.apiName).be.eql('Ti.Utils');
+        }
+        finish();
+    });
+
+    it('base64decode()', function (finish) {
         should(Ti.Utils.base64decode).not.be.undefined;
         should(Ti.Utils.base64decode).be.a.Function;
         var test = Ti.Utils.base64decode('dGVzdA==');
@@ -22,7 +31,8 @@ describe('Titanium.Utils', function () {
         should(test.getText()).be.eql('test');
         finish();
     });
-    it('base64encode', function (finish) {
+
+    it('base64encode()', function (finish) {
         should(Ti.Utils.base64encode).not.be.undefined;
         should(Ti.Utils.base64encode).be.a.Function;
         var test = Ti.Utils.base64encode('test');
@@ -30,7 +40,8 @@ describe('Titanium.Utils', function () {
         should(test.getText()).be.eql('dGVzdA==');
         finish();
     });
-    it('md5HexDigest', function (finish) {
+
+    it('md5HexDigest()', function (finish) {
         should(Ti.Utils.md5HexDigest).not.be.undefined;
         should(Ti.Utils.md5HexDigest).be.a.Function;
         var test = Ti.Utils.md5HexDigest('test');
@@ -38,7 +49,8 @@ describe('Titanium.Utils', function () {
         should(test).be.eql('098f6bcd4621d373cade4e832627b4f6');
         finish();
     });
-    it('sha1', function (finish) {
+
+    it('sha1()', function (finish) {
         should(Ti.Utils.sha1).not.be.undefined;
         should(Ti.Utils.sha1).be.a.Function;
         var test = Ti.Utils.sha1('test');
@@ -46,7 +58,8 @@ describe('Titanium.Utils', function () {
         should(test).be.eql('a94a8fe5ccb19ba61c4c0873d391e987982fbbd3');
         finish();
     });
-    it('sha256', function (finish) {
+
+    it('sha256()', function (finish) {
         should(Ti.Utils.sha256).not.be.undefined;
         should(Ti.Utils.sha256).be.a.Function;
         var test = Ti.Utils.sha256('test');

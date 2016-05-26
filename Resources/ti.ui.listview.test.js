@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -20,8 +20,18 @@ describe('Titanium.UI.ListView', function () {
         finish();
     });
 
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.ListView.apiName).be.eql('Titanium.UI.ListView');
+        } else {
+            should(Ti.UI.ListView.apiName).be.eql('Ti.UI.ListView');
+        }
+        finish();
+    });
+
     it('createListView', function (finish) {
-        
+
         // Validate createListView()
         should(Ti.UI.createListView).not.be.undefined;
         should(Ti.UI.createListView).be.a.Function;
@@ -29,8 +39,6 @@ describe('Titanium.UI.ListView', function () {
         // Create ListView
         var listView = Ti.UI.createListView();
         should(listView).be.a.Object;
-        should(listView.apiName).be.a.String;
-        should(listView.apiName).be.eql("Titanium.UI.ListView");
 
         // Create list section
         var section_0 = Ti.UI.createListSection({ headerTitle: 'Zero'});
@@ -197,7 +205,7 @@ describe('Titanium.UI.ListView', function () {
                     }
                 },
                 {
-                    type: 'Ti.UI.Label', 
+                    type: 'Ti.UI.Label',
                     bindId: 'info',
                     properties: {
                         color: 'black',
@@ -379,7 +387,7 @@ describe('Titanium.UI.ListView', function () {
             should(listView.sections[1].items.length).be.eql(2);
             should(listView.sections[1].items[0].properties.title).be.eql('Apple');
             should(listView.sections[1].items[1].properties.title).be.eql('Banana');
-            
+
             setTimeout(function () {
                 win.close();
                 finish();

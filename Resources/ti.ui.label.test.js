@@ -8,25 +8,26 @@ var should = require('./should'),
     didFocus = false,
     didPostLayout = false;
 
-describe("Titanium.UI.Label", function () {
+describe('Titanium.UI.Label', function () {
 
     beforeEach(function() {
         didFocus = false;
         didPostLayout = false;
     });
 
-    it("apiName", function (finish) {
-        var label = Ti.UI.createLabel({
-            text: "this is some text"
-        });
-        should(label.apiName).be.a.String;
-        should(label.apiName).be.eql("Titanium.UI.Label");
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.Label.apiName).be.eql('Titanium.UI.Label');
+        } else {
+            should(Ti.UI.Label.apiName).be.eql('Ti.UI.Label');
+        }
         finish();
     });
 
-    it("text", function (finish) {
+    it('text', function (finish) {
         var label = Ti.UI.createLabel({
-            text: "this is some text"
+            text: 'this is some text'
         });
         should(label.text).be.a.String;
         should(label.getText).be.a.Function;
@@ -38,9 +39,9 @@ describe("Titanium.UI.Label", function () {
         finish();
     });
 
-    it("textAlign", function (finish) {
+    it('textAlign', function (finish) {
         var label = Ti.UI.createLabel({
-            text: "this is some text",
+            text: 'this is some text',
             textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
         });
         should(label.textAlign).be.a.Number; // String on Android
@@ -53,9 +54,9 @@ describe("Titanium.UI.Label", function () {
         finish();
     });
 
-    it("verticalAlign", function (finish) {
+    it('verticalAlign', function (finish) {
         var label = Ti.UI.createLabel({
-            text: "this is some text",
+            text: 'this is some text',
             verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
         });
         should(label.verticalAlign).be.a.Number; // String on Android
@@ -70,9 +71,9 @@ describe("Titanium.UI.Label", function () {
 
     // Turn on/off the addition of ellipses at the end of the label if the text is too large to fit.
     // Default: false
-    it("ellipsize", function (finish) {
+    it('ellipsize', function (finish) {
         var label = Ti.UI.createLabel({
-            text: "this is some text"
+            text: 'this is some text'
         });
         should(label.ellipsize).be.a.Boolean;
         should(label.getEllipsize).be.a.Function;
@@ -86,9 +87,9 @@ describe("Titanium.UI.Label", function () {
 
     // Enable or disable word wrapping in the label.
     // Defaults: true
-    it("wordWrap", function (finish) {
+    it('wordWrap', function (finish) {
         var label = Ti.UI.createLabel({
-            text: "this is some text"
+            text: 'this is some text'
         });
         should(label.wordWrap).be.a.Boolean;
         should(label.getWordWrap).be.a.Function;
@@ -100,7 +101,7 @@ describe("Titanium.UI.Label", function () {
         finish();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("width", function (finish) {
+    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('width', function (finish) {
         this.timeout(5000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
@@ -125,7 +126,7 @@ describe("Titanium.UI.Label", function () {
         });
         win.open();
     });
-    it("height", function (finish) {
+    it('height', function (finish) {
         this.timeout(5000);
         var label = Ti.UI.createLabel({
             text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',

@@ -1,17 +1,19 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should');
 
 describe('Titanium.Geolocation', function () {
-
     it('apiName', function (finish) {
-        should(function () {
-            should(Ti.Geolocation.apiName).be.eql("Titanium.Geolocation");
-        }).not.throw();
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.Geolocation.apiName).be.eql('Titanium.Geolocation');
+        } else {
+            should(Ti.Geolocation.apiName).be.eql('Ti.Geolocation');
+        }
         finish();
     });
 
