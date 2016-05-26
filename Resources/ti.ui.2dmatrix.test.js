@@ -5,7 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-var should = require('./should');
+var should = require('./should'),
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.2DMatrix', function() {
 	it('apiName', function (finish) {
@@ -38,7 +39,7 @@ describe('Titanium.UI.2DMatrix', function() {
 		var matrix2 = Ti.UI.create2DMatrix();
 		should(matrix1.multiply(matrix2)).be.an.Object;
 		should(matrix1.multiply(matrix1)).be.an.Object;
-		if ('android' === Ti.Platform.osname) {
+		if (utilities.isAndroid()) {
 			matrix1 = matrix1.rotate(90);
 			matrix2 = matrix2.scale(2, 1);
 			var matrix3 = matrix1.multiply(matrix2);

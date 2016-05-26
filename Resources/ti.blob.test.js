@@ -1,15 +1,16 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./should');
+var should = require('./should'),
+    utilities = require('./utilities/utilities');
 
 describe('Titanium.Blob', function () {
     it('apiName', function (finish) {
         // See https://jira.appcelerator.org/browse/TIMOB-23346
-        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+        if (isWindows()) {
             should(Ti.Blob.apiName).be.eql('Titanium.Blob');
         } else {
             should(Ti.Blob.apiName).be.eql('Ti.Blob');
@@ -55,7 +56,7 @@ describe('Titanium.Blob', function () {
     });
     it("append", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
-        if (Ti.Platform.osname == 'iphone' || Ti.Platform.osname == 'ipad') {
+        if (utilities.isIOS()) {
             should(blob.append).be.undefined;
         } else {
             should(blob.append).be.a.Function;
@@ -99,7 +100,7 @@ describe('Titanium.Blob', function () {
         should(blob.height).be.eql(150);
         finish();
     });
-	it("width of non-image", function (finish) {
+    it("width of non-image", function (finish) {
         var blob = Ti.Filesystem.getFile('app.js').read();
         should(blob.width).be.a.Number;
         should(blob.width).be.eql(0);

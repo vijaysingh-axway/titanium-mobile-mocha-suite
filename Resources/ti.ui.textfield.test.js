@@ -7,24 +7,25 @@
 var should = require('./should'),
     didFocus = false;
 
-describe("Titanium.UI.TextField", function () {
+describe('Titanium.UI.TextField', function () {
 
     beforeEach(function() {
         didFocus = false;
     });
 
-    it("apiName", function (finish) {
-        var textfield = Ti.UI.createTextField({
-            value: "this is some text"
-        });
-        should(textfield.apiName).be.a.String;
-        should(textfield.apiName).be.eql("Titanium.UI.TextField");
+	it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.TextField.apiName).be.eql('Titanium.UI.TextField');
+        } else {
+            should(Ti.UI.TextField.apiName).be.eql('Ti.UI.TextField');
+        }
         finish();
     });
 
-    it("value", function (finish) {
+    it('value', function (finish) {
         var textfield = Ti.UI.createTextField({
-            value: "this is some text"
+            value: 'this is some text'
         });
         should(textfield.value).be.a.String;
         should(textfield.getValue).be.a.Function;
@@ -36,9 +37,9 @@ describe("Titanium.UI.TextField", function () {
         finish();
     });
 
-    it("textAlign", function (finish) {
+    it('textAlign', function (finish) {
         var textfield = Ti.UI.createTextField({
-            value: "this is some text",
+            value: 'this is some text',
             textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
         });
         should(textfield.textAlign).be.a.Number; // String on Android
@@ -50,9 +51,9 @@ describe("Titanium.UI.TextField", function () {
         should(textfield.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
         finish();
     });
-    it("verticalAlign", function (finish) {
+    it('verticalAlign', function (finish) {
         var textfield = Ti.UI.createTextField({
-            value: "this is some text",
+            value: 'this is some text',
             verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
         });
         should(textfield.verticalAlign).be.a.Number; // String on Android
@@ -65,7 +66,7 @@ describe("Titanium.UI.TextField", function () {
         finish();
     });
 
-    it("passwordMask", function (finish) {
+    it('passwordMask', function (finish) {
         var text = 'this is some text';
         var textfield = Ti.UI.createTextField({
             value: text
@@ -97,7 +98,7 @@ describe("Titanium.UI.TextField", function () {
     // selection
     // suppressReturn
 
-    it.skip("width", function (finish) {
+    it.skip('width', function (finish) {
         this.timeout(5000);
         var textfield = Ti.UI.createTextField({
             value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
@@ -118,7 +119,7 @@ describe("Titanium.UI.TextField", function () {
         win.open();
     });
 
-    it("height", function (finish) {
+    it('height', function (finish) {
         this.timeout(5000);
         var textfield = Ti.UI.createTextField({
             value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',

@@ -1,18 +1,18 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 
 var win = Ti.UI.createWindow({
-    backgroundColor: 'lightyellow'
+	backgroundColor: 'lightyellow'
 });
 win.open();
 
 require('./ti-mocha');
 var $results = [],
-    failed = false;
+	failed = false;
 
 // ============================================================================
 // Add the tests here using "require"
@@ -39,6 +39,7 @@ require('./ti.map.test');
 require('./ti.network.test');
 require('./ti.network.httpclient.test');
 require('./ti.platform.test');
+require('./ti.platform.displaycaps.test');
 require('./ti.require.test');
 require('./ti.stream.test');
 require('./ti.test');
@@ -73,57 +74,57 @@ require('./ti.xml.test');
 // add a special mocha reporter that will time each test run using
 // our microsecond timer
 function $Reporter(runner) {
-    var started,
-        title;
+	var started,
+		title;
 
-    runner.on('suite', function (suite) {
-        title = suite.title;
-    });
+	runner.on('suite', function (suite) {
+		title = suite.title;
+	});
 
-    runner.on('test', function (test) {
-        // TODO Use a more formal log output format so we could conceivably capture stdout/stderr for each test run and associate it.
-        Ti.API.info('Started: ' + test.title);
-        started = new Date().getTime();
-    });
+	runner.on('test', function (test) {
+		// TODO Use a more formal log output format so we could conceivably capture stdout/stderr for each test run and associate it.
+		Ti.API.info('!TEST_START: ' + test.title);
+		started = new Date().getTime();
+	});
 
-    runner.on('fail', function (test, err) {
-        test.err = err;
-        failed = true;
-    });
+	runner.on('fail', function (test, err) {
+		test.err = err;
+		failed = true;
+	});
 
-    runner.on('test end', function (test) {
-        var tdiff = new Date().getTime() - started;
-        $results.push({
-            state: test.state || 'skipped',
-            duration: tdiff,
-            suite: title,
-            title: test.title,
-            error: test.err // TODO Include the message property!
-        });
-    });
+	runner.on('test end', function (test) {
+		var tdiff = new Date().getTime() - started,
+			result = {
+				state: test.state || 'skipped',
+				duration: tdiff,
+				suite: title,
+				title: test.title,
+				error: test.err // TODO Include the message property on Windows!
+			},
+			stringified = JSON.stringify(result);
+
+			stringified = stringified.replace(/\\n/g, "\\n")
+					   .replace(/\\'/g, "\\'")
+					   .replace(/\\"/g, '\\"')
+					   .replace(/\\&/g, "\\&")
+					   .replace(/\\r/g, "\\r")
+					   .replace(/\\t/g, "\\t")
+					   .replace(/\\b/g, "\\b")
+					   .replace(/\\f/g, "\\f");
+			// remove non-printable and other non-valid JSON chars
+			stringified = stringified.replace(/[\u0000-\u0019]+/g,'');
+		Ti.API.info('!TEST_END: ' + stringified);
+		$results.push(result);
+	});
 };
 
 mocha.setup({
-    reporter: $Reporter,
-    quiet: true
+	reporter: $Reporter,
+	quiet: true
 });
 
 // dump the output, which will get interpreted above in the logging code
 mocha.run(function () {
-    var str,
-        i;
-    win.backgroundColor = failed ? 'red' : 'green';
-    // Android truncates after 4036 characters. Split this up into smaller
-    // chunks and log it.
-    Ti.API.info('!TEST_RESULTS_START!\n');
-    Ti.API.info('{"date":' + JSON.stringify(new Date()) + ',"results":[');
-    for (i = 0; i < $results.length; i++) {
-        str = JSON.stringify($results[i]);
-        if (i != $results.length - 1) {
-            str += ',';
-        }
-        Ti.API.info(str);
-    }
-    Ti.API.info(']}');
-    Ti.API.info('!TEST_RESULTS_STOP!');
+	win.backgroundColor = failed ? 'red' : 'green';
+	Ti.API.info('!TEST_RESULTS_STOP!');
 });

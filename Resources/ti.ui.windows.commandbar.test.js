@@ -7,70 +7,70 @@
 var should = require('./should');
 
 describe("Titanium.UI.Windows.CommandBar", function () {
-    function isWin() {
-       return (Ti.Platform.osname == 'windowsphone' || Ti.Platform.osname == 'windowsstore');
-    }
+	function isWin() {
+	   return (Ti.Platform.osname == 'windowsphone' || Ti.Platform.osname == 'windowsstore');
+	}
 
-    it("constructor", function (finish) {
-        if (!isWin()) return finish();
+	it("constructor", function (finish) {
+		if (!isWin()) return finish();
 
-        should(Ti.UI.Windows).not.be.undefined;
-        should(Ti.UI.Windows.createCommandBar).be.a.Function;
-        should(Ti.UI.Windows.createAppBarButton).be.a.Function;
-        should(Ti.UI.Windows.createAppBarToggleButton).be.a.Function;
-        should(Ti.UI.Windows.createAppBarSeparator).be.a.Function;
+		should(Ti.UI.Windows).not.be.undefined;
+		should(Ti.UI.Windows.createCommandBar).be.a.Function;
+		should(Ti.UI.Windows.createAppBarButton).be.a.Function;
+		should(Ti.UI.Windows.createAppBarToggleButton).be.a.Function;
+		should(Ti.UI.Windows.createAppBarSeparator).be.a.Function;
 
-        finish();
-    });
+		finish();
+	});
 
-    it("CommandBar", function (finish) {
-        if (!isWin()) return finish();
+	it("CommandBar", function (finish) {
+		if (!isWin()) return finish();
 
-        var bar = Ti.UI.Windows.createCommandBar();
-        should(bar).be.an.Object;
-        should(bar.items).be.an.Array;
-        should(bar.apiName).be.eql("Titanium.UI.Windows.CommandBar");
+		var bar = Ti.UI.Windows.createCommandBar();
+		should(bar).be.an.Object;
+		should(bar.items).be.an.Array;
+		should(bar.apiName).be.eql("Titanium.UI.Windows.CommandBar");
 
-        finish();
-    });
+		finish();
+	});
 
-    it("AppBarButton", function (finish) {
-        if (!isWin()) return finish();
+	it("AppBarButton", function (finish) {
+		if (!isWin()) return finish();
 
-        var button = Ti.UI.Windows.createAppBarButton();
-        should(button).be.an.Object;
-        should(button.icon).not.be.undefined;
-        should(button.touchEnabled).not.be.undefined;
-        should(button.touchEnabled).be.a.Boolean;
-        should(button.apiName).be.eql("Titanium.UI.Windows.AppBarButton");
+		var button = Ti.UI.Windows.createAppBarButton();
+		should(button).be.an.Object;
+		should(button.icon).not.be.undefined;
+		should(button.touchEnabled).not.be.undefined;
+		should(button.touchEnabled).be.a.Boolean;
+		should(button.apiName).be.eql("Titanium.UI.Windows.AppBarButton");
 
-        finish();
-    });
+		finish();
+	});
 
-    it("AppBarToggleButton", function (finish) {
-        if (!isWin()) return finish();
+	it("AppBarToggleButton", function (finish) {
+		if (!isWin()) return finish();
 
-        var button = Ti.UI.Windows.createAppBarToggleButton();
-        should(button).be.an.Object;
-        should(button.icon).not.be.undefined;
-        should(button.touchEnabled).not.be.undefined;
-        should(button.checked).not.be.undefined;
-        should(button.touchEnabled).be.a.Boolean;
-        should(button.checked).be.a.Boolean;
-        should(button.apiName).be.eql("Titanium.UI.Windows.AppBarToggleButton");
+		var button = Ti.UI.Windows.createAppBarToggleButton();
+		should(button).be.an.Object;
+		should(button.icon).not.be.undefined;
+		should(button.touchEnabled).not.be.undefined;
+		should(button.checked).not.be.undefined;
+		should(button.touchEnabled).be.a.Boolean;
+		should(button.checked).be.a.Boolean;
+		should(button.apiName).be.eql("Titanium.UI.Windows.AppBarToggleButton");
 
-        finish();
-    });
+		finish();
+	});
 
 
-    it("AppBarSeparator", function (finish) {
-        if (!isWin()) return finish();
+	it("AppBarSeparator", function (finish) {
+		if (!isWin()) return finish();
 
-        var separator = Ti.UI.Windows.createAppBarSeparator();
-        should(separator).be.an.Object;
-        should(separator.apiName).be.a.String;
-        should(separator.apiName).be.eql("Titanium.UI.Windows.AppBarSeparator");
+		var separator = Ti.UI.Windows.createAppBarSeparator();
+		should(separator).be.an.Object;
+		should(separator.apiName).be.a.String;
+		should(separator.apiName).be.eql("Titanium.UI.Windows.AppBarSeparator");
 
-        finish();
-    });
+		finish();
+	});
 });

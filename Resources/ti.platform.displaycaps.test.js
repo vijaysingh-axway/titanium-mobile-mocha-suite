@@ -8,43 +8,43 @@
 var should = require('./should');
 
 describe('Titanium.Platform.DisplayCaps', function () {
-    it('apiName', function (finish) {
-        // See https://jira.appcelerator.org/browse/TIMOB-23346
-        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
-            should(Ti.Platform.DisplayCaps.apiName).be.eql('Titanium.Platform.DisplayCaps');
-        } else {
-            should(Ti.Platform.DisplayCaps.apiName).be.eql('Ti.Platform.DisplayCaps');
-        }
-        finish();
-    });
+	it('apiName', function (finish) {
+		// See https://jira.appcelerator.org/browse/TIMOB-23346
+		if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+			should(Ti.Platform.DisplayCaps.apiName).be.eql('Titanium.Platform.DisplayCaps');
+		} else {
+			should(Ti.Platform.DisplayCaps.apiName).be.eql('Ti.Platform.DisplayCaps');
+		}
+		finish();
+	});
 
-    it.skip('platformHeight', function (finish) {
-        should(Ti.Platform.displayCaps.platformHeight).be.a.Number;
-        should(Ti.Platform.displayCaps.platformHeight > 0).be.eql(true);
-        finish();
-    });
+	it.skip('platformHeight', function (finish) {
+		should(Ti.Platform.displayCaps.platformHeight).be.a.Number;
+		should(Ti.Platform.displayCaps.platformHeight > 0).be.eql(true);
+		finish();
+	});
 
-    it.skip('platformWidth', function (finish) {
-        should(Ti.Platform.displayCaps.platformWidth).be.a.Number;
-        should(Ti.Platform.displayCaps.platformWidth  > 0).be.eql(true);
-        finish();
-    });
+	it.skip('platformWidth', function (finish) {
+		should(Ti.Platform.displayCaps.platformWidth).be.a.Number;
+		should(Ti.Platform.displayCaps.platformWidth  > 0).be.eql(true);
+		finish();
+	});
 
-    it.skip('density', function (finish) {
-        should(Ti.Platform.displayCaps.density).be.a.String;
-        finish();
-    });
+	it.skip('density', function (finish) {
+		should(Ti.Platform.displayCaps.density).be.a.String;
+		finish();
+	});
 
-    it.skip('dpi', function (finish) {
-        should(Ti.Platform.displayCaps.dpi).be.a.Number;
-        should(Ti.Platform.displayCaps.xdpi).be.a.Number;
-        should(Ti.Platform.displayCaps.ydpi).be.a.Number;
-        should(Ti.Platform.displayCaps.logicalDensityFactor).be.a.Number;
+	it.skip('dpi', function (finish) {
+		should(Ti.Platform.displayCaps.dpi).be.a.Number;
+		should(Ti.Platform.displayCaps.xdpi).be.a.Number;
+		should(Ti.Platform.displayCaps.ydpi).be.a.Number;
+		should(Ti.Platform.displayCaps.logicalDensityFactor).be.a.Number;
 
-        should(Ti.Platform.displayCaps.dpi  > 0).be.eql(true);
-        should(Ti.Platform.displayCaps.xdpi > 0).be.eql(true);
-        should(Ti.Platform.displayCaps.ydpi > 0).be.eql(true);
-        should(Ti.Platform.displayCaps.logicalDensityFactor > 0).be.eql(true);
-        finish();
-    });
+		should(Ti.Platform.displayCaps.dpi  > 0).be.eql(true);
+		should(Ti.Platform.displayCaps.xdpi > 0).be.eql(true);
+		should(Ti.Platform.displayCaps.ydpi > 0).be.eql(true);
+		should(Ti.Platform.displayCaps.logicalDensityFactor > 0).be.eql(true);
+		finish();
+	});
 });

@@ -5,12 +5,13 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-var should = require('./should');
+var should = require('./should'),
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.Accelerometer', function () {
     it('apiName', function (finish) {
         // See https://jira.appcelerator.org/browse/TIMOB-23346
-        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+        if (utilities.isWindows()) {
             should(Ti.Accelerometer.apiName).be.eql('Titanium.Accelerometer');
         } else {
             should(Ti.Accelerometer.apiName).be.eql('Ti.Accelerometer');

@@ -13,10 +13,12 @@ var path = require('path'),
 	async = require('async'),
 	wrench = require('wrench'),
 	ejs = require('ejs'),
+	StreamSplitter = require('stream-splitter'),
 	spawn = require('child_process').spawn,
 	SOURCE_DIR = path.join(__dirname, '..'),
 	PROJECT_NAME = 'mocha',
-	PROJECT_DIR = path.join(__dirname, PROJECT_NAME);
+	PROJECT_DIR = path.join(__dirname, PROJECT_NAME),
+	JUNIT_TEMPLATE = path.join(__dirname, 'junit.xml.ejs');
 
 function clearPreviousApp(next) {
 	// If the project already exists, wipe it
@@ -161,47 +163,55 @@ function runAndroidBuild(next) {
  * @param  {Function} next [description]
  */
 function handleBuild(prc, next) {
-	var inResults = false,
-		results,
-		done = false;
-	prc.stdout.on('data', function (data) {
-		console.log(data.toString().trim());
-		var lines = data.toString().trim().match(/^.*([\n\r]+|$)/gm);
-		for (var i = 0; i < lines.length; i++) {
-			var str = lines[i],
-				index = -1;
+	var results = [],
+		output = '',
+		stderr = '',
+		splitter = prc.stdout.pipe(StreamSplitter('\n'));
 
-			if (inResults) {
-				if ((index = str.indexOf('[INFO]')) != -1) {
-					str = str.slice(index + 8).trim();
-				}
-				if ((index = str.indexOf('!TEST_RESULTS_STOP!')) != -1) {
-					str = str.slice(0, index).trim();
-					inResults = false;
-					done = true; // we got the results we need, when we kill this process we'll move on
-				}
+	// Set encoding on the splitter Stream, so tokens come back as a String.
+	splitter.encoding = 'utf8';
 
-				results += str;
-				if (done) {
-					results = results.trim(); // for some reason, there's a leading space that is messing with everything!
-					prc.kill();
-					return next(null, results);
-				}
-			}
-			else if ((index = str.indexOf('!TEST_RESULTS_START!')) != -1) {
-				inResults = true;
-				results = str.substr(index + 20).trim();
-			}
+	splitter.on('token', function(token) {
+		console.log(token);
 
-			// Handle when app crashes and we haven't finished tests yet!
-			if ((index = str.indexOf('-- End application log ----')) != -1) {
-				prc.kill(); // quit this build...
-				next('failed to get test results before log ended!'); // failed too many times
-			}
+		var str = token,
+			index = -1,
+			result;
+
+		if ((index = str.indexOf('!TEST_START: ')) != -1) {
+			// grab out the JSON and add to our result set
+			str = str.slice(index + 13).trim();
+		} else if ((index = str.indexOf('!TEST_END: ')) != -1) {
+			str = str.slice(index + 11).trim();
+			//  grab out the JSON and add to our result set
+			result = JSON.parse(massageJSONString(str));
+			result.stdout = output; // record what we saw in output during the test
+			result.stderr = stderr; // record what we saw in output during the test
+			results.push(result);
+			output = ''; // reset output
+			stderr = ''; // reset stderr
+			result = null; // reset test result object
+		} else if ((index = str.indexOf('!TEST_RESULTS_STOP!')) != -1) {
+			prc.kill();
+			return next(null, {date: (new Date).toISOString(), results: results});
+		// Handle when app crashes and we haven't finished tests yet!
+		} else if ((index = str.indexOf('-- End application log ----')) != -1) {
+			prc.kill(); // quit this build...
+			return next('failed to get test results before log ended!'); // failed too many times
+		} else {
+			// append output
+			output += str + '\n';
 		}
 	});
+	splitter.on("error", function(err) {
+		// Any errors that occur on a source stream will be emitted on the
+		// splitter Stream, if the source stream is piped into the splitter
+		// Stream, and if the source stream doesn't have any other error
+		// handlers registered.
+		next(err);
+	});
 	prc.stderr.on('data', function (data) {
-		console.log(data.toString());
+		stderr += data.toString() + '\n';
 	});
 }
 
@@ -227,6 +237,20 @@ function killiOSSimulator(next) {
 function killAndroidSimulator(next) {
 //should kill genymotion
 	next();
+}
+
+function massageJSONString(testResults) {
+	// preserve newlines, etc - use valid JSON
+	testResults = testResults.replace(/\\n/g, "\\n")
+			   .replace(/\\'/g, "\\'")
+			   .replace(/\\"/g, '\\"')
+			   .replace(/\\&/g, "\\&")
+			   .replace(/\\r/g, "\\r")
+			   .replace(/\\t/g, "\\t")
+			   .replace(/\\b/g, "\\b")
+			   .replace(/\\f/g, "\\f");
+	// remove non-printable and other non-valid JSON chars
+	return testResults.replace(/[\u0000-\u0019]+/g,'');
 }
 
 /**
@@ -280,10 +304,10 @@ function outputJUnitXML(jsonResults, prefix, next) {
 	});
 	keys = Object.keys(suites);
 	values = keys.map(function(v) { return suites[v]; });
-	var r = ejs.render('' + fs.readFileSync(path.join('.', 'junit.xml.ejs')),  { 'suites': values, 'prefix': prefix });
+	var r = ejs.render('' + fs.readFileSync(JUNIT_TEMPLATE),  { 'suites': values, 'prefix': prefix });
 
 	// Write the JUnit XML to a file
-	fs.writeFileSync(path.join(DIST_DIR, 'junit.' + prefix + '.xml'), r);
+	fs.writeFileSync(path.join(__dirname, 'junit.' + prefix + '.xml'), r);
 	next();
 }
 
@@ -333,15 +357,7 @@ function test(sdkVersion, callback) {
 					return next(err);
 				}
 				androidResults = result;
-				next();
-			});
-		},
-		function (next) {
-			parseTestResults(androidResults, function(err, parsed) {
-				if (err) {
-					return next(err);
-				}
-				androidResults = parsed;
+				// TODO Kill the android emulator?
 				next();
 			});
 		},
@@ -357,15 +373,6 @@ function test(sdkVersion, callback) {
 					return next(err);
 				}
 				iOSResults = result;
-				next();
-			});
-		},
-		function (next) {
-			parseTestResults(iOSResults, function(err, parsed) {
-				if (err) {
-					return next(err);
-				}
-				iOSResults = parsed;
 				next();
 			});
 		},

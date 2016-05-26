@@ -6,6 +6,7 @@
  */
 
 var should = require('./should'),
+	utilities = require('./utilities/utilities'),
 	didFocus = false;
 
 describe("Titanium.UI.Picker", function() {

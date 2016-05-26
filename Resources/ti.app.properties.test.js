@@ -4,7 +4,8 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./should');
+var should = require('./should'),
+	utilities = require('./utilities/utilities');
 
 Array.prototype.contains = function (obj) {
     var i = this.length;
@@ -16,7 +17,7 @@ describe('Titanium.App.Properties', function () {
 
     it('apiName', function (finish) {
         // See https://jira.appcelerator.org/browse/TIMOB-23346
-        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+        if (utilities.isWindows()) {
             should(Ti.App.Properties.apiName).be.eql('Titanium.App.Properties');
         } else {
             should(Ti.App.Properties.apiName).be.eql('Ti.App.Properties');

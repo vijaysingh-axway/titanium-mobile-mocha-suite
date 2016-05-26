@@ -1,10 +1,11 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2014 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./should');
+var should = require('./should'),
+	utilities = require('./utilities/utilities');
 
 describe("stream", function() {
 	it("before_all", function(finish) {
@@ -181,7 +182,7 @@ describe("stream", function() {
 	});
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
-	((Ti.Platform.osname == 'ipad' || Ti.Platform.osname == 'iphone') ? it.skip : it)("asyncWrite", function(finish) {
+	(utilities.isIOS() ? it.skip : it)("asyncWrite", function(finish) {
 		this.timeout(1e4);
 		// This stuff has to be copied into each asynch test because it lives
 		// in a different 'this' context

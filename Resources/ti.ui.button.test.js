@@ -9,13 +9,23 @@ require('ti-mocha');
 var should = require('should'),
     didFocus = false;
 
-describe("Titanium.UI.Button", function () {
+describe('Titanium.UI.Button', function () {
 
     beforeEach(function() {
         didFocus = false;
     });
 
-    it("image(String)", function (finish) {
+    it('apiName', function (finish) {
+        // See https://jira.appcelerator.org/browse/TIMOB-23346
+        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+            should(Ti.UI.Button.apiName).be.eql('Titanium.UI.Button');
+        } else {
+            should(Ti.UI.Button.apiName).be.eql('Ti.UI.Button');
+        }
+        finish();
+    });
+
+    it('image(String)', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -25,8 +35,8 @@ describe("Titanium.UI.Button", function () {
         w.addEventListener('focus', function () {
             if (didFocus) return;
             didFocus = true;
-            view.image = "Logo.png";
-            should(view.image).be.eql("Logo.png");
+            view.image = 'Logo.png';
+            should(view.image).be.eql('Logo.png');
             setTimeout(function () {
                 w.close();
                 finish();
@@ -37,7 +47,7 @@ describe("Titanium.UI.Button", function () {
 
     // Skip on Windows 10 for now, it hangs
     ((Ti.Platform.version.indexOf('10.0') == 0) ||
-    (Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("image(Blob)", function (finish) {
+    (Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('image(Blob)', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -57,7 +67,7 @@ describe("Titanium.UI.Button", function () {
         w.open();
     });
 
-    (Ti.Platform.osname === 'windowsstore' ? it.skip : it)("backgroundColor/Image", function (finish) {
+    (Ti.Platform.osname === 'windowsstore' ? it.skip : it)('backgroundColor/Image', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -69,10 +79,10 @@ describe("Titanium.UI.Button", function () {
             didFocus = true;
             should(view.backgroundColor).be.a.String;
             should(view.backgroundImage).be.a.String;
-            view.backgroundColor = "white";
-            view.backgroundImage = "Logo.png";
-            should(view.backgroundColor).be.eql("white");
-            should(view.backgroundImage).be.eql("Logo.png");
+            view.backgroundColor = 'white';
+            view.backgroundImage = 'Logo.png';
+            should(view.backgroundColor).be.eql('white');
+            should(view.backgroundImage).be.eql('Logo.png');
             setTimeout(function () {
                 w.close();
                 finish();
@@ -81,7 +91,7 @@ describe("Titanium.UI.Button", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundFocusedColor/Image", function (finish) {
+    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -93,10 +103,10 @@ describe("Titanium.UI.Button", function () {
             didFocus = true;
             should(view.backgroundFocusedColor).be.a.String;
             should(view.backgroundFocusedImage).be.a.String;
-            view.backgroundFocusedColor = "white";
-            view.backgroundFocusedImage = "Logo.png"
-            should(view.backgroundFocusedColor).be.eql("white");
-            should(view.backgroundFocusedImage).be.eql("Logo.png");
+            view.backgroundFocusedColor = 'white';
+            view.backgroundFocusedImage = 'Logo.png'
+            should(view.backgroundFocusedColor).be.eql('white');
+            should(view.backgroundFocusedImage).be.eql('Logo.png');
             setTimeout(function () {
                 w.close();
                 finish();
@@ -105,7 +115,7 @@ describe("Titanium.UI.Button", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundSelectedColor/Image", function (finish) {
+    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -117,10 +127,10 @@ describe("Titanium.UI.Button", function () {
             didFocus = true;
             should(view.backgroundSelectedColor).be.a.String;
             should(view.backgroundSelectedImage).be.a.String;
-            view.backgroundSelectedColor = "white";
-            view.backgroundSelectedImage = "Logo.png";
-            should(view.backgroundSelectedColor).be.eql("white");
-            should(view.backgroundSelectedImage).be.eql("Logo.png");
+            view.backgroundSelectedColor = 'white';
+            view.backgroundSelectedImage = 'Logo.png';
+            should(view.backgroundSelectedColor).be.eql('white');
+            should(view.backgroundSelectedImage).be.eql('Logo.png');
             setTimeout(function () {
                 w.close();
                 finish();
@@ -129,7 +139,7 @@ describe("Titanium.UI.Button", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundDisabledColor/Image", function (finish) {
+    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -141,10 +151,10 @@ describe("Titanium.UI.Button", function () {
             didFocus = true;
             should(view.backgroundDisabledColor).be.a.String;
             should(view.backgroundDisabledImage).be.a.String;
-            view.backgroundDisabledColor = "white";
-            view.backgroundDisabledImage = "Logo.png";
-            should(view.backgroundDisabledColor).be.eql("white");
-            should(view.backgroundDisabledImage).be.eql("Logo.png");
+            view.backgroundDisabledColor = 'white';
+            view.backgroundDisabledImage = 'Logo.png';
+            should(view.backgroundDisabledColor).be.eql('white');
+            should(view.backgroundDisabledImage).be.eql('Logo.png');
             setTimeout(function () {
                 w.close();
                 finish();
@@ -153,7 +163,7 @@ describe("Titanium.UI.Button", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundGradient", function (finish) {
+    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('backgroundGradient', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -169,7 +179,7 @@ describe("Titanium.UI.Button", function () {
         w.addEventListener('focus', function () {
             if (didFocus) return;
             didFocus = true;
-            should(view.backgroundGradient.type).be.eql("linear");
+            should(view.backgroundGradient.type).be.eql('linear');
             should(view.backgroundGradient.startPoint).be.an.Object;
             should(view.backgroundGradient.endPoint).be.an.Object;
             should(view.backgroundGradient.colors).be.an.Array;
@@ -181,7 +191,7 @@ describe("Titanium.UI.Button", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("border", function (finish) {
+    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('border', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -193,9 +203,9 @@ describe("Titanium.UI.Button", function () {
             didFocus = true;
             should(view.borderColor).be.a.String;
             should(view.borderWidth).be.a.Number;
-            view.borderColor = "blue";
+            view.borderColor = 'blue';
             view.borderWidth = 2;
-            should(view.borderColor).be.eql("blue");
+            should(view.borderColor).be.eql('blue');
             should(view.borderWidth).be.eql(2);
             setTimeout(function () {
                 w.close();
@@ -205,7 +215,7 @@ describe("Titanium.UI.Button", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("rect and size", function (finish) {
+    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('rect and size', function (finish) {
         this.timeout(5000);
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
@@ -223,7 +233,7 @@ describe("Titanium.UI.Button", function () {
         });
 
         view.addEventListener('postlayout', function () {
-            Ti.API.info("Got postlayout event");
+            Ti.API.info('Got postlayout event');
             Ti.API.info(JSON.stringify(view.rect));
             Ti.API.info(JSON.stringify(view.size));
             should(view.rect).be.an.Object;

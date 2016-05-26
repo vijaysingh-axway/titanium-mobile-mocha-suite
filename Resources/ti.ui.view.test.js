@@ -7,16 +7,16 @@
 
 require('ti-mocha');
 var should = require('should'),
-	didFocus = false,
-	didPostLayout = false;
+    didFocus = false,
+    didPostLayout = false;
 
 describe("Titanium.UI.View", function () {
-	this.timeout(5000);
+    this.timeout(5000);
 
-	beforeEach(function() {
-		didFocus = false;
-		didPostLayout = false;
-	});
+    beforeEach(function() {
+        didFocus = false;
+        didPostLayout = false;
+    });
 
     ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundColor/Image", function (finish) {
         var w = Ti.UI.createWindow({
@@ -25,8 +25,8 @@ describe("Titanium.UI.View", function () {
         var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
         w.add(view);
         w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+            if (didFocus) return;
+            didFocus = true;
             should(view.backgroundColor).be.a.String;
             should(view.backgroundImage).be.a.String;
             view.backgroundColor = "white";
@@ -48,8 +48,8 @@ describe("Titanium.UI.View", function () {
         var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
         w.add(view);
         w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+            if (didFocus) return;
+            didFocus = true;
             should(view.backgroundFocusedColor).be.a.String;
             should(view.backgroundFocusedImage).be.a.String;
             view.backgroundFocusedColor = "white";
@@ -71,8 +71,8 @@ describe("Titanium.UI.View", function () {
         var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
         w.add(view);
         w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+            if (didFocus) return;
+            didFocus = true;
             should(view.backgroundSelectedColor).be.a.String;
             should(view.backgroundSelectedImage).be.a.String;
             view.backgroundSelectedColor = "white";
@@ -94,8 +94,8 @@ describe("Titanium.UI.View", function () {
         var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
         w.add(view);
         w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+            if (didFocus) return;
+            didFocus = true;
             should(view.backgroundDisabledColor).be.a.String;
             should(view.backgroundDisabledImage).be.a.String;
             view.backgroundDisabledColor = "white";
@@ -123,8 +123,8 @@ describe("Titanium.UI.View", function () {
         };
         w.add(view);
         w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+            if (didFocus) return;
+            didFocus = true;
             should(view.backgroundGradient.type).be.eql("linear");
             should(view.backgroundGradient.startPoint).be.an.Object;
             should(view.backgroundGradient.endPoint).be.an.Object;
@@ -144,8 +144,8 @@ describe("Titanium.UI.View", function () {
         var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
         w.add(view);
         w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+            if (didFocus) return;
+            didFocus = true;
             should(view.borderColor).be.a.String;
             should(view.borderWidth).be.a.Number;
             view.borderColor = "blue";
@@ -168,8 +168,8 @@ describe("Titanium.UI.View", function () {
         w.add(view);
 
         w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+            if (didFocus) return;
+            didFocus = true;
             setTimeout(function () {
                 w.close();
                 finish();
@@ -177,8 +177,8 @@ describe("Titanium.UI.View", function () {
         });
 
         view.addEventListener('postlayout', function () {
-			if (didPostLayout) return;
-			didPostLayout = true;
+            if (didPostLayout) return;
+            didPostLayout = true;
             Ti.API.info("Got postlayout event");
             Ti.API.info(JSON.stringify(view.rect));
             Ti.API.info(JSON.stringify(view.size));
@@ -199,8 +199,8 @@ describe("Titanium.UI.View", function () {
         });
 
         w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
+            if (didFocus) return;
+            didFocus = true;
             Ti.API.info("Got focus event");
             should(w.visible).be.true;
             w.hide();
@@ -328,36 +328,36 @@ describe("Titanium.UI.View", function () {
         win.open();
     });
 
-	it("convertPointToView", function (finish) {
-		var w = Ti.UI.createWindow(),
-		a = Ti.UI.createView({backgroundColor:'red'}),
-		b = Ti.UI.createView({ top: '100', backgroundColor: 'blue' });
+    it("convertPointToView", function (finish) {
+        var w = Ti.UI.createWindow(),
+        a = Ti.UI.createView({backgroundColor:'red'}),
+        b = Ti.UI.createView({ top: '100', backgroundColor: 'blue' });
 
-		a.add(b);
-		w.add(a);
+        a.add(b);
+        w.add(a);
 
-		w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
-			setTimeout(function () {
-				w.close();
-				finish();
-			}, 3000);
-		});
+        w.addEventListener('focus', function () {
+            if (didFocus) return;
+            didFocus = true;
+            setTimeout(function () {
+                w.close();
+                finish();
+            }, 3000);
+        });
 
-		b.addEventListener('postlayout', function () {
-			if (didPostLayout) return;
-			didPostLayout = true;
-			Ti.API.info("Got postlayout event");
-			var result = b.convertPointToView({ x: 123, y: 23 }, a);
-			should(result).be.an.Object;
-			should(result.x).be.a.Number;
-			should(result.y).be.a.Number;
-			should(result.x).eql(123);
-			should(result.y).eql(123);
-		});
-		w.open();
-	});
+        b.addEventListener('postlayout', function () {
+            if (didPostLayout) return;
+            didPostLayout = true;
+            Ti.API.info("Got postlayout event");
+            var result = b.convertPointToView({ x: 123, y: 23 }, a);
+            should(result).be.an.Object;
+            should(result.x).be.a.Number;
+            should(result.y).be.a.Number;
+            should(result.x).eql(123);
+            should(result.y).eql(123);
+        });
+        w.open();
+    });
 
     it("parent", function (finish) {
         var w = Ti.UI.createWindow({

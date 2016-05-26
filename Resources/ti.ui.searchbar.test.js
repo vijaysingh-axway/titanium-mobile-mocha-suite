@@ -7,52 +7,52 @@
 var should = require('./should');
 
 describe("Ti.UI.SearchBar", function () {
-    it("TableView", function (finish) {
-        var win = Ti.UI.createWindow();
-        var sb = Titanium.UI.createSearchBar({
-            barColor: "blue",
-            height: 44
-        });
-        var table = Ti.UI.createTableView({
-            height: 600,
-            width: "100%",
-            top: 75,
-            left: 0
-        });
-        win.addEventListener("open", function () {
-            table.search = sb;
-            setTimeout(function () {
-                win.close();
-                finish();
-            }, 1000);
-        });
-        win.add(table);
-        win.open();
-    });
-    it("ListView", function (finish) {
-        var win = Ti.UI.createWindow();
-        var sb = Titanium.UI.createSearchBar({
-            barColor: "blue",
-            height: 44
-        });
-        var listview = Ti.UI.createListView({
-            height: 600,
-            width: "100%",
-            top: 75,
-            left: 0
-        });
-        win.addEventListener("open", function () {
-            listview.searchView = sb;
-            setTimeout(function () {
-                win.close();
-                finish();
-            }, 1000);
-        });
-        win.add(listview);
-        win.open();
-    });
+	it("TableView", function (finish) {
+		var win = Ti.UI.createWindow();
+		var sb = Titanium.UI.createSearchBar({
+			barColor: "blue",
+			height: 44
+		});
+		var table = Ti.UI.createTableView({
+			height: 600,
+			width: "100%",
+			top: 75,
+			left: 0
+		});
+		win.addEventListener("open", function () {
+			table.search = sb;
+			setTimeout(function () {
+				win.close();
+				finish();
+			}, 1000);
+		});
+		win.add(table);
+		win.open();
+	});
+	it("ListView", function (finish) {
+		var win = Ti.UI.createWindow();
+		var sb = Titanium.UI.createSearchBar({
+			barColor: "blue",
+			height: 44
+		});
+		var listview = Ti.UI.createListView({
+			height: 600,
+			width: "100%",
+			top: 75,
+			left: 0
+		});
+		win.addEventListener("open", function () {
+			listview.searchView = sb;
+			setTimeout(function () {
+				win.close();
+				finish();
+			}, 1000);
+		});
+		win.add(listview);
+		win.open();
+	});
 
-    it("TIMOB-9745,TIMOB-7020", function (finish) {
+	it("TIMOB-9745,TIMOB-7020", function (finish) {
 		var win = Ti.UI.createWindow();
 		var data = [ {
 			title: "Row 1",
@@ -88,8 +88,8 @@ describe("Ti.UI.SearchBar", function () {
 			should(sb.getShowCancel()).be.false;
 			should(sb.getBarColor()).eql("blue");
 			setTimeout(function () {
-			    win.close();
-			    finish();
+				win.close();
+				finish();
 			}, 1000);
 		});
 		win.open();
