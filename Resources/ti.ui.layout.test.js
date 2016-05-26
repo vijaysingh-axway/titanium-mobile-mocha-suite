@@ -1038,7 +1038,7 @@ describe("Titanium.UI.Layout", function () {
     });
 
     //TIMOB-8891
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("scrollViewWithLargeVerticalLayoutChild", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("scrollViewWithLargeVerticalLayoutChild", function (finish) {
         var win = createWindow({}, finish);
         var scrollView = Ti.UI.createScrollView({
             contentHeight: "auto",
@@ -1107,7 +1107,7 @@ describe("Titanium.UI.Layout", function () {
     });
     */
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("twoPins", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("twoPins", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 100,
@@ -1128,7 +1128,7 @@ describe("Titanium.UI.Layout", function () {
         win.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("fourPins", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("fourPins", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 100,
@@ -1160,7 +1160,7 @@ describe("Titanium.UI.Layout", function () {
     });
 
     // TIMOB-18684
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("layoutWithSIZE_and_fixed", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("layoutWithSIZE_and_fixed", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "green",

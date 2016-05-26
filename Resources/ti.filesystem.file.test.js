@@ -53,7 +53,7 @@ describe('Titanium.Filesystem.File', function () {
 		should(value).not.be.undefined;
 		should(value).be.a.String;
 		// On Windows, it returns native path
-		if (Ti.Platform.osname == 'windowsstore' || Ti.Platform.osname == 'windowsphone') {
+		if (utilities.isWindows()) {
 			should(value).be.eql(file.nativePath);
 		}
 		finish();

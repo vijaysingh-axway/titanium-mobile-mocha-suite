@@ -23,5 +23,5 @@ exports.isWindows10() = function() {
 };
 
 exports.isWindows8_1() = function() {
-	return isWindows() && ;
+	return isWindows() && Ti.Platform.version.indexOf('6.3.9600') == 0;
 };

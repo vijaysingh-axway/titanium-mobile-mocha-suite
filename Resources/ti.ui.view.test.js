@@ -18,7 +18,7 @@ describe("Titanium.UI.View", function () {
         didPostLayout = false;
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundColor/Image", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundColor/Image", function (finish) {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });
@@ -41,7 +41,7 @@ describe("Titanium.UI.View", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundFocusedColor/Image", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundFocusedColor/Image", function (finish) {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });
@@ -64,7 +64,7 @@ describe("Titanium.UI.View", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundSelectedColor/Image", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundSelectedColor/Image", function (finish) {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });
@@ -87,7 +87,7 @@ describe("Titanium.UI.View", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundDisabledColor/Image", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundDisabledColor/Image", function (finish) {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });
@@ -110,7 +110,7 @@ describe("Titanium.UI.View", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundGradient", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("backgroundGradient", function (finish) {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });
@@ -137,7 +137,7 @@ describe("Titanium.UI.View", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("border", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("border", function (finish) {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });
@@ -160,7 +160,7 @@ describe("Titanium.UI.View", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("rect and size", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("rect and size", function (finish) {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });
@@ -193,7 +193,7 @@ describe("Titanium.UI.View", function () {
         w.open();
     });
 
-    ((Ti.Platform.version.indexOf('6.3.9600') == 0 && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("hide() and show() change visible property value", function (finish) {
+    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("hide() and show() change visible property value", function (finish) {
         var w = Ti.UI.createWindow({
             backgroundColor: 'blue'
         });

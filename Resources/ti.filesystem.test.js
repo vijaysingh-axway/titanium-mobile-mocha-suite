@@ -145,7 +145,7 @@ describe('Titanium.Filesystem', function () {
 		should(function () {
 			should(Ti.Filesystem.separator).not.be.undefined;
 			should(Ti.Filesystem.separator).be.a.String;
-			if (Ti.Platform.osname == 'windowsstore' || Ti.Platform.osname == 'windowsphone') {
+			if (utilities.isWindows()) {
 				should(Ti.Filesystem.separator).be.eql('\\');
 			} else {
 				should(Ti.Filesystem.separator).be.eql('/');
@@ -163,7 +163,7 @@ describe('Titanium.Filesystem', function () {
 		should(function () {
 			should(Ti.Filesystem.lineEnding).not.be.undefined;
 			should(Ti.Filesystem.lineEnding).be.a.String;
-			if (Ti.Platform.osname == 'windowsstore' || Ti.Platform.osname == 'windowsphone') {
+			if (utilities.isWindows()) {
 				should(Ti.Filesystem.lineEnding).be.eql('\r\n');
 			} else {
 				should(Ti.Filesystem.lineEnding).be.eql('\n');
