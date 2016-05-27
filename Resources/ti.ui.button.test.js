@@ -215,7 +215,7 @@ describe('Titanium.UI.Button', function () {
 		w.open();
 	});
 
-	((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)('rect and size', function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('rect and size', function (finish) {
 		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'

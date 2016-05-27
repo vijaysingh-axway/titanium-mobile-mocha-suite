@@ -7,6 +7,7 @@
 
 require('ti-mocha');
 var should = require('should'),
+	utilities = require('./utilities/utilities'),
 	didFocus = false;
 
 describe("Titanium.UI.Window", function () {
@@ -15,7 +16,7 @@ describe("Titanium.UI.Window", function () {
 		didFocus = false;
 	});
 
-	((Ti.Platform.version.indexOf('10.0' == 0) && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("window_size_is_read_only", function (finish) {
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)("window_size_is_read_only", function (finish) {
 		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue',
@@ -35,7 +36,7 @@ describe("Titanium.UI.Window", function () {
 		w.open();
 	});
 
-	((Ti.Platform.version.indexOf('10.0' == 0) && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("window_position_is_read_only", function (finish) {
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)("window_position_is_read_only", function (finish) {
 		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'green',
@@ -55,7 +56,7 @@ describe("Titanium.UI.Window", function () {
 		w.open();
 	});
 
-	((Ti.Platform.version.indexOf('10.0' == 0) && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("window_post_layout", function (finish) {
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)("window_post_layout", function (finish) {
 		this.timeout(5000);
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'yellow'

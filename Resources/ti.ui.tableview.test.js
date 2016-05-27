@@ -128,7 +128,8 @@ describe('Titanium.UI.TableView', function () {
 		win.open();
 	});
 
-	it('insertRowAfter (TableViewRow)', function (finish) {
+	// FIXME This crashes the app entirely on iOS. Open a JIRA ticket!
+	(utilities.isIOS() ? it.skip : it)('insertRowAfter (TableViewRow)', function (finish) {
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});

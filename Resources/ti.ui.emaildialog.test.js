@@ -68,7 +68,7 @@ describe("Titanium.UI.EmailDialog", function () {
 	});
 	it("subject", function (finish) {
 		// EmailDialog does not support Windows Store app
-		if (Ti.Platform.osname == 'windowsstore') {
+		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
@@ -86,7 +86,7 @@ describe("Titanium.UI.EmailDialog", function () {
 
 	it("messageBody", function (finish) {
 		// EmailDialog does not support Windows Store app
-		if (Ti.Platform.osname == 'windowsstore') {
+		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
@@ -104,7 +104,7 @@ describe("Titanium.UI.EmailDialog", function () {
 
 	it("toRecipients", function (finish) {
 		// EmailDialog does not support Windows Store app
-		if (Ti.Platform.osname == 'windowsstore') {
+		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
@@ -122,7 +122,7 @@ describe("Titanium.UI.EmailDialog", function () {
 
 	it("ccRecipients", function (finish) {
 		// EmailDialog does not support Windows Store app
-		if (Ti.Platform.osname == 'windowsstore') {
+		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
@@ -140,7 +140,7 @@ describe("Titanium.UI.EmailDialog", function () {
 
 	it("bccRecipients", function (finish) {
 		// EmailDialog does not support Windows Store app
-		if (Ti.Platform.osname == 'windowsstore') {
+		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({

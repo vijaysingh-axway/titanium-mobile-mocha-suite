@@ -15,7 +15,7 @@ describe('Titanium.UI.TextField', function () {
 
 	it('apiName', function (finish) {
         // See https://jira.appcelerator.org/browse/TIMOB-23346
-        if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+        if (utilities.isWindows()) {
             should(Ti.UI.TextField.apiName).be.eql('Titanium.UI.TextField');
         } else {
             should(Ti.UI.TextField.apiName).be.eql('Ti.UI.TextField');

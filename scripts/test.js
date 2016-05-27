@@ -4,10 +4,6 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-// TODO Let this script take command line args to:
-// - point at the specific SDK to use for testing
-// - specify the platform to test against
-// -
 var path = require('path'),
 	fs = require('fs'),
 	async = require('async'),
@@ -15,6 +11,8 @@ var path = require('path'),
 	ejs = require('ejs'),
 	StreamSplitter = require('stream-splitter'),
 	spawn = require('child_process').spawn,
+	exec = require('child_process').exec,
+	titanium = path.join(__dirname, 'node_modules', 'titanium', 'bin', 'titanium'),
 	SOURCE_DIR = path.join(__dirname, '..'),
 	PROJECT_NAME = 'mocha',
 	PROJECT_DIR = path.join(__dirname, PROJECT_NAME),
@@ -30,13 +28,13 @@ function clearPreviousApp(next) {
 
 function installSDK(sdkVersion, next) {
 	var prc,
-		args = ['sdk', 'install'];
+		args = [titanium, 'sdk', 'install'];
 	if (sdkVersion.indexOf('.') == -1) { // no period, probably mean a branch
 		args.push('-b');
 	}
 	args.push(sdkVersion);
 	args.push('-d'); // make default
-	prc = spawn('titanium', args);
+	prc = spawn('node', args);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
@@ -49,9 +47,42 @@ function installSDK(sdkVersion, next) {
 	});
 }
 
-function generateProject(next) {
+/**
+ * Look up the full path to the SDK we just installed (the SDK we'll be hacking
+ * to add our locally built Windows SDK into).
+ *
+ * @param next {Function} callback function
+ **/
+function getSDKInstallDir(next) {
+	var prc = exec('node "' + titanium + '" info -o json -t titanium', function (error, stdout, stderr) {
+		var out,
+			selectedSDK;
+		if (error !== null) {
+			return next('Failed to get SDK install dir: ' + error);
+		}
+
+		out = JSON.parse(stdout);
+		selectedSDK = out.titaniumCLI.selectedSDK;
+
+		next(null, out.titanium[selectedSDK].path);
+	});
+}
+
+/**
+ * Runs `titanium create` to generate a project for the specific platforms.
+ * @param  {Array[String]}   platforms
+ * @param  {Function} next      [description]
+ */
+function generateProject(platforms, next) {
 	var prc;
-	prc = spawn('titanium', ['create', '--force', '--type', 'app', '--platforms', 'android,ios', '--name', PROJECT_NAME, '--id', 'com.appcelerator.testApp.testing', '--url', 'http://www.appcelerator.com', '--workspace-dir', __dirname, '--no-prompt']);
+	prc = spawn('node', [titanium, 'create', '--force',
+		'--type', 'app',
+		'--platforms', platforms.join(','),
+		'--name', PROJECT_NAME,
+		'--id', 'com.appcelerator.testApp.testing',
+		'--url', 'http://www.appcelerator.com',
+		'--workspace-dir', __dirname,
+		'--no-prompt']);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
@@ -77,6 +108,7 @@ function addTiAppProperties(next) {
 	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function(line) {
 		content.push(line);
 		if (line.indexOf('<ios>') >= 0) {
+			// FIXME Do we want app thinning?
 			content.push('<use-app-thinning>true</use-app-thinning>');
 		}
 		// TODO Have this look at the existing modules under the test app folder to inject them
@@ -120,40 +152,13 @@ function copyMochaAssets(next) {
 	next();
 }
 
-/**
- * Runs the iOS build and parses out the test results.
- * @param  {Function} next [description]
- */
-function runIOSBuild(next) {
-	var prc = spawn('titanium', ['build', '--project-dir', PROJECT_DIR, '--platform', 'ios', '--target', 'simulator', '--no-prompt', '--no-colors', '--log-level', 'info']);
-	handleBuild(prc, next);
-}
-
-/**
- * unlock android emulator before ti build (needed for travis)
- * @return {[type]} [description]
- */
-function unlockAndroid() {
-	// FIXME We need to know the location of adb, It's unlikely to be on the PATH!
-	var androidUnlock = spawn('adb', ['shell', 'input', 'keyevent', '82', '&']);
-	androidUnlock.stdout.on('data', function(data) {
-		console.log(data.toString());
-	});
-	androidUnlock.stderr.on('data', function(data) {
-		console.log('Android emulator error');
-		console.log(data.toString());
-	});
-	androidUnlock.on('close', function(code) {
-		console.log('Android emulator code');
-		console.log(code);
-		next();
-	});
-}
-
-function runAndroidBuild(next) {
-	var prc;
-	//unlockAndroid();
-	prc = spawn('titanium', ['build', '--project-dir', PROJECT_DIR, '--platform', 'android', '--target', 'emulator', '--no-prompt', '--no-colors','--log-level', 'info']);
+function runBuild(platform, next) {
+	var prc = spawn('node', [titanium, 'build',
+		'--project-dir', PROJECT_DIR,
+		'--platform', platform,
+		'--target', (platform === 'android') ? 'emulator' : 'simulator',
+		'--log-level', 'info',
+		'--no-prompt', '--no-colors']);
 	handleBuild(prc, next);
 }
 
@@ -203,7 +208,7 @@ function handleBuild(prc, next) {
 			output += str + '\n';
 		}
 	});
-	splitter.on("error", function(err) {
+	splitter.on('error', function(err) {
 		// Any errors that occur on a source stream will be emitted on the
 		// splitter Stream, if the source stream is piped into the splitter
 		// Stream, and if the source stream doesn't have any other error
@@ -211,32 +216,9 @@ function handleBuild(prc, next) {
 		next(err);
 	});
 	prc.stderr.on('data', function (data) {
-		stderr += data.toString() + '\n';
+		console.log(data.toString().trim());
+		stderr += data.toString().trim() + '\n';
 	});
-}
-
-function removeSDK(sdkVersion, next) {
-	var prc;
-	prc = spawn('titanium', ['sdk', 'uninstall', sdkVersion, '--force']);
-	prc.on('close', function (code) {
-		if (code != 0) {
-			next('Failed to uninstall SDK');
-		} else {
-			next();
-		}
-	});
-}
-
-function killiOSSimulator(next) {
-	var prc = spawn('killall', ['Simulator']);
-	prc.on('close', function (code) {
-		next();
-	});
-}
-
-function killAndroidSimulator(next) {
-//should kill genymotion
-	next();
 }
 
 function massageJSONString(testResults) {
@@ -251,31 +233,6 @@ function massageJSONString(testResults) {
 			   .replace(/\\f/g, "\\f");
 	// remove non-printable and other non-valid JSON chars
 	return testResults.replace(/[\u0000-\u0019]+/g,'');
-}
-
-/**
- * Converts the raw string outut from the test app into a JSON Object.
- *
- * @param testResults {String} Raw string output from the logs of the test app
- * @param next {Function} callback function
- */
-function parseTestResults(testResults, next) {
-	if (!testResults) {
-		return next('Failed to retrieve any tests results!');
-	}
-
-	// preserve newlines, etc - use valid JSON
-	testResults = testResults.replace(/\\n/g, "\\n")
-			   .replace(/\\'/g, "\\'")
-			   .replace(/\\"/g, '\\"')
-			   .replace(/\\&/g, "\\&")
-			   .replace(/\\r/g, "\\r")
-			   .replace(/\\t/g, "\\t")
-			   .replace(/\\b/g, "\\b")
-			   .replace(/\\f/g, "\\f");
-	// remove non-printable and other non-valid JSON chars
-	testResults = testResults.replace(/[\u0000-\u0019]+/g,'');
-	next(null, JSON.parse(testResults));
 }
 
 /**
@@ -312,95 +269,123 @@ function outputJUnitXML(jsonResults, prefix, next) {
 }
 
 /**
- * Finds the existing SDK, Scons the new SDK, install the new SDK ,generates a Titanium mobile project,
- * sets up the project, copies unit tests into it from ti_mocha_tests, and then runs the project in a ios simulator
- * and android emulator which will run the mocha unit tests. The test results are piped to
- * the CLI. If any unit test fails, process exits with a fail. After which the API coverage is calculated. If the coverage
- * falls below the previous build, process exits with a fail.
+ * Remove all CI SDKs installed. Skip GA releases, and skip the passed in SDK path we just installed.
+ * @param  {String} sdkPath The SDK we just installed for testing. Keep this one in case next run can use it.
+ * @param {Function} next
  */
-function test(sdkVersion, callback) {
-	var iOSResults,
-		androidResults;
-	async.series([
-		function (next) {
-			// in parallel we can:
-			// clean up old app
-			// install SDK
-			// TODO Kill iOS simulator?
-			async.parallel([
-				function (cb) {
-					console.log('Install SDK');
-					installSDK(sdkVersion, cb);
-				},
-				function (cb) {
-					clearPreviousApp(cb);
-				}
-			], next);
-		},
-		function (next) {
-			console.log('Generating project');
-			generateProject(next);
-		},
-		function (next) {
-			console.log('Adding properties for tiapp.xml');
-			addTiAppProperties(next);
-		},
-		function (next) {
-			console.log('Copying assets into project');
-			copyMochaAssets(next);
-		},
-		// TODO Specify the platform we want to test rather than hard-code Android then iOS?
-		function (next) {
-			console.log('Launching android test project in emulator');
-			runAndroidBuild(function (err, result) {
-				if (err) {
-					return next(err);
-				}
-				androidResults = result;
-				// TODO Kill the android emulator?
-				next();
-			});
-		},
-		function (next) {
-			outputJUnitXML(androidResults, 'android', next);
-		},
-		function (next) {
-			// FIXME iOS prompts for access to contacts in UI! We need to find some way to 'click' OK for user...
-			// FIXME When an assertion fails, iOS opens the 'red screen of death' and WILL NOT open other views. We need to dismiss the error view! (or set some property to avoid it?)
-			console.log('Launching ios test project in simulator');
-			runIOSBuild(function (err, result) {
-				if (err) {
-					return next(err);
-				}
-				iOSResults = result;
-				next();
-			});
-		},
-		function (next) {
-			outputJUnitXML(iOSResults, 'ios', next);
+function cleanNonGaSDKs(sdkPath, next) {
+	var prc = exec('node "' + titanium + '" sdk list -o json', function (error, stdout, stderr) {
+		var out,
+			installedSDKs;
+		if (error !== null) {
+			return next('Failed to get list of SDKs: ' + error);
 		}
-	], function(err) {
-		callback(err, {
-			ios: iOSResults,
-			android: androidResults
+
+		out = JSON.parse(stdout);
+		installedSDKs = out.installed;
+		// Loop over the SDKs and remove any where the key doesn't end in GA, or the value isn't sdkPath
+		async.each(Object.keys(installedSDKs), function (item, callback) {
+			var thisSDKPath = installedSDKs[item];
+			if (item.slice(-2) === 'GA') { // skip GA releases
+				return callback(null);
+			}
+			if (thisSDKPath === sdkPath) { // skip SDK we just installed
+				return callback(null);
+			}
+			wrench.rmdirRecursive(thisSDKPath, callback);
+		}, function(err) {
+			next(err);
+		});
+	});
+}
+
+/**
+ * Installs a Titanium SDK to test against, generates a test app, then runs the
+ * app for each platform with our mocha test suite. Outputs the results in a JUnit
+ * test report, and holds onto the results in memory as a JSON object.
+ *
+ * @param  {String}   branch    [description]
+ * @param  {Array[String]}   platforms [description]
+ * @param  {Function} callback  [description]
+ */
+function test(branch, platforms, callback) {
+	var sdkPath,
+		tasks = [],
+		results = {};
+
+	tasks.push(function (next) {
+		// install new SDK and delete old test app in parallel
+		async.parallel([
+			function (cb) {
+				console.log('Installing SDK');
+				installSDK(branch, cb);
+			},
+			clearPreviousApp
+		], next);
+	});
+	// Record the SDK we just installed so we retain it when we clean up at end
+	tasks.push(function (next) {
+		getSDKInstallDir(function (err, installPath) {
+			if (err) {
+				return next(err);
+			}
+			sdkPath = installPath;
+			next();
+		});
+	});
+
+	tasks.push(function (next) {
+		console.log('Generating project');
+		generateProject(platforms, next);
+	});
+
+	tasks.push(addTiAppProperties);
+	tasks.push(copyMochaAssets);
+
+	// run build for each platform, and spit out JUnit report
+	platforms.forEach(function (platform) {
+		tasks.push(function (next) {
+			runBuild(platform, function (err, result) {
+				if (err) {
+					return next(err);
+				}
+				results[platform] = result;
+				outputJUnitXML(result, platform, next);
+			});
+		});
+	});
+
+	async.series(tasks, function (err) {
+		cleanNonGaSDKs(sdkPath, function (cleanupErr) {
+			callback(err || cleanupErr, results);
 		});
 	});
 }
 
 // public API
 exports.test = test;
-// TODO Expose method to clean SDK up so we can run after?
-//
 
 // When run as single script.
 if (module.id === '.') {
-	test('master', function(err, results) {
-		if (err) {
-			console.error(err.toString().red);
-			process.exit(1);
-		} else {
-			// TODO Do something with the results!
-			process.exit(0);
-		}
-	});
+	(function () {
+		var program = require('commander'),
+			packageJson = require('./package');
+
+		program
+			.version(packageJson.version)
+			// TODO Allow chooisng a URL or zipfile as SDK to install!
+			.option('-b, --branch [branchName]', 'Install a specific branch of the SDK to test with', /^(12\.0|14\.0)$/, 'master')
+			.option('-p, --platforms [platform1,platform2]', 'Run unit tests on the given platforms', /^(android(,ios)?)|(ios(,android)?)$/, 'android,ios')
+			.parse(process.argv);
+
+		test(program.branch, program.platforms.split(','), function(err, results) {
+			if (err) {
+				console.error(err.toString());
+				process.exit(1);
+			} else {
+				// TODO Do something with the results! Maybe we can use some mocha reporter here to spit out results to CLI?
+				process.exit(0);
+			}
+		});
+	})();
 }

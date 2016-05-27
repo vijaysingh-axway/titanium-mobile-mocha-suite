@@ -128,7 +128,7 @@ describe('Titanium.Contacts.Person', function() {
 			var person = Ti.Contacts.createPerson();
 			should(person.id).not.be.undefined;
 			// TODO id would be null unless we're grabbing one from a query!
-//			if (Ti.Platform.osname == 'android') {
+//			if (utilities.isAndroid()) {
 //				should(person.id).be.a.Number;
 //			} else {
 //				// is this property even available on iOS?

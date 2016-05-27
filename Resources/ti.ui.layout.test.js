@@ -180,7 +180,7 @@ describe("Titanium.UI.Layout", function () {
 
     // functional test case #1022, #1024
     // ViewWidth, ViewHeight
-    (((Ti.Platform.version.indexOf('10.0') == 0) && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("viewWidth", function (finish) {
+    (((Ti.Platform.version.indexOf('10.0') == 0) && utilities.isWindowsDesktop()) ? it.skip : it)("viewWidth", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 10,
@@ -647,7 +647,7 @@ describe("Titanium.UI.Layout", function () {
             should(label2.size).not.be.undefined;
             should(scrollView.size).not.be.undefined;
             should(scrollView2.size).not.be.undefined;
-            if (Ti.Platform.osname === 'iphone') {
+            if (utilities.isIPhone()) {
                 //Android does not return 0 height even when there is no text
                 should(label.size.width).eql(0);
                 should(label.size.height).eql(0);
@@ -818,7 +818,7 @@ describe("Titanium.UI.Layout", function () {
 
     // Functional Test #1001 #1002 #1003 #1004 #1005 #1006
 	// Skip on Windows 10 Desktop for now, it hangs
-    (((Ti.Platform.version.indexOf('10.0') == 0) && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("unitMeasurements", function (finish) {
+    (((Ti.Platform.version.indexOf('10.0') == 0) && utilities.isWindowsDesktop()) ? it.skip : it)("unitMeasurements", function (finish) {
         var win = createWindow({}, finish);
         var child = Ti.UI.createView({
             height: "50mm",
@@ -1038,7 +1038,7 @@ describe("Titanium.UI.Layout", function () {
     });
 
     //TIMOB-8891
-    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("scrollViewWithLargeVerticalLayoutChild", function (finish) {
+    ((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("scrollViewWithLargeVerticalLayoutChild", function (finish) {
         var win = createWindow({}, finish);
         var scrollView = Ti.UI.createScrollView({
             contentHeight: "auto",
@@ -1107,7 +1107,7 @@ describe("Titanium.UI.Layout", function () {
     });
     */
 
-    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("twoPins", function (finish) {
+    ((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("twoPins", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 100,
@@ -1128,7 +1128,7 @@ describe("Titanium.UI.Layout", function () {
         win.open();
     });
 
-    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("fourPins", function (finish) {
+    ((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("fourPins", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             width: 100,
@@ -1160,7 +1160,7 @@ describe("Titanium.UI.Layout", function () {
     });
 
     // TIMOB-18684
-    ((utilities.isWindows8_1() && Ti.Platform.osname === 'windowsstore') ? it.skip : it)("layoutWithSIZE_and_fixed", function (finish) {
+    ((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("layoutWithSIZE_and_fixed", function (finish) {
         var win = createWindow({}, finish);
         var view = Ti.UI.createView({
             backgroundColor: "green",

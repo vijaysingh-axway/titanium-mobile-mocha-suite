@@ -15,7 +15,7 @@ describe('Titanium.Utils', function () {
 
 	it('apiName', function (finish) {
 		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+		if (utilities.isWindows()) {
 			should(Ti.Utils.apiName).be.eql('Titanium.Utils');
 		} else {
 			should(Ti.Utils.apiName).be.eql('Ti.Utils');

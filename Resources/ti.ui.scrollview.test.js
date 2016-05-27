@@ -10,7 +10,7 @@ var should = require('./should'),
 describe('Titanium.UI.ScrollView', function () {
 	it('apiName', function (finish) {
 		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+		if (utilities.isWindows()) {
 			should(Ti.UI.ScrollView.apiName).be.eql('Titanium.UI.ScrollView');
 		} else {
 			should(Ti.UI.ScrollView.apiName).be.eql('Ti.UI.ScrollView');

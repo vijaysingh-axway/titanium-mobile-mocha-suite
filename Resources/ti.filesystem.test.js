@@ -11,7 +11,7 @@ var should = require('./should'),
 describe('Titanium.Filesystem', function () {
 	it('apiName', function (finish) {
 		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (Ti.Platform.osname === 'windowsstore' || Ti.Platform.osname === 'windowsphone') {
+		if (utilities.isWindows()) {
 			should(Ti.Filesystem.apiName).be.eql('Titanium.Filesystem');
 		} else {
 			should(Ti.Filesystem.apiName).be.eql('Ti.Filesystem');
@@ -59,7 +59,7 @@ describe('Titanium.Filesystem', function () {
 
 	// Check if resRawDirectory exists and make sure it does not throw exception
 	it('resRawDirectory', function (finish) {
-		if (Ti.Platform.osname == 'android') {
+		if (utilities.isAndroid()) {
 			should(function () {
 				should(Ti.Filesystem.resRawDirectory).not.be.undefined;
 				should(Ti.Filesystem.resRawDirectory).be.a.String;
@@ -76,7 +76,7 @@ describe('Titanium.Filesystem', function () {
 	// On Windows Runtime, applicationSupportDirectory may return null if app doesn't have permission
 	// although it should not throw exception
 	it('applicationSupportDirectory', function (finish) {
-		if (Ti.Platform.osname != 'android') {
+		if (!utilities.isAndroid()) {
 			should(function () {
 				should(Ti.Filesystem.applicationSupportDirectory).not.be.undefined;
 				if (Ti.Filesystem.applicationSupportDirectory != null) {
@@ -113,7 +113,7 @@ describe('Titanium.Filesystem', function () {
 	it('applicationCacheDirectory', function (finish) {
 		should(function () {
 			// Windows Store app doesn't support cache directory
-			if (Ti.Platform.osname == 'windowsstore') {
+			if (utilities.isWindowsDesktop()) {
 				should(Ti.Filesystem.applicationCacheDirectory).be.undefined;
 			} else {
 				should(Ti.Filesystem.applicationCacheDirectory).not.be.undefined;
