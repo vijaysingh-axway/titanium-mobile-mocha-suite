@@ -165,14 +165,14 @@ describe('Titanium.Filesystem.File', function () {
 
 	// isFile should return false if file points to directory
 	it('isFile_toDirectory', function (finish) {
-		var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory);
+		var dir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory);
 		should(dir.isFile()).be.false;
 		finish();
 	});
 
 	// isDirectory should return true if file points to directory
 	it('isDirectory', function (finish) {
-		var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory);
+		var dir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory);
 		should(dir.isDirectory()).be.true;
 		finish();
 	});
@@ -250,7 +250,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// createFile and deleteFile
 	it('createFile_and_deleteFile', function (finish) {
-		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'myfile');
+		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'myfile');
 		should(newFile.exists()).be.false;
 		newFile.createFile();
 		should(newFile.exists()).be.true;
@@ -261,7 +261,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// File.read
 	it('read', function (finish) {
-		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
+		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(newFile.exists()).be.true;
 		var blob = newFile.read();
 		should(blob).be.ok; // not null or undefined.
@@ -479,7 +479,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// File.open
 	it('open', function (finish) {
-		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
+		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(newFile.exists()).be.true;
 		var stream = newFile.open(Ti.Filesystem.MODE_READ);
 		should(stream).be.ok; // not null or undefined.
@@ -489,7 +489,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// File.spaceAvailable
 	it('spaceAvailable', function (finish) {
-		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
+		var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(file.exists()).be.true;
 		var space = file.spaceAvailable();
 		should(space).be.a.Number;
@@ -499,7 +499,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// File.copy
 	it('copy', function (finish) {
-		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
+		var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(file.exists()).be.true;
 		var newpath = Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + 'app.js';
 		should(file.copy(newpath)).be.true;
@@ -512,7 +512,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// File copy and move
 	it('copy_move', function (finish) {
-		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory, 'app.js');
+		var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(file.exists()).be.true;
 
 		var dest1 = Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + 'app.js';
@@ -534,7 +534,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// Directory listing
 	it('directoryListing', function (finish) {
-		var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDirectory);
+		var dir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory);
 		should(dir.exists()).be.true;
 		should(dir.getDirectoryListing).be.a.Function;
 		var files = dir.getDirectoryListing();

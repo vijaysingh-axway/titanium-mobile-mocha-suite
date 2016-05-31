@@ -217,8 +217,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)('animate (top)', function (finish) {
-		this.timeout(6e4);
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('animate (top)', function (finish) {
 		var win = Ti.UI.createWindow(),
 			view = Ti.UI.createView({
 				backgroundColor:'red',
@@ -252,8 +251,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)('animate (left)', function (finish) {
-		this.timeout(6e4);
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('animate (left)', function (finish) {
 		var win = Ti.UI.createWindow(),
 			view = Ti.UI.createView({
 				backgroundColor:'red',
@@ -287,8 +285,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)('TIMOB-20598', function (finish) {
-		this.timeout(6e4);
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('TIMOB-20598', function (finish) {
 		var win = Ti.UI.createWindow(),
 			view = Ti.UI.createView({
 				backgroundColor:'red',

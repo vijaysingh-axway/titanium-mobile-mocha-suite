@@ -30,12 +30,23 @@ describe('Titanium.XML', function () {
 		var i = 0;
 		var testFiles = [ 'soap.xml', 'xpath.xml', 'nodes.xml', 'nodeCount.xml', 'cdata.xml', 'cdataEntities.xml', 'with_dtd.xml', 'with_ns.xml', 'attrs.xml', 'element.xml', 'elementNS.xml' ];
 		var invalidFiles = [ 'mismatched_tag.xml', 'no_toplevel.xml', 'no_end.xml' ];
+
+		// wipe last held contents to allow GC to clean up proxies?
+		testSource = {};
+		invalidSource = {};
+
 		for (i = 0; i < testFiles.length; i++) {
-			testSource[testFiles[i]] = Ti.Filesystem.getFile(Titanium.Filesystem.applicationDirectory, testFiles[i]).read().text;
+			testSource[testFiles[i]] = Ti.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, testFiles[i]).read().text;
 		}
 		for (i = 0; i < invalidFiles.length; i++) {
-			invalidSource[invalidFiles[i]] = Ti.Filesystem.getFile(Titanium.Filesystem.applicationDirectory, invalidFiles[i]).read().text;
+			invalidSource[invalidFiles[i]] = Ti.Filesystem.getFile(Titanium.Filesystem.resourcesDirectory, invalidFiles[i]).read().text;
 		}
+	});
+
+	after(function () {
+		// wipe last held contents to allow GC to clean up proxies?
+		testSource = {};
+		invalidSource = {};
 	});
 
 	it('parseString', function (finish) {
@@ -60,7 +71,7 @@ describe('Titanium.XML', function () {
 
 	//TIMOB-9071
 	it('getOrCreateAttributeNS', function(finish) {
-		var xmlDoc = Ti.XML.parseString('<html><head></head><body><a href='http://appcelerator.com/' /></body></html>');
+		var xmlDoc = Ti.XML.parseString('<html><head></head><body><a href="http://appcelerator.com/" /></body></html>');
 		var anchor = xmlDoc.getElementsByTagName('a').item(0);
 		should(function() {
 			anchor.getAttributeNS(null, 'href');
@@ -73,7 +84,7 @@ describe('Titanium.XML', function () {
 
 	//TIMOB-8551
 	it('ownerDocumentproperty', function(finish) {
-		var doc = Ti.XML.parseString('<?xml version='1.0'?><root><test>data</test></root>');
+		var doc = Ti.XML.parseString('<?xml version="1.0"?><root><test>data</test></root>');
 		var e1 = doc.firstChild;
 		var e2 = doc.createElement('test');
 		if (e1.ownerDocument === e2.ownerDocument) {

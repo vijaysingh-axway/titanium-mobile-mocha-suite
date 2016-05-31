@@ -15,7 +15,8 @@ describe('Titanium.Filesystem', function () {
 	});
 
 	// Check if applicationDirectory exists and make sure it does not throw exception
-	it('applicationDirectory', function (finish) {
+	// Android doesn't support Ti.Filesystem.applicationDirectory
+	(utilities.isAndroid() ? it.skip : it)('applicationDirectory', function (finish) {
 		should(function () {
 			should(Ti.Filesystem.applicationDirectory).not.be.undefined;
 			should(Ti.Filesystem.applicationDirectory).be.a.String;

@@ -8,9 +8,9 @@
 var should = require('./should'),
 	utilities = require('./utilities/utilities');
 
-describe('Titanium.FileStream', function () {
+describe('Titanium.Filesystem.FileStream', function () {
 	it('apiName', function (finish) {
-		should(Ti.FileStream.apiName).be.eql('Ti.FileStream');
+		should(Ti.FileStream.apiName).be.eql('Ti.Filesystem.FileStream');
 		finish();
 	});
 

@@ -5,6 +5,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
+	utilities = require('./utilities/utilities'),
 	didFocus = false;
 
 describe('Titanium.UI.TextField', function () {

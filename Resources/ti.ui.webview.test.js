@@ -70,7 +70,7 @@ describe('Titanium.UI.WebView', function () {
 		});
 		var webview = Ti.UI.createWebView();
 		webview.addEventListener('load', function () {
-			webview.evalJS('Ti.API.info('Hello, World!');'WebView.evalJS.TEST';', function (result) {
+			webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";', function (result) {
 				should(result).be.eql('WebView.evalJS.TEST');
 				setTimeout(function () {
 					w.close();

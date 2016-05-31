@@ -4,7 +4,8 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./should');
+var should = require('./should'),
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.Network', function () {
 
