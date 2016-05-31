@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -14,12 +14,7 @@ describe('Titanium.Utils', function () {
 	});
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Utils.apiName).be.eql('Titanium.Utils');
-		} else {
-			should(Ti.Utils.apiName).be.eql('Ti.Utils');
-		}
+		should(Ti.Utils.apiName).be.eql('Ti.Utils');
 		finish();
 	});
 

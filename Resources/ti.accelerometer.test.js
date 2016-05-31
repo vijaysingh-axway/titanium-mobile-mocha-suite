@@ -9,21 +9,16 @@ var should = require('./should'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Accelerometer', function () {
-    it('apiName', function (finish) {
-        // See https://jira.appcelerator.org/browse/TIMOB-23346
-        if (utilities.isWindows()) {
-            should(Ti.Accelerometer.apiName).be.eql('Titanium.Accelerometer');
-        } else {
-            should(Ti.Accelerometer.apiName).be.eql('Ti.Accelerometer');
-        }
-        finish();
-    });
+	it('apiName', function (finish) {
+		should(Ti.Accelerometer.apiName).be.eql('Ti.Accelerometer');
+		finish();
+	});
 
-    it('exists', function (finish) {
-        should(Ti.Accelerometer).not.be.undefined;
-        should(Ti.Accelerometer).not.be.null;
-        should(Ti.Accelerometer.addEventListener).be.a.Function;
-        should(Ti.Accelerometer.removeEventListener).be.a.Function;
-        finish();
-    });
+	it('exists', function (finish) {
+		should(Ti.Accelerometer).not.be.undefined;
+		should(Ti.Accelerometer).not.be.null;
+		should(Ti.Accelerometer.addEventListener).be.a.Function;
+		should(Ti.Accelerometer.removeEventListener).be.a.Function;
+		finish();
+	});
 });

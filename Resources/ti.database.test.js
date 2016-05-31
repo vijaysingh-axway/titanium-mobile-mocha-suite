@@ -9,12 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.Database', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Database.apiName).be.eql('Titanium.Database');
-		} else {
-			should(Ti.Database.apiName).be.eql('Ti.Database');
-		}
+		should(Ti.Database.apiName).be.eql('Ti.Database');
 		finish();
 	});
 

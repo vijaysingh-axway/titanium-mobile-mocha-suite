@@ -10,12 +10,7 @@ var should = require('./should'),
 
 describe('Titanium.Locale', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Locale.apiName).be.eql('Titanium.Locale');
-		} else {
-			should(Ti.Locale.apiName).be.eql('Ti.Locale');
-		}
+		should(Ti.Locale.apiName).be.eql('Ti.Locale');
 		finish();
 	});
 

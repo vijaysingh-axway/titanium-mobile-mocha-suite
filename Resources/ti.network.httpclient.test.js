@@ -9,13 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.Network.HTTPClient', function () {
 	it('apiName', function (finish) {
-		var xhr = Ti.Network.createHTTPClient();
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(xhr.apiName).be.eql('Titanium.Network.HTTPClient');
-		} else {
-			should(xhr.apiName).be.eql('Ti.Network.HTTPClient');
-		}
+		should(xhr.apiName).be.eql('Ti.Network.HTTPClient');
 		finish();
 	});
 

@@ -9,12 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.Geolocation', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Geolocation.apiName).be.eql('Titanium.Geolocation');
-		} else {
-			should(Ti.Geolocation.apiName).be.eql('Ti.Geolocation');
-		}
+		should(Ti.Geolocation.apiName).be.eql('Ti.Geolocation');
 		finish();
 	});
 

@@ -9,14 +9,14 @@ var should = require('should'),
 	utilities = require('./utilities/utilities'),
 	didFocus = false;
 
-describe("Titanium.UI.WebView", function () {
+describe('Titanium.UI.WebView', function () {
 
 	beforeEach(function() {
 		didFocus = false;
 	});
 
 	// Skip this on desktop Windows 10 apps because it crashes the app now.
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)("url", function (finish) {
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('url', function (finish) {
 		this.timeout(10000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
@@ -39,7 +39,7 @@ describe("Titanium.UI.WebView", function () {
 		w.open();
 	});
 
-	it("url(local)", function (finish) {
+	it('url(local)', function (finish) {
 		this.timeout(10000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
@@ -63,14 +63,14 @@ describe("Titanium.UI.WebView", function () {
 	});
 
 	// Skip this on desktop Windows apps because it crashes the app now.
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)("evalJS", function (finish) {
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('evalJS', function (finish) {
 		this.timeout(10000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var webview = Ti.UI.createWebView();
 		webview.addEventListener('load', function () {
-			webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";', function (result) {
+			webview.evalJS('Ti.API.info('Hello, World!');'WebView.evalJS.TEST';', function (result) {
 				should(result).be.eql('WebView.evalJS.TEST');
 				setTimeout(function () {
 					w.close();

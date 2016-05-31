@@ -10,12 +10,7 @@ var should = require('./should'),
 
 describe('Titanium.UI.2DMatrix', function() {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI['2DMatrix'].apiName).be.eql('Titanium.UI.2DMatrix');
-		} else {
-			should(Ti.UI['2DMatrix'].apiName).be.eql('Ti.UI.2DMatrix');
-		}
+		should(Ti.UI['2DMatrix'].apiName).be.eql('Ti.UI.2DMatrix');
 		finish();
 	});
 

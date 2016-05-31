@@ -11,12 +11,7 @@ var should = require('./should'),
 describe('Titanium.Platform', function () {
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Platform.apiName).be.eql('Titanium.Platform');
-		} else {
-			should(Ti.Platform.apiName).be.eql('Ti.Platform');
-		}
+		should(Ti.Platform.apiName).be.eql('Ti.Platform');
 		finish();
 	});
 

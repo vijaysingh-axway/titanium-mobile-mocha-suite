@@ -9,12 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.Contacts.Person', function() {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Contacts.Person.apiName).be.eql('Titanium.Contacts.Person');
-		} else {
-			should(Ti.Contacts.Person.apiName).be.eql('Ti.Contacts.Person');
-		}
+		should(Ti.Contacts.Person.apiName).be.eql('Ti.Contacts.Person');
 		finish();
 	});
 

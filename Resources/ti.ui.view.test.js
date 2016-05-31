@@ -11,7 +11,7 @@ var should = require('should'),
 	didFocus = false,
 	didPostLayout = false;
 
-describe("Titanium.UI.View", function () {
+describe('Titanium.UI.View', function () {
 	this.timeout(5000);
 
 	beforeEach(function() {
@@ -19,7 +19,7 @@ describe("Titanium.UI.View", function () {
 		didPostLayout = false;
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("backgroundColor/Image", function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundColor/Image', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -30,10 +30,10 @@ describe("Titanium.UI.View", function () {
 			didFocus = true;
 			should(view.backgroundColor).be.a.String;
 			should(view.backgroundImage).be.a.String;
-			view.backgroundColor = "white";
-			view.backgroundImage = "Logo.png";
-			should(view.backgroundColor).be.eql("white");
-			should(view.backgroundImage).be.eql("Logo.png");
+			view.backgroundColor = 'white';
+			view.backgroundImage = 'Logo.png';
+			should(view.backgroundColor).be.eql('white');
+			should(view.backgroundImage).be.eql('Logo.png');
 			setTimeout(function () {
 				w.close();
 				finish();
@@ -42,7 +42,7 @@ describe("Titanium.UI.View", function () {
 		w.open();
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("backgroundFocusedColor/Image", function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -53,10 +53,10 @@ describe("Titanium.UI.View", function () {
 			didFocus = true;
 			should(view.backgroundFocusedColor).be.a.String;
 			should(view.backgroundFocusedImage).be.a.String;
-			view.backgroundFocusedColor = "white";
-			view.backgroundFocusedImage = "Logo.png"
-			should(view.backgroundFocusedColor).be.eql("white");
-			should(view.backgroundFocusedImage).be.eql("Logo.png");
+			view.backgroundFocusedColor = 'white';
+			view.backgroundFocusedImage = 'Logo.png'
+			should(view.backgroundFocusedColor).be.eql('white');
+			should(view.backgroundFocusedImage).be.eql('Logo.png');
 			setTimeout(function () {
 				w.close();
 				finish();
@@ -65,7 +65,7 @@ describe("Titanium.UI.View", function () {
 		w.open();
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("backgroundSelectedColor/Image", function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -76,10 +76,10 @@ describe("Titanium.UI.View", function () {
 			didFocus = true;
 			should(view.backgroundSelectedColor).be.a.String;
 			should(view.backgroundSelectedImage).be.a.String;
-			view.backgroundSelectedColor = "white";
-			view.backgroundSelectedImage = "Logo.png";
-			should(view.backgroundSelectedColor).be.eql("white");
-			should(view.backgroundSelectedImage).be.eql("Logo.png");
+			view.backgroundSelectedColor = 'white';
+			view.backgroundSelectedImage = 'Logo.png';
+			should(view.backgroundSelectedColor).be.eql('white');
+			should(view.backgroundSelectedImage).be.eql('Logo.png');
 			setTimeout(function () {
 				w.close();
 				finish();
@@ -88,7 +88,7 @@ describe("Titanium.UI.View", function () {
 		w.open();
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("backgroundDisabledColor/Image", function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -99,10 +99,10 @@ describe("Titanium.UI.View", function () {
 			didFocus = true;
 			should(view.backgroundDisabledColor).be.a.String;
 			should(view.backgroundDisabledImage).be.a.String;
-			view.backgroundDisabledColor = "white";
-			view.backgroundDisabledImage = "Logo.png";
-			should(view.backgroundDisabledColor).be.eql("white");
-			should(view.backgroundDisabledImage).be.eql("Logo.png");
+			view.backgroundDisabledColor = 'white';
+			view.backgroundDisabledImage = 'Logo.png';
+			should(view.backgroundDisabledColor).be.eql('white');
+			should(view.backgroundDisabledImage).be.eql('Logo.png');
 			setTimeout(function () {
 				w.close();
 				finish();
@@ -111,7 +111,7 @@ describe("Titanium.UI.View", function () {
 		w.open();
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("backgroundGradient", function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundGradient', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -126,7 +126,7 @@ describe("Titanium.UI.View", function () {
 		w.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
-			should(view.backgroundGradient.type).be.eql("linear");
+			should(view.backgroundGradient.type).be.eql('linear');
 			should(view.backgroundGradient.startPoint).be.an.Object;
 			should(view.backgroundGradient.endPoint).be.an.Object;
 			should(view.backgroundGradient.colors).be.an.Array;
@@ -138,7 +138,7 @@ describe("Titanium.UI.View", function () {
 		w.open();
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("border", function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('border', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -149,9 +149,9 @@ describe("Titanium.UI.View", function () {
 			didFocus = true;
 			should(view.borderColor).be.a.String;
 			should(view.borderWidth).be.a.Number;
-			view.borderColor = "blue";
+			view.borderColor = 'blue';
 			view.borderWidth = 2;
-			should(view.borderColor).be.eql("blue");
+			should(view.borderColor).be.eql('blue');
 			should(view.borderWidth).be.eql(2);
 			setTimeout(function () {
 				w.close();
@@ -161,7 +161,7 @@ describe("Titanium.UI.View", function () {
 		w.open();
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("rect and size", function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('rect and size', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -180,7 +180,7 @@ describe("Titanium.UI.View", function () {
 		view.addEventListener('postlayout', function () {
 			if (didPostLayout) return;
 			didPostLayout = true;
-			Ti.API.info("Got postlayout event");
+			Ti.API.info('Got postlayout event');
 			Ti.API.info(JSON.stringify(view.rect));
 			Ti.API.info(JSON.stringify(view.size));
 			should(view.rect).be.an.Object;
@@ -194,7 +194,7 @@ describe("Titanium.UI.View", function () {
 		w.open();
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)("hide() and show() change visible property value", function (finish) {
+	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('hide() and show() change visible property value', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -202,7 +202,7 @@ describe("Titanium.UI.View", function () {
 		w.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
-			Ti.API.info("Got focus event");
+			Ti.API.info('Got focus event');
 			should(w.visible).be.true;
 			w.hide();
 			should(w.visible).be.false;
@@ -217,7 +217,7 @@ describe("Titanium.UI.View", function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)("animate (top)", function (finish) {
+	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)('animate (top)', function (finish) {
 		this.timeout(6e4);
 		var win = Ti.UI.createWindow(),
 			view = Ti.UI.createView({
@@ -252,7 +252,7 @@ describe("Titanium.UI.View", function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)("animate (left)", function (finish) {
+	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)('animate (left)', function (finish) {
 		this.timeout(6e4);
 		var win = Ti.UI.createWindow(),
 			view = Ti.UI.createView({
@@ -287,7 +287,7 @@ describe("Titanium.UI.View", function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)("TIMOB-20598", function (finish) {
+	((Ti.Platform.version.indexOf('10.0') == 0 && utilities.isWindowsDesktop()) ? it.skip : it)('TIMOB-20598', function (finish) {
 		this.timeout(6e4);
 		var win = Ti.UI.createWindow(),
 			view = Ti.UI.createView({
@@ -329,7 +329,7 @@ describe("Titanium.UI.View", function () {
 		win.open();
 	});
 
-	it("convertPointToView", function (finish) {
+	it('convertPointToView', function (finish) {
 		var w = Ti.UI.createWindow(),
 		a = Ti.UI.createView({backgroundColor:'red'}),
 		b = Ti.UI.createView({ top: '100', backgroundColor: 'blue' });
@@ -349,7 +349,7 @@ describe("Titanium.UI.View", function () {
 		b.addEventListener('postlayout', function () {
 			if (didPostLayout) return;
 			didPostLayout = true;
-			Ti.API.info("Got postlayout event");
+			Ti.API.info('Got postlayout event');
 			var result = b.convertPointToView({ x: 123, y: 23 }, a);
 			should(result).be.an.Object;
 			should(result.x).be.a.Number;
@@ -360,7 +360,7 @@ describe("Titanium.UI.View", function () {
 		w.open();
 	});
 
-	it("parent", function (finish) {
+	it('parent', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});

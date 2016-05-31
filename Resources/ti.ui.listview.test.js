@@ -22,12 +22,7 @@ describe('Titanium.UI.ListView', function () {
 	});
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.ListView.apiName).be.eql('Titanium.UI.ListView');
-		} else {
-			should(Ti.UI.ListView.apiName).be.eql('Ti.UI.ListView');
-		}
+		should(Ti.UI.ListView.apiName).be.eql('Ti.UI.ListView');
 		finish();
 	});
 

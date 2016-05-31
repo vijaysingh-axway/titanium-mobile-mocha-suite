@@ -7,20 +7,15 @@
 var should = require('./should'),
 	utilities = require('./utilities/utilities');
 
-describe("Titanium.UI.ProgressBar", function () {
+describe('Titanium.UI.ProgressBar', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.ProgressBar.apiName).be.eql('Titanium.UI.ProgressBar');
-		} else {
-			should(Ti.UI.ProgressBar.apiName).be.eql('Ti.UI.ProgressBar');
-		}
+		should(Ti.UI.ProgressBar.apiName).be.eql('Ti.UI.ProgressBar');
 		finish();
 	});
 
-	it("message", function (finish) {
+	it('message', function (finish) {
 		var bar = Ti.UI.createProgressBar({
-			message: "this is some text"
+			message: 'this is some text'
 		});
 		should(bar.message).be.a.String;
 		should(bar.getMessage).be.a.Function;
@@ -32,7 +27,7 @@ describe("Titanium.UI.ProgressBar", function () {
 		finish();
 	});
 
-	it("min", function (finish) {
+	it('min', function (finish) {
 		var bar = Ti.UI.createProgressBar({
 			min: 0
 		});
@@ -46,7 +41,7 @@ describe("Titanium.UI.ProgressBar", function () {
 		finish();
 	});
 
-	it("max", function (finish) {
+	it('max', function (finish) {
 		var bar = Ti.UI.createProgressBar({
 			max: 0
 		});
@@ -60,7 +55,7 @@ describe("Titanium.UI.ProgressBar", function () {
 		finish();
 	});
 
-	it("value", function (finish) {
+	it('value', function (finish) {
 		var bar = Ti.UI.createProgressBar({
 			value: 0
 		});

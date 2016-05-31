@@ -10,12 +10,7 @@ var should = require('./should'),
 
 describe('Titanium.Filesystem', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Filesystem.apiName).be.eql('Titanium.Filesystem');
-		} else {
-			should(Ti.Filesystem.apiName).be.eql('Ti.Filesystem');
-		}
+		should(Ti.Filesystem.apiName).be.eql('Ti.Filesystem');
 		finish();
 	});
 

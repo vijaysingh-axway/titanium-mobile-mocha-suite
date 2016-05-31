@@ -17,12 +17,7 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.Label.apiName).be.eql('Titanium.UI.Label');
-		} else {
-			should(Ti.UI.Label.apiName).be.eql('Ti.UI.Label');
-		}
+		should(Ti.UI.Label.apiName).be.eql('Ti.UI.Label');
 		finish();
 	});
 

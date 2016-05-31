@@ -9,12 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.Map', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Map.apiName).be.eql('Titanium.Map');
-		} else {
-			should(Ti.Map.apiName).be.eql('Ti.Map');
-		}
+		should(Ti.Map.apiName).be.eql('Ti.Map');
 		finish();
 	});
 

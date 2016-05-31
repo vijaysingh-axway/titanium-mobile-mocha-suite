@@ -7,14 +7,9 @@
 var should = require('./should'),
 	utilities = require('./utilities/utilities');
 
-describe("Titanium.UI.EmailDialog", function () {
+describe('Titanium.UI.EmailDialog', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.EmailDialog.apiName).be.eql('Titanium.UI.EmailDialog');
-		} else {
-			should(Ti.UI.EmailDialog.apiName).be.eql('Ti.UI.EmailDialog');
-		}
+		should(Ti.UI.EmailDialog.apiName).be.eql('Ti.UI.EmailDialog');
 		finish();
 	});
 
@@ -66,13 +61,13 @@ describe("Titanium.UI.EmailDialog", function () {
 		}).not.throw();
 		finish();
 	});
-	it("subject", function (finish) {
+	it('subject', function (finish) {
 		// EmailDialog does not support Windows Store app
 		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
-			subject: "this is some text"
+			subject: 'this is some text'
 		});
 		should(email.subject).be.a.String;
 		should(email.getSubject).be.a.Function;
@@ -84,13 +79,13 @@ describe("Titanium.UI.EmailDialog", function () {
 		finish();
 	});
 
-	it("messageBody", function (finish) {
+	it('messageBody', function (finish) {
 		// EmailDialog does not support Windows Store app
 		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
-			messageBody: "this is some text"
+			messageBody: 'this is some text'
 		});
 		should(email.messageBody).be.a.String;
 		should(email.getMessageBody).be.a.Function;
@@ -102,54 +97,54 @@ describe("Titanium.UI.EmailDialog", function () {
 		finish();
 	});
 
-	it("toRecipients", function (finish) {
+	it('toRecipients', function (finish) {
 		// EmailDialog does not support Windows Store app
 		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
-			toRecipients: ["me@example.com"]
+			toRecipients: ['me@example.com']
 		});
 		should(email.toRecipients).be.a.Array;
 		should(email.getToRecipients).be.a.Function;
-		should(email.toRecipients).eql(["me@example.com"]);
-		should(email.getToRecipients()).eql(["me@example.com"]);
+		should(email.toRecipients).eql(['me@example.com']);
+		should(email.getToRecipients()).eql(['me@example.com']);
 		email.toRecipients = ['other@example.com'];
 		should(email.toRecipients).eql(['other@example.com']);
 		should(email.getToRecipients()).eql(['other@example.com']);
 		finish();
 	});
 
-	it("ccRecipients", function (finish) {
+	it('ccRecipients', function (finish) {
 		// EmailDialog does not support Windows Store app
 		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
-			ccRecipients: ["me@example.com"]
+			ccRecipients: ['me@example.com']
 		});
 		should(email.ccRecipients).be.a.Array;
 		should(email.getCcRecipients).be.a.Function;
-		should(email.ccRecipients).eql(["me@example.com"]);
-		should(email.getCcRecipients()).eql(["me@example.com"]);
+		should(email.ccRecipients).eql(['me@example.com']);
+		should(email.getCcRecipients()).eql(['me@example.com']);
 		email.ccRecipients = ['other@example.com'];
 		should(email.ccRecipients).eql(['other@example.com']);
 		should(email.getCcRecipients()).eql(['other@example.com']);
 		finish();
 	});
 
-	it("bccRecipients", function (finish) {
+	it('bccRecipients', function (finish) {
 		// EmailDialog does not support Windows Store app
 		if (utilities.isWindowsDesktop()) {
 			return finish();
 		}
 		var email = Ti.UI.createEmailDialog({
-			bccRecipients: ["me@example.com"]
+			bccRecipients: ['me@example.com']
 		});
 		should(email.bccRecipients).be.a.Array;
 		should(email.getBccRecipients).be.a.Function;
-		should(email.bccRecipients).eql(["me@example.com"]);
-		should(email.getBccRecipients()).eql(["me@example.com"]);
+		should(email.bccRecipients).eql(['me@example.com']);
+		should(email.getBccRecipients()).eql(['me@example.com']);
 		email.bccRecipients = ['other@example.com'];
 		should(email.bccRecipients).eql(['other@example.com']);
 		should(email.getBccRecipients()).eql(['other@example.com']);

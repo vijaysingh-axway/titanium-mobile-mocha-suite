@@ -10,12 +10,7 @@ var should = require('./should'),
 describe('Titanium.UI.OptionDialog', function () {
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.OptionDialog.apiName).be.eql('Titanium.UI.OptionDialog');
-		} else {
-			should(Ti.UI.OptionDialog.apiName).be.eql('Ti.UI.OptionDialog');
-		}
+		should(Ti.UI.OptionDialog.apiName).be.eql('Ti.UI.OptionDialog');
 		finish();
 	});
 

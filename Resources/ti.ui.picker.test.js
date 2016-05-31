@@ -9,7 +9,7 @@ var should = require('./should'),
 	utilities = require('./utilities/utilities'),
 	didFocus = false;
 
-describe("Titanium.UI.Picker", function() {
+describe('Titanium.UI.Picker', function() {
 	this.timeout(5000);
 
 	var fruit = ['Bananas', 'Strawberries', 'Mangos', 'Grapes'];
@@ -20,10 +20,10 @@ describe("Titanium.UI.Picker", function() {
 		didPostlayout = false;
 	});
 
-	it("DatePicker", function(finish) {
+	it('DatePicker', function(finish) {
 		var date = new Date();
 		var win = Ti.UI.createWindow({
-			backgroundColor: "#000"
+			backgroundColor: '#000'
 		});
 		var picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_DATE,
@@ -41,10 +41,10 @@ describe("Titanium.UI.Picker", function() {
 		});
 		win.open();
 	});
-	it("TimePicker", function(finish) {
+	it('TimePicker', function(finish) {
 		var date = new Date();
 		var win = Ti.UI.createWindow({
-			backgroundColor: "#000"
+			backgroundColor: '#000'
 		});
 		var picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_TIME,
@@ -62,9 +62,9 @@ describe("Titanium.UI.Picker", function() {
 		});
 		win.open();
 	});
-	it("PlainPicker", function(finish) {
+	it('PlainPicker', function(finish) {
 		var win = Ti.UI.createWindow({
-			backgroundColor: "#000"
+			backgroundColor: '#000'
 		});
 		var picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
@@ -83,9 +83,9 @@ describe("Titanium.UI.Picker", function() {
 		win.open();
 	});
 
-	it("PlainPicker.add (PickerColumn)", function(finish) {
+	it('PlainPicker.add (PickerColumn)', function(finish) {
 		var win = Ti.UI.createWindow({
-			backgroundColor: "#000"
+			backgroundColor: '#000'
 		});
 		var picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
@@ -115,9 +115,9 @@ describe("Titanium.UI.Picker", function() {
 		win.open();
 	});
 
-	it("PlainPicker.add (multiple PickerColumn)", function(finish) {
+	it('PlainPicker.add (multiple PickerColumn)', function(finish) {
 		var win = Ti.UI.createWindow({
-			backgroundColor: "#000"
+			backgroundColor: '#000'
 		});
 		var picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
@@ -159,9 +159,9 @@ describe("Titanium.UI.Picker", function() {
 		});
 		win.open();
 	});
-	it("PlainPicker.add (PickerRow)", function(finish) {
+	it('PlainPicker.add (PickerRow)', function(finish) {
 		var win = Ti.UI.createWindow({
-			backgroundColor: "#000"
+			backgroundColor: '#000'
 		});
 		var picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
@@ -184,9 +184,9 @@ describe("Titanium.UI.Picker", function() {
 		win.open();
 	});
 
-	it("PlainPicker.removeRow", function(finish) {
+	it('PlainPicker.removeRow', function(finish) {
 		var win = Ti.UI.createWindow({
-			backgroundColor: "#000"
+			backgroundColor: '#000'
 		});
 		var picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN

@@ -9,12 +9,7 @@ var should = require('./should');
 describe('Titanium.Network', function () {
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Network.apiName).be.eql('Titanium.Network');
-		} else {
-			should(Ti.Network.apiName).be.eql('Ti.Network');
-		}
+		should(Ti.Network.apiName).be.eql('Ti.Network');
 		finish();
 	});
 

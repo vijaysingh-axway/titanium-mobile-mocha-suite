@@ -17,12 +17,7 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.Button.apiName).be.eql('Titanium.UI.Button');
-		} else {
-			should(Ti.UI.Button.apiName).be.eql('Ti.UI.Button');
-		}
+		should(Ti.UI.Button.apiName).be.eql('Ti.UI.Button');
 		finish();
 	});
 

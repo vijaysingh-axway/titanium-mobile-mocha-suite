@@ -10,12 +10,7 @@ var should = require('./should'),
 
 describe('Titanium.Buffer', function() {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Buffer.apiName).be.eql('Titanium.Buffer');
-		} else {
-			should(Ti.Buffer.apiName).be.eql('Ti.Buffer');
-		}
+		should(Ti.Buffer.apiName).be.eql('Ti.Buffer');
 		finish();
 	});
 

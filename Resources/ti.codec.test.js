@@ -9,12 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.Codec', function() {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Codec.apiName).be.eql('Titanium.Codec');
-		} else {
-			should(Ti.Codec.apiName).be.eql('Ti.Codec');
-		}
+		should(Ti.Codec.apiName).be.eql('Ti.Codec');
 		finish();
 	});
 

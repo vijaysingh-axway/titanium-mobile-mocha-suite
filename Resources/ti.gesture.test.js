@@ -10,12 +10,7 @@ var should = require('./should'),
 
 describe('Titanium.Gesture', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Gesture.apiName).be.eql('Titanium.Gesture');
-		} else {
-			should(Ti.Gesture.apiName).be.eql('Ti.Gesture');
-		}
+		should(Ti.Gesture.apiName).be.eql('Ti.Gesture');
 		finish();
 	});
 

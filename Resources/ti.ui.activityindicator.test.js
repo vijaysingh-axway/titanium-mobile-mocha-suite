@@ -9,12 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.UI.ActivityIndicator', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.ActivityIndicator.apiName).be.eql('Titanium.UI.ActivityIndicator');
-		} else {
-			should(Ti.UI.ActivityIndicator.apiName).be.eql('Ti.UI.ActivityIndicator');
-		}
+		should(Ti.UI.ActivityIndicator.apiName).be.eql('Ti.UI.ActivityIndicator');
 		finish();
 	});
 

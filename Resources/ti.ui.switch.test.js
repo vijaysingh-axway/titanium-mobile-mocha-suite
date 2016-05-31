@@ -15,12 +15,7 @@ describe('Titanium.UI.Switch', function () {
 	});
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.Switch.apiName).be.eql('Titanium.UI.Switch');
-		} else {
-			should(Ti.UI.Switch.apiName).be.eql('Ti.UI.Switch');
-		}
+		should(Ti.UI.Switch.apiName).be.eql('Ti.UI.Switch');
 		finish();
 	});
 
@@ -32,7 +27,7 @@ describe('Titanium.UI.Switch', function () {
 		var switch_ctrl = Ti.UI.createSwitch({value : true});
 		should(switch_ctrl).be.a.Object;
 		should(switch_ctrl.apiName).be.a.String;
-		should(switch_ctrl.apiName).be.eql("Titanium.UI.Switch");
+		should(switch_ctrl.apiName).be.eql('Ti.UI.Switch');
 
 		// Validate switch value
 		Ti.API.info('Switch value : '+switch_ctrl.value);

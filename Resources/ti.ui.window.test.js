@@ -10,13 +10,13 @@ var should = require('should'),
 	utilities = require('./utilities/utilities'),
 	didFocus = false;
 
-describe("Titanium.UI.Window", function () {
+describe('Titanium.UI.Window', function () {
 
 	beforeEach(function() {
 		didFocus = false;
 	});
 
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)("window_size_is_read_only", function (finish) {
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('window_size_is_read_only', function (finish) {
 		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue',
@@ -36,14 +36,14 @@ describe("Titanium.UI.Window", function () {
 		w.open();
 	});
 
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)("window_position_is_read_only", function (finish) {
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('window_position_is_read_only', function (finish) {
 		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'green',
 			left: 100,
 			right: 100
 		});
-		w.addEventListener("focus", function () {
+		w.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 			should(w.rect.left).not.be.eql(100);
@@ -56,13 +56,13 @@ describe("Titanium.UI.Window", function () {
 		w.open();
 	});
 
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)("window_post_layout", function (finish) {
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('window_post_layout', function (finish) {
 		this.timeout(5000);
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'yellow'
 		});
 		var winEvent = 0;
-		win.addEventListener("postlayout", function (e) {
+		win.addEventListener('postlayout', function (e) {
 			winEvent += 1;
 		});
 		setTimeout(function () {
@@ -73,7 +73,7 @@ describe("Titanium.UI.Window", function () {
 		win.open();
 	});
 
-	it("remove_children", function (finish) {
+	it('remove_children', function (finish) {
 		this.timeout(5000);
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'gray'
@@ -94,7 +94,7 @@ describe("Titanium.UI.Window", function () {
 		win.open();
 	});
 
-	it("windows_events", function (finish) {
+	it('windows_events', function (finish) {
 		this.timeout(5000);
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'pink'
@@ -123,7 +123,7 @@ describe("Titanium.UI.Window", function () {
 
 	// For this test, you should see errors in the console, it is expected.
 	// What you should not see is a crash
-	it("should_not_crash", function (finish) {
+	it('should_not_crash', function (finish) {
 		this.timeout(5000)
 		var win1 = Ti.UI.createWindow();
 		win1.open();
@@ -141,7 +141,7 @@ describe("Titanium.UI.Window", function () {
 		}, 1000);
 	});
 
-	it("window_close_order_1", function (finish) {
+	it('window_close_order_1', function (finish) {
 		this.timeout(5000)
 		var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
 			win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
@@ -170,7 +170,7 @@ describe("Titanium.UI.Window", function () {
 		win1.open();
 	});
 
-	it("window_close_order_2", function (finish) {
+	it('window_close_order_2', function (finish) {
 		this.timeout(5000)
 		var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
 			win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
@@ -198,7 +198,7 @@ describe("Titanium.UI.Window", function () {
 	});
 
 	// TIMOB-20600
-	it("TIMOB-20600", function (finish) {
+	it('TIMOB-20600', function (finish) {
 		this.timeout(5000)
 		var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
 			win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
@@ -227,19 +227,19 @@ describe("Titanium.UI.Window", function () {
 		win1.open();
 	});
 
-	it.skip("window_to_string", function (finish) {
+	it.skip('window_to_string', function (finish) {
 		var win = Ti.UI.createWindow();
-		should(win.toString()).be.eql("[object Window]");
+		should(win.toString()).be.eql('[object Window]');
 		should(win.apiName).be.a.String;
-		should(win.apiName).be.eql("Titanium.UI.Window");
+		should(win.apiName).be.eql('Ti.UI.Window');
 		finish();
 	});
 
-	it("window_currentWindow", function (finish) {
+	it('window_currentWindow', function (finish) {
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'yellow'
 		});
-		win.addEventListener("focus", function (e) {
+		win.addEventListener('focus', function (e) {
 			if (didFocus) return;
 			didFocus = true;
 			should(Ti.UI.currentWindow).be.eql(win);
@@ -251,7 +251,7 @@ describe("Titanium.UI.Window", function () {
 		win.open();
 	});
 
-	it.skip("window_navigation", function (finish) {
+	it.skip('window_navigation', function (finish) {
 		this.timeout(5000);
 
 		var rootWindowFocus = 0;

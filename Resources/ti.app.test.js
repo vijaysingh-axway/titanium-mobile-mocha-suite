@@ -35,12 +35,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.App.apiName).be.eql('Titanium.App');
-		} else {
-			should(Ti.App.apiName).be.eql('Ti.App');
-		}
+		should(Ti.App.apiName).be.eql('Ti.App');
 		finish();
 	});
 

@@ -11,12 +11,7 @@ describe('Titanium.UI.ImageView', function () {
 	this.timeout(5000);
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.ImageView.apiName).be.eql('Titanium.UI.ImageView');
-		} else {
-			should(Ti.UI.ImageView.apiName).be.eql('Ti.UI.ImageView');
-		}
+		should(Ti.UI.ImageView.apiName).be.eql('Ti.UI.ImageView');
 		finish();
 	});
 

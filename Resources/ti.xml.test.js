@@ -7,12 +7,12 @@
 var should = require('./should'),
 	utilities = require('./utilities/utilities');
 
-describe("Titanium.XML", function () {
+describe('Titanium.XML', function () {
 
 	// some common initialization specific to the xml suite
 	function countNodes(node, type) {
 		var nodeCount = 0;
-		type = "undefined" == typeof type ? null : type;
+		type = 'undefined' == typeof type ? null : type;
 		for (var i = 0; i < node.childNodes.length; i++) {
 			var child = node.childNodes.item(i);
 			if (null == type || child.nodeType == type) {
@@ -28,8 +28,8 @@ describe("Titanium.XML", function () {
 
 	before(function () {
 		var i = 0;
-		var testFiles = [ "soap.xml", "xpath.xml", "nodes.xml", "nodeCount.xml", "cdata.xml", "cdataEntities.xml", "with_dtd.xml", "with_ns.xml", "attrs.xml", "element.xml", "elementNS.xml" ];
-		var invalidFiles = [ "mismatched_tag.xml", "no_toplevel.xml", "no_end.xml" ];
+		var testFiles = [ 'soap.xml', 'xpath.xml', 'nodes.xml', 'nodeCount.xml', 'cdata.xml', 'cdataEntities.xml', 'with_dtd.xml', 'with_ns.xml', 'attrs.xml', 'element.xml', 'elementNS.xml' ];
+		var invalidFiles = [ 'mismatched_tag.xml', 'no_toplevel.xml', 'no_end.xml' ];
 		for (i = 0; i < testFiles.length; i++) {
 			testSource[testFiles[i]] = Ti.Filesystem.getFile(Titanium.Filesystem.applicationDirectory, testFiles[i]).read().text;
 		}
@@ -38,19 +38,19 @@ describe("Titanium.XML", function () {
 		}
 	});
 
-	it("parseString", function (finish) {
+	it('parseString', function (finish) {
 		should(Ti.XML.parseString).be.a.Function;
 		should(function () {
-			var xml = Ti.XML.parseString("<test>content</test>");
+			var xml = Ti.XML.parseString('<test>content</test>');
 			should(xml).be.an.Object;
 		}).not.throw();
 		finish();
 	});
 
-	it("serializeToString", function (finish) {
+	it('serializeToString', function (finish) {
 		should(Ti.XML.serializeToString).be.a.Function;
 		should(function () {
-			var xml = Ti.XML.parseString("<test>content</test>");
+			var xml = Ti.XML.parseString('<test>content</test>');
 			should(xml).be.an.Object;
 			var str = Ti.XML.serializeToString(xml);
 			should(str).be.a.String;
@@ -59,23 +59,23 @@ describe("Titanium.XML", function () {
 	});
 
 	//TIMOB-9071
-	it("getOrCreateAttributeNS", function(finish) {
-		var xmlDoc = Ti.XML.parseString('<html><head></head><body><a href="http://appcelerator.com/" /></body></html>');
-		var anchor = xmlDoc.getElementsByTagName("a").item(0);
+	it('getOrCreateAttributeNS', function(finish) {
+		var xmlDoc = Ti.XML.parseString('<html><head></head><body><a href='http://appcelerator.com/' /></body></html>');
+		var anchor = xmlDoc.getElementsByTagName('a').item(0);
 		should(function() {
-			anchor.getAttributeNS(null, "href");
+			anchor.getAttributeNS(null, 'href');
 		}).not.throw();
 		should(function() {
-			xmlDoc.createAttributeNS(null, "id");
+			xmlDoc.createAttributeNS(null, 'id');
 		}).not.throw();
 		finish();
 	});
 
 	//TIMOB-8551
-	it("ownerDocumentproperty", function(finish) {
-		var doc = Ti.XML.parseString('<?xml version="1.0"?><root><test>data</test></root>');
+	it('ownerDocumentproperty', function(finish) {
+		var doc = Ti.XML.parseString('<?xml version='1.0'?><root><test>data</test></root>');
 		var e1 = doc.firstChild;
-		var e2 = doc.createElement("test");
+		var e2 = doc.createElement('test');
 		if (e1.ownerDocument === e2.ownerDocument) {
 			should(e2.ownerDocument === null).be.eql(false);
 			finish();
@@ -83,113 +83,113 @@ describe("Titanium.XML", function () {
 	});
 
 	//TIMOB-5112
-	it("getElementsByTagName", function(finish) {
-		var xmlString = "<benny/>";
+	it('getElementsByTagName', function(finish) {
+		var xmlString = '<benny/>';
 		var doc = Ti.XML.parseString(xmlString);
 		var elem;
 		should(function() {
-			elem = doc.getElementsByTagName("mickey").item(0);
+			elem = doc.getElementsByTagName('mickey').item(0);
 		}).not.throw();
 		finish();
 	});
 
-	it("documentParsing", function(finish) {
+	it('documentParsing', function(finish) {
 		var localSources = testSource;
 		var localInvalid = invalidSource;
 		// Parse valid documents
 		should(function() {
-			Ti.XML.parseString(localSources["soap.xml"]);
+			Ti.XML.parseString(localSources['soap.xml']);
 		}).not.throw();
 		should(function() {
-			Ti.XML.parseString(localSources["xpath.xml"]);
+			Ti.XML.parseString(localSources['xpath.xml']);
 		}).not.throw();
 		should(function() {
-			Ti.XML.parseString(localSources["nodes.xml"]);
+			Ti.XML.parseString(localSources['nodes.xml']);
 		}).not.throw();
 		should(function() {
-			Ti.XML.parseString(localSources["nodeCount.xml"]);
+			Ti.XML.parseString(localSources['nodeCount.xml']);
 		}).not.throw();
 		should(function() {
-			Ti.XML.parseString(localSources["cdata.xml"]);
+			Ti.XML.parseString(localSources['cdata.xml']);
 		}).not.throw();
 		should(function() {
-			Ti.XML.parseString(localSources["cdataEntities.xml"]);
+			Ti.XML.parseString(localSources['cdataEntities.xml']);
 		}).not.throw();
 		// Parse empty document - spec specifies that a valid XML doc
 		// must have a root element (empty string doesn't)
 		should(function() {
-			Ti.XML.parseString("");
+			Ti.XML.parseString('');
 		}).throw();
 		// Parse (some types of) invalid documents
 		should(function() {
-			Ti.XML.parseString(localInvalid["mismatched_tag.xml"]);
+			Ti.XML.parseString(localInvalid['mismatched_tag.xml']);
 		}).throw();
 		finish();
 	});
 
-	// FIXME: dom-parser.js doesn't throw exception when it "corrects" end tag
-	it.skip("invalidDocumentParsing", function (finish) {
+	// FIXME: dom-parser.js doesn't throw exception when it 'corrects' end tag
+	it.skip('invalidDocumentParsing', function (finish) {
 		var localSources = testSource;
 		var localInvalid = invalidSource;
 		should(function() {
-			Ti.XML.parseString(localInvalid["no_end.xml"]);
+			Ti.XML.parseString(localInvalid['no_end.xml']);
 		}).throw();
 		should(function() {
-			Ti.XML.parseString(localInvalid["no_toplevel.xml"]);
+			Ti.XML.parseString(localInvalid['no_toplevel.xml']);
 		}).throw();
 		finish();
 	});
 
    // These 6 tests are adapted from the KitchenSink xml_dom test
-	it("soap", function(finish) {
-		var xml = Ti.XML.parseString(testSource["soap.xml"]);
-		var fooBarList = xml.documentElement.getElementsByTagName("FooBar");
+	it('soap', function(finish) {
+		var xml = Ti.XML.parseString(testSource['soap.xml']);
+		var fooBarList = xml.documentElement.getElementsByTagName('FooBar');
 		should(fooBarList === null).be.eql(false);
 		should(fooBarList.length).eql(1);
 		should(fooBarList.item(0)).be.an.Object;
 		var item = fooBarList.item(0);
-		should(item.firstChild.data).eql("true");
-		should(item.firstChild.nodeValue).eql("true");
-		should(item.tagName).eql("FooBar");
+		should(item.firstChild.data).eql('true');
+		should(item.firstChild.nodeValue).eql('true');
+		should(item.tagName).eql('FooBar');
 		finish();
 	});
 
 	// SKIP: because XPath is not a part of DOM level2 CORE
-	it.skip("xpath", function(finish) {
-		var xml = Ti.XML.parseString(testSource["xpath.xml"]);
-		var fooBarList = xml.documentElement.getElementsByTagName("FooBar");
+	it.skip('xpath', function(finish) {
+		var xml = Ti.XML.parseString(testSource['xpath.xml']);
+		var fooBarList = xml.documentElement.getElementsByTagName('FooBar');
 		should(fooBarList === null).be.eql(false);
 		should(fooBarList.length).eql(1);
 		should(fooBarList.item(0)).be.an.Object;
 		var item = fooBarList.item(0);
-		should(item.firstChild.data).eql("true");
-		should(item.firstChild.nodeValue).eql("true");
-		should(item.nodeName).eql("FooBar");
+		should(item.firstChild.data).eql('true');
+		should(item.firstChild.nodeValue).eql('true');
+		should(item.nodeName).eql('FooBar');
 		// test XPath against Document
-		var docResult = xml.evaluate("//FooBar/text()");
+		var docResult = xml.evaluate('//FooBar/text()');
 		should(docResult === null).be.eql(false);
 		should(docResult.length).eql(1);
-		should(docResult.item(0).nodeValue).eql("true");
+		should(docResult.item(0).nodeValue).eql('true');
 		// test XPath against Element
-		var elResult = xml.documentElement.evaluate("//FooBar/text()");
+		var elResult = xml.documentElement.evaluate('//FooBar/text()');
 		should(elResult === null).be.eql(false);
 		should(elResult.length).eql(1);
-		should(elResult.item(0).nodeValue).eql("true");
+		should(elResult.item(0).nodeValue).eql('true');
 		// test XPath against Element
-		elResult = item.evaluate("text()");
+		elResult = item.evaluate('text()');
 		should(elResult === null).be.eql(false);
 		should(elResult.length).eql(1);
-		should(elResult.item(0).nodeValue).eql("true");
+		should(elResult.item(0).nodeValue).eql('true');
 		finish();
 	});
 
-	it("xmlNodes", function (finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var nodesList = doc.getElementsByTagName("nodes");
+	it('xmlNodes', function (finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var nodesList = doc.getElementsByTagName('nodes');
 		should(nodesList === null).be.eql(false);
 		should(nodesList.length).eql(1);
 		var nodes = nodesList.item(0);
-		var elements = nodes.getElementsByTagName("node");
+		var elements = nodes.getElementsByTagName('node');
 		should(elements === null).be.eql(false);
 		should(elements.length).eql(13);
 		var children = nodes.childNodes;
@@ -201,33 +201,33 @@ describe("Titanium.XML", function () {
 		should(firstChild === null).be.eql(false);
 		should(firstChild.tagName).be.eql('xml');
 		should(countNodes(nodes, 1)).eql(13);
-		should(nodes.nodeName).eql("nodes");
-		should(doc.documentElement.nodeName).eql("response");
-		should(nodes.getAttribute("id"));
-		var node = nodes.getElementsByTagName("node").item(0);
-		should(node.getAttribute("id")).eql("node 1");
-		var subnodes = node.getElementsByTagName("node");
-		should(subnodes.item(0).getAttribute("id")).eql("node 2");
+		should(nodes.nodeName).eql('nodes');
+		should(doc.documentElement.nodeName).eql('response');
+		should(nodes.getAttribute('id'));
+		var node = nodes.getElementsByTagName('node').item(0);
+		should(node.getAttribute('id')).eql('node 1');
+		var subnodes = node.getElementsByTagName('node');
+		should(subnodes.item(0).getAttribute('id')).eql('node 2');
 		finish();
 	});
 
-	it("xmlNodeCount", function (finish) {
-		var xml = Ti.XML.parseString(testSource["nodeCount.xml"]);
-		var oneList = xml.documentElement.getElementsByTagName("one");
-		var twoList = oneList.item(0).getElementsByTagName("two");
-		var threeList = oneList.item(0).getElementsByTagName("three");
-		var nodes = xml.getElementsByTagName("root");
+	it('xmlNodeCount', function (finish) {
+		var xml = Ti.XML.parseString(testSource['nodeCount.xml']);
+		var oneList = xml.documentElement.getElementsByTagName('one');
+		var twoList = oneList.item(0).getElementsByTagName('two');
+		var threeList = oneList.item(0).getElementsByTagName('three');
+		var nodes = xml.getElementsByTagName('root');
 		should(oneList.length).eql(1);
 		should(twoList.length).eql(2);
 		should(threeList.length).eql(4);
-		var one = xml.documentElement.getElementsByTagName("one").item(0);
+		var one = xml.documentElement.getElementsByTagName('one').item(0);
 		var next = one.nextSibling;
 		for (;null != next && next.nodeType != next.ELEMENT_NODE; ) next = next.nextSibling;
 		should(one === null).be.eql(false);
 		should(next === null).be.eql(false);
-		should(one.nodeName).eql("one");
-		should(xml.documentElement.attributes.getNamedItem("id").nodeValue).eql("here");
-		should(next.getAttribute("id")).eql("bar");
+		should(one.nodeName).eql('one');
+		should(xml.documentElement.attributes.getNamedItem('id').nodeValue).eql('here');
+		should(next.getAttribute('id')).eql('bar');
 		should(one.ownerDocument.documentElement.nodeName).eql(xml.documentElement.ownerDocument.documentElement.nodeName);
 		var nodeCount = countNodes(nodes.item(0), 1);
 		should(nodeCount).eql(8);
@@ -235,11 +235,11 @@ describe("Titanium.XML", function () {
 	});
 
 	// FIXME: some functions should throw exception on out-of-bounds error
-	it.skip("xmlCData", function(finish) {
-		var xml = Ti.XML.parseString(testSource["cdata.xml"]);
-		var scriptList = xml.documentElement.getElementsByTagName("script");
+	it.skip('xmlCData', function(finish) {
+		var xml = Ti.XML.parseString(testSource['cdata.xml']);
+		var scriptList = xml.documentElement.getElementsByTagName('script');
 		should(scriptList.length).eql(1);
-		should(xml.documentElement.nodeName).eql("root");
+		should(xml.documentElement.nodeName).eql('root');
 		var nodeCount = countNodes(xml.documentElement, 1);
 		should(nodeCount).eql(1);
 		var script = scriptList.item(0);
@@ -254,9 +254,9 @@ describe("Titanium.XML", function () {
 		should(cData === null).be.eql(false);
 		//CharacterDataAttributes
 		var fullString = cData.data;
-		should(fullString).eql("\nfunction matchwo(a,b)\n{\nif (a < b && a < 0) then\n  {\n  return 1;\n  }\nelse\n  {\n  return 0;\n  }\n}\n");
-		cData.data = "Test Assignment";
-		should(cData.data).eql("Test Assignment");
+		should(fullString).eql('\nfunction matchwo(a,b)\n{\nif (a < b && a < 0) then\n  {\n  return 1;\n  }\nelse\n  {\n  return 0;\n  }\n}\n');
+		cData.data = 'Test Assignment';
+		should(cData.data).eql('Test Assignment');
 		cData.data = fullString;
 		var fullLength = cData.length;
 		should(fullLength).eql(fullString.length);
@@ -293,43 +293,43 @@ describe("Titanium.XML", function () {
 		}).throw();
 		//CharacterData.appendData
 		var cDataLength = cData.length;
-		cData.appendData("Appending");
+		cData.appendData('Appending');
 		var substring6 = cData.substringData(97, 9);
 		should(cData.length).eql(cDataLength + 9);
-		should(substring6).eql("Appending");
+		should(substring6).eql('Appending');
 		should(function() {
-			script.appendData("ReadOnly");
+			script.appendData('ReadOnly');
 		}).throw();
 		//CharacterData.insertData
-		cData.insertData(9, "InsertData");
+		cData.insertData(9, 'InsertData');
 		var substring7 = cData.substringData(9, 10);
-		should(substring7).eql("InsertData");
+		should(substring7).eql('InsertData');
 		// Per spec insertData should throw exception if given params are out of range
 		should(function() {
-			cData.insertData(-1, "InsertFail");
+			cData.insertData(-1, 'InsertFail');
 		}).throw();
 		should(function() {
-			cData.insertData(1e3, "InsertFail");
+			cData.insertData(1e3, 'InsertFail');
 		}).throw();
 		should(function() {
-			script.insertData(1, "ReadOnly");
+			script.insertData(1, 'ReadOnly');
 		}).throw();
 		//CharacterData.replaceData
-		cData.replaceData(9, 1, "ReplaceData");
+		cData.replaceData(9, 1, 'ReplaceData');
 		var substring8 = cData.substringData(9, 20);
-		should(substring8).eql("ReplaceDatansertData");
+		should(substring8).eql('ReplaceDatansertData');
 		cDataLength = cData.length;
-		cData.replaceData(cDataLength, 100, "ReplaceData");
+		cData.replaceData(cDataLength, 100, 'ReplaceData');
 		should(cData.length).eql(cDataLength + 11);
 		should(function() {
-			cData.replaceDate(-1, 2, "Failure");
+			cData.replaceDate(-1, 2, 'Failure');
 		}).throw();
 		cDataLength = cData.length;
 		should(function() {
-			cData.replaceDate(cDataLength + 1, 2, "Failure");
+			cData.replaceDate(cDataLength + 1, 2, 'Failure');
 		}).throw();
 		should(function() {
-			cData.replaceDate(1, -1, "Failure");
+			cData.replaceDate(1, -1, 'Failure');
 		}).throw();
 		//CharacterData.deleteData
 		cDataLength = cData.length;
@@ -352,17 +352,17 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("xmlCDataAndEntities", function(finish) {
-		var xml = Ti.XML.parseString(testSource["cdataEntities.xml"]);
-		var dataList = xml.documentElement.getElementsByTagName("data");
-		var subdataList = xml.documentElement.getElementsByTagName("subdata");
-		should(xml.documentElement.firstChild.nodeName).eql("subdata");
+	it('xmlCDataAndEntities', function(finish) {
+		var xml = Ti.XML.parseString(testSource['cdataEntities.xml']);
+		var dataList = xml.documentElement.getElementsByTagName('data');
+		var subdataList = xml.documentElement.getElementsByTagName('subdata');
+		should(xml.documentElement.firstChild.nodeName).eql('subdata');
 		var nodeCount = countNodes(subdataList.item(0), 1);
 		should(nodeCount).eql(2);
 		finish();
 	});
 
-	it("xmlSerialize", function(finish) {
+	it('xmlSerialize', function(finish) {
 		// Return an array of attribute nodes, sorted by name.
 		// An attribute NamedNodeMap has no canonical ordering,
 		// so to do a comparison we need to ensure we've got the
@@ -406,13 +406,13 @@ describe("Titanium.XML", function () {
 	});
 
 	// FIXME: splitText function should throw exception on out-of-bounds error
-	it.skip("apiXMLTextSplitText", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var firstString = "first part|";
-		var secondString = "second part";
+	it.skip('apiXMLTextSplitText', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var firstString = 'first part|';
+		var secondString = 'second part';
 		var completeString = firstString + secondString;
 		should(doc.createTextNode).be.a.Function;
-		var parentNode = doc.createElement("parentNode");
+		var parentNode = doc.createElement('parentNode');
 		var childNode = doc.createTextNode(completeString);
 		parentNode.appendChild(childNode);
 		should(parentNode.childNodes.length).eql(1);
@@ -424,7 +424,7 @@ describe("Titanium.XML", function () {
 		should(firstString).eql(parentNode.firstChild.nodeValue);
 		should(secondString).eql(parentNode.lastChild.nodeValue);
 		// Out-of-bounds exceptions are in the spec:
-		completeString = "New text node";
+		completeString = 'New text node';
 		childNode = doc.createTextNode(completeString);
 		should(function() {
 			childNode.splitText(-1);
@@ -436,9 +436,9 @@ describe("Titanium.XML", function () {
 	});
 
 	// SKIP: textContent is not a part of DOM level2 CORE
-	it.skip("apiXMLTextGetText", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var textValue = "this is some test";
+	it.skip('apiXMLTextGetText', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var textValue = 'this is some test';
 		should(doc.createTextNode).be.a.Function;
 		var textNode = doc.createTextNode(textValue);
 		should(textNode.nodeValue).eql(textValue);
@@ -463,57 +463,57 @@ describe("Titanium.XML", function () {
 	});
 
 	// FIXME: doctype support
-	it.skip("apiXmlDocumentProperties", function(finish) {
+	it.skip('apiXmlDocumentProperties', function(finish) {
 		// File with DTD
-		var doc = Ti.XML.parseString(testSource["with_dtd.xml"]);
-		should(doc.documentElement).not.be.type("undefined");
+		var doc = Ti.XML.parseString(testSource['with_dtd.xml']);
+		should(doc.documentElement).not.be.type('undefined');
 		should(doc.documentElement === null).be.eql(false);
 		should(doc.documentElement).be.an.Object;
-		should(doc.documentElement.nodeName).eql("letter");
-		should(doc.implementation).not.be.type("undefined");
+		should(doc.documentElement.nodeName).eql('letter');
+		should(doc.implementation).not.be.type('undefined');
 		should(doc.implementation === null).be.eql(false);
 		should(doc.implementation).be.an.Object;
-		should(doc.doctype).not.be.type("undefined");
+		should(doc.doctype).not.be.type('undefined');
 		should(doc.doctype === null).be.eql(false);
 		should(doc.doctype).be.an.Object;
 		// Document without DTD, to be sure doc.doctype is null as spec says
-		doc = Ti.XML.parseString("<a/>");
+		doc = Ti.XML.parseString('<a/>');
 		should(doc.doctype === null).eql(true);
 		finish();
 	});
 
 	// FIXME: value property should return empty string according to spec
-	it.skip("apiXmlDocumentCreateAttribute", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it.skip('apiXmlDocumentCreateAttribute', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createAttribute).be.a.Function;
-		var attr = doc.createAttribute("myattr");
+		var attr = doc.createAttribute('myattr');
 		should(attr === null).be.eql(false);
 		should(attr).be.an.Object;
-		should(attr.name).eql("myattr");
+		should(attr.name).eql('myattr');
 		// Per spec, value in new attribute should be empty string
 		should(attr.value === null).be.eql(false);
 		should(attr.value === undefined).be.eql(false);
-		should(attr.value).be.equal("");
+		should(attr.value).be.equal('');
 		should(attr.ownerDocument).eql(doc);
 		attr = null;
 		should(doc.createAttributeNS).be.a.Function;
-		attr = doc.createAttributeNS("http://example.com", "prefix:myattr");
+		attr = doc.createAttributeNS('http://example.com', 'prefix:myattr');
 		should(attr === null).be.eql(false);
 		should(attr).be.an.Object;
-		should(attr.name).eql("prefix:myattr");
-		should(attr.namespaceURI).eql("http://example.com");
-		should(attr.prefix).eql("prefix");
+		should(attr.name).eql('prefix:myattr');
+		should(attr.namespaceURI).eql('http://example.com');
+		should(attr.prefix).eql('prefix');
 		should(attr.value === null).be.eql(false);
 		should(attr.value === undefined).be.eql(false);
-		should(attr.value).be.equal("");
+		should(attr.value).be.equal('');
 		should(attr.ownerDocument).eql(doc);
 		finish();
 	});
 
-	it("apiXmlDocumentCreateCDATASection", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it('apiXmlDocumentCreateCDATASection', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createCDATASection).be.a.Function;
-		var data = "This is my CDATA section";
+		var data = 'This is my CDATA section';
 		var section = doc.createCDATASection(data);
 		should(section === null).be.eql(false);
 		should(section).be.an.Object;
@@ -523,10 +523,10 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlDocumentCreateComment", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it('apiXmlDocumentCreateComment', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createComment).be.a.Function;
-		var data = "This is my comment";
+		var data = 'This is my comment';
 		var comment = doc.createComment(data);
 		should(comment === null).be.eql(false);
 		should(comment).be.an.Object;
@@ -535,8 +535,8 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlDocumentCreateDocumentFragment", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it('apiXmlDocumentCreateDocumentFragment', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createDocumentFragment).be.a.Function;
 		var frag = doc.createDocumentFragment();
 		should(frag === null).be.eql(false);
@@ -545,13 +545,13 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlDocumentCreateElement", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it('apiXmlDocumentCreateElement', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createElement).be.a.Function;
-		var elem = doc.createElement("myelement");
+		var elem = doc.createElement('myelement');
 		should(elem === null).be.eql(false);
 		should(elem).be.an.Object;
-		should(elem.nodeName).eql("myelement");
+		should(elem.nodeName).eql('myelement');
 		should(elem.localName === null).eql(true);
 		should(elem.prefix === null).eql(true);
 		should(elem.namespaceURI === null).eql(true);
@@ -559,47 +559,47 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlDocumentCreateElementNS", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it('apiXmlDocumentCreateElementNS', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createElementNS).be.a.Function;
-		var elem = doc.createElementNS("http://example.com", "prefix:myelement");
+		var elem = doc.createElementNS('http://example.com', 'prefix:myelement');
 		should(elem === null).be.eql(false);
 		should(elem).be.an.Object;
-		should(elem.nodeName).eql("prefix:myelement");
-		should(elem.localName).eql("myelement");
-		should(elem.prefix).eql("prefix");
-		should(elem.namespaceURI).eql("http://example.com");
+		should(elem.nodeName).eql('prefix:myelement');
+		should(elem.localName).eql('myelement');
+		should(elem.prefix).eql('prefix');
+		should(elem.namespaceURI).eql('http://example.com');
 		should(elem.ownerDocument).eql(doc);
 		finish();
 	});
 
-	it("apiXmlDocumentCreateEntityReference", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it('apiXmlDocumentCreateEntityReference', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createEntityReference).be.a.Function;
-		var entity = doc.createEntityReference("myentity");
+		var entity = doc.createEntityReference('myentity');
 		should(entity === null).be.eql(false);
 		should(entity).be.an.Object;
-		should(entity.nodeName).eql("myentity");
+		should(entity.nodeName).eql('myentity');
 		should(entity.ownerDocument).eql(doc);
 		finish();
 	});
 
-	it("apiXmlDocumentCreateProcessingInstruction", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it('apiXmlDocumentCreateProcessingInstruction', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createProcessingInstruction).be.a.Function;
-		var instruction = doc.createProcessingInstruction("a", "b");
+		var instruction = doc.createProcessingInstruction('a', 'b');
 		should(instruction === null).be.eql(false);
 		should(instruction).be.an.Object;
-		should(instruction.target).eql("a");
-		should(instruction.data).eql("b");
+		should(instruction.target).eql('a');
+		should(instruction.data).eql('b');
 		should(instruction.ownerDocument).eql(doc);
 		finish();
 	});
 
-	it("apiXmlDocumentCreateTextNode", function(finish) {
-		var doc = Ti.XML.parseString("<test/>");
+	it('apiXmlDocumentCreateTextNode', function(finish) {
+		var doc = Ti.XML.parseString('<test/>');
 		should(doc.createTextNode).be.a.Function;
-		var value = "This is some text";
+		var value = 'This is some text';
 		var text = doc.createTextNode(value);
 		should(text === null).be.eql(false);
 		should(text).be.an.Object;
@@ -608,34 +608,34 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlDocumentGetElementById", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
+	it('apiXmlDocumentGetElementById', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		should(doc.getElementById).be.a.Function;
-		var node = doc.getElementById("node 1");
+		var node = doc.getElementById('node 1');
 		should(node === null).be.eql(false);
 		should(node).be.an.Object;
-		should(node.nodeName).eql("node");
+		should(node.nodeName).eql('node');
 		should(function() {
-			node = doc.getElementById("no_such_element");
+			node = doc.getElementById('no_such_element');
 		}).not.throw();
 		should(node === null).eql(true);
 		finish();
 	});
 
-	it("apiXmlDocumentGetElementsByTagName", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
+	it('apiXmlDocumentGetElementsByTagName', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		should(doc.getElementsByTagName).be.a.Function;
-		var elements = doc.getElementsByTagName("node");
+		var elements = doc.getElementsByTagName('node');
 		should(elements === null).be.eql(false);
 		should(elements).be.an.Object;
 		should(elements.length).be.greaterThan(0);
 		for (var i = 0; i < elements.length; i++) {
 			var checkelem = elements.item(i);
-			should(checkelem.nodeName).eql("node");
+			should(checkelem.nodeName).eql('node');
 		}
 		// test bogus tagname
 		should(function() {
-			elements = doc.getElementsByTagName("bogus");
+			elements = doc.getElementsByTagName('bogus');
 		}).not.throw();
 		should(elements === null).be.eql(false);
 		should(elements).be.an.Object;
@@ -643,35 +643,35 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlDocumentGetElementsByTagNameNS", function(finish) {
-		var doc = Ti.XML.parseString(testSource["with_ns.xml"]);
+	it('apiXmlDocumentGetElementsByTagNameNS', function(finish) {
+		var doc = Ti.XML.parseString(testSource['with_ns.xml']);
 		should(doc.getElementsByTagNameNS).be.a.Function;
-		var elements = doc.getElementsByTagNameNS("http://example.com", "cake");
+		var elements = doc.getElementsByTagNameNS('http://example.com', 'cake');
 		should(elements === null).be.eql(false);
 		should(elements).be.an.Object;
 		should(elements.length).be.greaterThan(0);
 		for (var i = 0; i < elements.length; i++) {
 			var checkelem = elements.item(i);
-			should(checkelem.localName).eql("cake");
-			should(checkelem.namespaceURI).eql("http://example.com");
+			should(checkelem.localName).eql('cake');
+			should(checkelem.namespaceURI).eql('http://example.com');
 		}
 		// test real namespace and bogus tagname
 		should(function() {
-			elements = doc.getElementsByTagNameNS("http://example.com", "bogus");
+			elements = doc.getElementsByTagNameNS('http://example.com', 'bogus');
 		}).not.throw();
 		should(elements === null).be.eql(false);
 		should(elements).be.an.Object;
 		should(elements.length).be.equal(0);
 		// test bogus namespace and real tagname
 		should(function() {
-			elements = doc.getElementsByTagNameNS("http://bogus.com", "pie");
+			elements = doc.getElementsByTagNameNS('http://bogus.com', 'pie');
 		}).not.throw();
 		should(elements === null).be.eql(false);
 		should(elements).be.an.Object;
 		should(elements.length).be.equal(0);
 		// test bogus namespace and bogus tagname
 		should(function() {
-			elements = doc.getElementsByTagNameNS("http://bogus.com", "bogus");
+			elements = doc.getElementsByTagNameNS('http://bogus.com', 'bogus');
 		}).not.throw();
 		should(elements === null).be.eql(false);
 		should(elements).be.an.Object;
@@ -679,10 +679,10 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlDocumentImportNode", function(finish) {
-		var doc = Ti.XML.parseString("<a/>");
-		var otherDoc = Ti.XML.parseString(testSource["with_ns.xml"]);
-		var cakeNodes = otherDoc.documentElement.getElementsByTagNameNS("http://example.com", "cake");
+	it('apiXmlDocumentImportNode', function(finish) {
+		var doc = Ti.XML.parseString('<a/>');
+		var otherDoc = Ti.XML.parseString(testSource['with_ns.xml']);
+		var cakeNodes = otherDoc.documentElement.getElementsByTagNameNS('http://example.com', 'cake');
 		should(cakeNodes === null).be.eql(false);
 		should(cakeNodes.length).be.greaterThan(0);
 		var cakeNode = cakeNodes.item(0);
@@ -699,7 +699,7 @@ describe("Titanium.XML", function () {
 		should(importedNode.parentNode === null).eql(true);
 		should(importedNode.hasChildNodes()).be.true;
 		should(importedNode.childNodes.length).be.greaterThan(0);
-		should(importedNode.namespaceURI).eql("http://example.com");
+		should(importedNode.namespaceURI).eql('http://example.com');
 		// test shallow import
 		should(function() {
 			importedNode = doc.importNode(cakeNode, false);
@@ -713,9 +713,9 @@ describe("Titanium.XML", function () {
 	});
 
 	// FIXME: some properties should be null if it is unspecified
-	it.skip("apiXmlNodeProperties", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var nodesList = doc.getElementsByTagName("nodes");
+	it.skip('apiXmlNodeProperties', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var nodesList = doc.getElementsByTagName('nodes');
 		should(nodesList === null).be.eql(false);
 		should(nodesList.length).eql(1);
 		var node = nodesList.item(0);
@@ -733,25 +733,25 @@ describe("Titanium.XML", function () {
 		should(node.DOCUMENT_FRAGMENT_NODE).be.a.Number;
 		should(node.NOTATION_NODE).be.a.Number;
 		should(node.nodeName).be.a.String;
-		var attrName = "attr";
-		var attrValue = "value";
+		var attrName = 'attr';
+		var attrValue = 'value';
 		node.setAttribute(attrName, attrValue);
 		var attrNode = node.getAttributeNode(attrName);
 		should(attrNode.nodeValue).eql(attrValue);
-		var CDATANodeContents = "this CDATA contents";
+		var CDATANodeContents = 'this CDATA contents';
 		var CDATANode = doc.createCDATASection(CDATANodeContents);
 		should(CDATANode.nodeValue).eql(CDATANodeContents);
-		var commentNodeContents = "this is a comment";
+		var commentNodeContents = 'this is a comment';
 		var commentNode = doc.createComment(commentNodeContents);
 		should(commentNode.nodeValue).eql(commentNodeContents);
 		should(doc.nodeValue).eql(null);
 		should(doc.createDocumentFragment().nodeValue).eql(null);
 		should(doc.doctype).eql(null);
 		should(node.nodeValue).eql(null);
-		should(doc.createEntityReference("blah").nodeValue).eql(null);
-		var processingInstructionData = "data";
-		should(doc.createProcessingInstruction("target", processingInstructionData).nodeValue).eql(processingInstructionData);
-		var textNodeContents = "this is some text";
+		should(doc.createEntityReference('blah').nodeValue).eql(null);
+		var processingInstructionData = 'data';
+		should(doc.createProcessingInstruction('target', processingInstructionData).nodeValue).eql(processingInstructionData);
+		var textNodeContents = 'this is some text';
 		var textNode = doc.createTextNode(textNodeContents);
 		should(textNode.nodeValue).eql(textNodeContents);
 		should(node.nodeType).be.a.Number;
@@ -764,18 +764,18 @@ describe("Titanium.XML", function () {
 		should(node.attributes).be.an.Object;
 		should(node.ownerDocument).be.an.Object;
 		// Per spec, namespaceURI should be null if it is unspecified
-		should(node.namespaceURI).not.be.type("undefined");
+		should(node.namespaceURI).not.be.type('undefined');
 		// Per spec, prefix should be null if it is unspecified
-		should(node.prefix).not.be.type("undefined");
-		should(node.localName).not.be.type("undefined");
+		should(node.prefix).not.be.type('undefined');
+		should(node.localName).not.be.type('undefined');
 		finish();
 	});
 
-	it("apiXmlNodeAppendChild", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var parentNode = doc.createElement("parentNode");
+	it('apiXmlNodeAppendChild', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var parentNode = doc.createElement('parentNode');
 		should(parentNode.appendChild).be.a.Function;
-		var childNode = doc.createElement("childNode");
+		var childNode = doc.createElement('childNode');
 		should(function() {
 			parentNode.appendChild(childNode);
 		}).not.throw();
@@ -783,22 +783,22 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlNodeCloneNode", function(finish) {
+	it('apiXmlNodeCloneNode', function(finish) {
 		var shouldRun = true;
 		if (utilities.isAndroid()) {
 			// this check exists to deal with the bug mentioned in TIMOB-4771
 			should(isNaN(parseInt(Ti.Platform.version))).be.false;
 			if (parseInt(Ti.Platform.version) < 3) {
-				Ti.API.info("Less than 3.0, not running apiXmlNodeCloneNode test");
+				Ti.API.info('Less than 3.0, not running apiXmlNodeCloneNode test');
 				shouldRun = false;
-			} else Ti.API.info("3.0 or greater, running apiXmlNodeCloneNode test");
+			} else Ti.API.info('3.0 or greater, running apiXmlNodeCloneNode test');
 		}
 		if (shouldRun) {
-			var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-			var parentNode = doc.createElement("parent");
-			parentNode.setAttribute("myattr", "attr value");
-			var childText = doc.createTextNode("child text");
-			var childElement = doc.createElement("childelement");
+			var doc = Ti.XML.parseString(testSource['nodes.xml']);
+			var parentNode = doc.createElement('parent');
+			parentNode.setAttribute('myattr', 'attr value');
+			var childText = doc.createTextNode('child text');
+			var childElement = doc.createElement('childelement');
 			parentNode.appendChild(childText);
 			parentNode.appendChild(childElement);
 			should(parentNode.cloneNode).be.a.Function;
@@ -812,13 +812,13 @@ describe("Titanium.XML", function () {
 			var attrs = clonedNode.attributes;
 			should(attrs === null).be.eql(false);
 			should(attrs.length).be.equal(1);
-			var attr = attrs.getNamedItem("myattr");
+			var attr = attrs.getNamedItem('myattr');
 			should(attr === null).be.eql(false);
-			should(attr.nodeValue).be.equal("attr value");
+			should(attr.nodeValue).be.equal('attr value');
 			// Fetch a different way
-			var attrValue = clonedNode.getAttribute("myattr");
+			var attrValue = clonedNode.getAttribute('myattr');
 			should(attrValue === null).be.eql(false);
-			should(attrValue).be.equal("attr value");
+			should(attrValue).be.equal('attr value');
 			// Per spec, clone should have no parent and no children
 			should(clonedNode.parentNode === null).eql(true);
 			should(clonedNode.hasChildNodes()).be.Boolean;
@@ -832,13 +832,13 @@ describe("Titanium.XML", function () {
 			attrs = clonedNode.attributes;
 			should(attrs === null).be.eql(false);
 			should(attrs.length).be.equal(1);
-			attr = attrs.getNamedItem("myattr");
+			attr = attrs.getNamedItem('myattr');
 			should(attr === null).be.eql(false);
-			should(attr.nodeValue).be.equal("attr value");
-			should(clonedNode.getAttribute("myattr")).eql("attr value");
-			attrValue = clonedNode.getAttribute("myattr");
+			should(attr.nodeValue).be.equal('attr value');
+			should(clonedNode.getAttribute('myattr')).eql('attr value');
+			attrValue = clonedNode.getAttribute('myattr');
 			should(attrValue === null).be.eql(false);
-			should(attrValue).be.equal("attr value");
+			should(attrValue).be.equal('attr value');
 			// this one should have children since it's deep.
 			should(clonedNode.hasChildNodes()).be.Boolean;
 			should(clonedNode.hasChildNodes()).be.true;
@@ -850,11 +850,11 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlNodeHasAttributes", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var node = doc.createElement("node");
-		var node2 = doc.createElement("node2");
-		node2.setAttribute("attr1", "value1");
+	it('apiXmlNodeHasAttributes', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var node = doc.createElement('node');
+		var node2 = doc.createElement('node2');
+		node2.setAttribute('attr1', 'value1');
 		should(node.hasAttributes).be.a.Function;
 		var results;
 		should(function() {
@@ -868,11 +868,11 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlNodeHasChildNodes", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var parentNode = doc.createElement("parentNode");
-		var parentNode2 = doc.createElement("parentNode2");
-		parentNode2.appendChild(doc.createElement("childNode"));
+	it('apiXmlNodeHasChildNodes', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var parentNode = doc.createElement('parentNode');
+		var parentNode2 = doc.createElement('parentNode2');
+		parentNode2.appendChild(doc.createElement('childNode'));
 		should(parentNode.hasChildNodes).be.a.Function;
 		var results;
 		should(function() {
@@ -886,13 +886,13 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlNodeInsertBefore", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var parentNode = doc.createElement("parentNode");
-		parentNode.appendChild(doc.createElement("childNode"));
-		parentNode.appendChild(doc.createElement("childNode2"));
+	it('apiXmlNodeInsertBefore', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var parentNode = doc.createElement('parentNode');
+		parentNode.appendChild(doc.createElement('childNode'));
+		parentNode.appendChild(doc.createElement('childNode2'));
 		should(parentNode.insertBefore).be.a.Function;
-		var childNode3 = doc.createElement("childNode3");
+		var childNode3 = doc.createElement('childNode3');
 		should(function() {
 			parentNode.insertBefore(childNode3, parentNode.firstChild);
 		}).not.throw();
@@ -901,42 +901,42 @@ describe("Titanium.XML", function () {
 	});
 
 	// FIXME: isSupported should not throw exception
-	it.skip("apiXmlNodeIsSupported", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
+	it.skip('apiXmlNodeIsSupported', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		should(doc.isSupported).be.a.Function;
 		var results;
 		should(function() {
-			results = doc.isSupported("XML", "1.0");
+			results = doc.isSupported('XML', '1.0');
 		}).not.throw();
 		should(results).eql(true);
 		should(function() {
-			results = doc.isSupported("IDONTEXIST", "1.0");
+			results = doc.isSupported('IDONTEXIST', '1.0');
 		}).not.throw();
 		should(results).eql(false);
 		finish();
 	});
 
-	it("apiXmlNodeNormalize", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var parentNode = doc.createElement("parentNode");
-		parentNode.appendChild(doc.createTextNode("My "));
-		parentNode.appendChild(doc.createTextNode("name "));
-		parentNode.appendChild(doc.createTextNode("is "));
-		parentNode.appendChild(doc.createTextNode("Opie."));
+	it('apiXmlNodeNormalize', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var parentNode = doc.createElement('parentNode');
+		parentNode.appendChild(doc.createTextNode('My '));
+		parentNode.appendChild(doc.createTextNode('name '));
+		parentNode.appendChild(doc.createTextNode('is '));
+		parentNode.appendChild(doc.createTextNode('Opie.'));
 		should(parentNode.normalize).be.a.Function;
 		should(function() {
 			parentNode.normalize();
 		}).not.throw();
-		should(parentNode.firstChild.data).eql("My name is Opie.");
-		should(parentNode.firstChild.nodeValue).eql("My name is Opie.");
+		should(parentNode.firstChild.data).eql('My name is Opie.');
+		should(parentNode.firstChild.nodeValue).eql('My name is Opie.');
 		should(parentNode.childNodes.length).eql(1);
 		finish();
 	});
 
-	it("apiXmlNodeRemoveChild", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var parentNode = doc.createElement("parentNode");
-		var childNode = doc.createElement("childNode");
+	it('apiXmlNodeRemoveChild', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var parentNode = doc.createElement('parentNode');
+		var childNode = doc.createElement('childNode');
 		parentNode.appendChild(childNode);
 		should(parentNode.removeChild).be.a.Function;
 		var results = null;
@@ -948,15 +948,15 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("apiXmlNodeReplaceChild", function(finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var parentNode = doc.createElement("parentNode");
-		var childNode = doc.createElement("childNode");
-		var childNode2 = doc.createElement("childNode2");
+	it('apiXmlNodeReplaceChild', function(finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var parentNode = doc.createElement('parentNode');
+		var childNode = doc.createElement('childNode');
+		var childNode2 = doc.createElement('childNode2');
 		parentNode.appendChild(childNode);
 		parentNode.appendChild(childNode2);
 		should(parentNode.replaceChild).be.a.Function;
-		var replacementNode = doc.createElement("replacementNode");
+		var replacementNode = doc.createElement('replacementNode');
 		should(function() {
 			parentNode.replaceChild(replacementNode, childNode);
 		}).not.throw();
@@ -964,25 +964,25 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it("xmlNodeListElementsByTagName", function(finish) {
-		var xml = Ti.XML.parseString(testSource["nodes.xml"]);
+	it('xmlNodeListElementsByTagName', function(finish) {
+		var xml = Ti.XML.parseString(testSource['nodes.xml']);
 		should(xml === null).be.eql(false);
-		var nodes = xml.getElementsByTagName("node");
+		var nodes = xml.getElementsByTagName('node');
 		should(nodes === null).be.eql(false);
 		should(nodes.length).be.a.Number;
 		should(nodes.item).be.a.Function;
 		should(nodes.length).eql(13);
 		var n = nodes.item(0);
 		should(n === null).be.eql(false);
-		should(n.getAttribute("id")).eql("node 1");
+		should(n.getAttribute('id')).eql('node 1');
 		n = nodes.item(1);
 		should(n === null).be.eql(false);
-		should(n.getAttribute("id")).eql("node 2");
+		should(n.getAttribute('id')).eql('node 2');
 		finish();
 	});
 
-	it("xmlNodeListChildren", function(finish) {
-		var xml = Ti.XML.parseString(testSource["nodes.xml"]);
+	it('xmlNodeListChildren', function(finish) {
+		var xml = Ti.XML.parseString(testSource['nodes.xml']);
 		should(xml === null).be.eql(false);
 		var e = xml.documentElement;
 		should(e === null).be.eql(false);
@@ -997,10 +997,10 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it.skip("xmlNodeListRange", function(finish) {
-		var xml = Ti.XML.parseString(testSource["nodes.xml"]);
+	it.skip('xmlNodeListRange', function(finish) {
+		var xml = Ti.XML.parseString(testSource['nodes.xml']);
 		should(xml === null).be.eql(false);
-		var nodes = xml.getElementsByTagName("node");
+		var nodes = xml.getElementsByTagName('node');
 		should(nodes.length).be.a.Number;
 		// item should return null if that is not a valid index
 		should(nodes.item(nodes.length) === null).eql(true);
@@ -1008,38 +1008,38 @@ describe("Titanium.XML", function () {
 		finish();
 	});
 
-	it.skip("apiXmlAttr", function (finish) {
-		var doc = Ti.XML.parseString(testSource["nodes.xml"]);
-		var node = doc.getElementsByTagName("node").item(0);
+	it.skip('apiXmlAttr', function (finish) {
+		var doc = Ti.XML.parseString(testSource['nodes.xml']);
+		var node = doc.getElementsByTagName('node').item(0);
 		var attr;
 		// First a known attribute
 		should(function() {
 			attr = node.attributes.item(0);
 		}).not.throw();
-		should(attr).not.be.type("undefined");
+		should(attr).not.be.type('undefined');
 		should(attr === null).be.eql(false);
 		should(attr).be.an.Object;
 		should(attr.name).be.a.String;
-		should(attr.name).eql("id");
+		should(attr.name).eql('id');
 		should(attr.ownerElement).be.an.Object;
 		should(attr.ownerElement).eql(node);
 		should(attr.specified).be.Boolean;
 		should(attr.specified).be.true;
 		should(attr.value).be.a.String;
-		should(attr.value).eql("node 1");
+		should(attr.value).eql('node 1');
 		// Now new attribute
 		should(function() {
-			attr = doc.createAttribute("newattr");
+			attr = doc.createAttribute('newattr');
 		}).not.throw();
-		should(attr).not.be.type("undefined");
+		should(attr).not.be.type('undefined');
 		should(attr === null).be.eql(false);
 		should(attr).be.an.Object;
 		should(attr.name).be.a.String;
-		should(attr.name).eql("newattr");
+		should(attr.name).eql('newattr');
 		should(attr.specified).be.Boolean;
 		// Per spec, the default value in an attribute is empty string not null.
 		should(attr.value === null).be.eql(false);
-		should(attr.value).be.equal("");
+		should(attr.value).be.equal('');
 		// Per spec, when you set an attribute that doesn't exist yet,
 		// null is returned.
 		var addedAttr = node.setAttributeNode(attr);
@@ -1048,21 +1048,21 @@ describe("Titanium.XML", function () {
 		should(attr.ownerElement).eql(node);
 		// Per spec, when you set a new attribute of same name as one that
 		// already exists, it replaces that existing one AND returns that existing one.
-		var secondNewAttr = doc.createAttribute("newattr");
+		var secondNewAttr = doc.createAttribute('newattr');
 		var replacedAttr = node.setAttributeNode(secondNewAttr);
 		should(replacedAttr === null).be.eql(false);
 		should(replacedAttr).eql(attr);
 		// Per spec, changing the value of an attribute automatically sets
 		// specified to true.
-		attr.value = "new value";
+		attr.value = 'new value';
 		should(attr.value === null).be.eql(false);
-		should(attr.value).eql("new value");
+		should(attr.value).eql('new value');
 		should(attr.specified).be.Boolean;
 		should(attr.specified).be.true;
 		// Per spec, an attribute with no owner element (i.e., it has just
 		// been created and not yet put on to an element) will have
-		// "true" for specified.
-		var thirdNewAttr = doc.createAttribute("anotherattr");
+		// 'true' for specified.
+		var thirdNewAttr = doc.createAttribute('anotherattr');
 		should(thirdNewAttr === null).be.eql(false);
 		should(thirdNewAttr.ownerElement === null).eql(true);
 		should(thirdNewAttr.specified).be.Boolean;

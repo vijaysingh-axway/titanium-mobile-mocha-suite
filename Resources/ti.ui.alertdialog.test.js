@@ -9,12 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.UI.AlertDialog', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.AlertDialog.apiName).be.eql('Titanium.UI.AlertDialog');
-		} else {
-			should(Ti.UI.AlertDialog.apiName).be.eql('Ti.UI.AlertDialog');
-		}
+		should(Ti.UI.AlertDialog.apiName).be.eql('Ti.UI.AlertDialog');
 		finish();
 	});
 

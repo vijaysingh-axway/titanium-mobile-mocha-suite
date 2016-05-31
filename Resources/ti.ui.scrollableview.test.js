@@ -7,19 +7,14 @@
 var should = require('./should'),
 	utilities = require('./utilities/utilities');
 
-describe("Titanium.UI.ScrollableView", function () {
+describe('Titanium.UI.ScrollableView', function () {
 
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.UI.ScrollableView.apiName).be.eql('Titanium.UI.ScrollableView');
-		} else {
-			should(Ti.UI.ScrollableView.apiName).be.eql('Ti.UI.ScrollableView');
-		}
+		should(Ti.UI.ScrollableView.apiName).be.eql('Ti.UI.ScrollableView');
 		finish();
 	});
 
-	it("views", function (finish) {
+	it('views', function (finish) {
 		var bar = Ti.UI.createScrollableView({
 
 		});
@@ -32,7 +27,7 @@ describe("Titanium.UI.ScrollableView", function () {
 		should(bar.getViews().length).eql(2);
 		finish();
 	});
-	it("currentPage", function (finish) {
+	it('currentPage', function (finish) {
 		var bar = Ti.UI.createScrollableView({
 
 		});
@@ -46,7 +41,7 @@ describe("Titanium.UI.ScrollableView", function () {
 		should(bar.getCurrentPage()).eql(1);
 		finish();
 	});
-	it("moveNext", function (finish) {
+	it('moveNext', function (finish) {
 		var bar = Ti.UI.createScrollableView({
 
 		});
@@ -57,7 +52,7 @@ describe("Titanium.UI.ScrollableView", function () {
 		should(bar.getCurrentPage()).eql(1);
 		finish();
 	});
-	it("movePrevious", function (finish) {
+	it('movePrevious', function (finish) {
 		var bar = Ti.UI.createScrollableView({
 
 		});

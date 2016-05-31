@@ -9,12 +9,7 @@ var should = require('./should');
 
 describe('Titanium.Platform.DisplayCaps', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.Platform.DisplayCaps.apiName).be.eql('Titanium.Platform.DisplayCaps');
-		} else {
-			should(Ti.Platform.DisplayCaps.apiName).be.eql('Ti.Platform.DisplayCaps');
-		}
+		should(Ti.Platform.DisplayCaps.apiName).be.eql('Ti.Platform.DisplayCaps');
 		finish();
 	});
 

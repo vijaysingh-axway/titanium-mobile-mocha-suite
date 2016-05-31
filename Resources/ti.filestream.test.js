@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2015 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -10,12 +10,7 @@ var should = require('./should'),
 
 describe('Titanium.FileStream', function () {
 	it('apiName', function (finish) {
-		// See https://jira.appcelerator.org/browse/TIMOB-23346
-		if (utilities.isWindows()) {
-			should(Ti.FileStream.apiName).be.eql('Titanium.FileStream');
-		} else {
-			should(Ti.FileStream.apiName).be.eql('Ti.FileStream');
-		}
+		should(Ti.FileStream.apiName).be.eql('Ti.FileStream');
 		finish();
 	});
 
@@ -48,7 +43,7 @@ describe('Titanium.FileStream', function () {
 		should(resourceFileStream).be.an.Object;
 		should(resourceFileStream.read).be.a.Function;
 		should(resourceFileStream.write).be.a.Function;
-		should(resourceFileStream.apiName).be.eql('Titanium.Filesystem.FileStream');
+		should(resourceFileStream.apiName).be.eql('Ti.Filesystem.FileStream');
 		var inBuffer = Ti.createBuffer();
 		should(inBuffer).be.an.Object;
 		var tempBufferLength = 50;
