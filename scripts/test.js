@@ -122,6 +122,7 @@ function addTiAppProperties(next) {
 			content.push('<module version="1.0.0">commonjs.legacy.index_json</module>');
 			content.push('<module version="1.0.0">commonjs.legacy.package</module>');
 			//content.push('<module version="1.0.0">commonjs.package</module>');
+			content.push('<module platform="android">ti.map</module>');
 		}
 		// Inject some properties used by tests!
 		else if (line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
