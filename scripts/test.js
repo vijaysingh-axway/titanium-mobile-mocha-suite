@@ -188,6 +188,8 @@ function handleBuild(prc, next) {
 		if ((index = str.indexOf('!TEST_START: ')) != -1) {
 			// grab out the JSON and add to our result set
 			str = str.slice(index + 13).trim();
+			output = '';
+			stderr = '';
 		} else if ((index = str.indexOf('!TEST_END: ')) != -1) {
 			str = str.slice(index + 11).trim();
 			//  grab out the JSON and add to our result set

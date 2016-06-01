@@ -39,12 +39,12 @@ suites.forEach(function(currentSuite)
 <% 			} -%>
 <% 		if (test.stdout) { -%>
 			<system-out><![CDATA[
-<%= test.stdout %>
+<%= test.stdout.replace(/[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]/g,''); %>
 ]]></system-out>
 <% 		}
 		if (test.stderr) { -%>
 			<system-err><![CDATA[
-<%= test.stderr %>
+<%= test.stderr.replace(/[^\x09\x0A\x0D\x20-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]/g,''); %>
 ]]></system-err>
 <% 		} -%>
 		</testcase>
