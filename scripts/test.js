@@ -138,17 +138,19 @@ function copyMochaAssets(next) {
 
 	// copy modules so we can test those too
 	src = path.join(SOURCE_DIR, 'modules'),
-		dest = path.join(PROJECT_DIR, 'modules');
+	dest = path.join(PROJECT_DIR, 'modules');
 	wrench.copyDirSyncRecursive(src, dest, {
 		forceDelete: true
 	});
 
 	// copy plugins so we can test those too
 	src = path.join(SOURCE_DIR, 'plugins'),
-		dest = path.join(PROJECT_DIR, 'plugins');
-	wrench.copyDirSyncRecursive(src, dest, {
-		forceDelete: true
-	});
+	dest = path.join(PROJECT_DIR, 'plugins');
+	if (fs.existsSync(src)) {
+		wrench.copyDirSyncRecursive(src, dest, {
+			forceDelete: true
+		});
+	}
 	next();
 }
 
