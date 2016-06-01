@@ -123,6 +123,13 @@ function addTiAppProperties(next) {
 			content.push('<module version="1.0.0">commonjs.legacy.package</module>');
 			//content.push('<module version="1.0.0">commonjs.package</module>');
 		}
+		// Inject some properties used by tests!
+		else if (line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
+			content.push('<property name="presetBool" type="bool">true</property>');
+			content.push('<property name="presetDouble" type="double">1.23456</property>');
+			content.push('<property name="presetInt" type="int">1337</property>');
+			content.push('<property name="presetString" type="string">Hello!</property>');
+		}
 	});
 	fs.writeFileSync(tiapp_xml, content.join('\n'));
 

@@ -5,7 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.Database', function () {
 	it('apiName', function (finish) {
@@ -15,52 +16,24 @@ describe('Titanium.Database', function () {
 
 	// Check if FIELD_TYPE_DOUBLE exists and make sure it does not throw exception
 	it('FIELD_TYPE_DOUBLE', function (finish) {
-		should(function () {
-			should(Ti.Database.FIELD_TYPE_DOUBLE).not.be.undefined;
-			should(Ti.Database.FIELD_TYPE_DOUBLE).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Database.FIELD_TYPE_DOUBLE;
-			Ti.Database.FIELD_TYPE_DOUBLE = 'try_to_overwrite_READONLY_value';
-			should(Ti.Database.FIELD_TYPE_DOUBLE).be.eql(value);
-		}).not.throw();
+		should(Ti.Database.FIELD_TYPE_DOUBLE).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if FIELD_TYPE_FLOAT exists and make sure it does not throw exception
 	it('FIELD_TYPE_FLOAT', function (finish) {
-		should(function () {
-			should(Ti.Database.FIELD_TYPE_FLOAT).not.be.undefined;
-			should(Ti.Database.FIELD_TYPE_FLOAT).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Database.FIELD_TYPE_FLOAT;
-			Ti.Database.FIELD_TYPE_FLOAT = 'try_to_overwrite_READONLY_value';
-			should(Ti.Database.FIELD_TYPE_FLOAT).be.eql(value);
-		}).not.throw();
+		should(Ti.Database.FIELD_TYPE_FLOAT).be.a.readOnlyNumber;
 		finish();
 	});
 	// Check if FIELD_TYPE_INT exists and make sure it does not throw exception
 	it('FIELD_TYPE_INT', function (finish) {
-		should(function () {
-			should(Ti.Database.FIELD_TYPE_INT).not.be.undefined;
-			should(Ti.Database.FIELD_TYPE_INT).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Database.FIELD_TYPE_INT;
-			Ti.Database.FIELD_TYPE_INT = 'try_to_overwrite_READONLY_value';
-			should(Ti.Database.FIELD_TYPE_INT).be.eql(value);
-		}).not.throw();
+		should(Ti.Database.FIELD_TYPE_INT).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if FIELD_TYPE_STRING exists and make sure it does not throw exception
 	it('FIELD_TYPE_STRING', function (finish) {
-		should(function () {
-			should(Ti.Database.FIELD_TYPE_STRING).not.be.undefined;
-			should(Ti.Database.FIELD_TYPE_STRING).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Database.FIELD_TYPE_STRING;
-			Ti.Database.FIELD_TYPE_STRING = 'try_to_overwrite_READONLY_value';
-			should(Ti.Database.FIELD_TYPE_STRING).be.eql(value);
-		}).not.throw();
+		should(Ti.Database.FIELD_TYPE_STRING).be.a.readOnlyNumber;
 		finish();
 	});
 
