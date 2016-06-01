@@ -6,7 +6,8 @@
  */
 
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.Filesystem.File', function () {
 	it('apiName', function (finish) {
@@ -17,30 +18,20 @@ describe('Titanium.Filesystem.File', function () {
 	// Check if name exists and returns string
 	it('name', function (finish) {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.name).not.be.undefined;
-		should(file.name).be.a.String;
+		should(file.name).be.a.readOnlyString;
 		should(file.name).be.eql('app.js');
-		// make sure it is read-only value
-		var value = file.name;
-		file.name = 'try_to_overwrite_READONLY_value';
-		should(file.name).be.eql(value);
 		finish();
 	});
 
 	// Check if nativePath exists and returns string
 	it('nativePath', function (finish) {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.nativePath).not.be.undefined;
-		should(file.nativePath).be.a.String;
-		// make sure it is read-only value
-		var value = file.nativePath;
-		file.nativePath = 'try_to_overwrite_READONLY_value';
-		should(file.nativePath).be.eql(value);
+		should(file.nativePath).be.a.readOnlyString;
 		finish();
 	});
 
 	// Check if resolve exists and returns string
-	it('resolve', function (finish) {
+	it('#resolve()', function (finish) {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.resolve).not.be.undefined;
 		should(file.resolve).be.a.Function;
@@ -59,10 +50,7 @@ describe('Titanium.Filesystem.File', function () {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.executable).not.be.undefined;
 		should(file.executable).be.a.Boolean;
-		// make sure it is read-only value
-		var value = file.executable;
-		file.executable = 'try_to_overwrite_READONLY_value';
-		should(file.executable).be.eql(value);
+		should(file.executable).be.readOnly;
 		finish();
 	});
 
@@ -71,10 +59,7 @@ describe('Titanium.Filesystem.File', function () {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.hidden).not.be.undefined;
 		should(file.hidden).be.a.Boolean;
-		// make sure it is read-only value
-		var value = file.hidden;
-		file.hidden = 'try_to_overwrite_READONLY_value';
-		should(file.hidden).be.eql(value);
+		should(file.hidden).be.readOnly;
 		finish();
 	});
 
@@ -83,10 +68,7 @@ describe('Titanium.Filesystem.File', function () {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.readonly).not.be.undefined;
 		should(file.readonly).be.a.Boolean;
-		// make sure it is read-only value
-		var value = file.readonly;
-		file.readonly = 'try_to_overwrite_READONLY_value';
-		should(file.readonly).be.eql(value);
+		should(file.readonly).be.readOnly;
 		finish();
 	});
 
@@ -95,10 +77,7 @@ describe('Titanium.Filesystem.File', function () {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.writable).not.be.undefined;
 		should(file.writable).be.a.Boolean;
-		// make sure it is read-only value
-		var value = file.writable;
-		file.writable = 'try_to_overwrite_READONLY_value';
-		should(file.writable).be.eql(value);
+		should(file.writable).be.readOnly;
 		finish();
 	});
 	// Check if symbolicLink exists and returns boolean
@@ -106,10 +85,7 @@ describe('Titanium.Filesystem.File', function () {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.symbolicLink).not.be.undefined;
 		should(file.symbolicLink).be.a.Boolean;
-		// make sure it is read-only value
-		var value = file.symbolicLink;
-		file.symbolicLink = 'try_to_overwrite_READONLY_value';
-		should(file.symbolicLink).be.eql(value);
+		should(file.symbolicLink).be.readOnly;
 		finish();
 	});
 
@@ -123,32 +99,27 @@ describe('Titanium.Filesystem.File', function () {
 	// Check if size exists and returns number
 	it('size', function (finish) {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.size).not.be.undefined;
-		should(file.size).be.a.Number;
+		should(file.size).be.a.readOnlyNumber;
 		should(file.size > 0).be.true;
-		// make sure it is read-only value
-		var value = file.size;
-		file.size = 'try_to_overwrite_READONLY_value';
-		should(file.size).be.eql(value);
 		finish();
 	});
 
 	// exists should return true if file exists
-	it('exists', function (finish) {
+	it('#exists() returns true for existing file', function (finish) {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.exists()).be.true;
 		finish();
 	});
 
 	// exists should return false if file is not there
-	it('not_exists', function (finish) {
+	it('#exists() returns false for non-existent file', function (finish) {
 		var file = Ti.Filesystem.getFile('appp.js');
 		should(file.exists()).be.false;
 		finish();
 	});
 
 	// isFile should return true if file exists
-	it('isFile', function(finish) {
+	it('#isFile() returns true for an existing file', function(finish) {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.exists()).be.true;
 		should(file.isFile()).be.true;
@@ -156,7 +127,7 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// isFile should return false if file is not there
-	it('isFile_not_exist', function (finish) {
+	it('#isFile() returns false for a file that doesn\'t exist', function (finish) {
 		var file = Ti.Filesystem.getFile('appp.js');
 		should(file.exists()).be.false;
 		should(file.isFile()).be.false;
@@ -164,48 +135,56 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// isFile should return false if file points to directory
-	it('isFile_toDirectory', function (finish) {
+	it('#isFile() returns false for a directory', function (finish) {
 		var dir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory);
 		should(dir.isFile()).be.false;
 		finish();
 	});
 
 	// isDirectory should return true if file points to directory
-	it('isDirectory', function (finish) {
+	it('#isDirectory() retruns true for directory that exists', function (finish) {
 		var dir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory);
 		should(dir.isDirectory()).be.true;
 		finish();
 	});
 
 	// isDirectory should return false if file points to file
-	it('isDirectory_toFile', function (finish) {
+	it('#isDirectory() returns false for a file that exists', function (finish) {
 		var dir = Ti.Filesystem.getFile('app.js');
 		should(dir.isDirectory()).be.false;
 		finish();
 	});
 
 	// isDirectory should return false if file is not there
-	it('isDirectory_not_exist', function (finish) {
-		var dir = Ti.Filesystem.getFile('appp.js');
+	it('#isDirectory() returns false for directory that doesn\'t exist', function (finish) {
+		var dir = Ti.Filesystem.getFile('appp');
 		should(dir.isDirectory()).be.false;
 		finish();
 	});
 
 	// createTimestamp should return number
-	it('createTimestamp', function (finish) {
+	it('#createTimestamp()', function (finish) {
 		var file = Ti.Filesystem.getFile('app.js');
 		var create_date = file.createTimestamp();
 		should(create_date).be.a.Number;
-		should(create_date > 0).be.true;
+		if (utilities.isAndroid()) { // Android returns 0 for createTimestamp
+			should(create_date).eql(0);
+		} else {
+			should(create_date > 0).be.true;
+		}
 		finish();
 	});
 
 	// modificationTimestamp should return number
-	it('modificationTimestamp', function (finish) {
+	it('#modificationTimestamp()', function (finish) {
 		var file = Ti.Filesystem.getFile('app.js');
 		var mod_date = file.modificationTimestamp();
 		should(mod_date).be.a.Number;
-		should(mod_date > 0).be.true;
+		if (utilities.isAndroid()) { // Android returns 0 for createTimestamp
+			should(mod_date).eql(0);
+		} else {
+			should(mod_date > 0).be.true;
+		}
 		finish();
 	});
 
@@ -260,7 +239,7 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// File.read
-	it('read', function (finish) {
+	it('#read()', function (finish) {
 		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(newFile.exists()).be.true;
 		var blob = newFile.read();
@@ -488,7 +467,7 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// File.spaceAvailable
-	it('spaceAvailable', function (finish) {
+	it('#spaceAvailable()', function (finish) {
 		var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(file.exists()).be.true;
 		var space = file.spaceAvailable();
@@ -533,7 +512,7 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// Directory listing
-	it('directoryListing', function (finish) {
+	it('#directoryListing()', function (finish) {
 		var dir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory);
 		should(dir.exists()).be.true;
 		should(dir.getDirectoryListing).be.a.Function;
@@ -552,6 +531,14 @@ describe('Titanium.Filesystem.File', function () {
 		should(dir.deleteDirectory()).be.true;
 		should(dir.exists()).be.false;
 
+		finish();
+	});
+
+	// TIMOB-14364
+	(utilities.isIOS() ? it : it.skip)('#setRemoteBackup()', function (finish) {
+		should(function () {
+			Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory).setRemoteBackup(false);
+		}).not.throw();
 		finish();
 	});
 });

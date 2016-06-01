@@ -6,7 +6,8 @@
  */
 
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.Filesystem', function () {
 	it('apiName', function (finish) {
@@ -17,53 +18,26 @@ describe('Titanium.Filesystem', function () {
 	// Check if applicationDirectory exists and make sure it does not throw exception
 	// Android doesn't support Ti.Filesystem.applicationDirectory
 	(utilities.isAndroid() ? it.skip : it)('applicationDirectory', function (finish) {
-		should(function () {
-			should(Ti.Filesystem.applicationDirectory).not.be.undefined;
-			should(Ti.Filesystem.applicationDirectory).be.a.String;
-			// make sure it is read-only value
-			var value = Ti.Filesystem.applicationDirectory;
-			Ti.Filesystem.applicationDirectory = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.applicationDirectory).be.eql(value);
-		}).not.throw();
+		should(Ti.Filesystem.applicationDirectory).be.a.readOnlyString;
 		finish();
 	});
 
 	// Check if applicationDataDirectory exists and make sure it does not throw exception
 	it('applicationDataDirectory', function (finish) {
-		should(function () {
-			should(Ti.Filesystem.applicationDataDirectory).not.be.undefined;
-			should(Ti.Filesystem.applicationDataDirectory).be.a.String;
-			// make sure it is read-only value
-			var value = Ti.Filesystem.applicationDataDirectory;
-			Ti.Filesystem.applicationDataDirectory = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.applicationDataDirectory).be.eql(value);
-		}).not.throw();
+		should(Ti.Filesystem.applicationDataDirectory).be.a.readOnlyString;
 		finish();
 	});
+
 	// Check if resourcesDirectory exists and make sure it does not throw exception
 	it('resourcesDirectory', function (finish) {
-		should(function () {
-			should(Ti.Filesystem.resourcesDirectory).not.be.undefined;
-			should(Ti.Filesystem.resourcesDirectory).be.a.String;
-			// make sure it is read-only value
-			var value = Ti.Filesystem.resourcesDirectory;
-			Ti.Filesystem.resourcesDirectory = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.resourcesDirectory).be.eql(value);
-		}).not.throw();
+		should(Ti.Filesystem.resourcesDirectory).be.a.readOnlyString;
 		finish();
 	});
 
 	// Check if resRawDirectory exists and make sure it does not throw exception
 	it('resRawDirectory', function (finish) {
 		if (utilities.isAndroid()) {
-			should(function () {
-				should(Ti.Filesystem.resRawDirectory).not.be.undefined;
-				should(Ti.Filesystem.resRawDirectory).be.a.String;
-				// make sure it is read-only value
-				var value = Ti.Filesystem.resRawDirectory;
-				Ti.Filesystem.resRawDirectory = 'try_to_overwrite_READONLY_value';
-				should(Ti.Filesystem.resRawDirectory).be.eql(value);
-			}).not.throw();
+			should(Ti.Filesystem.resRawDirectory).be.a.readOnlyString;
 		} else {
 			should(Ti.Filesystem.resRawDirectory).be.undefined;
 		}
@@ -78,10 +52,7 @@ describe('Titanium.Filesystem', function () {
 				if (Ti.Filesystem.applicationSupportDirectory != null) {
 					should(Ti.Filesystem.applicationSupportDirectory).be.a.String;
 				}
-				// make sure it is read-only value
-				var value = Ti.Filesystem.applicationSupportDirectory;
-				Ti.Filesystem.applicationSupportDirectory = 'try_to_overwrite_READONLY_value';
-				should(Ti.Filesystem.applicationSupportDirectory).be.eql(value);
+				should(Ti.Filesystem.applicationSupportDirectory).be.readOnly;
 			}).not.throw();
 			finish();
 		}
@@ -96,10 +67,7 @@ describe('Titanium.Filesystem', function () {
 				if (Ti.Filesystem.externalStorageDirectory != null) {
 					should(Ti.Filesystem.externalStorageDirectory).be.a.String;
 				}
-				// make sure it is read-only value
-				var value = Ti.Filesystem.externalStorageDirectory;
-				Ti.Filesystem.externalStorageDirectory = 'try_to_overwrite_READONLY_value';
-				should(Ti.Filesystem.externalStorageDirectory).be.eql(value);
+				should(Ti.Filesystem.externalStorageDirectory).be.readOnly;
 			}).not.throw();
 			finish();
 		}
@@ -107,32 +75,18 @@ describe('Titanium.Filesystem', function () {
 
 	// Check if applicationCacheDirectory exists and make sure it does not throw exception
 	it('applicationCacheDirectory', function (finish) {
-		should(function () {
-			// Windows Store app doesn't support cache directory
-			if (utilities.isWindowsDesktop()) {
-				should(Ti.Filesystem.applicationCacheDirectory).be.undefined;
-			} else {
-				should(Ti.Filesystem.applicationCacheDirectory).not.be.undefined;
-				should(Ti.Filesystem.applicationCacheDirectory).be.a.String;
-				// make sure it is read-only value
-				var value = Ti.Filesystem.applicationCacheDirectory;
-				Ti.Filesystem.applicationCacheDirectory = 'try_to_overwrite_READONLY_value';
-				should(Ti.Filesystem.applicationCacheDirectory).be.eql(value);
-			}
-		}).not.throw();
+		// Windows Store app doesn't support cache directory
+		if (utilities.isWindowsDesktop()) {
+			should(Ti.Filesystem.applicationCacheDirectory).be.undefined;
+		} else {
+			should(Ti.Filesystem.applicationCacheDirectory).be.a.readOnlyString;
+		}
 		finish();
 	});
 
 	// Check if tempDirectory exists and make sure it does not throw exception
 	it('tempDirectory', function (finish) {
-		should(function () {
-			should(Ti.Filesystem.tempDirectory).not.be.undefined;
-			should(Ti.Filesystem.tempDirectory).be.a.String;
-			// make sure it is read-only value
-			var value = Ti.Filesystem.tempDirectory;
-			Ti.Filesystem.tempDirectory = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.tempDirectory).be.eql(value);
-		}).not.throw();
+		should(Ti.Filesystem.tempDirectory).be.a.readOnlyString;
 		finish();
 	});
 
@@ -146,10 +100,7 @@ describe('Titanium.Filesystem', function () {
 			} else {
 				should(Ti.Filesystem.separator).be.eql('/');
 			}
-			// make sure it is read-only value
-			var value = Ti.Filesystem.separator;
-			Ti.Filesystem.separator = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.separator).be.eql(value);
+			should(Ti.Filesystem.separator).be.readOnly;
 		}).not.throw();
 		finish();
 	});
@@ -164,55 +115,31 @@ describe('Titanium.Filesystem', function () {
 			} else {
 				should(Ti.Filesystem.lineEnding).be.eql('\n');
 			}
-			// make sure it is read-only value
-			var value = Ti.Filesystem.lineEnding;
-			Ti.Filesystem.lineEnding = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.lineEnding).be.eql(value);
+			should(Ti.Filesystem.lineEnding).be.readOnly;
 		}).not.throw();
 		finish();
 	});
 
 	// Check if MODE_APPEND exists and make sure it does not throw exception
 	it('MODE_APPEND', function (finish) {
-		should(function () {
-			should(Ti.Filesystem.MODE_APPEND).not.be.undefined;
-			should(Ti.Filesystem.MODE_APPEND).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Filesystem.MODE_APPEND;
-			Ti.Filesystem.MODE_APPEND = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.MODE_APPEND).be.eql(value);
-		}).not.throw();
+		should(Ti.Filesystem.MODE_APPEND).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if MODE_READ exists and make sure it does not throw exception
 	it('MODE_READ', function (finish) {
-		should(function () {
-			should(Ti.Filesystem.MODE_READ).not.be.undefined;
-			should(Ti.Filesystem.MODE_READ).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Filesystem.MODE_READ;
-			Ti.Filesystem.MODE_READ = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.MODE_READ).be.eql(value);
-		}).not.throw();
+		should(Ti.Filesystem.MODE_READ).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if MODE_WRITE exists and make sure it does not throw exception
 	it('MODE_WRITE', function (finish) {
-		should(function () {
-			should(Ti.Filesystem.MODE_WRITE).not.be.undefined;
-			should(Ti.Filesystem.MODE_WRITE).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Filesystem.MODE_WRITE;
-			Ti.Filesystem.MODE_WRITE = 'try_to_overwrite_READONLY_value';
-			should(Ti.Filesystem.MODE_WRITE).be.eql(value);
-		}).not.throw();
+		should(Ti.Filesystem.MODE_WRITE).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if getFile exists and make sure it does not throw exception
-	it('getFile', function (finish) {
+	it('getFile()', function (finish) {
 		should(Ti.Filesystem.getFile).not.be.undefined;
 		should(Ti.Filesystem.getFile).be.a.Function;
 		var file = Ti.Filesystem.getFile('app.js');
@@ -221,7 +148,7 @@ describe('Titanium.Filesystem', function () {
 	});
 
 	// Check if openStream exists
-	it('openStream', function (finish) {
+	it('openStream()', function (finish) {
 		should(Ti.Filesystem.openStream).not.be.undefined;
 		should(Ti.Filesystem.openStream).be.a.Function;
 		var stream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, 'app.js');
@@ -231,7 +158,7 @@ describe('Titanium.Filesystem', function () {
 	});
 
 	// Check if createTempDirectory exists and make sure it does not throw exception
-	it('createTempDirectory', function (finish) {
+	it('createTempDirectory()', function (finish) {
 		should(Ti.Filesystem.createTempDirectory).not.be.undefined;
 		should(Ti.Filesystem.createTempDirectory).be.a.Function;
 		var dir = Ti.Filesystem.createTempDirectory();
@@ -244,7 +171,7 @@ describe('Titanium.Filesystem', function () {
 	});
 
 	// Check if createTempFile exists and make sure it does not throw exception
-	it('createTempFile', function (finish) {
+	it('createTempFile()', function (finish) {
 		should(Ti.Filesystem.createTempFile).not.be.undefined;
 		should(Ti.Filesystem.createTempFile).be.a.Function;
 		var file = Ti.Filesystem.createTempFile();
@@ -263,14 +190,6 @@ describe('Titanium.Filesystem', function () {
 		should(msg.exists()).be.true;
 		should(msg.deleteFile()).be.true;
 		should(msg.exists()).be.false;
-		finish();
-	});
-
-	// TIMOB-14364
-	(utilities.isIOS() ? it : it.skip)('setRemoteBackup', function (finish) {
-		should(function () {
-			Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory).setRemoteBackup(false);
-		}).not.throw();
 		finish();
 	});
 });

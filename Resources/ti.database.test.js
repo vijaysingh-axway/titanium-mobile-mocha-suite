@@ -38,16 +38,16 @@ describe('Titanium.Database', function () {
 	});
 
 	// Check if install exists and make sure it does not throw exception
-	it('install', function (finish) {
+	it('install()', function (finish) {
 		should(Ti.Database.install).not.be.undefined;
 		should(Ti.Database.install).be.a.Function;
 
 		// Database name
-		var dbName = "testDbInstall";
+		var dbName = 'testDbInstall';
 
 		// Copy database 'testDbResource.db' over from the application folder
 		// into the application data folder as 'testDbInstall'
-		var db = Ti.Database.install("testDbResource.db", dbName);
+		var db = Ti.Database.install('testDbResource.db', dbName);
 
 		// Confirm 'db' is an object
 		should(db).be.a.Object;
@@ -70,7 +70,7 @@ describe('Titanium.Database', function () {
 		should(db.rowsAffected).be.eql(0);
 
 		// Define test data
-		var testName = "John Smith";
+		var testName = 'John Smith';
 		var testNumber = 123456789;
 		var testArray = ['Smith John', 987654321];
 
@@ -154,12 +154,12 @@ describe('Titanium.Database', function () {
 	});
 
 	// Check if open exists and make sure it does not throw exception
-	it('open', function (finish) {
-		should(Ti.Database.install).not.be.undefined;
-		should(Ti.Database.install).be.a.Function;
+	it('open()', function (finish) {
+		should(Ti.Database.open).not.be.undefined;
+		should(Ti.Database.open).be.a.Function;
 
 		// Database name
-		var dbName = "testDbOpen";
+		var dbName = 'testDbOpen';
 
 		// Open database 'testDbOpen' if it exists in the
 		// application data folder, otherwise create a new one
@@ -191,7 +191,7 @@ describe('Titanium.Database', function () {
 		db.execute('DELETE FROM testTable');
 
 		// Define test data
-		var testName = "John Smith";
+		var testName = 'John Smith';
 		var testNumber = 123456789;
 
 		// Insert test data into the table
@@ -263,10 +263,10 @@ describe('Titanium.Database', function () {
 		finish();
 	});
 
-	// Check if it guards against "closed" results
+	// Check if it guards against 'closed' results
 	it('closed_guard', function (finish) {
 		// Database name
-		var dbName = "testDbOpen";
+		var dbName = 'testDbOpen';
 
 		// Open database 'testDbOpen' if it exists in the
 		// application data folder, otherwise create a new one
@@ -279,7 +279,7 @@ describe('Titanium.Database', function () {
 		db.execute('DELETE FROM testTable');
 
 		// Define test data
-		var testName = "John Smith";
+		var testName = 'John Smith';
 		var testNumber = 123456789;
 
 		// Insert test data into the table
@@ -309,7 +309,7 @@ describe('Titanium.Database', function () {
 		// Close the 'rows' object
 		rows.close();
 
-		// Make sure row is not "valid"
+		// Make sure row is not 'valid'
 		should(rows.rowCount).be.eql(0);
 		should(rows.fieldCount).be.eql(0);
 		should(rows.validRow).be.false;
@@ -342,17 +342,17 @@ describe('Titanium.Database', function () {
 	});
 
 	// Test behavior expected by alloy code for createCollection. See TIMOB-20222
-	it('execute returns null instead of empty result set', function (finish) {
+	it('execute() returns null instead of empty result set', function (finish) {
 		should(Ti.Database.install).not.be.undefined;
 		should(Ti.Database.install).be.a.Function;
 
 		// Call install on a database file that doesn't exist. We should just make a new db with name 'category'
-		var db = Ti.Database.install("made.up.sqlite", "category");
+		var db = Ti.Database.install('made.up.sqlite', 'category');
 
 		// Confirm 'db' is an object
 		should(db).be.a.Object;
 
-		var rows = db.execute('pragma table_info("category");');
+		var rows = db.execute('pragma table_info(\'category\');');
 
 		should(rows).be.null;
 

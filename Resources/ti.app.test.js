@@ -5,32 +5,22 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.App', function () {
 
 	// Check if EVENT_ACCESSIBILITY_ANNOUNCEMENT exists and make sure it does not throw exception
 	it('EVENT_ACCESSIBILITY_ANNOUNCEMENT', function (finish) {
-		should(function () {
-			should(Ti.App.EVENT_ACCESSIBILITY_ANNOUNCEMENT).not.be.undefined;
-			should(Ti.App.EVENT_ACCESSIBILITY_ANNOUNCEMENT).be.a.String;
-			// make sure it is read-only value
-			var value = Ti.App.EVENT_ACCESSIBILITY_ANNOUNCEMENT;
-			Ti.App.EVENT_ACCESSIBILITY_ANNOUNCEMENT = 'try_to_overwrite_READONLY_value';
-			should(Ti.App.EVENT_ACCESSIBILITY_ANNOUNCEMENT).be.eql(value);
-		}).not.throw();
+		should(Ti.App.EVENT_ACCESSIBILITY_ANNOUNCEMENT).be.a.readOnlyString;
+		should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).be.eql('accessibilityannouncement');
 		finish();
 	});
+
 	// Check if EVENT_ACCESSIBILITY_CHANGED exists and make sure it does not throw exception
 	it('EVENT_ACCESSIBILITY_CHANGED', function (finish) {
-		should(function () {
-			should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).not.be.undefined;
-			should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).be.a.String;
-			// make sure it is read-only value
-			var value = Ti.App.EVENT_ACCESSIBILITY_CHANGED;
-			Ti.App.EVENT_ACCESSIBILITY_CHANGED = 'try_to_overwrite_READONLY_value';
-			should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).be.eql(value);
-		}).not.throw();
+		should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).be.a.readOnlyString;
+		should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).be.eql('accessibilitychanged');
 		finish();
 	});
 

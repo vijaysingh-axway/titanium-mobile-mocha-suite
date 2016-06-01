@@ -18,3 +18,13 @@ should.Assertion.add('readOnlyNumber', function() {
 		should(this.obj).be.readOnly;
 	}).not.throw();
 }, true);
+
+should.Assertion.add('readOnlyString', function() {
+	this.params = { operator: 'to be a read-only String' };
+
+	should(function () {
+		should(this.obj).not.be.undefined;
+		should(this.obj).be.a.String;
+		should(this.obj).be.readOnly;
+	}).not.throw();
+}, true);

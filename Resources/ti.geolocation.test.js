@@ -5,7 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.Geolocation', function () {
 	it('apiName', function (finish) {
@@ -15,105 +16,49 @@ describe('Titanium.Geolocation', function () {
 
 	// Check if ACCURACY_BEST exists and make sure it does not throw exception
 	it('ACCURACY_BEST', function (finish) {
-		should(function () {
-			should(Ti.Geolocation.ACCURACY_BEST).not.be.undefined;
-			should(Ti.Geolocation.ACCURACY_BEST).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Geolocation.ACCURACY_BEST;
-			Ti.Geolocation.ACCURACY_BEST = 'try_to_overwrite_READONLY_value';
-			should(Ti.Geolocation.ACCURACY_BEST).be.eql(value);
-		}).not.throw();
+		should(Ti.Geolocation.ACCURACY_BEST).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if ACCURACY_BEST_FOR_NAVIGATION exists and make sure it does not throw exception
 	it('ACCURACY_BEST_FOR_NAVIGATION', function (finish) {
-		should(function () {
-			should(Ti.Geolocation.ACCURACY_BEST_FOR_NAVIGATION).not.be.undefined;
-			should(Ti.Geolocation.ACCURACY_BEST_FOR_NAVIGATION).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Geolocation.ACCURACY_BEST_FOR_NAVIGATION;
-			Ti.Geolocation.ACCURACY_BEST_FOR_NAVIGATION = 'try_to_overwrite_READONLY_value';
-			should(Ti.Geolocation.ACCURACY_BEST_FOR_NAVIGATION).be.eql(value);
-		}).not.throw();
+		should(Ti.Geolocation.ACCURACY_BEST_FOR_NAVIGATION).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if ACCURACY_HIGH exists and make sure it does not throw exception
 	it('ACCURACY_HIGH', function (finish) {
-		should(function () {
-			should(Ti.Geolocation.ACCURACY_HIGH).not.be.undefined;
-			should(Ti.Geolocation.ACCURACY_HIGH).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Geolocation.ACCURACY_HIGH;
-			Ti.Geolocation.ACCURACY_HIGH = 'try_to_overwrite_READONLY_value';
-			should(Ti.Geolocation.ACCURACY_HIGH).be.eql(value);
-		}).not.throw();
+		should(Ti.Geolocation.ACCURACY_HIGH).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if ACCURACY_HUNDRED_METERS exists and make sure it does not throw exception
 	it('ACCURACY_HUNDRED_METERS', function (finish) {
-		should(function () {
-			should(Ti.Geolocation.ACCURACY_HUNDRED_METERS).not.be.undefined;
-			should(Ti.Geolocation.ACCURACY_HUNDRED_METERS).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Geolocation.ACCURACY_HUNDRED_METERS;
-			Ti.Geolocation.ACCURACY_HUNDRED_METERS = 'try_to_overwrite_READONLY_value';
-			should(Ti.Geolocation.ACCURACY_HUNDRED_METERS).be.eql(value);
-		}).not.throw();
+		should(Ti.Geolocation.ACCURACY_HUNDRED_METERS).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if ACCURACY_KILOMETER exists and make sure it does not throw exception
 	it('ACCURACY_KILOMETER', function (finish) {
-		should(function () {
-			should(Ti.Geolocation.ACCURACY_KILOMETER).not.be.undefined;
-			should(Ti.Geolocation.ACCURACY_KILOMETER).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Geolocation.ACCURACY_KILOMETER;
-			Ti.Geolocation.ACCURACY_KILOMETER = 'try_to_overwrite_READONLY_value';
-			should(Ti.Geolocation.ACCURACY_KILOMETER).be.eql(value);
-		}).not.throw();
+		should(Ti.Geolocation.ACCURACY_KILOMETER).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if ACCURACY_LOW exists and make sure it does not throw exception
 	it('ACCURACY_LOW', function (finish) {
-		should(function () {
-			should(Ti.Geolocation.ACCURACY_LOW).not.be.undefined;
-			should(Ti.Geolocation.ACCURACY_LOW).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Geolocation.ACCURACY_LOW;
-			Ti.Geolocation.ACCURACY_LOW = 'try_to_overwrite_READONLY_value';
-			should(Ti.Geolocation.ACCURACY_LOW).be.eql(value);
-		}).not.throw();
+		should(Ti.Geolocation.ACCURACY_LOW).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if ACCURACY_NEAREST_TEN_METERS exists and make sure it does not throw exception
 	it('ACCURACY_NEAREST_TEN_METERS', function (finish) {
-		should(function () {
-			should(Ti.Geolocation.ACCURACY_NEAREST_TEN_METERS).not.be.undefined;
-			should(Ti.Geolocation.ACCURACY_NEAREST_TEN_METERS).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Geolocation.ACCURACY_NEAREST_TEN_METERS;
-			Ti.Geolocation.ACCURACY_NEAREST_TEN_METERS = 'try_to_overwrite_READONLY_value';
-			should(Ti.Geolocation.ACCURACY_NEAREST_TEN_METERS).be.eql(value);
-		}).not.throw();
+		should(Ti.Geolocation.ACCURACY_NEAREST_TEN_METERS).be.a.readOnlyNumber;
 		finish();
 	});
 
 	// Check if ACCURACY_THREE_KILOMETERS exists and make sure it does not throw exception
 	it('ACCURACY_THREE_KILOMETERS', function (finish) {
-		should(function () {
-			should(Ti.Geolocation.ACCURACY_THREE_KILOMETERS).not.be.undefined;
-			should(Ti.Geolocation.ACCURACY_THREE_KILOMETERS).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.Geolocation.ACCURACY_THREE_KILOMETERS;
-			Ti.Geolocation.ACCURACY_THREE_KILOMETERS = 'try_to_overwrite_READONLY_value';
-			should(Ti.Geolocation.ACCURACY_THREE_KILOMETERS).be.eql(value);
-		}).not.throw();
+		should(Ti.Geolocation.ACCURACY_THREE_KILOMETERS).be.a.readOnlyNumber;
 		finish();
 	});
 
