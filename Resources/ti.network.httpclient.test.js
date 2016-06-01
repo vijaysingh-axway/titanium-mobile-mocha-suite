@@ -9,7 +9,7 @@ var should = require('./should'),
 
 describe('Titanium.Network.HTTPClient', function () {
 	it('apiName', function (finish) {
-		should(xhr.apiName).be.eql('Ti.Network.HTTPClient');
+		should(Ti.Network.HTTPClient.apiName).be.eql('Ti.Network.HTTPClient');
 		finish();
 	});
 
