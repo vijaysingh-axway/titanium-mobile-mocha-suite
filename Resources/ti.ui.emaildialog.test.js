@@ -5,7 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.UI.EmailDialog', function () {
 	it('apiName', function (finish) {
@@ -15,57 +16,28 @@ describe('Titanium.UI.EmailDialog', function () {
 
 	// Check if FAILED exists and make sure it does not throw exception
 	it('FAILED', function (finish) {
-		should(function () {
-			should(Ti.UI.EmailDialog.FAILED).not.be.undefined;
-			should(Ti.UI.EmailDialog.FAILED).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.UI.EmailDialog.FAILED;
-			Ti.UI.EmailDialog.FAILED = 'try_to_overwrite_READONLY_value';
-			should(Ti.UI.EmailDialog.FAILED).be.eql(value);
-		}).not.throw();
+		should(Ti.UI.EmailDialog.FAILED).be.a.readOnlyNumber;
 		finish();
 	});
+
 	// Check if SENT exists and make sure it does not throw exception
 	it('SENT', function (finish) {
-		should(function () {
-			should(Ti.UI.EmailDialog.SENT).not.be.undefined;
-			should(Ti.UI.EmailDialog.SENT).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.UI.EmailDialog.SENT;
-			Ti.UI.EmailDialog.SENT = 'try_to_overwrite_READONLY_value';
-			should(Ti.UI.EmailDialog.SENT).be.eql(value);
-		}).not.throw();
+		should(Ti.UI.EmailDialog.SENT).be.a.readOnlyNumber;
 		finish();
 	});
 	// Check if SAVED exists and make sure it does not throw exception
 	it('SAVED', function (finish) {
-		should(function () {
-			should(Ti.UI.EmailDialog.SAVED).not.be.undefined;
-			should(Ti.UI.EmailDialog.SAVED).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.UI.EmailDialog.SAVED;
-			Ti.UI.EmailDialog.SAVED = 'try_to_overwrite_READONLY_value';
-			should(Ti.UI.EmailDialog.SAVED).be.eql(value);
-		}).not.throw();
+		should(Ti.UI.EmailDialog.SAVED).be.a.readOnlyNumber;
 		finish();
 	});
+
 	// Check if CANCELLED exists and make sure it does not throw exception
 	it('CANCELLED', function (finish) {
-		should(function () {
-			should(Ti.UI.EmailDialog.CANCELLED).not.be.undefined;
-			should(Ti.UI.EmailDialog.CANCELLED).be.a.Number;
-			// make sure it is read-only value
-			var value = Ti.UI.EmailDialog.CANCELLED;
-			Ti.UI.EmailDialog.CANCELLED = 'try_to_overwrite_READONLY_value';
-			should(Ti.UI.EmailDialog.CANCELLED).be.eql(value);
-		}).not.throw();
+		should(Ti.UI.EmailDialog.CANCELLED).be.a.readOnlyNumber;
 		finish();
 	});
-	it('subject', function (finish) {
-		// EmailDialog does not support Windows Store app
-		if (utilities.isWindowsDesktop()) {
-			return finish();
-		}
+
+	(utilities.isWindowsDesktop() ? it.skip : it)('subject', function (finish) {
 		var email = Ti.UI.createEmailDialog({
 			subject: 'this is some text'
 		});
@@ -79,11 +51,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		finish();
 	});
 
-	it('messageBody', function (finish) {
-		// EmailDialog does not support Windows Store app
-		if (utilities.isWindowsDesktop()) {
-			return finish();
-		}
+	(utilities.isWindowsDesktop() ? it.skip : it)('messageBody', function (finish) {
 		var email = Ti.UI.createEmailDialog({
 			messageBody: 'this is some text'
 		});
@@ -97,11 +65,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		finish();
 	});
 
-	it('toRecipients', function (finish) {
-		// EmailDialog does not support Windows Store app
-		if (utilities.isWindowsDesktop()) {
-			return finish();
-		}
+	(utilities.isWindowsDesktop() ? it.skip : it)('toRecipients', function (finish) {
 		var email = Ti.UI.createEmailDialog({
 			toRecipients: ['me@example.com']
 		});
@@ -115,11 +79,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		finish();
 	});
 
-	it('ccRecipients', function (finish) {
-		// EmailDialog does not support Windows Store app
-		if (utilities.isWindowsDesktop()) {
-			return finish();
-		}
+	(utilities.isWindowsDesktop() ? it.skip : it)('ccRecipients', function (finish) {
 		var email = Ti.UI.createEmailDialog({
 			ccRecipients: ['me@example.com']
 		});
@@ -133,11 +93,7 @@ describe('Titanium.UI.EmailDialog', function () {
 		finish();
 	});
 
-	it('bccRecipients', function (finish) {
-		// EmailDialog does not support Windows Store app
-		if (utilities.isWindowsDesktop()) {
-			return finish();
-		}
+	(utilities.isWindowsDesktop() ? it.skip : it)('bccRecipients', function (finish) {
 		var email = Ti.UI.createEmailDialog({
 			bccRecipients: ['me@example.com']
 		});
