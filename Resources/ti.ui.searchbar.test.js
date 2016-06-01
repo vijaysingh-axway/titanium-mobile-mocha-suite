@@ -6,7 +6,7 @@
  */
 var should = require('./should');
 
-describe('Ti.UI.SearchBar', function () {
+describe('Titanium.UI.SearchBar', function () {
 	it('TableView', function (finish) {
 		var win = Ti.UI.createWindow();
 		var sb = Titanium.UI.createSearchBar({
