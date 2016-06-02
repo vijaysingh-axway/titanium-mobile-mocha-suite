@@ -9,36 +9,28 @@ var should = require('./should'),
 	assert = require('./utilities/assertions');
 
 describe('Titanium.Database', function () {
-	it('apiName', function (finish) {
+	it('apiName', function () {
 		should(Ti.Database.apiName).be.eql('Ti.Database');
-		finish();
+		should(Ti.Database.apiName).be.a.readOnlyString;
 	});
 
-	// Check if FIELD_TYPE_DOUBLE exists and make sure it does not throw exception
-	it('FIELD_TYPE_DOUBLE', function (finish) {
+	it('FIELD_TYPE_DOUBLE', function () {
 		should(Ti.Database.FIELD_TYPE_DOUBLE).be.a.readOnlyNumber;
-		finish();
 	});
 
-	// Check if FIELD_TYPE_FLOAT exists and make sure it does not throw exception
-	it('FIELD_TYPE_FLOAT', function (finish) {
+	it('FIELD_TYPE_FLOAT', function () {
 		should(Ti.Database.FIELD_TYPE_FLOAT).be.a.readOnlyNumber;
-		finish();
 	});
-	// Check if FIELD_TYPE_INT exists and make sure it does not throw exception
-	it('FIELD_TYPE_INT', function (finish) {
+
+	it('FIELD_TYPE_INT', function () {
 		should(Ti.Database.FIELD_TYPE_INT).be.a.readOnlyNumber;
-		finish();
 	});
 
-	// Check if FIELD_TYPE_STRING exists and make sure it does not throw exception
-	it('FIELD_TYPE_STRING', function (finish) {
+	it('FIELD_TYPE_STRING', function () {
 		should(Ti.Database.FIELD_TYPE_STRING).be.a.readOnlyNumber;
-		finish();
 	});
 
-	// Check if install exists and make sure it does not throw exception
-	it('install()', function (finish) {
+	it('install()', function () {
 		should(Ti.Database.install).not.be.undefined;
 		should(Ti.Database.install).be.a.Function;
 
@@ -148,13 +140,10 @@ describe('Titanium.Database', function () {
 
 		// Close the database (unnecessary as remove() does this for us)
 		db.close();
-
-		// Finish mocha test
-		finish();
 	});
 
 	// Check if open exists and make sure it does not throw exception
-	it('open()', function (finish) {
+	it('open()', function () {
 		should(Ti.Database.open).not.be.undefined;
 		should(Ti.Database.open).be.a.Function;
 
@@ -258,13 +247,10 @@ describe('Titanium.Database', function () {
 
 		// Close the database (unnecessary as remove() does this for us)
 		db.close();
-
-		// Finish the mocha test
-		finish();
 	});
 
 	// Check if it guards against 'closed' results
-	it('closed_guard', function (finish) {
+	it('closed_guard', function () {
 		// Database name
 		var dbName = 'testDbOpen';
 
@@ -336,13 +322,10 @@ describe('Titanium.Database', function () {
 
 		// Close the database (unnecessary as remove() does this for us)
 		db.close();
-
-		// Finish the mocha test
-		finish();
 	});
 
 	// Test behavior expected by alloy code for createCollection. See TIMOB-20222
-	it('execute() returns null instead of empty result set', function (finish) {
+	it('execute() returns null instead of empty result set', function () {
 		should(Ti.Database.install).not.be.undefined;
 		should(Ti.Database.install).be.a.Function;
 
@@ -361,8 +344,6 @@ describe('Titanium.Database', function () {
 
 		// Close the database (unnecessary as remove() does this for us)
 		db.close();
-
-		finish();
 	});
 
 });
