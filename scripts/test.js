@@ -159,6 +159,15 @@ function copyMochaAssets(next) {
 			forceDelete: true
 		});
 	}
+
+	// copy i18n so we can test those too
+	src = path.join(SOURCE_DIR, 'i18n'),
+	dest = path.join(PROJECT_DIR, 'i18n');
+	if (fs.existsSync(src)) {
+		wrench.copyDirSyncRecursive(src, dest, {
+			forceDelete: true
+		});
+	}
 	next();
 }
 
