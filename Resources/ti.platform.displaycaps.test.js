@@ -23,7 +23,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	it('getDensity()', function () {
-		should(Ti.Platform.displayCaps.getDensity.be.a.Function;
+		should(Ti.Platform.displayCaps.getDensity).be.a.Function;
 		should(Ti.Platform.displayCaps.getDensity()).be.a.String;
 	});
 
