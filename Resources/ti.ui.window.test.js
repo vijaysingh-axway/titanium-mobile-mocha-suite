@@ -11,13 +11,12 @@ var should = require('should'),
 	didFocus = false;
 
 describe('Titanium.UI.Window', function () {
-
+	this.timeout(5000);
 	beforeEach(function() {
 		didFocus = false;
 	});
 
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('window_size_is_read_only', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue',
 			width: 100,
@@ -37,7 +36,6 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('window_position_is_read_only', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'green',
 			left: 100,
@@ -57,7 +55,6 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('window_post_layout', function (finish) {
-		this.timeout(5000);
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'yellow'
 		});
@@ -74,7 +71,6 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it('remove_children', function (finish) {
-		this.timeout(5000);
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'gray'
 		});
@@ -95,7 +91,6 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it('windows_events', function (finish) {
-		this.timeout(5000);
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'pink'
 		});
@@ -124,7 +119,6 @@ describe('Titanium.UI.Window', function () {
 	// For this test, you should see errors in the console, it is expected.
 	// What you should not see is a crash
 	it('should_not_crash', function (finish) {
-		this.timeout(5000)
 		var win1 = Ti.UI.createWindow();
 		win1.open();
 		win1.close();
@@ -142,7 +136,6 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it('window_close_order_1', function (finish) {
-		this.timeout(5000)
 		var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
 			win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
 			win3 = Ti.UI.createWindow({backgroundColor:'gray' });
@@ -171,7 +164,6 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it('window_close_order_2', function (finish) {
-		this.timeout(5000)
 		var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
 			win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
 			win3 = Ti.UI.createWindow({backgroundColor:'gray' });
@@ -199,7 +191,6 @@ describe('Titanium.UI.Window', function () {
 
 	// TIMOB-20600
 	it('TIMOB-20600', function (finish) {
-		this.timeout(5000)
 		var win1 = Ti.UI.createWindow({backgroundColor:'green'}),
 			win2 = Ti.UI.createWindow({backgroundColor:'blue' }),
 			win3 = Ti.UI.createWindow({backgroundColor:'gray' });
@@ -252,8 +243,6 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it.skip('window_navigation', function (finish) {
-		this.timeout(5000);
-
 		var rootWindowFocus = 0;
 		var rootWindowBlur = 0;
 		var rootWindowOpen = 0;
