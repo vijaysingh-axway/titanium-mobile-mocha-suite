@@ -191,7 +191,7 @@ describe('Titanium.UI', function () {
 		'URL_ERROR_UNSUPPORTED_SCHEME': { type: 'Number', platforms: NOT_MOBILEWEB}
 	};
 	for (var name in constants) {
-		if (constants.hasOwnProperty(property)) {
+		if (constants.hasOwnProperty(name)) {
 			// Don't test if the constant isn't for this platform!
 			if (constants[name].platforms.indexOf(Ti.Platform.osname) === -1) { continue; }
 			if (constants[name].type == 'Number') {
