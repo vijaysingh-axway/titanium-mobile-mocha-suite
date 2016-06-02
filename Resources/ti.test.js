@@ -25,11 +25,13 @@ describe('Titanium', function () {
 		should(Ti.getVersion).be.a.Function;
 		should(Ti.getVersion()).be.a.String;
 		should(Ti.getVersion()).not.eql('__TITANIUM_VERSION__');
+		// TODO Test format of the version string. what should we expect? Something like: /\d\.\d\.\d(\.(v\d+|GA))/
 	});
 
 	it('buildDate', function () {
 		should(Ti.buildDate).not.eql('__TITANIUM_BUILD_DATE__');
 		should(Ti.buildDate).be.a.readOnlyString;
+		// TODO Test format of the date string. what should we expect? Android gives us: '2016/06/02 08:45'
 	});
 
 	it('getBuildDate()', function () {
@@ -41,6 +43,7 @@ describe('Titanium', function () {
 	it('buildHash', function () {
 		should(Ti.buildHash).not.eql('__TITANIUM_BUILD_HASH__');
 		should(Ti.buildHash).be.a.readOnlyString;
+		// TODO Test format of the buildHash string. what should we expect? Android gives us: 'c012548'
 	});
 
 	it('getBuildHash()', function () {
