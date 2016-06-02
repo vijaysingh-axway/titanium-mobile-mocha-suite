@@ -326,6 +326,128 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('animate (left %)', function (finish) {
+		var win = Ti.UI.createWindow(),
+			view = Ti.UI.createView({
+				backgroundColor: 'red',
+				width: '10%', height: '10%',
+				left: 0, top: 0
+			});
+		win.addEventListener('open', function () {
+			var animation = Ti.UI.createAnimation({
+				left: '90%',
+				duration: 1000
+			});
+			animation.addEventListener('complete', function () {
+				// make sure to give it a time to layout
+				setTimeout(function () {
+					should(view.rect.x).be.approximately(view.rect.width*9, 10);
+					should(view.rect.y).be.eql(0);
+					should(view.left).be.eql(0);
+					should(view.top).be.eql(0);
+					win.close();
+					finish();
+				}, 500);
+			});
+			view.animate(animation);
+		});
+		win.add(view);
+		win.open();
+	});
+
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('animate (top %)', function (finish) {
+		var win = Ti.UI.createWindow(),
+			view = Ti.UI.createView({
+				backgroundColor: 'red',
+				width: '10%', height: '10%',
+				left: 0, top: 0
+			});
+		win.addEventListener('open', function () {
+			var animation = Ti.UI.createAnimation({
+					top: '90%',
+					duration: 1000
+				});
+			animation.addEventListener('complete', function () {
+				// make sure to give it a time to layout
+				setTimeout(function () {
+					should(view.rect.x).be.eql(0);
+					should(view.rect.y).be.approximately(view.rect.height*9, 10);
+					should(view.left).be.eql(0);
+					should(view.top).be.eql(0);
+					win.close();
+					finish();
+				}, 500);
+			});
+			view.animate(animation);
+		});
+		win.add(view);
+		win.open();
+	});
+
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('animate (width %)', function (finish) {
+		var win = Ti.UI.createWindow(),
+			view = Ti.UI.createView({
+				backgroundColor: 'red',
+				width: '10%', height: '10%',
+				left: '10%', top: 0
+			});
+		win.addEventListener('open', function () {
+			var animation = Ti.UI.createAnimation({
+				width: '90%',
+				duration: 1000
+			});
+			animation.addEventListener('complete', function () {
+				// make sure to give it a time to layout
+				setTimeout(function () {
+					should(view.width).be.eql('10%');
+					should(view.height).be.eql('10%');
+					should(view.rect.width).be.approximately(view.rect.x*9, 10);
+					should(view.left).be.eql('10%');
+					should(view.top).be.eql(0);
+					win.close();
+					finish();
+				}, 500);
+			});
+			view.animate(animation);
+		});
+		win.add(view);
+		win.open();
+	});
+
+	// FIXME: Windows 10 Store app fails for this...need to figure out why.
+	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('animate (height %)', function (finish) {
+		var win = Ti.UI.createWindow(),
+			view = Ti.UI.createView({
+				backgroundColor: 'red',
+				width: '10%', height: '10%',
+				left: 0, top: '10%'
+			});
+		win.addEventListener('open', function () {
+			var animation = Ti.UI.createAnimation({
+				height: '90%',
+				duration: 1000
+			});
+			animation.addEventListener('complete', function () {
+				// make sure to give it a time to layout
+				setTimeout(function () {
+					should(view.width).be.eql('10%');
+					should(view.height).be.eql('10%');
+					should(view.rect.height).be.approximately(view.rect.y*9, 10);
+					should(view.left).be.eql(0);
+					should(view.top).be.eql('10%');
+					win.close();
+					finish();
+				}, 500);
+			});
+			view.animate(animation);
+		});
+		win.add(view);
+		win.open();
+	});
+
 	it('convertPointToView', function (finish) {
 		var w = Ti.UI.createWindow(),
 		a = Ti.UI.createView({backgroundColor:'red'}),
