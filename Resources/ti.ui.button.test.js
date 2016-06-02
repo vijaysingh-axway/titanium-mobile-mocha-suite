@@ -8,51 +8,51 @@
 require('ti-mocha');
 var should = require('should'),
 	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions'),
 	didFocus = false;
 
 describe('Titanium.UI.Button', function () {
+
+	this.timeout(5000);
 
 	beforeEach(function() {
 		didFocus = false;
 	});
 
-	it('apiName', function (finish) {
+	it('apiName', function () {
 		should(Ti.UI.Button.apiName).be.eql('Ti.UI.Button');
-		finish();
+		should(Ti.UI.Button.apiName).be.a.readOnlyString;
 	});
 
-    it("title", function (finish) {
-        var bar = Ti.UI.createButton({
-            title: "this is some text"
-        });
-        should(bar.title).be.a.String;
-        should(bar.getTitle).be.a.Function;
-        should(bar.title).eql('this is some text');
-        should(bar.getTitle()).eql('this is some text');
-        bar.title = 'other text';
-        should(bar.title).eql('other text');
-        should(bar.getTitle()).eql('other text');
-        finish();
-    });
+	it('title', function () {
+		var bar = Ti.UI.createButton({
+			title: 'this is some text'
+		});
+		should(bar.title).be.a.String;
+		should(bar.getTitle).be.a.Function;
+		should(bar.title).eql('this is some text');
+		should(bar.getTitle()).eql('this is some text');
+		bar.title = 'other text';
+		should(bar.title).eql('other text');
+		should(bar.getTitle()).eql('other text');
+	});
 
-    it("titleid", function (finish) {
-        var bar = Ti.UI.createButton({
-            titleid: "this is my key"
-        });
-        should(bar.titleid).be.a.String;
-        should(bar.getTitleid).be.a.Function;
-        should(bar.titleid).eql('this is my key');
-        should(bar.getTitleid()).eql('this is my key');
-        should(bar.title).eql('this is my value');
-        bar.titleid = 'other text';
-        should(bar.titleid).eql('other text');
-        should(bar.getTitleid()).eql('other text');
-        should(bar.title).eql('other text'); // key is used when no resources found
-        finish();
-    });
+	it('titleid', function () {
+		var bar = Ti.UI.createButton({
+			titleid: 'this-is-my-key'
+		});
+		should(bar.titleid).be.a.String;
+		should(bar.getTitleid).be.a.Function;
+		should(bar.titleid).eql('this-is-my-key');
+		should(bar.getTitleid()).eql('this-is-my-key');
+		should(bar.title).eql('this is my value');
+		bar.titleid = 'other text';
+		should(bar.titleid).eql('other text');
+		should(bar.getTitleid()).eql('other text');
+		should(bar.title).eql('other text'); // key is used when no resources found
+	});
 
 	it('image(String)', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -73,7 +73,6 @@ describe('Titanium.UI.Button', function () {
 
 	// Skip on Windows 10 and 8.1 desktop for now, it hangs
 	(utilities.isWindows10() || (utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('image(Blob)', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -93,7 +92,6 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	(utilities.isWindowsDesktop() ? it.skip : it)('backgroundColor/Image', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -117,7 +115,6 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -141,7 +138,6 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -165,7 +161,6 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -189,7 +184,6 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('backgroundGradient', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -217,7 +211,6 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('border', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -241,7 +234,6 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('rect and size', function (finish) {
-		this.timeout(5000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});

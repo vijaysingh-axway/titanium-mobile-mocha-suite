@@ -5,13 +5,14 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.UI.OptionDialog', function () {
 
-	it('apiName', function (finish) {
+	it('apiName', function () {
 		should(Ti.UI.OptionDialog.apiName).be.eql('Ti.UI.OptionDialog');
-		finish();
+		should(Ti.UI.OptionDialog.apiName).be.a.readOnlyString;
 	});
 
 	it('title', function (finish) {
@@ -28,21 +29,21 @@ describe('Titanium.UI.OptionDialog', function () {
 		finish();
 	});
 
-    it("titleid", function (finish) {
-        var bar = Ti.UI.createOptionDialog({
-            titleid: "this is my key"
-        });
-        should(bar.titleid).be.a.String;
-        should(bar.getTitleid).be.a.Function;
-        should(bar.titleid).eql('this is my key');
-        should(bar.getTitleid()).eql('this is my key');
-        should(bar.title).eql('this is my value');
-        bar.titleid = 'other text';
-        should(bar.titleid).eql('other text');
-        should(bar.getTitleid()).eql('other text');
-        should(bar.title).eql('other text'); // key is used when no resources found
-        finish();
-    });
+	it('titleid', function (finish) {
+		var bar = Ti.UI.createOptionDialog({
+			titleid: 'this-is-my-key'
+		});
+		should(bar.titleid).be.a.String;
+		should(bar.getTitleid).be.a.Function;
+		should(bar.titleid).eql('this-is-my-key');
+		should(bar.getTitleid()).eql('this-is-my-key');
+		should(bar.title).eql('this is my value');
+		bar.titleid = 'other text';
+		should(bar.titleid).eql('other text');
+		should(bar.getTitleid()).eql('other text');
+		should(bar.title).eql('other text'); // key is used when no resources found
+		finish();
+	});
 
 	it('buttonNames', function (finish) {
 		var bar = Ti.UI.createOptionDialog({

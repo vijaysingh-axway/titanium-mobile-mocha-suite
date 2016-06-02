@@ -5,15 +5,16 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.UI.AlertDialog', function () {
-	it('apiName', function (finish) {
+	it('apiName', function () {
 		should(Ti.UI.AlertDialog.apiName).be.eql('Ti.UI.AlertDialog');
-		finish();
+		should(Ti.UI.AlertDialog.apiName).be.a.readOnlyString;
 	});
 
-	it('title', function (finish) {
+	it('title', function () {
 		var bar = Ti.UI.createAlertDialog({
 			title: 'this is some text'
 		});
@@ -24,26 +25,24 @@ describe('Titanium.UI.AlertDialog', function () {
 		bar.title = 'other text';
 		should(bar.title).eql('other text');
 		should(bar.getTitle()).eql('other text');
-		finish();
 	});
 
-    it("titleid", function (finish) {
-        var bar = Ti.UI.createAlertDialog({
-            titleid: "this is my key"
-        });
-        should(bar.titleid).be.a.String;
-        should(bar.getTitleid).be.a.Function;
-        should(bar.titleid).eql('this is my key');
-        should(bar.getTitleid()).eql('this is my key');
-        should(bar.title).eql('this is my value');
-        bar.titleid = 'other text';
-        should(bar.titleid).eql('other text');
-        should(bar.getTitleid()).eql('other text');
-        should(bar.title).eql('other text'); // key is used when no resources found
-        finish();
-    });
+	it('titleid', function () {
+		var bar = Ti.UI.createAlertDialog({
+			titleid: 'this-is-my-key'
+		});
+		should(bar.titleid).be.a.String;
+		should(bar.getTitleid).be.a.Function;
+		should(bar.titleid).eql('this-is-my-key');
+		should(bar.getTitleid()).eql('this-is-my-key');
+		should(bar.title).eql('this is my value');
+		bar.titleid = 'other text';
+		should(bar.titleid).eql('other text');
+		should(bar.getTitleid()).eql('other text');
+		should(bar.title).eql('other text'); // key is used when no resources found
+	});
 
-	it('message', function (finish) {
+	it('message', function () {
 		var bar = Ti.UI.createAlertDialog({
 			message: 'this is some text'
 		});
@@ -54,10 +53,9 @@ describe('Titanium.UI.AlertDialog', function () {
 		bar.message = 'other text';
 		should(bar.message).eql('other text');
 		should(bar.getMessage()).eql('other text');
-		finish();
 	});
 
-	it('buttonNames', function (finish) {
+	it('buttonNames', function () {
 		var bar = Ti.UI.createAlertDialog({
 		});
 		should(bar.buttonNames).be.an.Array;
@@ -67,10 +65,9 @@ describe('Titanium.UI.AlertDialog', function () {
 		bar.buttonNames = ['this','other'];
 		should(bar.buttonNames.length).eql(2);
 		should(bar.getButtonNames().length).eql(2);
-		finish();
 	});
 
-	it('cancel', function (finish) {
+	it('', function (finish) {
 		var bar = Ti.UI.createAlertDialog({
 		});
 		should(bar.cancel).be.a.Number;
@@ -78,7 +75,6 @@ describe('Titanium.UI.AlertDialog', function () {
 		bar.cancel = 1;
 		should(bar.cancel).eql(1);
 		should(bar.getCancel()).eql(1);
-		finish();
 	});
 
 });

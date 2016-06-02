@@ -16,9 +16,9 @@ describe('Titanium.UI.Window', function () {
 		didFocus = false;
 	});
 
-	it("title", function (finish) {
+	it('title', function (finish) {
 		var bar = Ti.UI.createWindow({
-			title: "this is some text"
+			title: 'this is some text'
 		});
 		should(bar.title).be.a.String;
 		should(bar.getTitle).be.a.Function;
@@ -30,14 +30,14 @@ describe('Titanium.UI.Window', function () {
 		finish();
 	});
 
-	it("titleid", function (finish) {
+	it('titleid', function (finish) {
 		var bar = Ti.UI.createWindow({
-			titleid: "this is my key"
+			titleid: 'this-is-my-key'
 		});
 		should(bar.titleid).be.a.String;
 		should(bar.getTitleid).be.a.Function;
-		should(bar.titleid).eql('this is my key');
-		should(bar.getTitleid()).eql('this is my key');
+		should(bar.titleid).eql('this-is-my-key');
+		should(bar.getTitleid()).eql('this-is-my-key');
 		should(bar.title).eql('this is my value');
 		bar.titleid = 'other text';
 		should(bar.titleid).eql('other text');

@@ -6,6 +6,7 @@
  */
 var should = require('./should'),
 	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions'),
 	didFocus = false,
 	didPostLayout = false;
 
@@ -16,12 +17,12 @@ describe('Titanium.UI.Label', function () {
 		didPostLayout = false;
 	});
 
-	it('apiName', function (finish) {
+	it('apiName', function () {
 		should(Ti.UI.Label.apiName).be.eql('Ti.UI.Label');
-		finish();
+		should(Ti.UI.Label.apiName).be.a.readOnlyString;
 	});
 
-	it('text', function (finish) {
+	it('text', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
@@ -32,26 +33,24 @@ describe('Titanium.UI.Label', function () {
 		label.text = 'other text';
 		should(label.text).eql('other text');
 		should(label.getText()).eql('other text');
-		finish();
 	});
 
-    it("textid", function (finish) {
-        var label = Ti.UI.createLabel({
-            textid: "this is my key"
-        });
-        should(label.textid).be.a.String;
-        should(label.getTextid).be.a.Function;
-        should(label.textid).eql('this is my key');
-        should(label.getTextid()).eql('this is my key');
-        should(label.text).eql('this is my value');
-        label.textid = 'other text';
-        should(label.textid).eql('other text');
-        should(label.getTextid()).eql('other text');
-        should(label.text).eql('other text'); // key is used when no resources found
-        finish();
-    });
+	it('textid', function () {
+		var label = Ti.UI.createLabel({
+			textid: 'this-is-my-key'
+		});
+		should(label.textid).be.a.String;
+		should(label.getTextid).be.a.Function;
+		should(label.textid).eql('this-is-my-key');
+		should(label.getTextid()).eql('this-is-my-key');
+		should(label.text).eql('this is my value');
+		label.textid = 'other text';
+		should(label.textid).eql('other text');
+		should(label.getTextid()).eql('other text');
+		should(label.text).eql('other text'); // key is used when no resources found
+	});
 
-	it('textAlign', function (finish) {
+	it('textAlign', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text',
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
@@ -63,10 +62,9 @@ describe('Titanium.UI.Label', function () {
 		label.textAlign = Titanium.UI.TEXT_ALIGNMENT_RIGHT;
 		should(label.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
 		should(label.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
-		finish();
 	});
 
-	it('verticalAlign', function (finish) {
+	it('verticalAlign', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text',
 			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
@@ -78,12 +76,11 @@ describe('Titanium.UI.Label', function () {
 		label.verticalAlign = Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP;
 		should(label.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
 		should(label.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
-		finish();
 	});
 
 	// Turn on/off the addition of ellipses at the end of the label if the text is too large to fit.
 	// Default: false
-	it('ellipsize', function (finish) {
+	it('ellipsize', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
@@ -94,12 +91,11 @@ describe('Titanium.UI.Label', function () {
 		label.ellipsize = true;
 		should(label.getEllipsize()).eql(true);
 		should(label.ellipsize).eql(true);
-		finish();
 	});
 
 	// Enable or disable word wrapping in the label.
 	// Defaults: true
-	it('wordWrap', function (finish) {
+	it('wordWrap', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
@@ -110,7 +106,6 @@ describe('Titanium.UI.Label', function () {
 		label.wordWrap = false;
 		should(label.getWordWrap()).eql(false);
 		should(label.wordWrap).eql(false);
-		finish();
 	});
 
 	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('width', function (finish) {
