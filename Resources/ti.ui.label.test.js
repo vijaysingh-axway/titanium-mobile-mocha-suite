@@ -37,12 +37,12 @@ describe('Titanium.UI.Label', function () {
 
 	it('textid', function () {
 		var label = Ti.UI.createLabel({
-			textid: 'this-is-my-key'
+			textid: 'this_is_my_key'
 		});
 		should(label.textid).be.a.String;
 		should(label.getTextid).be.a.Function;
-		should(label.textid).eql('this-is-my-key');
-		should(label.getTextid()).eql('this-is-my-key');
+		should(label.textid).eql('this_is_my_key');
+		should(label.getTextid()).eql('this_is_my_key');
 		should(label.text).eql('this is my value');
 		label.textid = 'other text';
 		should(label.textid).eql('other text');

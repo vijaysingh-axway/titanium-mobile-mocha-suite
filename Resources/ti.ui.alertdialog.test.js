@@ -29,12 +29,12 @@ describe('Titanium.UI.AlertDialog', function () {
 
 	it('titleid', function () {
 		var bar = Ti.UI.createAlertDialog({
-			titleid: 'this-is-my-key'
+			titleid: 'this_is_my_key'
 		});
 		should(bar.titleid).be.a.String;
 		should(bar.getTitleid).be.a.Function;
-		should(bar.titleid).eql('this-is-my-key');
-		should(bar.getTitleid()).eql('this-is-my-key');
+		should(bar.titleid).eql('this_is_my_key');
+		should(bar.getTitleid()).eql('this_is_my_key');
 		should(bar.title).eql('this is my value');
 		bar.titleid = 'other text';
 		should(bar.titleid).eql('other text');
