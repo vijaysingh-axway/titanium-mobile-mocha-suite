@@ -17,6 +17,7 @@ var $results = [],
 // ============================================================================
 // Add the tests here using "require"
 require('./ti.accelerometer.test');
+require('./ti.api.test');
 require('./ti.app.test');
 require('./ti.app.properties.test');
 require('./ti.app.windows.backgroundservice.test');
@@ -86,6 +87,8 @@ function $Reporter(runner) {
 		Ti.API.info('!TEST_START: ' + test.title);
 		started = new Date().getTime();
 	});
+
+	// 'pending' hook for skipped tests? Does 'pending', then immediate 'test end'. No 'test' event
 
 	runner.on('fail', function (test, err) {
 		test.err = err;
