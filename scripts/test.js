@@ -230,9 +230,10 @@ function handleBuild(prc, next) {
 			prc.kill();
 			return next(null, {date: (new Date).toISOString(), results: results});
 		// Handle when app crashes and we haven't finished tests yet!
-		} else if ((index = str.indexOf('-- End application log ----')) != -1) {
+	} else if (((index = str.indexOf('-- End application log ----')) != -1) ||
+				((index = str.indexOf('-- End simulator log ---')) != -1)) {
 			prc.kill(); // quit this build...
-			return next('failed to get test results before log ended!'); // failed too many times
+			return next('Failed to finish test suite before app crashed and logs ended!'); // failed too many times
 		} else {
 			// append output
 			output += str + '\n';
