@@ -172,6 +172,13 @@ function copyMochaAssets(next) {
 	next();
 }
 
+function killiOSSimulator(next) {
+	var prc = spawn('killall', ['Simulator']);
+	prc.on('close', function (code) {
+		if (next) next();
+	});
+}
+
 function runBuild(platform, next) {
 	var args = [
 			titanium, 'build',
@@ -183,6 +190,7 @@ function runBuild(platform, next) {
 		prc;
 	if (platform === 'ios') {
 		args.push('--hide-error-controller');
+		killiOSSimulator();
 	}
 	args.push('--no-prompt');
 	args.push('--no-colors');
