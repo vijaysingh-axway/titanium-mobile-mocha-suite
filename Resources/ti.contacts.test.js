@@ -81,7 +81,8 @@ describe('Titanium.Contacts', function() {
 		finish();
 	});
 
-	it('getAllGroups()', function (finish) {
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('getAllGroups()', function (finish) {
 		should(Ti.Contacts.getAllGroups).be.a.Function;
 		var groups = Ti.Contacts.getAllGroups();
 		should(groups).be.an.Array;
@@ -92,8 +93,8 @@ describe('Titanium.Contacts', function() {
 		finish();
 	});
 
-	// Skip on Windows 10.0 for now: https://jira.appcelerator.org/browse/TIMOB-23332
-	(Ti.Platform.version.indexOf('10.0' == 0) ? it.skip : it)('getAllPeople()', function(finish) {
+	// FIXME Skip on Windows 10.0 for now: https://jira.appcelerator.org/browse/TIMOB-23332
+	(utilities.isWindows10() ? it.skip : it)('getAllPeople()', function(finish) {
 		should(Ti.Contacts.getAllPeople).be.a.Function;
 		var people = Ti.Contacts.getAllPeople();
 		should(people).be.an.Array;
@@ -118,7 +119,7 @@ describe('Titanium.Contacts', function() {
 	});
 
 	// Skip on Windows 8.1
-	(Ti.Platform.version.indexOf('8.1' == 0) ? it.skip : it)('Group add/remove', function (finish) {
+	(utilities.isWindows8_1() ? it.skip : it)('Group add/remove', function (finish) {
 		// Look for existing group and remove it first before we try to create dupe (which fails)
 		var allGroups = Ti.Contacts.getAllGroups();
 		for (var i = 0; i < allGroups.length; i++) {
@@ -170,7 +171,7 @@ describe('Titanium.Contacts', function() {
 	});
 
 	// Skip on Windows 8.1
-	(Ti.Platform.version.indexOf('8.1' == 0) ? it.skip : it)('Person add/remove', function (finish) {
+	(utilities.isWindows8_1() ? it.skip : it)('Person add/remove', function (finish) {
 		// TODO Remove Arthur first if he already exists!
 
 		// create a person
