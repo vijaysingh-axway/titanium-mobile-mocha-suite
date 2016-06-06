@@ -11,7 +11,7 @@ var should = require('./should'),
 describe('Titanium.App', function () {
 
 	it('EVENT_ACCESSIBILITY_ANNOUNCEMENT', function () {
-		should(Ti.App).have.constant('EVENT_ACCESSIBILITY_CHANGED').which.is.eql('accessibilityannouncement');
+		should(Ti.App).have.constant('EVENT_ACCESSIBILITY_ANNOUNCEMENT').which.is.eql('accessibilityannouncement');
 	});
 
 	it('EVENT_ACCESSIBILITY_CHANGED', function () {

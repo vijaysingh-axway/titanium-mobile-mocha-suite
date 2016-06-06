@@ -82,7 +82,7 @@ describe('Titanium.Contacts', function() {
 	});
 
 	// FIXME Skip on Windows 10.0 for now: https://jira.appcelerator.org/browse/TIMOB-23332
-	// // FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	((utilities.isWindows10() || utilities.isIOS()) ? it.skip : it)('getAllPeople()', function() {
 		should(Ti.Contacts.getAllPeople).be.a.Function;
 		var people = Ti.Contacts.getAllPeople();
@@ -98,13 +98,15 @@ describe('Titanium.Contacts', function() {
 		// deprecated, do no more for now
 	});
 
-	it('getGroupByIdentifier()', function () {
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('getGroupByIdentifier()', function () {
 		should(Ti.Contacts.getGroupByIdentifier).be.a.Function;
 		var noGroup = Ti.Contacts.getGroupByIdentifier('doesntexist');
 		should(noGroup).be.null;
 	});
 
 	// Skip on Windows 8.1
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	((utilities.isWindows8_1() || utilities.isIOS()) ? it.skip : it)('Group add/remove', function () {
 		// Look for existing group and remove it first before we try to create dupe (which fails)
 		var allGroups = Ti.Contacts.getAllGroups();

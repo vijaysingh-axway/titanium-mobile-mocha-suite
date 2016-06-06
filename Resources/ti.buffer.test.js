@@ -6,15 +6,16 @@
  */
 
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.Buffer', function() {
-	it('apiName', function (finish) {
+	it('apiName', function () {
+		should(Ti.Buffer).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Buffer.apiName).be.eql('Ti.Buffer');
-		finish();
 	});
 
-	it('testAPI', function(finish) {
+	it('testAPI', function() {
 		should(Ti.createBuffer).be.a.Function;
 		var buffer = Ti.createBuffer();
 		should(buffer).be.an.Object;
@@ -23,10 +24,9 @@ describe('Titanium.Buffer', function() {
 		for (var i = 0; i < functions.length; i++) {
 			should(buffer[functions[i]]).be.a.Function;
 		}
-		finish();
 	});
 
-	it('length', function(finish) {
+	it('length', function() {
 		var buffer = Ti.createBuffer();
 		should(buffer.length).eql(0);
 		buffer = Ti.createBuffer({
@@ -34,10 +34,9 @@ describe('Titanium.Buffer', function() {
 		});
 		should(buffer.length).eql(100);
 		for (var i = 0; 100 > i; i++) should(buffer[i]).eql(0);
-		finish();
 	});
 
-	it('append()', function(finish) {
+	it('append()', function() {
 		var buffer1 = Ti.createBuffer({
 			length: 20
 		});
@@ -76,10 +75,9 @@ describe('Titanium.Buffer', function() {
 			// 99 position / 100 length > buffer2.length
 			buffer1.append(buffer2, 99, 100);
 		}).throw();
-		finish();
 	});
 
-	it('insert()', function(finish) {
+	it('insert()', function() {
 		var buffer1 = Ti.createBuffer({
 			length: 20
 		});
@@ -117,10 +115,9 @@ describe('Titanium.Buffer', function() {
 			// 99 position / 100 length > buffer2.length
 			buffer1.insert(buffer2, 0, 99, 100);
 		}).throw();
-		finish();
 	});
 
-	it('insert() blogExample', function(finish) {
+	it('insert() blogExample', function() {
 		var buffer = Ti.createBuffer({
 			length: 2
 		});
@@ -139,10 +136,9 @@ describe('Titanium.Buffer', function() {
 		should(buffer2.length).eql(1);
 		//unchanged
 		should(buffer2[0]).eql(2);
-		finish();
 	});
 
-	it('copy()', function(finish) {
+	it('copy()', function() {
 		var buffer1 = Ti.createBuffer({
 			length: 20
 		});
@@ -173,10 +169,9 @@ describe('Titanium.Buffer', function() {
 			// 99 position / 100 length > buffer2.length
 			buffer1.copy(buffer2, 99, 100);
 		}).throw();
-		finish();
 	});
 
-	it('clone', function(finish) {
+	it('clone', function() {
 		var buffer1 = Ti.createBuffer({ length: 20 });
 		buffer1[0] = 100;
 		buffer1[6] = 103;
@@ -203,11 +198,9 @@ describe('Titanium.Buffer', function() {
 			// 99 position / 100 length > buffer1.length
 			buffer1.clone(99, 100);
 		}).throw();
-
-		finish();
 	});
 
-	it('fill()', function(finish) {
+	it('fill()', function() {
 		var buffer = Ti.createBuffer({
 			length: 20
 		});
@@ -228,10 +221,9 @@ describe('Titanium.Buffer', function() {
 			// 99 position / 100 length > buffer1.length
 			buffer.fill(100, 99, 100);
 		}).throw();
-		finish();
 	});
 
-	it('clear()', function(finish) {
+	it('clear()', function() {
 		var buffer = Ti.createBuffer({
 			length: 100
 		});
@@ -239,19 +231,17 @@ describe('Titanium.Buffer', function() {
 		buffer.clear();
 		should(buffer.length).eql(100);
 		for (var i = 0; 100 > i; i++) should(buffer[i]).eql(0);
-		finish();
 	});
 
-	it('release()', function(finish) {
+	it('release()', function() {
 		var buffer = Ti.createBuffer({
 			length: 100
 		});
 		buffer.release();
 		should(buffer.length).eql(0);
-		finish();
 	});
 
-	it('toString() and toBlob()', function(finish) {
+	it('toString() and toBlob()', function() {
 		this.timeout(2000);
 		this.slow(1000);
 		// just a simple ascii string
@@ -286,10 +276,9 @@ describe('Titanium.Buffer', function() {
 		var blob = buffer.toBlob();
 		should(blob.length).eql(buffer.length);
 		should(blob.text).eql('appcelerator');
-		finish();
 	});
 
-	it('defaults to UTF-8', function(finish) {
+	it('defaults to UTF-8', function() {
 		this.timeout(2000);
 		this.slow(1000);
 		// default UTF8
@@ -321,10 +310,9 @@ describe('Titanium.Buffer', function() {
 		// o
 		should(buffer[11]).eql(114);
 		// r
-		finish();
 	});
 
-	it('encode with UTF-16', function(finish) {
+	it('encode with UTF-16', function() {
 		this.timeout(2000);
 		this.slow(1000);
 		// UTF-16
@@ -371,10 +359,9 @@ describe('Titanium.Buffer', function() {
 		// o
 		should(buffer[start + 23]).eql(114);
 		// r
-		finish();
 	});
 
-	it('testAutoEncodeBigEndian', function (finish) {
+	it('testAutoEncodeBigEndian', function () {
 		this.timeout(2000);
 		this.slow(1000);
 		// 8 Byte long in Big Endian (most significant byte first)
@@ -390,10 +377,9 @@ describe('Titanium.Buffer', function() {
 		should(buffer[5]).eql(52);
 		should(buffer[6]).eql(86);
 		should(buffer[7]).eql(120);
-		finish();
 	});
 
-	it('testAutoEncodeLittleEndian', function (finish) {
+	it('testAutoEncodeLittleEndian', function () {
 		this.timeout(2000);
 		this.slow(1000);
 		// 4 byte int in Little Endian (least significant byte first)
@@ -407,6 +393,5 @@ describe('Titanium.Buffer', function() {
 		should(buffer[1]).eql(86);
 		should(buffer[2]).eql(52);
 		should(buffer[3]).eql(18);
-		finish();
 	});
 });
