@@ -84,7 +84,6 @@ function $Reporter(runner) {
 	});
 
 	runner.on('test', function (test) {
-		// TODO Use a more formal log output format so we could conceivably capture stdout/stderr for each test run and associate it.
 		Ti.API.info('!TEST_START: ' + test.title);
 		started = new Date().getTime();
 	});

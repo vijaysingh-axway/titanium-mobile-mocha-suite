@@ -8,6 +8,7 @@ var path = require('path'),
 	fs = require('fs'),
 	async = require('async'),
 	wrench = require('wrench'),
+	colors = require('colors'),
 	ejs = require('ejs'),
 	StreamSplitter = require('stream-splitter'),
 	spawn = require('child_process').spawn,
@@ -300,7 +301,7 @@ function outputJUnitXML(jsonResults, prefix, next) {
 	});
 	keys = Object.keys(suites);
 	values = keys.map(function(v) { return suites[v]; });
-	var r = ejs.render('' + fs.readFileSync(JUNIT_TEMPLATE),  { 'suites': values, 'prefix': prefix });
+	r = ejs.render('' + fs.readFileSync(JUNIT_TEMPLATE),  { 'suites': values, 'prefix': prefix });
 
 	// Write the JUnit XML to a file
 	fs.writeFileSync(path.join(__dirname, 'junit.' + prefix + '.xml'), r);
@@ -401,6 +402,57 @@ function test(branch, platforms, callback) {
 	});
 }
 
+function outputResults(results, next) {
+	var indents = 0,
+		n = 0,
+		suites = {},
+		keys = [];
+
+	function indent() {
+		return Array(indents).join('  ')
+	}
+
+	// start
+	console.log();
+
+	results.forEach(function(item) {
+		var s = suites[item.suite] || {tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start:''}; // suite name to group by
+		s.tests.unshift(item);
+		s.duration += item.duration;
+		if (item.state == 'failed') {
+			s.failures += 1;
+		} else if (item.state == 'passed') {
+			s.passes += 1;
+		}
+		suites[item.suite] = s;
+	});
+	keys = Object.keys(suites);
+
+	keys.forEach(function (v) {
+		++indents;
+		console.log('%s%s', indent(), v);
+		// now loop through the tests
+		suites[v].tests.forEach(function (test) {
+			if (test.state === 'skipped') {
+				console.log(indent() + '  - %s'.cyan, test.title);
+			} else if (test.state === 'failed') {
+				console.log(indent() + '  %d) %s'.red, ++n, test.title);
+				++indents;
+				console.log(indent() + '  %s'.red, JSON.stringify(test));
+				--indents;
+			} else {
+				console.log(indent() + '  ✓'.green + ' %s '.gray, test.title);
+			}
+		});
+		--indents;
+		if (1 == indents) console.log();
+	});
+
+	// end
+	// epilogue?
+	next();
+}
+
 // public API
 exports.test = test;
 
@@ -408,23 +460,40 @@ exports.test = test;
 if (module.id === '.') {
 	(function () {
 		var program = require('commander'),
-			packageJson = require('./package');
+			packageJson = require('./package'),
+			platforms = [];
 
 		program
 			.version(packageJson.version)
-			// TODO Allow chooisng a URL or zipfile as SDK to install!
+			// TODO Allow choosing a URL or zipfile as SDK to install!
 			.option('-b, --branch [branchName]', 'Install a specific branch of the SDK to test with', /^(12\.0|14\.0)$/, 'master')
 			.option('-p, --platforms [platform1,platform2]', 'Run unit tests on the given platforms', /^(android(,ios)?)|(ios(,android)?)$/, 'android,ios')
 			.parse(process.argv);
 
-		test(program.branch, program.platforms.split(','), function(err, results) {
+		platforms = program.platforms.split(',');
+
+		test(program.branch, platforms, function(err, results) {
 			if (err) {
 				console.error(err.toString());
 				process.exit(1);
-			} else {
-				// TODO Do something with the results! Maybe we can use some mocha reporter here to spit out results to CLI?
-				process.exit(0);
+				return;
 			}
+
+			async.eachSeries(platforms, function (platform, next) {
+				console.log();
+				console.log('=====================================');
+				console.log(platform.toUpperCase());
+				console.log('-------------------------------------');
+				outputResults(results[platform].results, next);
+			}, function (err) {
+				if (err) {
+					console.error(err.toString());
+					process.exit(1);
+					return;
+				}
+
+				process.exit(0);
+			});
 		});
 	})();
 }
