@@ -9,52 +9,44 @@ var should = require('./should'),
 	assert = require('./utilities/assertions');
 
 describe('Titanium.Contacts', function() {
-	it('apiName', function (finish) {
+	it('apiName', function () {
 		should(Ti.Contacts.apiName).be.eql('Ti.Contacts');
-		finish();
+		should(Ti.Contacts).have.a.readOnlyProperty('apiName').which.is.a.String;
 	});
 
-	it('AUTHORIZATION_AUTHORIZED', function (finish) {
+	it('AUTHORIZATION_AUTHORIZED', function () {
 		should(Ti.Contacts).have.constant('AUTHORIZATION_AUTHORIZED').which.is.a.Number;
-		finish();
 	});
 
-	it('AUTHORIZATION_DENIED', function (finish) {
+	it('AUTHORIZATION_DENIED', function () {
 		should(Ti.Contacts).have.constant('AUTHORIZATION_DENIED').which.is.a.Number;
-		finish();
 	});
 
-	it('AUTHORIZATION_RESTRICTED', function (finish) {
+	it('AUTHORIZATION_RESTRICTED', function () {
 		should(Ti.Contacts).have.constant('AUTHORIZATION_RESTRICTED').which.is.a.Number;
-		finish();
 	});
 
-	it('AUTHORIZATION_UNKNOWN', function (finish) {
+	it('AUTHORIZATION_UNKNOWN', function () {
 		should(Ti.Contacts).have.constant('AUTHORIZATION_UNKNOWN').which.is.a.Number;
-		finish();
 	});
 
-	it('CONTACTS_KIND_ORGANIZATION', function (finish) {
+	it('CONTACTS_KIND_ORGANIZATION', function () {
 		should(Ti.Contacts).have.constant('CONTACTS_KIND_ORGANIZATION').which.is.a.Number;
-		finish();
 	});
 
-	it('CONTACTS_KIND_PERSON', function (finish) {
+	it('CONTACTS_KIND_PERSON', function () {
 		should(Ti.Contacts).have.constant('CONTACTS_KIND_PERSON').which.is.a.Number;
-		finish();
 	});
 
-	it('CONTACTS_SORT_FIRST_NAME', function (finish) {
+	it('CONTACTS_SORT_FIRST_NAME', function () {
 		should(Ti.Contacts).have.constant('CONTACTS_SORT_FIRST_NAME').which.is.a.Number;
-		finish();
 	});
 
-	it('CONTACTS_SORT_LAST_NAME', function (finish) {
+	it('CONTACTS_SORT_LAST_NAME', function () {
 		should(Ti.Contacts).have.constant('CONTACTS_SORT_LAST_NAME').which.is.a.Number;
-		finish();
 	});
 
-	it('contactsAuthorization', function (finish) {
+	it('contactsAuthorization', function () {
 		should(function () {
 			should(Ti.Contacts.contactsAuthorization).not.be.undefined;
 			should(Ti.Contacts.contactsAuthorization).be.a.Number;
@@ -66,23 +58,20 @@ describe('Titanium.Contacts', function() {
 				Ti.Contacts.AUTHORIZATION_AUTHORIZED
 			]).containEql(Ti.Contacts.contactsAuthorization);
 		}).not.throw();
-		finish();
 	});
 
-	it('createGroup()', function(finish) {
+	it('createGroup()', function() {
 		should(Ti.Contacts.createGroup).be.a.Function;
 		// exercising Ti.Contacts.Group creation is done in ti.contacts.group.test.js
-		finish();
 	});
 
-	it('createPerson()', function(finish) {
+	it('createPerson()', function() {
 		should(Ti.Contacts.createPerson).be.a.Function;
 		// exercising Ti.Contacts.Person creation is done in ti.contacts.person.test.js
-		finish();
 	});
 
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
-	(utilities.isIOS() ? it.skip : it)('getAllGroups()', function (finish) {
+	(utilities.isIOS() ? it.skip : it)('getAllGroups()', function () {
 		should(Ti.Contacts.getAllGroups).be.a.Function;
 		var groups = Ti.Contacts.getAllGroups();
 		should(groups).be.an.Array;
@@ -90,11 +79,11 @@ describe('Titanium.Contacts', function() {
 			should(groups[i]).not.be.null;
 			should(groups[i].apiName).be.eql('Ti.Contacts.Group');
 		}
-		finish();
 	});
 
 	// FIXME Skip on Windows 10.0 for now: https://jira.appcelerator.org/browse/TIMOB-23332
-	(utilities.isWindows10() ? it.skip : it)('getAllPeople()', function(finish) {
+	// // FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	((utilities.isWindows10() || utilities.isIOS()) ? it.skip : it)('getAllPeople()', function() {
 		should(Ti.Contacts.getAllPeople).be.a.Function;
 		var people = Ti.Contacts.getAllPeople();
 		should(people).be.an.Array;
@@ -102,24 +91,21 @@ describe('Titanium.Contacts', function() {
 			should(people[i]).not.be.null;
 			should(people[i].apiName).be.eql('Ti.Contacts.Person');
 		}
-		finish();
 	});
 
-	it('getGroupByID()', function(finish) {
+	it('getGroupByID()', function() {
 		should(Ti.Contacts.getGroupByID).be.a.Function;
 		// deprecated, do no more for now
-		finish();
 	});
 
-	it('getGroupByIdentifier()', function (finish) {
+	it('getGroupByIdentifier()', function () {
 		should(Ti.Contacts.getGroupByIdentifier).be.a.Function;
 		var noGroup = Ti.Contacts.getGroupByIdentifier('doesntexist');
 		should(noGroup).be.null;
-		finish();
 	});
 
 	// Skip on Windows 8.1
-	(utilities.isWindows8_1() ? it.skip : it)('Group add/remove', function (finish) {
+	((utilities.isWindows8_1() || utilities.isIOS()) ? it.skip : it)('Group add/remove', function () {
 		// Look for existing group and remove it first before we try to create dupe (which fails)
 		var allGroups = Ti.Contacts.getAllGroups();
 		for (var i = 0; i < allGroups.length; i++) {
@@ -145,33 +131,28 @@ describe('Titanium.Contacts', function() {
 		// Make sure it was removed
 		queriedGroup = Ti.Contacts.getGroupByIdentifier(group.identifier);
 		should(queriedGroup).be.null;
-
-		finish();
 	});
 
-	it('getPeopleWithName()', function(finish) {
+	it('getPeopleWithName()', function() {
 		should(Ti.Contacts.getPeopleWithName).be.a.Function;
 		var smiths = Ti.Contacts.getPeopleWithName('smith');
 		should(smiths).be.an.Array;
-		finish();
 	});
 
-	it('getPersonByID()', function(finish) {
+	it('getPersonByID()', function() {
 		should(Ti.Contacts.getPersonByID).be.a.Function;
 		// deprecated, do no more for now
-		finish();
 	});
 
-	it('getPersonByIdentifier()', function(finish) {
+	it('getPersonByIdentifier()', function() {
 		should(Ti.Contacts.getPersonByIdentifier).be.a.Function;
 		// check for a person by bad identifier
 		var noPerson = Ti.Contacts.getPersonByIdentifier('doesntexist');
 		should(noPerson).be.null;
-		finish();
 	});
 
 	// Skip on Windows 8.1
-	(utilities.isWindows8_1() ? it.skip : it)('Person add/remove', function (finish) {
+	(utilities.isWindows8_1() ? it.skip : it)('Person add/remove', function () {
 		// TODO Remove Arthur first if he already exists!
 
 		// create a person
@@ -195,43 +176,36 @@ describe('Titanium.Contacts', function() {
 		// Make sure they got removed
 		queriedPerson = Ti.Contacts.getPersonByIdentifier(person.identifier);
 		should(queriedPerson).be.null;
-		finish();
 	});
 
-	it('removeGroup()', function(finish) {
+	it('removeGroup()', function() {
 		should(Ti.Contacts.removeGroup).be.a.Function;
 		// We exercise removal in Group add/remove
-		finish();
 	});
 
-	it('removePerson()', function(finish) {
+	it('removePerson()', function() {
 		should(Ti.Contacts.removePerson).be.a.Function;
 		// We exercise removal in Person add/remove
-		finish();
 	});
 
-	it('requestAuthorization()', function(finish) {
+	it('requestAuthorization()', function() {
 		should(Ti.Contacts.requestAuthorization).be.a.Function;
 		// TODO Test the method
-		finish();
 	});
 
-	it('revert()', function(finish) {
+	it('revert()', function() {
 		should(Ti.Contacts.revert).be.a.Function;
 		// TODO Test the method
-		finish();
 	});
 
-	it('save()', function(finish) {
+	it('save()', function() {
 		should(Ti.Contacts.save).be.a.Function;
 		// We exercise save above when we test adding/removing groups and person
-		finish();
 	});
 
-	it('showContacts()', function(finish) {
+	it('showContacts()', function() {
 		should(Ti.Contacts.showContacts).be.a.Function;
 		// TODO Test the method
-		finish();
 	});
 	// TODO Test reload event?
 });
