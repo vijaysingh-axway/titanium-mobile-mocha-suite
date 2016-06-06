@@ -406,6 +406,9 @@ function outputResults(results, next) {
 	var indents = 0,
 		n = 0,
 		suites = {},
+		passes = 0,
+		failures = 0,
+		skipped = 0,
 		keys = [];
 
 	function indent() {
@@ -434,13 +437,16 @@ function outputResults(results, next) {
 		// now loop through the tests
 		suites[v].tests.forEach(function (test) {
 			if (test.state === 'skipped') {
+				skipped++;
 				console.log(indent() + '  - %s'.cyan, test.title);
 			} else if (test.state === 'failed') {
+				failures++;
 				console.log(indent() + '  %d) %s'.red, ++n, test.title);
 				++indents;
 				console.log(indent() + '  %s'.red, JSON.stringify(test));
 				--indents;
 			} else {
+				passes++;
 				console.log(indent() + '  ✓'.green + ' %s '.gray, test.title);
 			}
 		});
@@ -448,8 +454,8 @@ function outputResults(results, next) {
 		if (1 == indents) console.log();
 	});
 
-	// end
-	// epilogue?
+	// Spit out overall stats: test count, failure count, pending count, pass count.
+	console.log('%d Total Tests: %d passed, %d failed, %d skipped.', (skipped + failures + passes), passes, failures, skipped);
 	next();
 }
 
