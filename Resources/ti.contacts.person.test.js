@@ -5,35 +5,34 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 describe('Titanium.Contacts.Person', function() {
-	it('apiName', function (finish) {
+	it('apiName', function () {
+		should(Ti.Contacts.Person).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Contacts.Person.apiName).be.eql('Ti.Contacts.Person');
-		finish();
 	});
 
-	it('address', function (finish) {
+	it('address', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.address).not.be.undefined;
 			should(person.address).be.an.Object;
 			// TODO Test modifying the address
 		}).not.throw();
-		finish();
 	});
 
-	it('alternateBirthday', function (finish) {
+	it('alternateBirthday', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.alternateBirthday).not.be.undefined;
 			should(person.alternateBirthday).be.an.Object;
 			// TODO Test modifying the alternateBirthday
 		}).not.throw();
-		finish();
 	});
 
-	it('birthday', function (finish) {
+	it('birthday', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.birthday).not.be.undefined;
@@ -41,20 +40,18 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Test modifying the birthday with string value
 			// TODO Test modifying the birthday with a date?
 		}).not.throw();
-		finish();
 	});
 
-	it('created', function (finish) {
+	it('created', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.created).not.be.undefined;
 			should(person.created).be.a.String; // Why isn't this a date?
 			// TODO Test that it is read-only?
 		}).not.throw();
-		finish();
 	});
 
-	it('date', function (finish) {
+	it('date', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.date).not.be.undefined;
@@ -63,20 +60,18 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Try unknown keys (known are 'anniversary' and 'other')
 			// TODO Test non-string values in the array of values
 		}).not.throw();
-		finish();
 	});
 
-	it('department', function (finish) {
+	it('department', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.department).not.be.undefined;
 			should(person.department).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('email', function (finish) {
+	it('email', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.email).not.be.undefined;
@@ -85,40 +80,36 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Try unknown keys (known are 'home', 'work' and 'other')
 			// TODO Test non-string values in the array of values
 		}).not.throw();
-		finish();
 	});
 
-	it('firstName', function (finish) {
+	it('firstName', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.firstName).not.be.undefined;
 			should(person.firstName).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('firstPhonetic', function (finish) {
+	it('firstPhonetic', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.firstPhonetic).not.be.undefined;
 			should(person.firstPhonetic).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('fullName', function (finish) {
+	it('fullName', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.fullName).not.be.undefined;
 			should(person.fullName).be.a.String;
 			// TODO Test modifying? Says read-only
 		}).not.throw();
-		finish();
 	});
 
-	it('id', function (finish) {
+	it('id', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.id).not.be.undefined;
@@ -131,10 +122,9 @@ describe('Titanium.Contacts.Person', function() {
 //			}
 			// TODO Test read-only
 		}).not.throw();
-		finish();
 	});
 
-	it('identifier', function (finish) {
+	it('identifier', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.identifier).not.be.undefined;
@@ -143,20 +133,18 @@ describe('Titanium.Contacts.Person', function() {
 //			should(person.identifier).be.a.String;
 			// TODO Test read-only
 		}).not.throw();
-		finish();
 	});
 
-	it('image', function (finish) {
+	it('image', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.image).not.be.undefined;
 			//should(person.image).be.an.Object;
 			// TODO Test image is a blob
 		}).not.throw();
-		finish();
 	});
 
-	it('instantMessage', function (finish) {
+	it('instantMessage', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.instantMessage).not.be.undefined;
@@ -167,20 +155,18 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Test unknown keys in the objects (known are 'service' and 'username')
 			// TODO Test non-string values for the service/username
 		}).not.throw();
-		finish();
 	});
 
-	it('jobTitle', function (finish) {
+	it('jobTitle', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.jobTitle).not.be.undefined;
 			should(person.jobTitle).be.a.String;
 			// TODO Test modifying?
 		}).not.throw();
-		finish();
 	});
 
-	it('kind', function (finish) {
+	it('kind', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.kind).not.be.undefined;
@@ -189,90 +175,81 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Verify it's Ti.Contacts.CONTACTS_KIND_PERSON
 			should(person.kind).eql(Ti.Contacts.CONTACTS_KIND_PERSON);
 		}).not.throw();
-		finish();
 	});
 
-	it('lastName', function (finish) {
+	it('lastName', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.lastName).not.be.undefined;
 			should(person.lastName).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('lastPhonetic', function (finish) {
+	it('lastPhonetic', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.lastPhonetic).not.be.undefined;
 			should(person.lastPhonetic).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('middleName', function (finish) {
+	it('middleName', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.middleName).not.be.undefined;
 			should(person.middleName).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('middlePhonetic', function (finish) {
+	it('middlePhonetic', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.middlePhonetic).not.be.undefined;
 			should(person.middlePhonetic).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('modified', function (finish) {
+	it('modified', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.modified).not.be.undefined;
 			should(person.modified).be.a.String; // Why isn't this a date?
 			// TODO Test that it is read-only?
 		}).not.throw();
-		finish();
 	});
 
-	it('nickname', function (finish) {
+	it('nickname', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.nickname).not.be.undefined;
 			should(person.nickname).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('note', function (finish) {
+	it('note', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.note).not.be.undefined;
 			should(person.note).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('organization', function (finish) {
+	it('organization', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.organization).not.be.undefined;
 			should(person.organization).be.a.String;
 			// TODO Test modifying
 		}).not.throw();
-		finish();
 	});
 
-	it('phone', function (finish) {
+	it('phone', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.phone).not.be.undefined;
@@ -281,20 +258,18 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Try unknown keys (known are home, work, other, mobile, pager, workFax, homeFax, main, and/or iPhone.)
 			// TODO Test non-string values in the array of values
 		}).not.throw();
-		finish();
 	});
 
-	it('prefix', function (finish) {
+	it('prefix', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.prefix).not.be.undefined;
 			should(person.prefix).be.a.String;
 			// TODO Test modifying Docs say read-only?
 		}).not.throw();
-		finish();
 	});
 
-	it('recordId', function (finish) {
+	it('recordId', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.recordId).not.be.undefined;
@@ -302,10 +277,9 @@ describe('Titanium.Contacts.Person', function() {
 			//should(person.recordId).be.a.Number;
 			// TODO Number on iOS, deprecated. Looks like Android has equivalent in 'id'? iOS moved to 'identifier' as String, which matches Windows
 		}).not.throw();
-		finish();
 	});
 
-	it('relatedNames', function (finish) {
+	it('relatedNames', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.relatedNames).not.be.undefined;
@@ -314,10 +288,9 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Try unknown keys (known are mother, father, parent, brother, sister, child, friend, spouse, partner, assistant, manager, and/or other.)
 			// TODO Test non-string values in the array of values
 		}).not.throw();
-		finish();
 	});
 
-	it('socialProfile', function (finish) {
+	it('socialProfile', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.socialProfile).not.be.undefined;
@@ -327,20 +300,18 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Test unknown keys in the objects (known are 'service' and 'username')
 			// TODO Test non-string values for the service/username
 		}).not.throw();
-		finish();
 	});
 
-	it('suffix', function (finish) {
+	it('suffix', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.suffix).not.be.undefined;
 			should(person.suffix).be.a.String;
 			// TODO Test modifying Docs say read-only?
 		}).not.throw();
-		finish();
 	});
 
-	it('url', function (finish) {
+	it('url', function () {
 		should(function () {
 			var person = Ti.Contacts.createPerson();
 			should(person.url).not.be.undefined;
@@ -349,6 +320,5 @@ describe('Titanium.Contacts.Person', function() {
 			// TODO Try unknown keys (known are homepage, home, work, and/or other.)
 			// TODO Test non-string values in the array of values
 		}).not.throw();
-		finish();
 	});
 });

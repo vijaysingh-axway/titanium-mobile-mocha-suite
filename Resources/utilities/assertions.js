@@ -34,3 +34,5 @@ should.Assertion.add('constant', function (propName) {
 	should(proto).have.propertyWithDescriptor(propName, {writable: false, configurable: false});
 	this.obj = this.obj[propName];
 }, false);
+
+// TODO Add an assertion for "exclusive" group of constants: A set of constants whose values must be unique (basically an enum), i.e. Ti.UI.FILL vs SIZE vs UNKNOWN

@@ -99,7 +99,8 @@ describe('Titanium', function () {
 		should(Ti.createBuffer).be.a.Function;
 	});
 
-	it('createProxy()', function () {
+	// FIXME Is this really a method we want to expose on our API? Seems like it shouldn't be
+	it.skip('createProxy()', function () {
 		should(Ti.createProxy).be.a.Function;
 	});
 
