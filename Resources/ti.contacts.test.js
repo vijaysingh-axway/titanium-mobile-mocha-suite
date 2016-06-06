@@ -135,7 +135,8 @@ describe('Titanium.Contacts', function() {
 		should(queriedGroup).be.null;
 	});
 
-	it('getPeopleWithName()', function() {
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('getPeopleWithName()', function() {
 		should(Ti.Contacts.getPeopleWithName).be.a.Function;
 		var smiths = Ti.Contacts.getPeopleWithName('smith');
 		should(smiths).be.an.Array;
@@ -146,7 +147,8 @@ describe('Titanium.Contacts', function() {
 		// deprecated, do no more for now
 	});
 
-	it('getPersonByIdentifier()', function() {
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('getPersonByIdentifier()', function() {
 		should(Ti.Contacts.getPersonByIdentifier).be.a.Function;
 		// check for a person by bad identifier
 		var noPerson = Ti.Contacts.getPersonByIdentifier('doesntexist');
@@ -154,7 +156,8 @@ describe('Titanium.Contacts', function() {
 	});
 
 	// Skip on Windows 8.1
-	(utilities.isWindows8_1() ? it.skip : it)('Person add/remove', function () {
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	((utilities.isWindows8_1() || utilities.isIOS()) ? it.skip : it)('Person add/remove', function () {
 		// TODO Remove Arthur first if he already exists!
 
 		// create a person
