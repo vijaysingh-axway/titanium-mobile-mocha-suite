@@ -13,7 +13,7 @@ describe('Titanium.Platform', function () {
 
 	it('apiName', function () {
 		should(Ti.Platform.apiName).be.eql('Ti.Platform');
-		should(Ti.Platform.apiName).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('canOpenURL()', function () {
@@ -44,38 +44,38 @@ describe('Titanium.Platform', function () {
 	});
 
 	it('BATTERY_STATE_CHARGING', function () {
-		should(Ti.Platform.BATTERY_STATE_CHARGING).be.a.readOnlyNumber;
+		should(Ti.Platform).have.constant('BATTERY_STATE_CHARGING').which.is.a.Number;
 	});
 
 	it('BATTERY_STATE_FULL', function () {
-		should(Ti.Platform.BATTERY_STATE_FULL).be.a.readOnlyNumber;
+		should(Ti.Platform).have.constant('BATTERY_STATE_FULL').which.is.a.Number;
 	});
 
 	it('BATTERY_STATE_UNKNOWN', function () {
-		should(Ti.Platform.BATTERY_STATE_UNKNOWN).be.a.readOnlyNumber;
+		should(Ti.Platform).have.constant('BATTERY_STATE_UNKNOWN').which.is.a.Number;
 	});
 
 	it('BATTERY_STATE_UNPLUGGED', function () {
-		should(Ti.Platform.BATTERY_STATE_UNPLUGGED).be.a.readOnlyNumber;
+		should(Ti.Platform).have.constant('BATTERY_STATE_UNPLUGGED').which.is.a.Number;
 	});
 
 	// TODO Add tests for getters!
 	it('address', function () {
-		should(Ti.Platform.address).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('address').which.is.a.String;
 		// TODO Verify the format of the String. SHould be an IP address, so like: /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
 	});
 
 	it('architecture', function () {
-		should(Ti.Platform.architecture).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('architecture').which.is.a.String;
 	});
 
 	it('availableMemory', function () {
-		should(Ti.Platform.availableMemory).be.a.readOnlyNumber;
+		should(Ti.Platform).have.readOnlyProperty('availableMemory').which.is.a.Number;
 	});
 
 	it('batteryLevel', function () {
 		// batteryLevel should be a number and only accessible from phone
-		should(Ti.Platform.batteryLevel).be.a.readOnlyNumber;
+		should(Ti.Platform).have.readOnlyProperty('batteryLevel').which.is.a.Number;
 	});
 
 	it('batteryMonitoring', function () {
@@ -89,7 +89,7 @@ describe('Titanium.Platform', function () {
 	});
 
 	it('batteryState', function () {
-		should(Ti.Platform.batteryState).be.a.readOnlyNumber;
+		should(Ti.Platform).have.readOnlyProperty('batteryState').which.is.a.Number;
 		// Must be one of the constant values
 		[Ti.Platform.BATTERY_STATE_CHARGING,
 			Ti.Platform.BATTERY_STATE_FULL,
@@ -104,53 +104,53 @@ describe('Titanium.Platform', function () {
 	});
 
 	it('id', function () {
-		should(Ti.Platform.id).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('id').which.is.a.String;
 		// TODO Verify format?!
 	});
 
 	it('locale', function () {
-		should(Ti.Platform.locale).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('locale').which.is.a.String;
 		// TODO Verify format of the string, i.e. 'en-US', 'en-GB' typically a 2-letter or two 2-letter segments combined with hyphen
 	});
 
 	it('macaddress', function () {
-		should(Ti.Platform.macaddress).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('macaddress').which.is.a.String;
 	});
 
 	it('manufacturer', function () {
-		should(Ti.Platform.manufacturer).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('manufacturer').which.is.a.String;
 	});
 
 	it('model', function () {
-		should(Ti.Platform.model).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('model').which.is.a.String;
 	});
 
 	it('name', function () {
-		should(Ti.Platform.name).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('name').which.is.a.String;
 		['android', 'iPhone OS', 'windows', 'mobileweb'].indexOf(Ti.Platform.name).should.not.eql(-1);
 		// TODO match with osname!
 	});
 
 	it('netmask', function () {
-		should(Ti.Platform.netmask).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('netmask').which.is.a.String;
 		// TODO Verify format of string
 	});
 
 	it('osname', function () {
-		should(Ti.Platform.osname).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('osname').which.is.a.String;
 		// Must be one of the known platforms!
 		['android', 'iphone', 'ipad', 'windowsphone', 'windowsstore', 'mobileweb'].indexOf(Ti.Platform.osname).should.not.eql(-1);
 		// TODO match up Ti.Platform.name?
 	});
 
 	it('ostype', function () {
-		should(Ti.Platform.ostype).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('ostype').which.is.a.String;
 		// Verify it's one of the known values
 		['64bit', '32bit', 'unknown'].indexOf(Ti.Platform.ostype).should.not.eql(-1);
 	});
 
 	it('processorCount', function () {
-		should(Ti.Platform.processorCount).be.a.readOnlyNumber;
+		should(Ti.Platform).have.readOnlyProperty('processorCount').which.is.a.Number;
 	});
 
 	it('runtime', function () {
@@ -161,10 +161,10 @@ describe('Titanium.Platform', function () {
 		} else {
 			should(Ti.Platform.runtime.length).be.greaterThan(0);
 		}
-		should(Ti.Platform.runtime).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('runtime').which.is.a.String;
 	});
 
 	it('version', function () {
-		should(Ti.Platform.version).be.a.readOnlyString;
+		should(Ti.Platform).have.readOnlyProperty('version').which.is.a.String;
 	});
 });

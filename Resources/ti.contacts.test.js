@@ -15,42 +15,42 @@ describe('Titanium.Contacts', function() {
 	});
 
 	it('AUTHORIZATION_AUTHORIZED', function (finish) {
-		should(Ti.Contacts.AUTHORIZATION_AUTHORIZED).be.a.readOnlyNumber;
+		should(Ti.Contacts).have.constant('AUTHORIZATION_AUTHORIZED').which.is.a.Number;
 		finish();
 	});
 
 	it('AUTHORIZATION_DENIED', function (finish) {
-		should(Ti.Contacts.AUTHORIZATION_DENIED).be.a.readOnlyNumber;
+		should(Ti.Contacts).have.constant('AUTHORIZATION_DENIED').which.is.a.Number;
 		finish();
 	});
 
 	it('AUTHORIZATION_RESTRICTED', function (finish) {
-		should(Ti.Contacts.AUTHORIZATION_RESTRICTED).be.a.readOnlyNumber;
+		should(Ti.Contacts).have.constant('AUTHORIZATION_RESTRICTED').which.is.a.Number;
 		finish();
 	});
 
 	it('AUTHORIZATION_UNKNOWN', function (finish) {
-		should(Ti.Contacts.AUTHORIZATION_UNKNOWN).be.a.readOnlyNumber;
+		should(Ti.Contacts).have.constant('AUTHORIZATION_UNKNOWN').which.is.a.Number;
 		finish();
 	});
 
 	it('CONTACTS_KIND_ORGANIZATION', function (finish) {
-		should(Ti.Contacts.CONTACTS_KIND_ORGANIZATION).be.a.readOnlyNumber;
+		should(Ti.Contacts).have.constant('CONTACTS_KIND_ORGANIZATION').which.is.a.Number;
 		finish();
 	});
 
 	it('CONTACTS_KIND_PERSON', function (finish) {
-		should(Ti.Contacts.CONTACTS_KIND_PERSON).be.a.readOnlyNumber;
+		should(Ti.Contacts).have.constant('CONTACTS_KIND_PERSON').which.is.a.Number;
 		finish();
 	});
 
 	it('CONTACTS_SORT_FIRST_NAME', function (finish) {
-		should(Ti.Contacts.CONTACTS_SORT_FIRST_NAME).be.a.readOnlyNumber;
+		should(Ti.Contacts).have.constant('CONTACTS_SORT_FIRST_NAME').which.is.a.Number;
 		finish();
 	});
 
 	it('CONTACTS_SORT_LAST_NAME', function (finish) {
-		should(Ti.Contacts.CONTACTS_SORT_LAST_NAME).be.a.readOnlyNumber;
+		should(Ti.Contacts).have.constant('CONTACTS_SORT_LAST_NAME').which.is.a.Number;
 		finish();
 	});
 

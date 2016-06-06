@@ -11,25 +11,22 @@ var should = require('./should'),
 describe('Titanium.App', function () {
 
 	it('EVENT_ACCESSIBILITY_ANNOUNCEMENT', function () {
-		should(Ti.App.EVENT_ACCESSIBILITY_ANNOUNCEMENT).be.a.readOnlyString;
-		should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).be.eql('accessibilityannouncement');
+		should(Ti.App).have.constant('EVENT_ACCESSIBILITY_CHANGED').which.is.eql('accessibilityannouncement');
 	});
 
 	it('EVENT_ACCESSIBILITY_CHANGED', function () {
-		should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).be.a.readOnlyString;
-		should(Ti.App.EVENT_ACCESSIBILITY_CHANGED).be.eql('accessibilitychanged');
+		should(Ti.App).have.constant('EVENT_ACCESSIBILITY_CHANGED').which.is.eql('accessibilitychanged');
 	});
 
 	// TODO Add tests for set* methods!
 
 	it('apiName', function () {
 		should(Ti.App.apiName).be.eql('Ti.App');
-		should(Ti.App.apiName).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('accessibilityEnabled', function () {
-		should(Ti.App.accessibilityEnabled).be.a.Boolean;
-		should(Ti.App.accessibilityEnabled).be.readOnly;
+		should(Ti.App).have.readOnlyProperty('accessibilityEnabled').which.is.a.Boolean;
 	});
 
 	it('getAccessibilityEnabled()', function () {
@@ -38,8 +35,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('analytics', function () {
-		should(Ti.App.analytics).be.a.Boolean;
-		should(Ti.App.analytics).be.readOnly;
+		should(Ti.App).have.readOnlyProperty('analytics').which.is.a.Boolean;
 	});
 
 	it('getAnalytics()', function () {
@@ -48,7 +44,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('copyright', function () {
-		should(Ti.App.copyright).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('copyright').which.is.a.String;
 	});
 
 	it('getCopyright()', function () {
@@ -57,7 +53,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('deployType', function () {
-		should(Ti.App.deployType).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('deployType').which.is.a.String;
 	});
 
 	it('getDeployType()', function () {
@@ -66,7 +62,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('description', function () {
-		should(Ti.App.description).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('description').which.is.a.String;
 	});
 
 	it('getDescription()', function () {
@@ -93,7 +89,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('guid', function () {
-		should(Ti.App.guid).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('guid').which.is.a.String;
 	});
 
 	it('getGuid()', function () {
@@ -102,7 +98,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('id', function () {
-		should(Ti.App.id).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('id').which.is.a.String;
 	});
 
 	it('getId()', function () {
@@ -120,9 +116,7 @@ describe('Titanium.App', function () {
 	});
 
 	(utilities.isAndroid() ? it.skip : it)('installId', function () {
-		should(Ti.App.installId).be.a.readOnlyString;
-		should(Ti.App.getInstallId).be.a.Function;
-		should(Ti.App.getInstallId()).be.a.String;
+		should(Ti.App).have.readOnlyProperty('installId').which.is.a.String;
 	});
 
 	(utilities.isAndroid() ? it.skip : it)('getInstallId()', function () {
@@ -131,8 +125,7 @@ describe('Titanium.App', function () {
 	});
 
 	(utilities.isAndroid() ? it.skip : it)('keyboardVisible', function () {
-		should(Ti.App.keyboardVisible).be.a.Boolean;
-		should(Ti.App.keyboardVisible).be.readOnly;
+		should(Ti.App).have.readOnlyProperty('keyboardVisible').which.is.a.Boolean;
 	});
 
 	(utilities.isAndroid() ? it.skip : it)('getKeyboardVisible()', function () {
@@ -141,7 +134,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('name', function () {
-		should(Ti.App.name).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('name').which.is.a.String;
 	});
 
 	it('getName()', function () {
@@ -160,8 +153,6 @@ describe('Titanium.App', function () {
 
 	(utilities.isWindows() ? it.skip : it)('proximityState', function () {
 		should(Ti.App.proximityState).be.a.Boolean;
-		should(Ti.App.getProximityState).be.a.Function;
-		should(Ti.App.getProximityState()).be.a.Boolean;
 	});
 
 	(utilities.isWindows() ? it.skip : it)('getProximityState()', function () {
@@ -170,7 +161,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('publisher', function () {
-		should(Ti.App.publisher).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('publisher').which.is.a.String;
 	});
 
 	it('getPublisher()', function () {
@@ -179,7 +170,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('sessionId', function () {
-		should(Ti.App.sessionId).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('sessionId').which.is.a.String;
 	});
 
 	it('getSessionId()', function () {
@@ -188,7 +179,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('url', function () {
-		should(Ti.App.url).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('url').which.is.a.String;
 	});
 
 	it('getUrl()', function () {
@@ -197,7 +188,7 @@ describe('Titanium.App', function () {
 	});
 
 	it('version', function () {
-		should(Ti.App.version).be.a.readOnlyString;
+		should(Ti.App).have.readOnlyProperty('version').which.is.a.String;
 	});
 
 	it('getVersion()', function () {

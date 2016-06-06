@@ -19,7 +19,7 @@ describe('Titanium.UI.Label', function () {
 
 	it('apiName', function () {
 		should(Ti.UI.Label.apiName).be.eql('Ti.UI.Label');
-		should(Ti.UI.Label.apiName).be.a.readOnlyString;
+		should(Ti.UI.Label).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('text', function () {

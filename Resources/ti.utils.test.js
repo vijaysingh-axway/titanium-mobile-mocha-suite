@@ -17,7 +17,7 @@ describe('Titanium.Utils', function () {
 
 	it('apiName', function () {
 		should(Ti.Utils.apiName).be.eql('Ti.Utils');
-		should(Ti.Utils.apiName).be.a.readOnlyString;
+		should(Ti.Utils).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('base64decode()', function () {

@@ -12,7 +12,7 @@ describe('Titanium.API', function () {
 
 	it('apiName', function () {
 		should(Ti.API.apiName).be.eql('Ti.API');
-		should(Ti.API.apiName).be.a.readOnlyString;
+		should(Ti.API).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('debug()', function () {

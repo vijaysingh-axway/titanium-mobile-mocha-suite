@@ -198,11 +198,11 @@ describe('Titanium.UI', function () {
 			if (constants[name].platforms.indexOf(platform) === -1) { continue; }
 			if (constants[name].type == 'Number') {
 				it(name, function () {
-					should(Ti.UI[name]).be.a.readOnlyNumber;
+					should(Ti.UI).have.a.constant(name).which.is.a.Number;
 				});
 			} else if (constants[name].type == 'String') {
 				it(name, function () {
-					should(Ti.UI[name]).be.a.readOnlyString;
+					should(Ti.UI).have.a.constant(name).which.is.a.String;
 				});
 			}
 		}
@@ -215,13 +215,12 @@ describe('Titanium.UI', function () {
 	];
 	// Verify our constants that may be String or Number depending on platform.
 	for (var i = 0; i < constantsVary.length; i++) {
-		it(constantsVary[i], function (finish) {
+		it(constantsVary[i], function () {
 			if (utilities.isAndroid()) {
-				should(Ti.UI[constantsVary[i]]).be.a.readOnlyString;
+				should(Ti.UI).have.a.constant(constantsVary[i]).which.is.a.String;
 			} else {
-				should(Ti.UI[constantsVary[i]]).be.a.readOnlyNumber;
+				should(Ti.UI).have.a.constant(constantsVary[i]).which.is.a.Number;
 			}
-			finish();
 		});
 	}
 });

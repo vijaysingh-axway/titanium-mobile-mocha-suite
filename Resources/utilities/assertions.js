@@ -1,30 +1,36 @@
 var should = require('../should');
 
-should.Assertion.add('readOnly', function() {
-	this.params = { operator: 'to be read-only' };
+// Copied from newer should.js
+should.Assertion.add('propertyWithDescriptor', function(name, desc) {
+	this.params = {actual: this.obj, operator: 'to have own property with descriptor ' + JSON.stringify(desc)};
+	var obj = this.obj;
+	this.have.ownProperty(name);
+	should(Object.getOwnPropertyDescriptor(Object(obj), name)).have.properties(desc);
+});
 
-	var value = this.obj;
-	should(this.obj).be.a.String;
-	this.obj = 'try_to_overwrite_READONLY_value';
-	should(this.obj).be.eql(value);
-}, true);
+/**
+ * Use this to test for read-only, non-configurable properties on an Object
+ * @param {String} propName     Name of the property to test for.
+ */
+should.Assertion.add('readOnlyProperty', function (propName) {
+	this.params = { operator: 'to have a read-only property with name: ' + propName };
+	if (this.obj.apiName) {
+		this.params.obj = this.obj.apiName;
+	}
+	should(this.obj).have.propertyWithDescriptor(propName, {writable: false, configurable: false});
+	this.obj = this.obj[propName];
+}, false);
 
-should.Assertion.add('readOnlyNumber', function() {
-	this.params = { operator: 'to be a read-only Number' };
-
-	should(function () {
-		should(this.obj).not.be.undefined;
-		should(this.obj).be.a.Number;
-		should(this.obj).be.readOnly;
-	}).not.throw();
-}, true);
-
-should.Assertion.add('readOnlyString', function() {
-	this.params = { operator: 'to be a read-only String' };
-
-	should(function () {
-		should(this.obj).not.be.undefined;
-		should(this.obj).be.a.String;
-		should(this.obj).be.readOnly;
-	}).not.throw();
-}, true);
+/**
+ * Use this to test for read-only, non-configurable properties on the prototype of an Object
+ * @param {String} propName     Name of the property to test for.
+ */
+should.Assertion.add('constant', function (propName) {
+	this.params = { operator: 'to have a constant with name: ' + propName };
+	var proto = Object.getPrototypeOf(this.obj);
+	if (proto) {
+		this.params.obj = proto;
+	}
+	should(proto).have.propertyWithDescriptor(propName, {writable: false, configurable: false});
+	this.obj = this.obj[propName];
+}, false);

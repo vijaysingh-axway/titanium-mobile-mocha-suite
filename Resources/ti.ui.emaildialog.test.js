@@ -16,24 +16,24 @@ describe('Titanium.UI.EmailDialog', function () {
 
 	// Check if FAILED exists and make sure it does not throw exception
 	it('FAILED', function (finish) {
-		should(Ti.UI.EmailDialog.FAILED).be.a.readOnlyNumber;
+		should(Ti.UI.EmailDialog).have.readOnlyProperty('FAILED').which.is.a.Number;
 		finish();
 	});
 
 	// Check if SENT exists and make sure it does not throw exception
 	it('SENT', function (finish) {
-		should(Ti.UI.EmailDialog.SENT).be.a.readOnlyNumber;
+		should(Ti.UI.EmailDialog).have.readOnlyProperty('SENT').which.is.a.Number;
 		finish();
 	});
 	// Check if SAVED exists and make sure it does not throw exception
 	it('SAVED', function (finish) {
-		should(Ti.UI.EmailDialog.SAVED).be.a.readOnlyNumber;
+		should(Ti.UI.EmailDialog).have.readOnlyProperty('SAVED').which.is.a.Number;
 		finish();
 	});
 
 	// Check if CANCELLED exists and make sure it does not throw exception
 	it('CANCELLED', function (finish) {
-		should(Ti.UI.EmailDialog.CANCELLED).be.a.readOnlyNumber;
+		should(Ti.UI.EmailDialog).have.readOnlyProperty('CANCELLED').which.is.a.Number;
 		finish();
 	});
 

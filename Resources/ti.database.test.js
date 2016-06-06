@@ -11,23 +11,23 @@ var should = require('./should'),
 describe('Titanium.Database', function () {
 	it('apiName', function () {
 		should(Ti.Database.apiName).be.eql('Ti.Database');
-		should(Ti.Database.apiName).be.a.readOnlyString;
+		should(Ti.Database).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('FIELD_TYPE_DOUBLE', function () {
-		should(Ti.Database.FIELD_TYPE_DOUBLE).be.a.readOnlyNumber;
+		should(Ti.Database).have.constant('FIELD_TYPE_DOUBLE').which.is.a.Number;
 	});
 
 	it('FIELD_TYPE_FLOAT', function () {
-		should(Ti.Database.FIELD_TYPE_FLOAT).be.a.readOnlyNumber;
+		should(Ti.Database).have.constant('FIELD_TYPE_FLOAT').which.is.a.Number;
 	});
 
 	it('FIELD_TYPE_INT', function () {
-		should(Ti.Database.FIELD_TYPE_INT).be.a.readOnlyNumber;
+		should(Ti.Database).have.constant('FIELD_TYPE_INT').which.is.a.Number;
 	});
 
 	it('FIELD_TYPE_STRING', function () {
-		should(Ti.Database.FIELD_TYPE_STRING).be.a.readOnlyNumber;
+		should(Ti.Database).have.constant('FIELD_TYPE_STRING').which.is.a.Number;
 	});
 
 	it('install()', function () {

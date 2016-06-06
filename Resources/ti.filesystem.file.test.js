@@ -12,20 +12,20 @@ var should = require('./should'),
 describe('Titanium.Filesystem.File', function () {
 	it('apiName', function () {
 		should(Ti.Filesystem.File.apiName).be.eql('Ti.Filesystem.File');
-		should(Ti.Filesystem.File.apiName).be.a.readOnlyString;
+		should(Ti.Filesystem.File).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	// Check if name exists and returns string
 	it('name', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.name).be.a.readOnlyString;
+		should(file).have.a.readOnlyProperty('name').which.is.a.String;
 		should(file.name).be.eql('app.js');
 	});
 
 	// Check if nativePath exists and returns string
 	it('nativePath', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.nativePath).be.a.readOnlyString;
+		should(file).have.a.readOnlyProperty('nativePath').which.is.a.String;
 	});
 
 	// Check if resolve exists and returns string
@@ -45,41 +45,31 @@ describe('Titanium.Filesystem.File', function () {
 	// Check if executable exists and returns boolean
 	it('executable', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.executable).not.be.undefined;
-		should(file.executable).be.a.Boolean;
-		should(file.executable).be.readOnly;
+		should(file).have.a.readOnlyProperty('executable').which.is.a.Boolean;
 	});
 
 	// Check if hidden exists and returns boolean
 	it('hidden', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.hidden).not.be.undefined;
-		should(file.hidden).be.a.Boolean;
-		should(file.hidden).be.readOnly;
+		should(file).have.a.readOnlyProperty('hidden').which.is.a.Boolean;
 	});
 
 	// Check if readonly exists and returns boolean
 	it('readonly', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.readonly).not.be.undefined;
-		should(file.readonly).be.a.Boolean;
-		should(file.readonly).be.readOnly;
+		should(file).have.a.readOnlyProperty('readonly').which.is.a.Boolean;
 	});
 
 	// Check if writable exists and returns boolean
 	it('writable', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.writable).not.be.undefined;
-		should(file.writable).be.a.Boolean;
-		should(file.writable).be.readOnly;
+		should(file).have.a.readOnlyProperty('writable').which.is.a.Boolean;
 	});
 
 	// Check if symbolicLink exists and returns boolean
 	it('symbolicLink', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.symbolicLink).not.be.undefined;
-		should(file.symbolicLink).be.a.Boolean;
-		should(file.symbolicLink).be.readOnly;
+		should(file).have.a.readOnlyProperty('symbolicLink').which.is.a.Boolean;
 	});
 
 	// Check if parent exists and returns File
@@ -91,7 +81,7 @@ describe('Titanium.Filesystem.File', function () {
 	// Check if size exists and returns number
 	it('size', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.size).be.a.readOnlyNumber;
+		should(file).have.readOnlyProperty('size').which.is.a.Number;
 		should(file.size).be.above(0);
 	});
 

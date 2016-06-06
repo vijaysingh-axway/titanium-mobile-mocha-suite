@@ -21,7 +21,7 @@ describe('Titanium.UI.Button', function () {
 
 	it('apiName', function () {
 		should(Ti.UI.Button.apiName).be.eql('Ti.UI.Button');
-		should(Ti.UI.Button.apiName).be.a.readOnlyString;
+		should(Ti.UI.Button).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('title', function () {

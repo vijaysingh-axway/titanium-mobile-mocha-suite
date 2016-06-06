@@ -12,11 +12,11 @@ var should = require('./should'),
 describe('Titanium.Platform.DisplayCaps', function () {
 	it('apiName', function () {
 		should(Ti.Platform.DisplayCaps.apiName).be.eql('Ti.Platform.DisplayCaps');
-		should(Ti.Platform.DisplayCaps.apiName).be.a.readOnlyString;
+		should(Ti.Platform.DisplayCaps).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('density', function () {
-		should(Ti.Platform.displayCaps.density).be.a.readOnlyString;
+		should(Ti.Platform.displayCaps).have.readOnlyProperty('density').which.is.a.String;
 		// TODO Test for known range of values?
 		// Android: "high", "medium", "xhigh", "xxhigh", "xxxhigh", "low", "medium"
 		// iOS: "xhigh", "high", "medium"
@@ -28,7 +28,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	it('dpi', function () {
-		should(Ti.Platform.displayCaps.dpi).be.a.readOnlyNumber;
+		should(Ti.Platform.displayCaps).have.readOnlyProperty('dpi').which.is.a.Number;
 		should(Ti.Platform.displayCaps.dpi).be.above(0);
 	});
 
@@ -38,7 +38,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	it('logicalDensityFactor', function () {
-		should(Ti.Platform.displayCaps.logicalDensityFactor).be.a.readOnlyNumber;
+		should(Ti.Platform.displayCaps).have.readOnlyProperty('logicalDensityFactor').which.is.a.Number;
 		should(Ti.Platform.displayCaps.logicalDensityFactor).be.above(0);
 	});
 
@@ -68,7 +68,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	(utilities.isIOS() ? it.skip : it)('xdpi', function () {
-		should(Ti.Platform.displayCaps.xdpi).be.a.readOnlyNumber;
+		should(Ti.Platform.displayCaps).have.readOnlyProperty('xdpi').which.is.a.Number;
 		should(Ti.Platform.displayCaps.xdpi).be.above(0);
 	});
 
@@ -78,7 +78,7 @@ describe('Titanium.Platform.DisplayCaps', function () {
 	});
 
 	(utilities.isIOS() ? it.skip : it)('ydpi', function () {
-		should(Ti.Platform.displayCaps.ydpi).be.a.readOnlyNumber;
+		should(Ti.Platform.displayCaps).have.readOnlyProperty('ydpi').which.is.a.Number;
 		should(Ti.Platform.displayCaps.ydpi).be.above(0);
 	});
 

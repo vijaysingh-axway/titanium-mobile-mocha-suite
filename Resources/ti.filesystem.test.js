@@ -12,25 +12,25 @@ var should = require('./should'),
 describe('Titanium.Filesystem', function () {
 	it('apiName', function () {
 		should(Ti.Filesystem.apiName).be.eql('Ti.Filesystem');
-		should(Ti.Filesystem.apiName).be.a.readOnlyString;
+		should(Ti.Filesystem).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	// Android doesn't support Ti.Filesystem.applicationDirectory
 	(utilities.isAndroid() ? it.skip : it)('applicationDirectory', function () {
-		should(Ti.Filesystem.applicationDirectory).be.a.readOnlyString;
+		should(Ti.Filesystem).have.readOnlyProperty('applicationDirectory').which.is.a.String;
 	});
 
 	it('applicationDataDirectory', function () {
-		should(Ti.Filesystem.applicationDataDirectory).be.a.readOnlyString;
+		should(Ti.Filesystem).have.readOnlyProperty('applicationDataDirectory').which.is.a.String;
 	});
 
 	it('resourcesDirectory', function () {
-		should(Ti.Filesystem.resourcesDirectory).be.a.readOnlyString;
+		should(Ti.Filesystem).have.readOnlyProperty('resourcesDirectory').which.is.a.String;
 	});
 
 	it('resRawDirectory', function () {
 		if (utilities.isAndroid()) {
-			should(Ti.Filesystem.resRawDirectory).be.a.readOnlyString;
+			should(Ti.Filesystem).have.readOnlyProperty('resRawDirectory').which.is.a.String;
 		} else {
 			should(Ti.Filesystem.resRawDirectory).be.undefined;
 		}
@@ -42,10 +42,7 @@ describe('Titanium.Filesystem', function () {
 		if (!utilities.isAndroid()) {
 			should(function () {
 				should(Ti.Filesystem.applicationSupportDirectory).not.be.undefined;
-				if (Ti.Filesystem.applicationSupportDirectory != null) {
-					should(Ti.Filesystem.applicationSupportDirectory).be.a.String;
-				}
-				should(Ti.Filesystem.applicationSupportDirectory).be.readOnly;
+				should(Ti.Filesystem).have.a.readOnlyProperty('applicationSupportDirectory').which.is.a.String;
 			}).not.throw();
 		}
 	});
@@ -56,10 +53,7 @@ describe('Titanium.Filesystem', function () {
 		if (!utilities.isIOS()) {
 			should(function () {
 				should(Ti.Filesystem.externalStorageDirectory).not.be.undefined;
-				if (Ti.Filesystem.externalStorageDirectory != null) {
-					should(Ti.Filesystem.externalStorageDirectory).be.a.String;
-				}
-				should(Ti.Filesystem.externalStorageDirectory).be.readOnly;
+				should(Ti.Filesystem).have.a.readOnlyProperty('externalStorageDirectory').which.is.a.String;
 			}).not.throw();
 		}
 	});
@@ -69,50 +63,46 @@ describe('Titanium.Filesystem', function () {
 		if (utilities.isWindowsDesktop()) {
 			should(Ti.Filesystem.applicationCacheDirectory).be.undefined;
 		} else {
-			should(Ti.Filesystem.applicationCacheDirectory).be.a.readOnlyString;
+			should(Ti.Filesystem).have.readOnlyProperty('applicationCacheDirectory').which.is.a.String;
 		}
 	});
 
 	it('tempDirectory', function () {
-		should(Ti.Filesystem.tempDirectory).be.a.readOnlyString;
+		should(Ti.Filesystem).have.readOnlyProperty('tempDirectory').which.is.a.String;
 	});
 
 	it('separator', function () {
 		should(function () {
-			should(Ti.Filesystem.separator).not.be.undefined;
-			should(Ti.Filesystem.separator).be.a.String;
+			should(Ti.Filesystem).have.a.readOnlyProperty('separator').which.is.a.String;
 			if (utilities.isWindows()) {
 				should(Ti.Filesystem.separator).be.eql('\\');
 			} else {
 				should(Ti.Filesystem.separator).be.eql('/');
 			}
-			should(Ti.Filesystem.separator).be.readOnly;
 		}).not.throw();
 	});
 
 	it('lineEnding', function () {
 		should(function () {
-			should(Ti.Filesystem.lineEnding).not.be.undefined;
-			should(Ti.Filesystem.lineEnding).be.a.String;
+			should(Ti.Filesystem).have.a.readOnlyProperty('lineEnding').which.is.a.String;
 			if (utilities.isWindows()) {
 				should(Ti.Filesystem.lineEnding).be.eql('\r\n');
 			} else {
 				should(Ti.Filesystem.lineEnding).be.eql('\n');
 			}
-			should(Ti.Filesystem.lineEnding).be.readOnly;
 		}).not.throw();
 	});
 
 	it('MODE_APPEND', function () {
-		should(Ti.Filesystem.MODE_APPEND).be.a.readOnlyNumber;
+		should(Ti.Filesystem).have.constant('MODE_APPEND').which.is.a.Number;
 	});
 
 	it('MODE_READ', function () {
-		should(Ti.Filesystem.MODE_READ).be.a.readOnlyNumber;
+		should(Ti.Filesystem).have.constant('MODE_READ').which.is.a.Number;
 	});
 
 	it('MODE_WRITE', function () {
-		should(Ti.Filesystem.MODE_WRITE).be.a.readOnlyNumber;
+		should(Ti.Filesystem).have.constant('MODE_WRITE').which.is.a.Number;
 	});
 
 	it('getFile()', function (finish) {

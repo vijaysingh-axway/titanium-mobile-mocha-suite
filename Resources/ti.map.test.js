@@ -16,122 +16,122 @@ describe('Titanium.Map', function () {
 	});
 
 	it('ANNOTATION_AZURE', function (finish) {
-		should(Map.ANNOTATION_AZURE).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_AZURE').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_BLUE', function (finish) {
-		should(Map.ANNOTATION_BLUE).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_BLUE').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_CYAN', function (finish) {
-		should(Map.ANNOTATION_CYAN).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_CYAN').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_GREEN', function (finish) {
-		should(Map.ANNOTATION_GREEN).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_GREEN').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_MAGENTA', function (finish) {
-		should(Map.ANNOTATION_MAGENTA).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_MAGENTA').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_ORANGE', function (finish) {
-		should(Map.ANNOTATION_ORANGE).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_ORANGE').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_PURPLE', function (finish) {
-		should(Map.ANNOTATION_PURPLE).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_PURPLE').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_RED', function (finish) {
-		should(Map.ANNOTATION_RED).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_RED').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_ROSE', function (finish) {
-		should(Map.ANNOTATION_ROSE).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_ROSE').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_VIOLET', function (finish) {
-		should(Map.ANNOTATION_VIOLET).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_VIOLET').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_YELLOW', function (finish) {
-		should(Map.ANNOTATION_YELLOW).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_YELLOW').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_DRAG_STATE_END', function (finish) {
-		should(Map.ANNOTATION_DRAG_STATE_END).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_DRAG_STATE_END').which.is.a.Number;
 		finish();
 	});
 
 	it('ANNOTATION_DRAG_STATE_START', function (finish) {
-		should(Map.ANNOTATION_DRAG_STATE_START).be.a.readOnlyNumber;
+		should(Map).have.constant('ANNOTATION_DRAG_STATE_START').which.is.a.Number;
 		finish();
 	});
 
 	it('OVERLAY_LEVEL_ABOVE_LABELS', function (finish) {
-		should(Map.OVERLAY_LEVEL_ABOVE_LABELS).be.a.readOnlyNumber;
+		should(Map).have.constant('OVERLAY_LEVEL_ABOVE_LABELS').which.is.a.Number;
 		finish();
 	});
 
 	it('OVERLAY_LEVEL_ABOVE_ROADS', function (finish) {
-		should(Map.OVERLAY_LEVEL_ABOVE_ROADS).be.a.readOnlyNumber;
+		should(Map).have.constant('OVERLAY_LEVEL_ABOVE_ROADS').which.is.a.Number;
 		finish();
 	});
 
 	it('SERVICE_DISABLED', function (finish) {
-		should(Map.SERVICE_DISABLED).be.a.readOnlyNumber;
+		should(Map).have.constant('SERVICE_DISABLED').which.is.a.Number;
 		finish();
 	});
 
 	it('SERVICE_INVALID', function (finish) {
-		should(Map.SERVICE_INVALID).be.a.readOnlyNumber;
+		should(Map).have.constant('SERVICE_INVALID').which.is.a.Number;
 		finish();
 	});
 
 	it('SERVICE_MISSING', function (finish) {
-		should(Map.SERVICE_MISSING).be.a.readOnlyNumber;
+		should(Map).have.constant('SERVICE_MISSING').which.is.a.Number;
 		finish();
 	});
 
 	it('SERVICE_VERSION_UPDATE_REQUIRED', function (finish) {
-		should(Map.SERVICE_VERSION_UPDATE_REQUIRED).be.a.readOnlyNumber;
+		should(Map).have.constant('SERVICE_VERSION_UPDATE_REQUIRED').which.is.a.Number;
 		finish();
 	});
 
 	it('SUCCESS', function (finish) {
-		should(Map.SUCCESS).be.a.readOnlyNumber;
+		should(Map).have.constant('SUCCESS').which.is.a.Number;
 		finish();
 	});
 
 	it('NORMAL_TYPE', function (finish) {
-		should(Map.NORMAL_TYPE).be.a.readOnlyNumber;
+		should(Map).have.constant('NORMAL_TYPE').which.is.a.Number;
 		finish();
 	});
 
 	it('SATELLITE_TYPE', function (finish) {
-		should(Map.SATELLITE_TYPE).be.a.readOnlyNumber;
+		should(Map).have.constant('SATELLITE_TYPE').which.is.a.Number;
 		finish();
 	});
 
 	it('HYBRID_TYPE', function (finish) {
-		should(Map.HYBRID_TYPE).be.a.readOnlyNumber;
+		should(Map).have.constant('HYBRID_TYPE').which.is.a.Number;
 		finish();
 	});
 
 	it('TERRAIN_TYPE', function (finish) {
-		should(Map.TERRAIN_TYPE).be.a.readOnlyNumber;
+		should(Map).have.constant('TERRAIN_TYPE').which.is.a.Number;
 		finish();
 	});
 

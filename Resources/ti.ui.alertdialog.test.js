@@ -11,7 +11,7 @@ var should = require('./should'),
 describe('Titanium.UI.AlertDialog', function () {
 	it('apiName', function () {
 		should(Ti.UI.AlertDialog.apiName).be.eql('Ti.UI.AlertDialog');
-		should(Ti.UI.AlertDialog.apiName).be.a.readOnlyString;
+		should(Ti.UI.AlertDialog).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('title', function () {

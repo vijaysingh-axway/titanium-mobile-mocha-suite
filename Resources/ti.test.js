@@ -13,12 +13,12 @@ describe('Titanium', function () {
 
 	it('apiName', function () {
 		should(Ti.apiName).be.eql('Ti');
-		should(Ti.apiName).be.a.readOnlyString;
+		should(Ti).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('version', function () {
 		should(Ti.version).not.eql('__TITANIUM_VERSION__');
-		should(Ti.version).be.a.readOnlyString;
+		should(Ti).have.readOnlyProperty('version').which.is.a.String;
 	});
 
 	it('getVersion()', function () {
@@ -30,7 +30,7 @@ describe('Titanium', function () {
 
 	it('buildDate', function () {
 		should(Ti.buildDate).not.eql('__TITANIUM_BUILD_DATE__');
-		should(Ti.buildDate).be.a.readOnlyString;
+		should(Ti).have.readOnlyProperty('buildDate').which.is.a.String;
 		// TODO Test format of the date string. what should we expect? Android gives us: '2016/06/02 08:45'
 	});
 
@@ -42,7 +42,7 @@ describe('Titanium', function () {
 
 	it('buildHash', function () {
 		should(Ti.buildHash).not.eql('__TITANIUM_BUILD_HASH__');
-		should(Ti.buildHash).be.a.readOnlyString;
+		should(Ti).have.readOnlyProperty('buildHash').which.is.a.String;
 		// TODO Test format of the buildHash string. what should we expect? Android gives us: 'c012548'
 	});
 

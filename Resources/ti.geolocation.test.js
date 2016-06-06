@@ -16,49 +16,49 @@ describe('Titanium.Geolocation', function () {
 
 	// Check if ACCURACY_BEST exists and make sure it does not throw exception
 	it('ACCURACY_BEST', function (finish) {
-		should(Ti.Geolocation.ACCURACY_BEST).be.a.readOnlyNumber;
+		should(Ti.Geolocation).have.constant('ACCURACY_BEST').which.is.a.Number;
 		finish();
 	});
 
 	// Check if ACCURACY_BEST_FOR_NAVIGATION exists and make sure it does not throw exception
 	it('ACCURACY_BEST_FOR_NAVIGATION', function (finish) {
-		should(Ti.Geolocation.ACCURACY_BEST_FOR_NAVIGATION).be.a.readOnlyNumber;
+		should(Ti.Geolocation).have.constant('ACCURACY_BEST_FOR_NAVIGATION').which.is.a.Number;
 		finish();
 	});
 
 	// Check if ACCURACY_HIGH exists and make sure it does not throw exception
 	it('ACCURACY_HIGH', function (finish) {
-		should(Ti.Geolocation.ACCURACY_HIGH).be.a.readOnlyNumber;
+		should(Ti.Geolocation).have.constant('ACCURACY_HIGH').which.is.a.Number;
 		finish();
 	});
 
 	// Check if ACCURACY_HUNDRED_METERS exists and make sure it does not throw exception
 	it('ACCURACY_HUNDRED_METERS', function (finish) {
-		should(Ti.Geolocation.ACCURACY_HUNDRED_METERS).be.a.readOnlyNumber;
+		should(Ti.Geolocation).have.constant('ACCURACY_HUNDRED_METERS').which.is.a.Number;
 		finish();
 	});
 
 	// Check if ACCURACY_KILOMETER exists and make sure it does not throw exception
 	it('ACCURACY_KILOMETER', function (finish) {
-		should(Ti.Geolocation.ACCURACY_KILOMETER).be.a.readOnlyNumber;
+		should(Ti.Geolocation).have.constant('ACCURACY_KILOMETER').which.is.a.Number;
 		finish();
 	});
 
 	// Check if ACCURACY_LOW exists and make sure it does not throw exception
 	it('ACCURACY_LOW', function (finish) {
-		should(Ti.Geolocation.ACCURACY_LOW).be.a.readOnlyNumber;
+		should(Ti.Geolocation).have.constant('ACCURACY_LOW').which.is.a.Number;
 		finish();
 	});
 
 	// Check if ACCURACY_NEAREST_TEN_METERS exists and make sure it does not throw exception
 	it('ACCURACY_NEAREST_TEN_METERS', function (finish) {
-		should(Ti.Geolocation.ACCURACY_NEAREST_TEN_METERS).be.a.readOnlyNumber;
+		should(Ti.Geolocation).have.constant('ACCURACY_NEAREST_TEN_METERS').which.is.a.Number;
 		finish();
 	});
 
 	// Check if ACCURACY_THREE_KILOMETERS exists and make sure it does not throw exception
 	it('ACCURACY_THREE_KILOMETERS', function (finish) {
-		should(Ti.Geolocation.ACCURACY_THREE_KILOMETERS).be.a.readOnlyNumber;
+		should(Ti.Geolocation).have.constant('ACCURACY_THREE_KILOMETERS').which.is.a.Number;
 		finish();
 	});
 

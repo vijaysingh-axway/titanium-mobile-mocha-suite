@@ -12,7 +12,7 @@ describe('Titanium.UI.OptionDialog', function () {
 
 	it('apiName', function () {
 		should(Ti.UI.OptionDialog.apiName).be.eql('Ti.UI.OptionDialog');
-		should(Ti.UI.OptionDialog.apiName).be.a.readOnlyString;
+		should(Ti.UI.OptionDialog).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
 	it('title', function (finish) {
