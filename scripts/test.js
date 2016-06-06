@@ -123,6 +123,7 @@ function addTiAppProperties(next) {
 			content.push('<module version="1.0.0">commonjs.legacy.package</module>');
 			//content.push('<module version="1.0.0">commonjs.package</module>');
 			content.push('<module platform="android">ti.map</module>');
+			content.push('<module platform="ios">ti.map</module>');
 		}
 		// Inject some properties used by tests!
 		else if (line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
@@ -172,12 +173,20 @@ function copyMochaAssets(next) {
 }
 
 function runBuild(platform, next) {
-	var prc = spawn('node', [titanium, 'build',
-		'--project-dir', PROJECT_DIR,
-		'--platform', platform,
-		'--target', (platform === 'android') ? 'emulator' : 'simulator',
-		'--log-level', 'info',
-		'--no-prompt', '--no-colors']);
+	var args = [
+			titanium, 'build',
+			'--project-dir', PROJECT_DIR,
+			'--platform', platform,
+			'--target', (platform === 'android') ? 'emulator' : 'simulator',
+			'--log-level', 'info'
+		],
+		prc;
+	if (platform === 'ios') {
+		args.push('--hide-error-controller');
+	}
+	args.push('--no-prompt');
+	args.push('--no-colors');
+	prc = spawn('node', args);
 	handleBuild(prc, next);
 }
 
