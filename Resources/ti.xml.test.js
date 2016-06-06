@@ -5,7 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 var should = require('./should'),
-	utilities = require('./utilities/utilities');
+	utilities = require('./utilities/utilities'),
+	assert = require('./utilities/assertions');
 
 // FIXME overflowing local ref table with DocumentProxy: https://jira.appcelerator.org/browse/TIMOB-23460
 (utilities.isAndroid() ? describe.skip : describe)('Titanium.XML', function () {
@@ -48,6 +49,11 @@ var should = require('./should'),
 		// wipe last held contents to allow GC to clean up proxies?
 		testSource = {};
 		invalidSource = {};
+	});
+
+	it('apiName', function (){
+		should(Ti.XML).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.XML.apiName).be.eql('Ti.XML');
 	});
 
 	it('parseString', function (finish) {

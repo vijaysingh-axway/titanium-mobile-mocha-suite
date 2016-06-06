@@ -14,74 +14,66 @@ describe('Titanium.Contacts.Group', function() {
 		should(Ti.Contacts.Group.apiName).be.eql('Ti.Contacts.Group');
 	});
 
-	it('identifier', function () {
-		should(function () {
-			var group = Ti.Contacts.createGroup();
-			// must call Ti.Contacts.save to write group!
-			should(group.identifier).not.be.undefined;
-			//should(group.identifier).be.a.String; // null until saved?
-			// TODO Test read-only
-		}).not.throw();
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('identifier', function () {
+		var group = Ti.Contacts.createGroup();
+		// must call Ti.Contacts.save to write group!
+		should(group.identifier).not.be.undefined;
+		//should(group.identifier).be.a.String; // null until saved?
+		// TODO Test read-only
 	});
 
-	it('name', function () {
-		should(function () {
-			var group = Ti.Contacts.createGroup({name: 'example'});
-			should(group.name).not.be.undefined;
-			should(group.name).be.a.String;
-			// TODO Test modifying the name
-		}).not.throw();
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('name', function () {
+		var group = Ti.Contacts.createGroup({name: 'example'});
+		should(group.name).not.be.undefined;
+		should(group.name).be.a.String;
+		// TODO Test modifying the name
 	});
 
-	it('recordId', function () {
-		should(function () {
-			var group = Ti.Contacts.createGroup();
-			should(group.recordId).not.be.undefined;
-			// must call Ti.Contacts.save first to get recordId?
-			//should(group.recordId).be.a.Number;
-			// TODO Number on iOS, String on Windows?
-		}).not.throw();
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('recordId', function () {
+		var group = Ti.Contacts.createGroup();
+		should(group.recordId).not.be.undefined;
+		// must call Ti.Contacts.save first to get recordId?
+		//should(group.recordId).be.a.Number;
+		// TODO Number on iOS, String on Windows?
 	});
 
-	it('add', function() {
-		 should(function () {
-			var group = Ti.Contacts.createGroup();
-			should(group.add).be.a.Function;
-			// TODO Test the method
-			// Handle null/undefined as arg
-			// test non-Person as arg
-			// test calling without any args
-		}).not.throw();
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('add', function() {
+		var group = Ti.Contacts.createGroup();
+		should(group.add).be.a.Function;
+		// TODO Test the method
+		// Handle null/undefined as arg
+		// test non-Person as arg
+		// test calling without any args
 	});
 
-	it('members', function() {
-		 should(function () {
-			var group = Ti.Contacts.createGroup();
-			should(group.members).be.a.Function;
-			should(group.members()).be.an.Array;
-			// TODO Test the method
-		}).not.throw();
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('members', function() {
+		var group = Ti.Contacts.createGroup();
+		should(group.members).be.a.Function;
+		should(group.members()).be.an.Array;
+		// TODO Test the method
 	});
 
-	it('remove', function() {
-		 should(function () {
-			var group = Ti.Contacts.createGroup();
-			should(group.remove).be.a.Function;
-			// TODO Test the method
-			// Handle null/undefined as arg
-			// test non-Person as arg
-			// test calling without any args
-		}).not.throw();
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('remove', function() {
+		var group = Ti.Contacts.createGroup();
+		should(group.remove).be.a.Function;
+		// TODO Test the method
+		// Handle null/undefined as arg
+		// test non-Person as arg
+		// test calling without any args
 	});
 
-	it('sortedMembers', function() {
-		 should(function () {
-			var group = Ti.Contacts.createGroup();
-			should(group.sortedMembers).be.a.Function;
-			should(group.sortedMembers(Ti.Contacts.CONTACTS_SORT_LAST_NAME)).be.an.Array;
-			// TODO Test the method
-			// Test non Ti.Contants.CONTACTS_SORT values as arg
-
-		}).not.throw();
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('sortedMembers', function() {
+		var group = Ti.Contacts.createGroup();
+		should(group.sortedMembers).be.a.Function;
+		should(group.sortedMembers(Ti.Contacts.CONTACTS_SORT_LAST_NAME)).be.an.Array;
+		// TODO Test the method
+		// Test non Ti.Contants.CONTACTS_SORT values as arg
 	});
 });
