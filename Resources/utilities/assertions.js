@@ -6,7 +6,7 @@ should.Assertion.add('propertyWithDescriptor', function(name, desc) {
 	var obj = this.obj;
 	this.have.ownProperty(name);
 	should(Object.getOwnPropertyDescriptor(Object(obj), name)).have.properties(desc);
-});
+}, false);
 
 /**
  * Use this to test for read-only, non-configurable properties on an Object
@@ -36,3 +36,4 @@ should.Assertion.add('constant', function (propName) {
 }, false);
 
 // TODO Add an assertion for "exclusive" group of constants: A set of constants whose values must be unique (basically an enum), i.e. Ti.UI.FILL vs SIZE vs UNKNOWN
+module.exports = should;

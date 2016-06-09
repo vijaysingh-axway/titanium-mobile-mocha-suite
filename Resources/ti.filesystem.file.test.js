@@ -5,9 +5,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-var should = require('./should'),
-	utilities = require('./utilities/utilities'),
-	assert = require('./utilities/assertions');
+var should = require('./utilities/assertions'),
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.Filesystem.File', function () {
 	it('apiName', function () {

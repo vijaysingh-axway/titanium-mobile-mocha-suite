@@ -6,9 +6,8 @@
  */
 
 require('ti-mocha');
-var should = require('should'),
+var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities'),
-	assert = require('./utilities/assertions'),
 	didFocus = false;
 
 describe('Titanium.UI.Button', function () {

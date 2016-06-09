@@ -6,7 +6,7 @@
  */
 
 require('ti-mocha');
-var should = require('should'),
+var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities'),
 	didFocus = false,
 	didPostLayout = false;

@@ -4,9 +4,8 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./should'),
+var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities'),
-	assert = require('./utilities/assertions'),
 	Map = require('ti.map');
 
 describe('Titanium.Map', function () {

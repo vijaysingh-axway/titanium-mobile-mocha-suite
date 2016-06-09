@@ -6,7 +6,7 @@
  */
 
 require('ti-mocha');
-var should = require('should'),
+var should = require('./utilities/assertions'),
 	didFocus = false;
 
 describe('Titanium.UI.Tab', function () {
