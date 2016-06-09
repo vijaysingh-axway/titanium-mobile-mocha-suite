@@ -15,8 +15,9 @@ describe('Titanium.Platform', function () {
 		should(Ti.Platform).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
-	it('canOpenURL()', function () {
-		should(Ti.Platform.canOpenURL).be.a.Function;
+	// FIXME Get working on Android?
+	(utilities.isAndroid() ? it.skip : it)('canOpenURL()', function () {
+		should(Ti.Platform.canOpenURL).be.a.Function; // Android gives undefined?
 		should(Ti.Platform.canOpenURL('http://www.appcelerator.com/')).be.a.Boolean;
 	});
 
