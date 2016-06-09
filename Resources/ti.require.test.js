@@ -4,7 +4,7 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utiltities/assertions');
+var should = require('./utilities/assertions');
 
 describe('requireJS', function () {
 	// require should be a function

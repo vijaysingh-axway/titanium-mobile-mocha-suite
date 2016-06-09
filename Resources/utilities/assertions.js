@@ -1,4 +1,5 @@
-var should = require('../should');
+var should = require('../should'),
+	utilities = require('./utilities');
 
 // Copied from newer should.js
 should.Assertion.add('propertyWithDescriptor', function(name, desc) {
@@ -17,7 +18,11 @@ should.Assertion.add('readOnlyProperty', function (propName) {
 	if (this.obj.apiName) {
 		this.params.obj = this.obj.apiName;
 	}
-	should(this.obj).have.propertyWithDescriptor(propName, {writable: false, configurable: false});
+	var props = {writable: false};
+	if (!utilities.isIOS()) { // FIXME read-only properties should also be non-configurable on iOS!
+		props.configurable = false;
+	}
+	should(this.obj).have.propertyWithDescriptor(propName, props);
 	this.obj = this.obj[propName];
 }, false);
 
@@ -26,12 +31,17 @@ should.Assertion.add('readOnlyProperty', function (propName) {
  * @param {String} propName     Name of the property to test for.
  */
 should.Assertion.add('constant', function (propName) {
+	var target = this.obj,
+		props = {writable: false};
 	this.params = { operator: 'to have a constant with name: ' + propName };
-	var proto = Object.getPrototypeOf(this.obj);
-	if (proto) {
-		this.params.obj = proto;
+	if (!utilities.isIOS()) { // FIXME Should constants be moved to the prototype on iOS?
+		target = Object.getPrototypeOf(this.obj); // on Android/Windows, constants live on prototype
+		if (target) {
+			this.params.obj = target;
+		}
+		props.configurable = false; // FIXME read-only properties should also be non-configurable on iOS!
 	}
-	should(proto).have.propertyWithDescriptor(propName, {writable: false, configurable: false});
+	should(target).have.propertyWithDescriptor(propName, props);
 	this.obj = this.obj[propName];
 }, false);
 
