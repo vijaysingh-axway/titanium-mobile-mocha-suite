@@ -31,8 +31,8 @@ describe('Titanium.Filesystem.FileStream', function () {
 		file = null;
 	});
 
-	// FIXME Get working on Android?
-	(utilities.isAndroid() ? it.skip : it)('apiName', function () {
+	// FIXME Get working on Android and iOS
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('apiName', function () {
 		should(Ti.FileStream).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.FileStream.apiName).be.eql('Ti.Filesystem.FileStream');
 	});

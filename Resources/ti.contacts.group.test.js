@@ -8,7 +8,8 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Contacts.Group', function() {
-	it('apiName', function () {
+	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
+	(utilities.isIOS() ? it.skip : it)('apiName', function () {
 		should(Ti.Contacts.Group).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Contacts.Group.apiName).be.eql('Ti.Contacts.Group');
 	});

@@ -104,8 +104,7 @@ describe('Titanium.Filesystem', function () {
 		should(Ti.Filesystem).have.constant('MODE_WRITE').which.is.a.Number;
 	});
 
-	it('getFile()', function (finish) {
-		should(Ti.Filesystem.getFile).not.be.undefined;
+	it('getFile()', function () {
 		should(Ti.Filesystem.getFile).be.a.Function;
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file).be.ok; // not null or undefined. should(file).not.be.null causes a stack overflow somehow.

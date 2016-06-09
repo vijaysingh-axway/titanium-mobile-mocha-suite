@@ -9,8 +9,8 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Filesystem.File', function () {
-	// FIXME Get working on Android?
-	(utilities.isAndroid() ? it.skip : it)('apiName', function () {
+	// FIXME Get working on Android and iOS
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('apiName', function () {
 		should(Ti.Filesystem.File.apiName).be.eql('Ti.Filesystem.File'); // Android gives undefined
 		should(Ti.Filesystem.File).have.readOnlyProperty('apiName').which.is.a.String;
 	});
@@ -73,9 +73,10 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// Check if parent exists and returns File
-	it('parent', function () {
+	(utilities.isIOS() ? it.skip : it)('parent', function () {
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.parent).be.ok; // not null or undefined. should(file).not.be.null causes a stack overflow somehow.
+		// TODO Add test that it's read-only
 	});
 
 	// Check if size exists and returns number

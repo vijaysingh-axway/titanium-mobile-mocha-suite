@@ -20,7 +20,7 @@ describe('Titanium.Geolocation', function () {
 		should(Ti.Geolocation).have.constant('ACCURACY_BEST_FOR_NAVIGATION').which.is.a.Number;
 	});
 
-	it('ACCURACY_HIGH', function (finish) {
+	it('ACCURACY_HIGH', function () {
 		should(Ti.Geolocation).have.constant('ACCURACY_HIGH').which.is.a.Number;
 	});
 
@@ -53,29 +53,31 @@ describe('Titanium.Geolocation', function () {
 	});
 
 	it('distanceFilter', function () {
-		should(Ti.Geolocation.getDistanceFilter()).be.a.Number;
 		should(Ti.Geolocation.getDistanceFilter).be.a.Function;
+		should(Ti.Geolocation.getDistanceFilter()).be.a.Number;
 		should(Ti.Geolocation.setDistanceFilter).be.a.Function;
 		Ti.Geolocation.setDistanceFilter(1000);
 		should(Ti.Geolocation.getDistanceFilter()).be.eql(1000);
 	});
 
 	it('headingFilter', function () {
-		should(Ti.Geolocation.getHeadingFilter()).be.a.Number;
 		should(Ti.Geolocation.getHeadingFilter).be.a.Function;
+		should(Ti.Geolocation.getHeadingFilter()).be.a.Number;
 		should(Ti.Geolocation.setHeadingFilter).be.a.Function;
 		Ti.Geolocation.setHeadingFilter(90);
 		should(Ti.Geolocation.getHeadingFilter()).be.eql(90);
 	});
 
 	it('lastGeolocation', function () {
-		should(Ti.Geolocation.getLastGeolocation()).be.a.Object;
+		var returnValue;
 		should(Ti.Geolocation.getLastGeolocation).be.a.Function;
+		returnValue = Ti.Geolocation.getLastGeolocation();
+		//should(returnValue).be.a.Object; // FIXME How do we test return type? Docs say String. May be null or undefined, as well!
 	});
 
 	it('locationServicesEnabled', function () {
-		should(Ti.Geolocation.getLocationServicesEnabled()).be.a.Boolean;
 		should(Ti.Geolocation.getLocationServicesEnabled).be.a.Function;
+		should(Ti.Geolocation.getLocationServicesEnabled()).be.a.Boolean;
 	});
 
 	it('forwardGeocoder', function () {
