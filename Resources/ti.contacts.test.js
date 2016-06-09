@@ -29,11 +29,13 @@ describe('Titanium.Contacts', function() {
 		should(Ti.Contacts).have.constant('AUTHORIZATION_UNKNOWN').which.is.a.Number;
 	});
 
-	it('CONTACTS_KIND_ORGANIZATION', function () {
+	// FIXME Get working for iOS
+	(utilities.isIOS() ? it.skip : it)('CONTACTS_KIND_ORGANIZATION', function () {
 		should(Ti.Contacts).have.constant('CONTACTS_KIND_ORGANIZATION').which.is.a.Number;
 	});
 
-	it('CONTACTS_KIND_PERSON', function () {
+	// FIXME Get working for iOS
+	(utilities.isIOS() ? it.skip : it)('CONTACTS_KIND_PERSON', function () {
 		should(Ti.Contacts).have.constant('CONTACTS_KIND_PERSON').which.is.a.Number;
 	});
 

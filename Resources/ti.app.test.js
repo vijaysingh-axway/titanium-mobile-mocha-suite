@@ -13,8 +13,7 @@ describe('Titanium.App', function () {
 		should(Ti.App).have.constant('EVENT_ACCESSIBILITY_ANNOUNCEMENT').which.is.eql('accessibilityannouncement');
 	});
 
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('EVENT_ACCESSIBILITY_CHANGED', function () {
+	it('EVENT_ACCESSIBILITY_CHANGED', function () {
 		should(Ti.App).have.constant('EVENT_ACCESSIBILITY_CHANGED').which.is.eql('accessibilitychanged');
 	});
 
