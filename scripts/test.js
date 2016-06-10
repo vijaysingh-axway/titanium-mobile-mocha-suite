@@ -115,14 +115,13 @@ function addTiAppProperties(next) {
 		// TODO Have this look at the existing modules under the test app folder to inject them
 		// inject the test modules for require
 		else if (line.indexOf('<modules>') >= 0) {
-			// FIXME The non-legacy CommonJS modules requires this PR be merged: https://github.com/appcelerator/titanium_mobile/pull/8004
-			//content.push('<module version="1.0.0">commonjs.index_js</module>');
-			//content.push('<module version="1.0.0">commonjs.index_json</module>');
+			content.push('<module version="1.0.0">commonjs.index_js</module>');
+			content.push('<module version="1.0.0">commonjs.index_json</module>');
 			content.push('<module version="1.0.0">commonjs.legacy</module>');
 			content.push('<module version="1.0.0">commonjs.legacy.index_js</module>');
 			content.push('<module version="1.0.0">commonjs.legacy.index_json</module>');
 			content.push('<module version="1.0.0">commonjs.legacy.package</module>');
-			//content.push('<module version="1.0.0">commonjs.package</module>');
+			content.push('<module version="1.0.0">commonjs.package</module>');
 			content.push('<module platform="android">ti.map</module>');
 			content.push('<module platform="ios">ti.map</module>');
 		}
