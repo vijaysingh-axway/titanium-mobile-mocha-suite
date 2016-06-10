@@ -63,6 +63,7 @@ describe('Titanium.UI.WebView', function () {
 	});
 
 	// Skip this on desktop Windows apps because it crashes the app now.
+	// FIXME Parity issue! Windows require second argument which is callback function. Other platforms return value sync!
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('evalJS', function (finish) {
 		this.timeout(10000);
 		var w = Ti.UI.createWindow({
@@ -70,13 +71,31 @@ describe('Titanium.UI.WebView', function () {
 		});
 		var webview = Ti.UI.createWebView();
 		webview.addEventListener('load', function () {
-			webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";', function (result) {
-				should(result).be.eql('WebView.evalJS.TEST');
+			var error;
+			if (utilities.isWindows()) { // Windows requires an async callback function
+				webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";', function (result) {
+					try {
+						should(result).be.eql('WebView.evalJS.TEST');
+					} catch (err) {
+						error = err;
+					}
+					setTimeout(function () {
+						w.close();
+						finish(error);
+					}, 1000);
+				});
+			} else { // other platforms return the result as result of function call!
+				var result = webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";');
+				try {
+					should(result).be.eql('WebView.evalJS.TEST');
+				} catch (err) {
+					error = err;
+				}
 				setTimeout(function () {
 					w.close();
-					finish();
+					finish(error);
 				}, 1000);
-			});
+			}
 		});
 		w.addEventListener('focus', function () {
 			if (didFocus) return;

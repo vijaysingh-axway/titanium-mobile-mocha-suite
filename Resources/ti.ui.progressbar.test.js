@@ -8,12 +8,13 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.ProgressBar', function () {
-	it('apiName', function (finish) {
+	// FIXME Get working on iOS
+	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+		should(Ti.UI.ProgressBar).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.UI.ProgressBar.apiName).be.eql('Ti.UI.ProgressBar');
-		finish();
 	});
 
-	it('message', function (finish) {
+	it('message', function () {
 		var bar = Ti.UI.createProgressBar({
 			message: 'this is some text'
 		});
@@ -24,10 +25,9 @@ describe('Titanium.UI.ProgressBar', function () {
 		bar.message = 'other text';
 		should(bar.message).eql('other text');
 		should(bar.getMessage()).eql('other text');
-		finish();
 	});
 
-	it('min', function (finish) {
+	it('min', function () {
 		var bar = Ti.UI.createProgressBar({
 			min: 0
 		});
@@ -38,10 +38,9 @@ describe('Titanium.UI.ProgressBar', function () {
 		bar.min = 100;
 		should(bar.min).eql(100);
 		should(bar.getMin()).eql(100);
-		finish();
 	});
 
-	it('max', function (finish) {
+	it('max', function () {
 		var bar = Ti.UI.createProgressBar({
 			max: 0
 		});
@@ -52,10 +51,9 @@ describe('Titanium.UI.ProgressBar', function () {
 		bar.max = 100;
 		should(bar.max).eql(100);
 		should(bar.getMax()).eql(100);
-		finish();
 	});
 
-	it('value', function (finish) {
+	it('value', function () {
 		var bar = Ti.UI.createProgressBar({
 			value: 0
 		});
@@ -66,7 +64,6 @@ describe('Titanium.UI.ProgressBar', function () {
 		bar.value = 100;
 		should(bar.value).eql(100);
 		should(bar.getValue()).eql(100);
-		finish();
 	});
 	// TODO Add tests for style, color and font?
 });

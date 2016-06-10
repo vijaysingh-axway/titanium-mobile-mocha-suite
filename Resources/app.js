@@ -6,7 +6,7 @@
  */
 
 var win = Ti.UI.createWindow({
-	backgroundColor: 'lightyellow'
+	backgroundColor: 'yellow'
 });
 win.open();
 
@@ -86,6 +86,11 @@ function $Reporter(runner) {
 	runner.on('test', function (test) {
 		Ti.API.info('!TEST_START: ' + test.title);
 		started = new Date().getTime();
+	});
+
+	runner.on('pending', function (test) {
+		// TODO Spit out something like !TEST_SKIP:  ?
+		started = new Date().getTime(); // reset timer. pending/skipped tests basically start and end immediately
 	});
 
 	// 'pending' hook for skipped tests? Does 'pending', then immediate 'test end'. No 'test' event

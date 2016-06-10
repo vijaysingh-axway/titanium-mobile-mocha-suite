@@ -108,9 +108,9 @@ function addTiAppProperties(next) {
 	var content = [];
 	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function(line) {
 		content.push(line);
+		// FIXME app thinning breaks tests which expect image files to exist on filesystem normally!
 		if (line.indexOf('<ios>') >= 0) {
-			// FIXME Do we want app thinning?
-			content.push('<use-app-thinning>true</use-app-thinning>');
+			content.push('<use-app-thinning>false</use-app-thinning>');
 		}
 		// TODO Have this look at the existing modules under the test app folder to inject them
 		// inject the test modules for require

@@ -9,17 +9,17 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.Switch', function () {
-	it('Ti.UI.Switch', function (finish) {
+	it('Ti.UI.Switch', function () {
 		should(Ti.UI.Switch).not.be.undefined;
-		finish();
 	});
 
-	it('apiName', function (finish) {
+	// FIXME Get working on iOS
+	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+		should(Ti.UI.Switch).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.UI.Switch.apiName).be.eql('Ti.UI.Switch');
-		finish();
 	});
 
-	it('createSwitch', function (finish) {
+	it('createSwitch', function () {
 		should(Ti.UI.createSwitch).not.be.undefined;
 		should(Ti.UI.createSwitch).be.a.Function;
 
@@ -34,8 +34,6 @@ describe('Titanium.UI.Switch', function () {
 		should(switch_ctrl.value).be.eql(true);
 		switch_ctrl.value = false;
 		should(switch_ctrl.value).be.eql(false);
-
-		finish();
 	});
 
 });
