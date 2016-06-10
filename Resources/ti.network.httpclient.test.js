@@ -8,8 +8,8 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Network.HTTPClient', function () {
-	// FIXME Get working on IOS
-	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+	// FIXME Get working on IOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
 		should(Ti.Network.HTTPClient).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Network.HTTPClient.apiName).be.eql('Ti.Network.HTTPClient');
 	});

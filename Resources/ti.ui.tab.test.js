@@ -37,8 +37,7 @@ describe('Titanium.UI.Tab', function () {
 		should(tab.getTitle()).eql('other text');
 	});
 
-	// FIXME Get parity across platforms! iOS retains existign title if titleid isn't found on lookup. Windows uses new titleid key
-	(utilities.isIOS() ? it.skip : it)('titleid', function () {
+	it('titleid', function () {
 		var bar = Ti.UI.createTab({
 			titleid: 'this_is_my_key'
 		});
@@ -50,7 +49,7 @@ describe('Titanium.UI.Tab', function () {
 		bar.titleid = 'other text';
 		should(bar.titleid).eql('other text');
 		should(bar.getTitleid()).eql('other text');
-		should(bar.title).eql('other text'); // key is used when no resources found // iOS retains old title when new titleid isn't found
+		should(bar.title).eql('this is my value'); // FIXME Windows: https://jira.appcelerator.org/browse/TIMOB-23498
 	});
 
 });

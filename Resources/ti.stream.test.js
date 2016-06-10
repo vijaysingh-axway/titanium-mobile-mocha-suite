@@ -316,31 +316,36 @@ describe('Titanium.Stream', function() {
 		// This stuff has to be copied into each asynch test because it lives
 		// in a different 'this' context
 		var sourceBuffer = Ti.createBuffer({
-			value: 'All work and no play makes Jack a dull boy all work and no play makes Jack a dull boy all work and no play makes Jack a dull boy ALL WORK AND NO PLAY MAKES JACK A DULL BOY'
-		});
-		var sourceBlob = Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
-		var sourceBlobStr = sourceBlob.toString();
-		var chunksize = 20;
-		var totalsize = 0;
-		var sourceValue = null;
+				value: 'All work and no play makes Jack a dull boy all work and no play makes Jack a dull boy all work and no play makes Jack a dull boy ALL WORK AND NO PLAY MAKES JACK A DULL BOY'
+			}),
+			sourceBlob = Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read(),
+			sourceBlobStr = sourceBlob.toString(),
+			chunksize = 20,
+			totalsize = 0,
+			sourceValue = null,
+			numOfPass = 0,
+			error;
 
 		// Used as a function for handling comparison
-		var numOfPass = 0;
 		function handler(e) {
-			should(e.code).be.a.Number;
-			should(e.success).be.a.Boolean;
-			should(e.bytesProcessed).be.within(0, chunksize);
-			should(e.buffer).not.be.null;
-			for (var i = 0; i < e.buffer.length; i++) {
-				should(e.buffer[i]).be.equal(sourceValue(i, totalsize));
+			try {
+				should(e.code).be.a.Number;
+				should(e.success).be.a.Boolean;
+				should(e.bytesProcessed).be.within(0, chunksize);
+				should(e.buffer).not.be.null;
+				for (var i = 0; i < e.buffer.length; i++) {
+					should(e.buffer[i]).be.equal(sourceValue(i, totalsize));
+				}
+				if (e.bytesProcessed != -1) {
+					totalsize += e.bytesProcessed;
+				}
+				should(totalsize).be.equal(e.totalBytesProcessed);
+			} catch (err) {
+				error = err;
 			}
-			if (e.bytesProcessed != -1) {
-				totalsize += e.bytesProcessed;
-			}
-			should(totalsize).be.equal(e.totalBytesProcessed);
 			numOfPass += 1;
 			if (2 == numOfPass) {
-				finish();
+				finish(error);
 			}
 		}
 		sourceValue = function(pos, totalsize) {

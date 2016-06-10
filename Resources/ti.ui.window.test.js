@@ -29,8 +29,7 @@ describe('Titanium.UI.Window', function () {
 		should(bar.getTitle()).eql('other text');
 	});
 
-	// FIXME Get working on iOS - when setting titleid that can't be found, title stays pre-existing value
-	(utilities.isIOS() ? it.skip : it)('titleid', function () {
+	it('titleid', function () {
 		var bar = Ti.UI.createWindow({
 			titleid: 'this_is_my_key'
 		});
@@ -42,7 +41,7 @@ describe('Titanium.UI.Window', function () {
 		bar.titleid = 'other text';
 		should(bar.titleid).eql('other text');
 		should(bar.getTitleid()).eql('other text');
-		should(bar.title).eql('other text'); // key is used when no resources found // iOS retains old value of 'this is my value'
+		should(bar.title).eql('this is my value'); // FIXME Windows: https://jira.appcelerator.org/browse/TIMOB-23498
 	});
 
 	// FIXME Get working on iOS. ioS reports size of 100, which seems right...

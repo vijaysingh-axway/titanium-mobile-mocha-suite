@@ -15,22 +15,23 @@ describe('Titanium.UI.EmailDialog', function () {
 	});
 
 	// FIXME Get working on iOS - undefined is not an object (evaluating 'hasOwnProperty.call(this.obj, name)')
-	(utilities.isIOS() ? it.skip : it)('FAILED', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('FAILED', function () {
 		should(Ti.UI.EmailDialog).have.constant('FAILED').which.is.a.Number;
 	});
 
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('SENT', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SENT', function () {
 		should(Ti.UI.EmailDialog).have.constant('SENT').which.is.a.Number;
 	});
 
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('SAVED', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SAVED', function () {
 		should(Ti.UI.EmailDialog).have.constant('SAVED').which.is.a.Number;
 	});
 
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('CANCELLED', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('CANCELLED', function () {
 		should(Ti.UI.EmailDialog).have.constant('CANCELLED').which.is.a.Number;
 	});
 

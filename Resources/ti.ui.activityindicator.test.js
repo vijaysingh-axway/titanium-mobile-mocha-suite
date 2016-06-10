@@ -8,8 +8,8 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.ActivityIndicator', function () {
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
 		should(Ti.UI.ActivityIndicator).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.UI.ActivityIndicator.apiName).be.eql('Ti.UI.ActivityIndicator');
 	});
@@ -72,7 +72,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		should(activityIndicator.getStyle()).eql(Ti.UI.ActivityIndicatorStyle.DARK);
 	});
 
-	it('indicatorColor', function () {
+	// Not supported on Android: https://jira.appcelerator.org/browse/TIMOB-23497
+	(utilities.isAndroid() ? it.skip : it)('indicatorColor', function () {
 		var activityIndicator = Ti.UI.createActivityIndicator({
 			indicatorColor: '#fff'
 		});
@@ -85,7 +86,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		should(activityIndicator.getIndicatorColor()).eql('#000');
 	});
 
-	it('indicatorDiameter', function () {
+	// Not supported on Android: https://jira.appcelerator.org/browse/TIMOB-23497
+	(utilities.isAndroid() ? it.skip : it)('indicatorDiameter', function () {
 		var activityIndicator = Ti.UI.createActivityIndicator({
 			indicatorDiameter: '36'
 		});

@@ -41,7 +41,7 @@ describe('Titanium.UI.OptionDialog', function () {
 		bar.titleid = 'other text';
 		should(bar.titleid).eql('other text');
 		should(bar.getTitleid()).eql('other text');
-		should(bar.title).eql('other text'); // key is used when no resources found
+		should(bar.title).eql('this is my value'); // FIXME Windows: https://jira.appcelerator.org/browse/TIMOB-23498
 	});
 
 	// Intentionally skip. buttonNames property isn't on iOS. TODO Add it for parity?

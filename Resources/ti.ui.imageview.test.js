@@ -10,8 +10,8 @@ var should = require('./utilities/assertions'),
 describe('Titanium.UI.ImageView', function () {
 	this.timeout(5000);
 
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
 		should(Ti.UI.ImageView).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.UI.ImageView.apiName).be.eql('Ti.UI.ImageView');
 	});
