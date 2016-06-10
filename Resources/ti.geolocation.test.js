@@ -84,8 +84,8 @@ describe('Titanium.Geolocation', function () {
 		should(Ti.Geolocation.forwardGeocoder).be.a.Function;
 		Ti.Geolocation.forwardGeocoder('440 N Bernardo Ave, Mountain View', function (data) {
 			try {
-				should(data.latitude).be.eql(37.3883645);
-				should(data.longitude).be.eql(-122.0512682);
+				should(data.latitude).be.approximately(37.387, 0.002); // iOS gives: 37.38605, Windows does 37.3883645
+				should(data.longitude).be.approximately(-122.065, 0.02); // WIndows gives: -122.0512682, iOS gives -122.08385
 				finish();
 			} catch (err) {
 				finish(err);
@@ -93,11 +93,24 @@ describe('Titanium.Geolocation', function () {
 		});
 	});
 
+	// FIXME Windows doesn't honor the API properly! We have zipcode on the data object itself!
 	it('reverseGeocoder', function (finish) {
 		should(Ti.Geolocation.reverseGeocoder).be.a.Function;
 		Ti.Geolocation.reverseGeocoder(37.3883645, -122.0512682, function (data) {
 			try {
-				should(data.zipcode).be.eql('94043');
+				should(data).have.property('success').which.is.a.Boolean;
+				should(data).have.property('code').which.is.a.Number;
+				// FIXME error property is missing altogether on success for iOS...
+				//should(data).have.property('error'); // undefined on success, holds error message as String otherwise.
+				should(data).have.property('places').which.is.an.Array;
+				should(data.places[0].zipcode).be.eql('94043');
+				should(data.places[0].country).be.eql('United States of America');
+				should(data.places[0].state).be.eql('California');
+				should(data.places[0].country_code).be.eql('US');
+				should(data.places[0]).have.property('city').which.is.a.String;
+				should(data.places[0]).have.property('address').which.is.a.String;
+				should(data.places[0]).have.property('latitude').which.is.a.Number; // docs say String!
+				should(data.places[0]).have.property('longitude').which.is.a.Number; // docs say String!
 				finish();
 			} catch (err) {
 				finish(err);
