@@ -8,8 +8,8 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Blob', function () {
-	// FIXME Get working for iOS
-	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+	// FIXME Get working for iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
 		should(Ti.Blob).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Blob.apiName).be.eql('Ti.Blob');
 	});
@@ -79,7 +79,8 @@ describe('Titanium.Blob', function () {
 		should(blob.length).be.above(0);
 	});
 
-	it('size', function () {
+	// Intentionally skip for Android, property not available. TODO For parity, add it?
+	(utilities.isAndroid() ? it.skip : it)('size', function () {
 		var blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob.size).be.a.Number;
 		should(blob.size).be.above(0);

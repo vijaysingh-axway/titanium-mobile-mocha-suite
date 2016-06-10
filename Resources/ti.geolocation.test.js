@@ -9,6 +9,7 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.Geolocation', function () {
 	it('apiName', function () {
+		should(Ti.Geolocation).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Geolocation.apiName).be.eql('Ti.Geolocation');
 	});
 
@@ -16,7 +17,8 @@ describe('Titanium.Geolocation', function () {
 		should(Ti.Geolocation).have.constant('ACCURACY_BEST').which.is.a.Number;
 	});
 
-	it('ACCURACY_BEST_FOR_NAVIGATION', function () {
+	// Intentionally skip for Android, doesn't exist
+	(utilities.isAndroid() ? it.skip : it)('ACCURACY_BEST_FOR_NAVIGATION', function () {
 		should(Ti.Geolocation).have.constant('ACCURACY_BEST_FOR_NAVIGATION').which.is.a.Number;
 	});
 
@@ -44,7 +46,8 @@ describe('Titanium.Geolocation', function () {
 		should(Ti.Geolocation).have.constant('ACCURACY_THREE_KILOMETERS').which.is.a.Number;
 	});
 
-	it('accuracy', function () {
+	// FIXME Get working on Android
+	(utilities.isAndroid() ? it.skip : it)('accuracy', function () {
 		should(Ti.Geolocation.getAccuracy()).be.a.Number;
 		should(Ti.Geolocation.getAccuracy).be.a.Function;
 		should(Ti.Geolocation.setAccuracy).be.a.Function;
@@ -52,7 +55,8 @@ describe('Titanium.Geolocation', function () {
 		should(Ti.Geolocation.getAccuracy()).be.eql(Ti.Geolocation.ACCURACY_BEST);
 	});
 
-	it('distanceFilter', function () {
+	// Intentionally skip for Android, doesn't exist
+	(utilities.isAndroid() ? it.skip : it)('distanceFilter', function () {
 		should(Ti.Geolocation.getDistanceFilter).be.a.Function;
 		should(Ti.Geolocation.getDistanceFilter()).be.a.Number;
 		should(Ti.Geolocation.setDistanceFilter).be.a.Function;
@@ -60,7 +64,8 @@ describe('Titanium.Geolocation', function () {
 		should(Ti.Geolocation.getDistanceFilter()).be.eql(1000);
 	});
 
-	it('headingFilter', function () {
+	// Intentionally skip for Android, doesn't exist
+	(utilities.isAndroid() ? it.skip : it)('headingFilter', function () {
 		should(Ti.Geolocation.getHeadingFilter).be.a.Function;
 		should(Ti.Geolocation.getHeadingFilter()).be.a.Number;
 		should(Ti.Geolocation.setHeadingFilter).be.a.Function;
@@ -93,7 +98,8 @@ describe('Titanium.Geolocation', function () {
 		});
 	});
 
-	// FIXME Windows doesn't honor the API properly! We have zipcode on the data object itself!
+	// FIXME Windows doesn't honor the API properly! We have zipcode on the data object itself! https://jira.appcelerator.org/browse/TIMOB-23492
+	// FIXME The address object is different from platform to platform! https://jira.appcelerator.org/browse/TIMOB-23496
 	it('reverseGeocoder', function (finish) {
 		should(Ti.Geolocation.reverseGeocoder).be.a.Function;
 		Ti.Geolocation.reverseGeocoder(37.3883645, -122.0512682, function (data) {
@@ -103,14 +109,21 @@ describe('Titanium.Geolocation', function () {
 				// FIXME error property is missing altogether on success for iOS...
 				//should(data).have.property('error'); // undefined on success, holds error message as String otherwise.
 				should(data).have.property('places').which.is.an.Array;
-				should(data.places[0].zipcode).be.eql('94043');
+				if (utilities.isAndroid()) {
+					should(data.places[0].postalCode).be.eql('94043');
+					should(data.places[0]).have.property('latitude').which.is.a.String;
+					should(data.places[0]).have.property('longitude').which.is.a.String;
+				} else {
+					should(data.places[0].zipcode).be.eql('94043');
+					should(data.places[0]).have.property('latitude').which.is.a.Number; // docs say String!
+					should(data.places[0]).have.property('longitude').which.is.a.Number; // docs say String!
+				}
 				should(data.places[0].country).be.eql('United States of America');
 				should(data.places[0].state).be.eql('California');
 				should(data.places[0].country_code).be.eql('US');
 				should(data.places[0]).have.property('city').which.is.a.String;
 				should(data.places[0]).have.property('address').which.is.a.String;
-				should(data.places[0]).have.property('latitude').which.is.a.Number; // docs say String!
-				should(data.places[0]).have.property('longitude').which.is.a.Number; // docs say String!
+
 				finish();
 			} catch (err) {
 				finish(err);

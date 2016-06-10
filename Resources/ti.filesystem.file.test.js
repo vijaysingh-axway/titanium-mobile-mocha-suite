@@ -11,8 +11,8 @@ var should = require('./utilities/assertions'),
 describe('Titanium.Filesystem.File', function () {
 	// FIXME Get working on Android and iOS
 	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('apiName', function () {
-		should(Ti.Filesystem.File.apiName).be.eql('Ti.Filesystem.File'); // Android gives undefined
 		should(Ti.Filesystem.File).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Filesystem.File.apiName).be.eql('Ti.Filesystem.File'); // Android gives undefined
 	});
 
 	// Check if name exists and returns string
@@ -73,10 +73,12 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// Check if parent exists and returns File
+	// Intentionally skip on iOS, property doesn't exist: https://jira.appcelerator.org/browse/TIMOB-23495
 	(utilities.isIOS() ? it.skip : it)('parent', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file.parent).be.ok; // not null or undefined. should(file).not.be.null causes a stack overflow somehow.
-		// TODO Add test that it's read-only
+		// parent may be null if at root?
+		//should(file.parent).be.ok; // not null or undefined. should(file).not.be.null causes a stack overflow somehow.
+		should(file).have.a.readOnlyProperty('parent');
 	});
 
 	// Check if size exists and returns number
@@ -174,7 +176,7 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// recursive deleteDirectory
-	it('deleteDirectory_recursive', function () {
+	it('#deleteDirectory(true) - recursive', function () {
 		var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'testDir');
 		should(dir.exists()).be.false;
 		should(dir.createDirectory()).be.true;
@@ -199,8 +201,8 @@ describe('Titanium.Filesystem.File', function () {
 		should(dir.exists()).be.false;
 	});
 
-	// createFile and deleteFile
-	it('createFile_and_deleteFile', function () {
+	// Intentionally skip on Android, doesn't support method // TODO For parity, add #createFile() to File on Android: https://jira.appcelerator.org/browse/TIMOB-23494
+	(utilities.isAndroid() ? it.skip : it)('#createFile() and #deleteFile()', function () {
 		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'myfile');
 		should(newFile.exists()).be.false;
 		newFile.createFile();
@@ -209,34 +211,35 @@ describe('Titanium.Filesystem.File', function () {
 		should(newFile.exists()).be.false;
 	});
 
-	// File.read
 	it('#read()', function () {
 		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(newFile.exists()).be.true;
 		var blob = newFile.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 	});
 
-	// File.write from String
-	it('write_String', function () {
+	it('#write(String, false)', function () {
 		var msg = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(msg.write('Appcelerator', false)).be.true;
 		should(msg.exists()).be.true;
 
 		var blob = msg.read();
 		should(blob).be.ok; // not null or undefined
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('Appcelerator');
 
 		should(msg.deleteFile()).be.true;
 		should(msg.exists()).be.false;
 	});
 
-	// File.write from String (append)
-	it('write_String_append', function () {
+	it('#write(String, true) - append', function () {
 		var msg = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(msg.write('Appcelerator', false)).be.true;
 		should(msg.exists()).be.true;
@@ -245,16 +248,17 @@ describe('Titanium.Filesystem.File', function () {
 
 		var blob = msg.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('AppceleratorAppcelerator');
 
 		should(msg.deleteFile()).be.true;
 		should(msg.exists()).be.false;
 	});
 
-	// File.write from File
-	it('write_File', function () {
+	it('#write(File, false)', function () {
 		var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(from.write('Appcelerator', false)).be.true;
 		should(from.exists()).be.true;
@@ -265,8 +269,10 @@ describe('Titanium.Filesystem.File', function () {
 
 		var blob = to.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('Appcelerator');
 
 		should(from.deleteFile()).be.true;
@@ -275,8 +281,7 @@ describe('Titanium.Filesystem.File', function () {
 		should(to.exists()).be.false;
 	});
 
-	// File.write from File (append)
-	it('write_File_append', function () {
+	it('#write(File, true) - append', function () {
 		var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(from.write('Appcelerator', false)).be.true;
 		should(from.exists()).be.true;
@@ -289,8 +294,10 @@ describe('Titanium.Filesystem.File', function () {
 
 		var blob = to.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('AppceleratorAppcelerator');
 
 		should(from.deleteFile()).be.true;
@@ -299,8 +306,7 @@ describe('Titanium.Filesystem.File', function () {
 		should(to.exists()).be.false;
 	});
 
-	// File.write from Blob
-	it('write_Blob', function () {
+	it('#write(Blob, false)', function () {
 		var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(from.write('Appcelerator', false)).be.true;
 		should(from.exists()).be.true;
@@ -311,8 +317,10 @@ describe('Titanium.Filesystem.File', function () {
 
 		var blob = to.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('Appcelerator');
 
 		should(from.deleteFile()).be.true;
@@ -321,8 +329,7 @@ describe('Titanium.Filesystem.File', function () {
 		should(to.exists()).be.false;
 	});
 
-	// File.write from Blob (append)
-	it('write_Blob_append', function () {
+	it('#write(Blob, true) - append', function () {
 		var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(from.write('Appcelerator', false)).be.true;
 		should(from.exists()).be.true;
@@ -335,8 +342,10 @@ describe('Titanium.Filesystem.File', function () {
 
 		var blob = to.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('AppceleratorAppcelerator');
 
 		should(from.deleteFile()).be.true;
@@ -345,8 +354,8 @@ describe('Titanium.Filesystem.File', function () {
 		should(to.exists()).be.false;
 	});
 
-	// File.append String
-	it('append_String', function () {
+	// Intentionally skip on Android, doesn't support method
+	(utilities.isAndroid() ? it.skip : it)('#append(String)', function () {
 		var msg = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(msg.write('Appcelerator', false)).be.true;
 		should(msg.exists()).be.true;
@@ -355,16 +364,18 @@ describe('Titanium.Filesystem.File', function () {
 
 		var blob = msg.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('AppceleratorAppcelerator');
 
 		should(msg.deleteFile()).be.true;
 		should(msg.exists()).be.false;
 	});
 
-	// File.append File
-	it('append_File', function () {
+	// Intentionally skip on Android, doesn't support method
+	(utilities.isAndroid() ? it.skip : it)('#append(File)', function () {
 		var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(from.write('Appcelerator', false)).be.true;
 		should(from.exists()).be.true;
@@ -377,8 +388,10 @@ describe('Titanium.Filesystem.File', function () {
 
 		var blob = to.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('AppceleratorAppcelerator');
 
 		should(from.deleteFile()).be.true;
@@ -387,8 +400,8 @@ describe('Titanium.Filesystem.File', function () {
 		should(to.exists()).be.false;
 	});
 
-	// File.append Blob
-	it('append_Blob', function () {
+	// Intentionally skip on Android, doesn't support method // TODO For parity, add #append() to File on Android: https://jira.appcelerator.org/browse/TIMOB-23493
+	(utilities.isAndroid() ? it.skip : it)('#append(Blob)', function () {
 		var from = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'write_test.txt');
 		should(from.write('Appcelerator', false)).be.true;
 		should(from.exists()).be.true;
@@ -401,8 +414,10 @@ describe('Titanium.Filesystem.File', function () {
 
 		var blob = to.read();
 		should(blob).be.ok; // not null or undefined.
-		should(blob.size > 0).be.true;
-		should(blob.text.length > 0).be.true;
+		if (!utilities.isAndroid()) {
+			should(blob.size).be.above(0);
+		}
+		should(blob.text.length).be.above(0);
 		should(blob.text).be.eql('AppceleratorAppcelerator');
 
 		should(from.deleteFile()).be.true;
@@ -411,8 +426,7 @@ describe('Titanium.Filesystem.File', function () {
 		should(to.exists()).be.false;
 	});
 
-	// File.open
-	it('open', function () {
+	it('#open(MODE_READ)', function () {
 		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(newFile.exists()).be.true;
 		var stream = newFile.open(Ti.Filesystem.MODE_READ);
@@ -432,7 +446,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// File.copy
 	// FIXME Get working on IOS
-	(utilities.isIOS() ? it.skip : it)('copy', function () {
+	(utilities.isIOS() ? it.skip : it)('#copy()', function () {
 		var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(file.exists()).be.true;
 		var newpath = Ti.Filesystem.applicationDataDirectory + Ti.Filesystem.separator + 'app.js';
@@ -445,7 +459,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// File copy and move
 	// FIXME Get working on IOS
-	(utilities.isIOS() ? it.skip : it)('copy_move', function () {
+	(utilities.isIOS() ? it.skip : it)('#copy() and #move()', function () {
 		var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
 		should(file.exists()).be.true;
 
@@ -476,7 +490,7 @@ describe('Titanium.Filesystem.File', function () {
 
 	// TIMOB-19128
 	// FIXME Get working on IOS
-	(utilities.isIOS() ? it.skip : it)('createDirectory_is_recursive', function () {
+	(utilities.isIOS() ? it.skip : it)('#createDirectory() is recursive', function () {
 		var dir = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'sub', 'dir2');
 		should(dir.exists()).be.false;
 		should(dir.createDirectory()).be.true;

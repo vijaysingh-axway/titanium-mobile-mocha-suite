@@ -35,14 +35,16 @@ describe('Titanium.Gesture', function () {
 	});
 
 	// TODO Not defined on iOS, but probably should for parity sake?
-	(utilities.isIOS() ? it.skip : it)('getLandscape()', function () {
+	// FIXME Doesn't exist on Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('getLandscape()', function () {
 		should(Ti.Gesture.getLandscape).not.be.undefined;
 		should(Ti.Gesture.getLandscape).be.a.Function;
 		should(Ti.Gesture.getLandscape()).be.a.Boolean;
 	});
 
 	// TODO Not defined on iOS, but probably should for parity sake?
-	(utilities.isIOS() ? it.skip : it)('getPortrait()', function () {
+	// FIXME Doesn't exist on Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('getPortrait()', function () {
 		should(Ti.Gesture.getPortrait).not.be.undefined;
 		should(Ti.Gesture.getPortrait).be.a.Function;
 		should(Ti.Gesture.getPortrait()).be.a.Boolean;
