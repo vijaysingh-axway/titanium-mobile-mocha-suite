@@ -138,7 +138,7 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// createTimestamp should return number
-	// FIXME Get working on IOS // on iOS property is configurable
+	// FIXME Get working on IOS // on iOS we gte Date/String
 	(utilities.isIOS() ? it.skip : it)('#createTimestamp()', function () {
 		var file = Ti.Filesystem.getFile('app.js');
 		var create_date = file.createTimestamp();
@@ -151,7 +151,7 @@ describe('Titanium.Filesystem.File', function () {
 	});
 
 	// modificationTimestamp should return number
-	// FIXME Get working on IOS // on iOS property is configurable
+	// FIXME Get working on IOS // on iOS we gte Date/String
 	(utilities.isIOS() ? it.skip : it)('#modificationTimestamp()', function () {
 		var file = Ti.Filesystem.getFile('app.js');
 		var mod_date = file.modificationTimestamp();

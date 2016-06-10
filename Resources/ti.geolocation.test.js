@@ -80,18 +80,20 @@ describe('Titanium.Geolocation', function () {
 		should(Ti.Geolocation.getLocationServicesEnabled()).be.a.Boolean;
 	});
 
-	it('forwardGeocoder', function () {
+	it('forwardGeocoder', function (finish) {
 		should(Ti.Geolocation.forwardGeocoder).be.a.Function;
 		Ti.Geolocation.forwardGeocoder('440 N Bernardo Ave, Mountain View', function (data) {
 			should(data.latitude).be.eql(37.3883645);
 			should(data.longitude).be.eql(-122.0512682);
+			finish();
 		});
 	});
 
-	it('reverseGeocoder', function () {
+	it('reverseGeocoder', function (finish) {
 		should(Ti.Geolocation.reverseGeocoder).be.a.Function;
 		Ti.Geolocation.reverseGeocoder(37.3883645, -122.0512682, function (data) {
 			should(data.zipcode).be.eql('94043');
+			finish();
 		});
 	});
 
