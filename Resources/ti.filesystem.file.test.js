@@ -9,10 +9,10 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Filesystem.File', function () {
-	// FIXME Get working on Android and iOS
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('apiName', function () {
-		should(Ti.Filesystem.File).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.Filesystem.File.apiName).be.eql('Ti.Filesystem.File'); // Android gives undefined
+	it('apiName', function () {
+		var file = Ti.Filesystem.getFile('app.js');
+		should(file).have.readOnlyProperty('apiName').which.is.a.String;
+		should(file.apiName).be.eql('Ti.Filesystem.File');
 	});
 
 	// Check if name exists and returns string

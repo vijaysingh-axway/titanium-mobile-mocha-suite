@@ -8,29 +8,24 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Database', function () {
-	// FIXME Get working on Android
-	(utilities.isAndroid() ? it.skip : it)('apiName', function () {
+	it('apiName', function () {
 		should(Ti.Database.apiName).be.eql('Ti.Database');
 		should(Ti.Database).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
-	// FIXME Get working on Android
-	(utilities.isAndroid() ? it.skip : it)('FIELD_TYPE_DOUBLE', function () {
+	it('FIELD_TYPE_DOUBLE', function () {
 		should(Ti.Database).have.constant('FIELD_TYPE_DOUBLE').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android
-	(utilities.isAndroid() ? it.skip : it)('FIELD_TYPE_FLOAT', function () {
+	it('FIELD_TYPE_FLOAT', function () {
 		should(Ti.Database).have.constant('FIELD_TYPE_FLOAT').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android
-	(utilities.isAndroid() ? it.skip : it)('FIELD_TYPE_INT', function () {
+	it('FIELD_TYPE_INT', function () {
 		should(Ti.Database).have.constant('FIELD_TYPE_INT').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android
-	(utilities.isAndroid() ? it.skip : it)('FIELD_TYPE_STRING', function () {
+	it('FIELD_TYPE_STRING', function () {
 		should(Ti.Database).have.constant('FIELD_TYPE_STRING').which.is.a.Number;
 	});
 

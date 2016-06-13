@@ -31,10 +31,17 @@ describe('Titanium.Filesystem.FileStream', function () {
 		file = null;
 	});
 
-	// FIXME Get working on Android and iOS
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('apiName', function () {
-		should(Ti.FileStream).have.a.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.FileStream.apiName).be.eql('Ti.Filesystem.FileStream');
+	it('apiName', function (finish) {
+		var resourceFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
+		try{
+			should(resourceFileStream).have.a.readOnlyProperty('apiName').which.is.a.String;
+			should(resourceFileStream.apiName).be.eql('Ti.Filesystem.FileStream');
+			finish();
+		} catch (err) {
+			finish(err);
+		} finally {
+			resourceFileStream.close();
+		}
 	});
 
 	it('fileStreamBasicTest', function() {

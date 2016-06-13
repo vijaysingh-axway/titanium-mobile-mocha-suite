@@ -8,10 +8,10 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Blob', function () {
-	// FIXME Get working for iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.Blob).have.a.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.Blob.apiName).be.eql('Ti.Blob');
+	it('apiName', function () {
+		var blob = Ti.Filesystem.getFile('app.js').read();
+		should(blob).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(blob.apiName).be.eql('Ti.Blob');
 	});
 
 	it.skip('constructed from File.read()', function () {

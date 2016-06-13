@@ -9,10 +9,17 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Buffer', function() {
-	// FIXME Get working for iOS and Android. Probably fails because we need to get property up prototype chain!
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.Buffer).have.a.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.Buffer.apiName).be.eql('Ti.Buffer');
+	it('apiName', function (finish) {
+		var buffer = Ti.createBuffer();
+		try {
+			should(buffer).have.a.readOnlyProperty('apiName').which.is.a.String;
+			should(buffer.apiName).be.eql('Ti.Buffer');
+			finish();
+		} catch (err) {
+			finish(err);
+		} finally {
+			buffer.release();
+		}
 	});
 
 	it('testAPI', function() {

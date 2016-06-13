@@ -9,10 +9,10 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.API', function () {
 
-	// FIXME Get working on Android
+	// FIXME Get working on Android, not sure why it doesn't!
 	((utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.API.apiName).be.eql('Ti.API');
 		should(Ti.API).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.API.apiName).be.eql('Ti.API');
 	});
 
 	it('debug()', function () {

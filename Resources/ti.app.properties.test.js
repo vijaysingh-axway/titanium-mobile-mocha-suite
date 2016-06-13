@@ -15,8 +15,7 @@ Array.prototype.contains = function (obj) {
 
 describe('Titanium.App.Properties', function () {
 
-	// FIXME Get working on Android and iOS
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('apiName', function (finish) {
+	it('apiName', function () {
 		should(Ti.App.Properties).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.App.Properties.apiName).be.eql('Ti.App.Properties');
 	});

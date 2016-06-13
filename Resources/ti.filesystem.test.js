@@ -9,24 +9,20 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Filesystem', function () {
-	// FIXME Get working on Android, likely due to where property hangs in prototype chain
-	(utilities.isAndroid() ? it.skip : it)('apiName', function () {
+	it('apiName', function () {
 		should(Ti.Filesystem.apiName).be.eql('Ti.Filesystem');
 		should(Ti.Filesystem).have.readOnlyProperty('apiName').which.is.a.String;
 	});
 
-	// FIXME Get working on Android
-	(utilities.isAndroid() ? it.skip : it)('MODE_APPEND', function () {
+	it('MODE_APPEND', function () {
 		should(Ti.Filesystem).have.constant('MODE_APPEND').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android
-	(utilities.isAndroid() ? it.skip : it)('MODE_READ', function () {
+	it('MODE_READ', function () {
 		should(Ti.Filesystem).have.constant('MODE_READ').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android
-	(utilities.isAndroid() ? it.skip : it)('MODE_WRITE', function () {
+	it('MODE_WRITE', function () {
 		should(Ti.Filesystem).have.constant('MODE_WRITE').which.is.a.Number;
 	});
 
@@ -35,18 +31,15 @@ describe('Titanium.Filesystem', function () {
 		should(Ti.Filesystem).have.readOnlyProperty('applicationDirectory').which.is.a.String;
 	});
 
-	// FIXME Get working on Android, readOnly part fails - likely due to where property hangs
-	(utilities.isAndroid() ? it.skip : it)('applicationDataDirectory', function () {
+	it('applicationDataDirectory', function () {
 		should(Ti.Filesystem).have.readOnlyProperty('applicationDataDirectory').which.is.a.String;
 	});
 
-	// FIXME Get working on Android, readOnly part fails
-	(utilities.isAndroid() ? it.skip : it)('resourcesDirectory', function () {
+	it('resourcesDirectory', function () {
 		should(Ti.Filesystem).have.readOnlyProperty('resourcesDirectory').which.is.a.String;
 	});
 
-	// FIXME Get working on Android, readOnly part fails
-	(utilities.isAndroid() ? it.skip : it)('resRawDirectory', function () {
+	it('resRawDirectory', function () {
 		if (utilities.isAndroid()) {
 			should(Ti.Filesystem).have.readOnlyProperty('resRawDirectory').which.is.a.String;
 		} else {
@@ -65,16 +58,14 @@ describe('Titanium.Filesystem', function () {
 
 	// On Windows Runtime, externalStorageDirectory may return null if app doesn't have permission
 	// although it should not throw exception
-	// FIXME Get working on Android, readOnly part fails
-	(utilities.isAndroid() ? it.skip : it)('externalStorageDirectory', function () {
+	it('externalStorageDirectory', function () {
 		if (!utilities.isIOS()) {
 			should(Ti.Filesystem.externalStorageDirectory).not.be.undefined;
 			should(Ti.Filesystem).have.a.readOnlyProperty('externalStorageDirectory').which.is.a.String;
 		}
 	});
 
-	// FIXME Get working on Android, readOnly part fails
-	(utilities.isAndroid() ? it.skip : it)('applicationCacheDirectory', function () {
+	it('applicationCacheDirectory', function () {
 		// Windows Store app doesn't support cache directory
 		if (utilities.isWindowsDesktop()) {
 			should(Ti.Filesystem.applicationCacheDirectory).be.undefined;
@@ -83,13 +74,11 @@ describe('Titanium.Filesystem', function () {
 		}
 	});
 
-	// FIXME Get working on Android, readOnly part fails
-	(utilities.isAndroid() ? it.skip : it)('tempDirectory', function () {
+	it('tempDirectory', function () {
 		should(Ti.Filesystem).have.readOnlyProperty('tempDirectory').which.is.a.String;
 	});
 
-	// FIXME Get working on Android, readOnly part fails
-	(utilities.isAndroid() ? it.skip : it)('separator', function () {
+	it('separator', function () {
 		should(Ti.Filesystem).have.a.readOnlyProperty('separator').which.is.a.String;
 		if (utilities.isWindows()) {
 			should(Ti.Filesystem.separator).be.eql('\\');
@@ -98,8 +87,7 @@ describe('Titanium.Filesystem', function () {
 		}
 	});
 
-	// FIXME Get working on Android, readOnly part fails
-	(utilities.isAndroid() ? it.skip : it)('lineEnding', function () {
+	it('lineEnding', function () {
 		should(Ti.Filesystem).have.a.readOnlyProperty('lineEnding').which.is.a.String;
 		if (utilities.isWindows()) {
 			should(Ti.Filesystem.lineEnding).be.eql('\r\n');
