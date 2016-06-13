@@ -78,7 +78,7 @@ describe('Titanium.UI.ScrollView', function () {
 
 	// Intentionally skip on Android, not supported
 	// FIXME Get working on iOS. Defaults to undefined, is that OK?
-	((utilities.isAndroid() || utilities.isIOS() ? it.skip : it)('scrollIndicatorStyle', function () {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('scrollIndicatorStyle', function () {
 		var bar = Ti.UI.createScrollView({});
 		should(bar.scrollIndicatorStyle).be.a.Number; // defaults to undefined on iOS
 	});
