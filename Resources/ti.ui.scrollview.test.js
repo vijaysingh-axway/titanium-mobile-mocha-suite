@@ -8,13 +8,13 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.ScrollView', function () {
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.ScrollView).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.ScrollView.apiName).be.eql('Ti.UI.ScrollView');
+	it('apiName', function () {
+		var scrollView = Ti.UI.createScrollView({});
+		should(scrollView).have.readOnlyProperty('apiName').which.is.a.String;
+		should(scrollView.apiName).be.eql('Ti.UI.ScrollView');
 	});
 
-	// FIXME Fails on Android, should default ot true, but is undefined
+	// FIXME Fails on Android, should default to true, but is undefined
 	(utilities.isAndroid() ? it.skip : it)('canCancelEvents', function () {
 		var bar = Ti.UI.createScrollView({});
 		should(bar.canCancelEvents).be.a.Boolean; // TODO should default to true

@@ -8,29 +8,30 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.EmailDialog', function () {
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.EmailDialog).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.EmailDialog.apiName).be.eql('Ti.UI.EmailDialog');
+	(utilities.isWindowsDesktop() ? it.skip : it)('apiName', function () {
+		var emailDialog = Ti.UI.createEmailDialog({
+			subject: 'this is some text'
+		});
+		should(emailDialog).have.readOnlyProperty('apiName').which.is.a.String;
+		should(emailDialog.apiName).be.eql('Ti.UI.EmailDialog');
 	});
 
-	// FIXME Get working on iOS - undefined is not an object (evaluating 'hasOwnProperty.call(this.obj, name)')
-	// FIXME Get working on iOS and Android
+	// FIXME constant may hang on instances for iOS and Android? But I think we should enforce being able to reference them as Ti.UI.EmailDialog.FAILED
 	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('FAILED', function () {
 		should(Ti.UI.EmailDialog).have.constant('FAILED').which.is.a.Number;
 	});
 
-	// FIXME Get working on iOS and Android
+	// FIXME constant may hang on instances for iOS and Android? But I think we should enforce being able to reference them as Ti.UI.EmailDialog.SENT
 	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SENT', function () {
 		should(Ti.UI.EmailDialog).have.constant('SENT').which.is.a.Number;
 	});
 
-	// FIXME Get working on iOS and Android
+	// FIXME constant may hang on instances for iOS and Android? But I think we should enforce being able to reference them as Ti.UI.EmailDialog.SAVED
 	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SAVED', function () {
 		should(Ti.UI.EmailDialog).have.constant('SAVED').which.is.a.Number;
 	});
 
-	// FIXME Get working on iOS and Android
+	// FIXME constant may hang on instances for iOS and Android? But I think we should enforce being able to reference them as Ti.UI.EmailDialog.CANCELLED
 	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('CANCELLED', function () {
 		should(Ti.UI.EmailDialog).have.constant('CANCELLED').which.is.a.Number;
 	});

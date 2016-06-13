@@ -9,10 +9,10 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.UI.ScrollableView', function () {
 
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.ScrollableView).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.ScrollableView.apiName).be.eql('Ti.UI.ScrollableView');
+	it('apiName', function () {
+		var scrollableView = Ti.UI.createScrollableView({});
+		should(scrollableView).have.readOnlyProperty('apiName').which.is.a.String;
+		should(scrollableView.apiName).be.eql('Ti.UI.ScrollableView');
 	});
 
 	(utilities.isIOS() ? it.skip : it)('views', function () {

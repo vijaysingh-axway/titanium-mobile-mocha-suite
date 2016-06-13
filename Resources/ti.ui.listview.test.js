@@ -20,10 +20,10 @@ describe('Titanium.UI.ListView', function () {
 		should(Ti.UI.ListView).not.be.undefined;
 	});
 
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.ListView).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.ListView.apiName).be.eql('Ti.UI.ListView');
+	it('apiName', function () {
+		var listView = Ti.UI.createListView();
+		should(listView).have.readOnlyProperty('apiName').which.is.a.String;
+		should(listView.apiName).be.eql('Ti.UI.ListView');
 	});
 
 	// FIXME Get working on Android, gives us sectionCount of 0 when it should be 1

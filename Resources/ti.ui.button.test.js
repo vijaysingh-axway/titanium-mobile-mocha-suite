@@ -18,10 +18,12 @@ describe('Titanium.UI.Button', function () {
 		didFocus = false;
 	});
 
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.Button).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.Button.apiName).be.eql('Ti.UI.Button');
+	it('apiName', function () {
+		var button = Ti.UI.createButton({
+			title: 'this is some text'
+		});
+		should(button).have.readOnlyProperty('apiName').which.is.a.String;
+		should(button.apiName).be.eql('Ti.UI.Button');
 	});
 
 	it('title', function () {

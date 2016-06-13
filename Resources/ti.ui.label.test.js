@@ -16,10 +16,12 @@ describe('Titanium.UI.Label', function () {
 		didPostLayout = false;
 	});
 
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.Label).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.Label.apiName).be.eql('Ti.UI.Label');
+	it('apiName', function () {
+		var label = Ti.UI.createLabel({
+			text: 'this is some text'
+		});
+		should(label).have.readOnlyProperty('apiName').which.is.a.String;
+		should(label.apiName).be.eql('Ti.UI.Label');
 	});
 
 	it('text', function () {

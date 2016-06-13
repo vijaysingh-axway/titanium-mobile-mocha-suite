@@ -20,7 +20,7 @@ describe('Titanium.UI.Tab', function () {
 		var tab = Ti.UI.createTab({
 			text: 'this is some text'
 		});
-		should(tab.apiName).be.a.String;
+		should(tab).have.readOnlyProperty('apiName').which.is.a.String;
 		should(tab.apiName).be.eql('Ti.UI.Tab');
 	});
 

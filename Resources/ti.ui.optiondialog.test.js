@@ -9,10 +9,12 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.UI.OptionDialog', function () {
 
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.OptionDialog).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.OptionDialog.apiName).be.eql('Ti.UI.OptionDialog');
+	it('apiName', function () {
+		var optionDialog = Ti.UI.createOptionDialog({
+			title: 'this is some text'
+		});
+		should(optionDialog).have.readOnlyProperty('apiName').which.is.a.String;
+		should(optionDialog.apiName).be.eql('Ti.UI.OptionDialog');
 	});
 
 	it('title', function () {

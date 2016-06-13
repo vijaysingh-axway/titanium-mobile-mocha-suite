@@ -7,8 +7,7 @@
 var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
-// FIXME These ALL fail on Android. Ugh
-(utilities.isAndroid() ? describe.skip : describe)('Titanium.UI', function () {
+describe('Titanium.UI', function () {
 
 	// TODO Use the JSCA file to generate tests!
 	var ALL = ['iphone', 'ipad', 'android', 'mobileweb', 'windowsstore', 'windowsphone'],
@@ -202,8 +201,8 @@ var should = require('./utilities/assertions'),
 					should(Ti.UI).have.a.constant(name).which.is.a.Number;
 				});
 			} else if (constants[name].type == 'String') {
-				// FIXME A number of constants are failing on iOS
-				(utilities.isIOS() && ['FILL', 'SIZE', 'UNIT_CM', 'UNIT_DIP', 'UNIT_IN', 'UNIT_MM', 'UNIT_PX'].indexOf(name) != -1 ? it.skip : it)(name, function () {
+				// FIXME These special constants are failing on Android and iOS. They appear to be hard-coded numbers (and not unique!)
+				((utilities.isIOS() || utilities.isAndroid()) && ['FILL', 'SIZE', 'UNIT_CM', 'UNIT_DIP', 'UNIT_IN', 'UNIT_MM', 'UNIT_PX'].indexOf(name) != -1 ? it.skip : it)(name, function () {
 					should(Ti.UI).have.a.constant(name).which.is.a.String;
 				});
 			}
@@ -217,8 +216,8 @@ var should = require('./utilities/assertions'),
 	];
 	// Verify our constants that may be String or Number depending on platform.
 	for (var i = 0; i < constantsVary.length; i++) {
-		// FIXME Get these working on iOS
-		(utilities.isIOS() ? it.skip : it)(constantsVary[i], function () {
+		// FIXME Get these working on iOS and Android.
+		((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)(constantsVary[i], function () {
 			if (utilities.isAndroid()) {
 				should(Ti.UI).have.a.constant(constantsVary[i]).which.is.a.String;
 			} else {

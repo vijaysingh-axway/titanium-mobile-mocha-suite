@@ -14,11 +14,12 @@ describe('Titanium.UI.TextField', function () {
 		didFocus = false;
 	});
 
-	// FIXME iOS says undefined is not an object (evaluating 'Ti.UI.TextField.apiName
-	// FIXME get working on Android too
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.TexField).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.TextField.apiName).be.eql('Ti.UI.TextField');
+	it('apiName', function () {
+		var textField = Ti.UI.createTextField({
+			value: 'this is some text'
+		});
+		should(textField).have.readOnlyProperty('apiName').which.is.a.String;
+		should(textField.apiName).be.eql('Ti.UI.TextField');
 	});
 
 	it('value', function () {
