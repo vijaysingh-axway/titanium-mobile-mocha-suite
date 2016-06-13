@@ -592,7 +592,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME get working on iOS
 	// FIXME Fails on Android on build machine
-	((utilities.isIOS() || utilities.isAndroid() ? it.skip : it)('update row', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('update row', function (finish) {
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -751,7 +751,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Fails on Android on build machine
-	((utilities.isIOS() || utilities.isAndroid() ? it.skip : it)('update section', function (finish) {
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('update section', function (finish) {
 		var win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
