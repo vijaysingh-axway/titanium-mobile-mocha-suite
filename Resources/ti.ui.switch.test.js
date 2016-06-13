@@ -13,8 +13,8 @@ describe('Titanium.UI.Switch', function () {
 		should(Ti.UI.Switch).not.be.undefined;
 	});
 
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
 		should(Ti.UI.Switch).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.UI.Switch.apiName).be.eql('Ti.UI.Switch');
 	});

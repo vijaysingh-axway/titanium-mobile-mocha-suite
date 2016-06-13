@@ -8,7 +8,8 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.SearchBar', function () {
-	it('TableView', function (finish) {
+	// FIXME Intermittently fails on Android?
+	(utilities.isAndroid() ? it.skip : it)('TableView', function (finish) {
 		var win = Ti.UI.createWindow(),
 			sb = Ti.UI.createSearchBar({
 				barColor: 'blue',

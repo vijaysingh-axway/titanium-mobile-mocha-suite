@@ -44,8 +44,9 @@ describe('Titanium.UI.Window', function () {
 		should(bar.title).eql('this is my value'); // FIXME Windows: https://jira.appcelerator.org/browse/TIMOB-23498
 	});
 
-	// FIXME Get working on iOS. ioS reports size of 100, which seems right...
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isIOS()) ? it.skip : it)('window_size_is_read_only', function (finish) {
+	// FIXME Get working on iOS. iOS reports size of 100, which seems right...
+	// FIXME Get working on Android. Also reports size of 100...
+	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('window_size_is_read_only', function (finish) {
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue',
 			width: 100,

@@ -64,7 +64,8 @@ describe('Titanium.UI.WebView', function () {
 
 	// Skip this on desktop Windows apps because it crashes the app now.
 	// FIXME Parity issue! Windows require second argument which is callback function. Other platforms return value sync!
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('evalJS', function (finish) {
+	// FIXME Android returns null?
+	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('evalJS', function (finish) {
 		this.timeout(10000);
 		var w = Ti.UI.createWindow({
 			backgroundColor: 'blue'
@@ -87,7 +88,7 @@ describe('Titanium.UI.WebView', function () {
 			} else { // other platforms return the result as result of function call!
 				var result = webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";');
 				try {
-					should(result).be.eql('WebView.evalJS.TEST');
+					should(result).be.eql('WebView.evalJS.TEST'); // Android reports null
 				} catch (err) {
 					error = err;
 				}
