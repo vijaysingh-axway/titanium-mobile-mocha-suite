@@ -8,8 +8,8 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.EmailDialog', function () {
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
 		should(Ti.UI.EmailDialog).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.UI.EmailDialog.apiName).be.eql('Ti.UI.EmailDialog');
 	});

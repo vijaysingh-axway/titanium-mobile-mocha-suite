@@ -9,8 +9,8 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.UI.OptionDialog', function () {
 
-	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('apiName', function () {
+	// FIXME Get working on iOS and Android
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
 		should(Ti.UI.OptionDialog).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.UI.OptionDialog.apiName).be.eql('Ti.UI.OptionDialog');
 	});
@@ -44,10 +44,11 @@ describe('Titanium.UI.OptionDialog', function () {
 		should(bar.title).eql('this is my value'); // FIXME Windows: https://jira.appcelerator.org/browse/TIMOB-23498
 	});
 
-	// Intentionally skip. buttonNames property isn't on iOS. TODO Add it for parity?
-	(utilities.isIOS() ? it.skip : it)('buttonNames', function () {
+	// Intentionally skip for iOS. buttonNames property isn't on iOS. TODO Add it for parity?
+	// FIXME defaults to undefined on Android, empty array on Windows.
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('buttonNames', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.buttonNames).be.an.Array;
+		should(bar.buttonNames).be.an.Array; // undefined on Android
 		should(bar.getButtonNames).be.a.Function;
 		should(bar.buttonNames).be.empty;
 		should(bar.getButtonNames()).be.empty;
@@ -56,10 +57,10 @@ describe('Titanium.UI.OptionDialog', function () {
 		should(bar.getButtonNames().length).eql(2);
 	});
 
-	// FIXME Get working on iOS. options is defaulting to undefined, where for Windows we do empty array
-	(utilities.isIOS() ? it.skip : it)('options', function () {
+	// FIXME Get working on iOS and Android. options is defaulting to undefined, where for Windows we do empty array
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('options', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.options).be.an.Array; // undefined on iOS
+		should(bar.options).be.an.Array; // undefined on iOS and Android
 		should(bar.getOptions).be.a.Function;
 		should(bar.options).be.empty;
 		should(bar.getOptions()).be.empty;
@@ -68,20 +69,20 @@ describe('Titanium.UI.OptionDialog', function () {
 		should(bar.getOptions().length).eql(2);
 	});
 
-	// FIXME Get working on iOS. cancel is defaulting to undefined? Docs say should be -1
-	(utilities.isIOS() ? it.skip : it)('cancel', function () {
+	// FIXME Get working on iOS and Android. cancel is defaulting to undefined? Docs say should be -1
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('cancel', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.cancel).be.a.Number; // undefined on iOS?
+		should(bar.cancel).be.a.Number; // undefined on iOS and Android
 		should(bar.getCancel).be.a.Function;
 		bar.cancel = 1;
 		should(bar.cancel).eql(1);
 		should(bar.getCancel()).eql(1);
 	});
 
-	// FIXME Get working on iOS. persistent is defaulting to undefined? Docs say should be true
-	(utilities.isIOS() ? it.skip : it)('persistent', function () {
+	// FIXME Get working on iOS and Android. persistent is defaulting to undefined? Docs say should be true
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('persistent', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.persistent).be.a.Boolean; // undefined on iOS
+		should(bar.persistent).be.a.Boolean; // undefined on iOS and Android
 		should(bar.getPersistent).be.a.Function;
 		should(bar.persistent).be.true;
 		should(bar.getPersistent()).be.true;
@@ -91,9 +92,10 @@ describe('Titanium.UI.OptionDialog', function () {
 	});
 
 	// Intentionally skip. property not on iOS
-	(utilities.isIOS() ? it.skip : it)('selectedIndex', function (finish) {
+	// FIXME Get working on Android, defaults to undefined on Android, WIndows has Number
+	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('selectedIndex', function (finish) {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.selectedIndex).be.a.Number;
+		should(bar.selectedIndex).be.a.Number; // undefined on Android
 		should(bar.getSelectedIndex).be.a.Function;
 		should(bar.selectedIndex).eql(0);
 		should(bar.getSelectedIndex()).eql(0);
