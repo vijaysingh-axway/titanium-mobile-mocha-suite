@@ -32,14 +32,14 @@ describe('Titanium.UI.ScrollView', function () {
 		should(bar.contentOffset.y).be.a.Number;
 	});
 
-	(utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('contentWidth', function () {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('contentWidth', function () {
 		var bar = Ti.UI.createScrollView({});
 		should(bar.contentWidth).be.a.String; // defaults to undefined on Android and iOS
 	});
 
 	// Intentionally skip on Android, not supported
 	// FIXME Get working on iOS. Defaults to undefined. Is that OK?
-	(utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('decelerationRate', function () {
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('decelerationRate', function () {
 		var bar = Ti.UI.createScrollView({});
 		should(bar.decelerationRate).be.a.Number; // defaults to undefined on iOS
 	});
