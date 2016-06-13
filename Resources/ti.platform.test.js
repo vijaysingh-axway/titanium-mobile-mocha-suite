@@ -11,8 +11,8 @@ var should = require('./utilities/assertions'),
 describe('Titanium.Platform', function () {
 
 	it('apiName', function () {
-		should(Ti.Platform.apiName).be.eql('Ti.Platform');
 		should(Ti.Platform).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Platform.apiName).be.eql('Ti.Platform');
 	});
 
 	// FIXME Get working on Android?

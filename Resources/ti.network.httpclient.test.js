@@ -8,10 +8,10 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Network.HTTPClient', function () {
-	// FIXME Get working on IOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.Network.HTTPClient).have.a.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.Network.HTTPClient.apiName).be.eql('Ti.Network.HTTPClient');
+	it('apiName', function () {
+		var client = Ti.Network.createHTTPClient();
+		should(client).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(client.apiName).be.eql('Ti.Network.HTTPClient');
 	});
 
 	// FIXME iOS gives us an ELEMENT_NODE, not DOCUMENT_NODE

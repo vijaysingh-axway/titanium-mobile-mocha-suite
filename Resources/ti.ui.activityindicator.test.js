@@ -8,10 +8,10 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.ActivityIndicator', function () {
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.ActivityIndicator).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.ActivityIndicator.apiName).be.eql('Ti.UI.ActivityIndicator');
+	it('apiName', function () {
+		var activityIndicator = Ti.UI.createActivityIndicator();
+		should(activityIndicator).have.readOnlyProperty('apiName').which.is.a.String;
+		should(activityIndicator.apiName).be.eql('Ti.UI.ActivityIndicator');
 	});
 
 	it('color', function () {

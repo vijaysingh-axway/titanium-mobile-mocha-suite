@@ -9,144 +9,122 @@ var should = require('./utilities/assertions'),
 	Map = require('ti.map');
 
 describe('Titanium.Map', function () {
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
+	// FIXME Gives bad value for Android
 	(utilities.isAndroid() ? it.skip : it)('apiName', function () {
 		should(Map).have.a.readOnlyProperty('apiName').which.is.a.String;
-		should(Map.apiName).be.eql('Ti.Map');
+		should(Map.apiName).be.eql('Ti.Map'); // Android erronesouly gives us 'Ti.Module'
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_AZURE', function () {
+	(utilities.isIOS() ? it.skip : it)('ANNOTATION_AZURE', function () {
 		should(Map).have.constant('ANNOTATION_AZURE').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_BLUE', function () {
+	(utilities.isIOS() ? it.skip : it)('ANNOTATION_BLUE', function () {
 		should(Map).have.constant('ANNOTATION_BLUE').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_CYAN', function () {
+	(utilities.isIOS() ? it.skip : it)('ANNOTATION_CYAN', function () {
 		should(Map).have.constant('ANNOTATION_CYAN').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	(utilities.isAndroid() ? it.skip : it)('ANNOTATION_GREEN', function () {
+	it('ANNOTATION_GREEN', function () {
 		should(Map).have.constant('ANNOTATION_GREEN').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_MAGENTA', function () {
+	(utilities.isIOS() ? it.skip : it)('ANNOTATION_MAGENTA', function () {
 		should(Map).have.constant('ANNOTATION_MAGENTA').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_ORANGE', function () {
+	(utilities.isIOS() ? it.skip : it)('ANNOTATION_ORANGE', function () {
 		should(Map).have.constant('ANNOTATION_ORANGE').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for iOS
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_PURPLE', function () {
+	(utilities.isAndroid() ? it.skip : it)('ANNOTATION_PURPLE', function () {
 		should(Map).have.constant('ANNOTATION_PURPLE').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	(utilities.isAndroid() ? it.skip : it)('ANNOTATION_RED', function () {
+	it('ANNOTATION_RED', function () {
 		should(Map).have.constant('ANNOTATION_RED').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_ROSE', function () {
+	(utilities.isIOS() ? it.skip : it)('ANNOTATION_ROSE', function () {
 		should(Map).have.constant('ANNOTATION_ROSE').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_VIOLET', function () {
+	(utilities.isIOS() ? it.skip : it)('ANNOTATION_VIOLET', function () {
 		should(Map).have.constant('ANNOTATION_VIOLET').which.is.a.Number;
 	});
 
 	// FIXME get working on iOS, says value is undefined, not a Number
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ANNOTATION_YELLOW', function () {
+	(utilities.isIOS() ? it.skip : it)('ANNOTATION_YELLOW', function () {
 		should(Map).have.constant('ANNOTATION_YELLOW').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	(utilities.isAndroid() ? it.skip : it)('ANNOTATION_DRAG_STATE_END', function () {
+	it('ANNOTATION_DRAG_STATE_END', function () {
 		should(Map).have.constant('ANNOTATION_DRAG_STATE_END').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	(utilities.isAndroid() ? it.skip : it)('ANNOTATION_DRAG_STATE_START', function () {
+	it('ANNOTATION_DRAG_STATE_START', function () {
 		should(Map).have.constant('ANNOTATION_DRAG_STATE_START').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
+	// Intentionally skip on Android, constant doesn't exist
 	(utilities.isAndroid() ? it.skip : it)('OVERLAY_LEVEL_ABOVE_LABELS', function () {
 		should(Map).have.constant('OVERLAY_LEVEL_ABOVE_LABELS').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
+	// Intentionally skip on Android, constant doesn't exist
 	(utilities.isAndroid() ? it.skip : it)('OVERLAY_LEVEL_ABOVE_ROADS', function () {
 		should(Map).have.constant('OVERLAY_LEVEL_ABOVE_ROADS').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SERVICE_DISABLED', function () {
+	(utilities.isIOS() ? it.skip : it)('SERVICE_DISABLED', function () {
 		should(Map).have.constant('SERVICE_DISABLED').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SERVICE_INVALID', function () {
+	(utilities.isIOS() ? it.skip : it)('SERVICE_INVALID', function () {
 		should(Map).have.constant('SERVICE_INVALID').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SERVICE_MISSING', function () {
+	(utilities.isIOS() ? it.skip : it)('SERVICE_MISSING', function () {
 		should(Map).have.constant('SERVICE_MISSING').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SERVICE_VERSION_UPDATE_REQUIRED', function () {
+	(utilities.isIOS() ? it.skip : it)('SERVICE_VERSION_UPDATE_REQUIRED', function () {
 		should(Map).have.constant('SERVICE_VERSION_UPDATE_REQUIRED').which.is.a.Number;
 	});
 
 	// Intentional skip, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('SUCCESS', function () {
+	(utilities.isIOS() ? it.skip : it)('SUCCESS', function () {
 		should(Map).have.constant('SUCCESS').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	(utilities.isAndroid() ? it.skip : it)('NORMAL_TYPE', function () {
+	it('NORMAL_TYPE', function () {
 		should(Map).have.constant('NORMAL_TYPE').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	(utilities.isAndroid() ? it.skip : it)('SATELLITE_TYPE', function () {
+	it('SATELLITE_TYPE', function () {
 		should(Map).have.constant('SATELLITE_TYPE').which.is.a.Number;
 	});
 
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	(utilities.isAndroid() ? it.skip : it)('HYBRID_TYPE', function () {
+	it('HYBRID_TYPE', function () {
 		should(Map).have.constant('HYBRID_TYPE').which.is.a.Number;
 	});
 
 	// Intentional skip for iOS, constant only for Android
-	// FIXME Get working on Android. Probably fails due to where constant hangs on prototype chain.
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('TERRAIN_TYPE', function () {
+	(utilities.isIOS() ? it.skip : it)('TERRAIN_TYPE', function () {
 		should(Map).have.constant('TERRAIN_TYPE').which.is.a.Number;
 	});
 

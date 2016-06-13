@@ -11,10 +11,10 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium', function () {
 
-	// FIXME Get working on IOS/Android!
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('apiName', function () {
-		should(Ti.apiName).be.eql('Ti'); // equals 'Ti.Module' on Android, which is incorrect.
+	// FIXME Get working on Android!
+	(utilities.isAndroid() ? it.skip : it)('apiName', function () {
 		should(Ti).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.apiName).be.eql('Ti'); // equals 'Ti.Module' on Android, which is incorrect.
 	});
 
 	// FIXME Get working on IOS/Android!

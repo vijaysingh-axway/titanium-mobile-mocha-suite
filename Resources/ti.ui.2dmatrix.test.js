@@ -9,10 +9,10 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.2DMatrix', function() {
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI['2DMatrix']).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI['2DMatrix'].apiName).be.eql('Ti.UI.2DMatrix');
+	it('apiName', function () {
+		var matrix = Ti.UI.create2DMatrix();
+		should(matrix).have.readOnlyProperty('apiName').which.is.a.String;
+		should(matrix.apiName).be.eql('Ti.UI.2DMatrix');
 	});
 
 	it('#invert()', function() {

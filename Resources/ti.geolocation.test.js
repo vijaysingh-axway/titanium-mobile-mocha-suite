@@ -86,6 +86,8 @@ describe('Titanium.Geolocation', function () {
 	});
 
 	it('forwardGeocoder', function (finish) {
+		this.timeout(30e3); // 30 sec
+
 		should(Ti.Geolocation.forwardGeocoder).be.a.Function;
 		Ti.Geolocation.forwardGeocoder('440 N Bernardo Ave, Mountain View', function (data) {
 			try {
@@ -101,6 +103,8 @@ describe('Titanium.Geolocation', function () {
 	// FIXME Windows doesn't honor the API properly! We have zipcode on the data object itself! https://jira.appcelerator.org/browse/TIMOB-23492
 	// FIXME The address object is different from platform to platform! https://jira.appcelerator.org/browse/TIMOB-23496
 	it('reverseGeocoder', function (finish) {
+		this.timeout(30e3); // 30 sec
+
 		should(Ti.Geolocation.reverseGeocoder).be.a.Function;
 		Ti.Geolocation.reverseGeocoder(37.3883645, -122.0512682, function (data) {
 			try {

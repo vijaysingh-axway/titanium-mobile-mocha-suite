@@ -8,10 +8,10 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.AlertDialog', function () {
-	// FIXME Get working on iOS and Android
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('apiName', function () {
-		should(Ti.UI.AlertDialog).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.UI.AlertDialog.apiName).be.eql('Ti.UI.AlertDialog');
+	it('apiName', function () {
+		var dialog = Ti.UI.createAlertDialog();
+		should(dialog).have.readOnlyProperty('apiName').which.is.a.String;
+		should(dialog.apiName).be.eql('Ti.UI.AlertDialog');
 	});
 
 	it('title', function () {

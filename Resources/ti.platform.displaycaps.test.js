@@ -9,10 +9,9 @@ var utilities = require('./utilities/utilities'),
 	should = require('./utilities/assertions');
 
 describe('Titanium.Platform.DisplayCaps', function () {
-	// FIXME Get working on IOS/Android!
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('apiName', function () {
-		should(Ti.Platform.DisplayCaps.apiName).be.eql('Ti.Platform.DisplayCaps');
-		should(Ti.Platform.DisplayCaps).have.readOnlyProperty('apiName').which.is.a.String;
+	it('apiName', function () {
+		should(Ti.Platform.displayCaps).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Platform.displayCaps.apiName).be.eql('Ti.Platform.DisplayCaps');
 	});
 
 	// FIXME Get working on IOS // on iOS property is configurable
