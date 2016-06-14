@@ -35,6 +35,7 @@ function installSDK(sdkVersion, next) {
 	}
 	args.push(sdkVersion);
 	args.push('-d'); // make default
+	console.log('Installing SDK with args: ' + args);
 	prc = spawn('node', args);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
