@@ -471,8 +471,8 @@ if (module.id === '.') {
 		program
 			.version(packageJson.version)
 			// TODO Allow choosing a URL or zipfile as SDK to install!
-			.option('-b, --branch [branchName]', 'Install a specific branch of the SDK to test with', /^(12\.0|14\.0)$/, 'master')
-			.option('-p, --platforms [platform1,platform2]', 'Run unit tests on the given platforms', /^(android(,ios)?)|(ios(,android)?)$/, 'android,ios')
+			.option('-b, --branch [branchName]', 'Install a specific branch of the SDK to test with', 'master')
+			.option('-p, --platforms <platform1,platform2>', 'Run unit tests on the given platforms', /^(android(,ios)?)|(ios(,android)?)$/, 'android,ios')
 			.parse(process.argv);
 
 		platforms = program.platforms.split(',');
