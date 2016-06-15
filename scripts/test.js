@@ -64,9 +64,13 @@ function getSDKInstallDir(next) {
 		}
 
 		out = JSON.parse(stdout);
-		selectedSDK = out.titaniumCLI.selectedSDK;
-
-		next(null, out.titanium[selectedSDK].path);
+		selectedSDK = out.titaniumCLI.selectedSDK; // may be null!
+		if (selectedSDK) {
+			next(null, out.titanium[selectedSDK].path);
+		} else {
+			// Hope first sdk listed is the one we want
+			next(null, out.titanium[Object.keys(out.titanium)[0]].path);
+		}
 	});
 }
 
