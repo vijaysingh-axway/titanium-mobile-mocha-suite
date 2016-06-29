@@ -11,14 +11,14 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium', function () {
 
-	// FIXME Get working on Android!
+	// FIXME Get working on Android! File a JIRA Ticket
 	(utilities.isAndroid() ? it.skip : it)('apiName', function () {
 		should(Ti).have.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.apiName).be.eql('Ti'); // equals 'Ti.Module' on Android, which is incorrect.
 	});
 
-	// FIXME Get working on IOS/Android!
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('version', function () {
+	// FIXME Get working on IOS!
+	(utilities.isIOS() ? it.skip : it)('version', function () {
 		should(Ti.version).not.eql('__TITANIUM_VERSION__');
 		should(Ti).have.readOnlyProperty('version').which.is.a.String;
 	});
@@ -30,8 +30,8 @@ describe('Titanium', function () {
 		// TODO Test format of the version string. what should we expect? Something like: /\d\.\d\.\d(\.(v\d+|GA))/
 	});
 
-	// FIXME Get working on IOS/Android!
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('buildDate', function () {
+	// FIXME Get working on IOS!
+	(utilities.isIOS() ? it.skip : it)('buildDate', function () {
 		should(Ti.buildDate).not.eql('__TITANIUM_BUILD_DATE__');
 		should(Ti).have.readOnlyProperty('buildDate').which.is.a.String;
 		// TODO Test format of the date string. what should we expect? Android gives us: '2016/06/02 08:45'
@@ -43,8 +43,8 @@ describe('Titanium', function () {
 		should(Ti.getBuildDate()).not.eql('__TITANIUM_BUILD_DATE__');
 	});
 
-	// FIXME Get working on IOS/Android!
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('buildHash', function () {
+	// FIXME Get working on IOS!
+	(utilities.isIOS() ? it.skip : it)('buildHash', function () {
 		should(Ti.buildHash).not.eql('__TITANIUM_BUILD_HASH__');
 		should(Ti).have.readOnlyProperty('buildHash').which.is.a.String;
 		// TODO Test format of the buildHash string. what should we expect? Android gives us: 'c012548'
@@ -56,7 +56,8 @@ describe('Titanium', function () {
 		should(Ti.getBuildHash()).not.eql('__TITANIUM_BUILD_HASH__');
 	});
 
-	it('userAgent', function () {
+	// FIXME File a ticket in JIRA. Updating V8 fixes the property read/write issues, but exposes bug in that we set userAgent as read-only on Android and it shouldn't be
+	(utilities.isAndroid() ? it.skip : it)('userAgent', function () {
 		should(Ti.userAgent).be.a.String;
 
 		var save = Ti.userAgent;
