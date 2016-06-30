@@ -27,9 +27,8 @@ describe('Titanium.UI.AlertDialog', function () {
 		should(bar.getTitle()).eql('other text');
 	});
 
-	// FIXME Get working on Android, getTitleId() isn't a method
 	// FIXME titleid doesn't seem to set title on iOS?
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('titleid', function () {
+	(utilities.isIOS() ? it.skip : it)('titleid', function () {
 		var bar = Ti.UI.createAlertDialog({
 			titleid: 'this_is_my_key'
 		});
