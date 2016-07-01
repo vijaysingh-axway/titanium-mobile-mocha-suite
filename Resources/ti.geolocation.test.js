@@ -86,11 +86,15 @@ describe('Titanium.Geolocation', function () {
 	});
 
 	it('forwardGeocoder', function (finish) {
-		this.timeout(30e3); // 30 sec
+		this.timeout(6e4); // 60 sec
 
 		should(Ti.Geolocation.forwardGeocoder).be.a.Function;
 		Ti.Geolocation.forwardGeocoder('440 N Bernardo Ave, Mountain View', function (data) {
 			try {
+				should(data).have.property('success').which.is.a.Boolean;
+				should(data.success).be.eql(true);
+				should(data).have.property('code').which.is.a.Number;
+				should(data.code).be.eql(0);
 				should(data.latitude).be.approximately(37.387, 0.002); // iOS gives: 37.38605, Windows does 37.3883645
 				should(data.longitude).be.approximately(-122.065, 0.02); // WIndows gives: -122.0512682, iOS gives -122.08385
 				finish();
@@ -100,16 +104,17 @@ describe('Titanium.Geolocation', function () {
 		});
 	});
 
-	// FIXME Windows doesn't honor the API properly! We have zipcode on the data object itself! https://jira.appcelerator.org/browse/TIMOB-23492
 	// FIXME The address object is different from platform to platform! https://jira.appcelerator.org/browse/TIMOB-23496
 	it('reverseGeocoder', function (finish) {
-		this.timeout(30e3); // 30 sec
+		this.timeout(6e4); // 60 sec
 
 		should(Ti.Geolocation.reverseGeocoder).be.a.Function;
 		Ti.Geolocation.reverseGeocoder(37.3883645, -122.0512682, function (data) {
 			try {
 				should(data).have.property('success').which.is.a.Boolean;
+				should(data.success).be.eql(true);
 				should(data).have.property('code').which.is.a.Number;
+				should(data.code).be.eql(0);
 				// FIXME error property is missing altogether on success for iOS...
 				//should(data).have.property('error'); // undefined on success, holds error message as String otherwise.
 				should(data).have.property('places').which.is.an.Array;
