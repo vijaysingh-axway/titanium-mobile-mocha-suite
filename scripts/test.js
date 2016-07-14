@@ -465,6 +465,7 @@ function outputResults(results, next) {
 
 // public API
 exports.test = test;
+exports.outputResults = outputResults;
 
 // When run as single script.
 if (module.id === '.') {
