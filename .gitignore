@@ -1,4 +1,4 @@
-node_modules
+scripts/node_modules
 .DS_Store
 scripts/mocha
 scripts/junit.*.xml

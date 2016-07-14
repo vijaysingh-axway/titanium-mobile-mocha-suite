@@ -11,10 +11,9 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium', function () {
 
-	// FIXME Get working on Android! File a JIRA Ticket
-	(utilities.isAndroid() ? it.skip : it)('apiName', function () {
+	it('apiName', function () {
 		should(Ti).have.readOnlyProperty('apiName').which.is.a.String;
-		should(Ti.apiName).be.eql('Ti'); // equals 'Ti.Module' on Android, which is incorrect.
+		should(Ti.apiName).be.eql('Ti');
 	});
 
 	// FIXME Get working on IOS!
