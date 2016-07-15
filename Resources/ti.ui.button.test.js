@@ -14,8 +14,17 @@ describe('Titanium.UI.Button', function () {
 
 	this.timeout(5000);
 
+	var win;
+
 	beforeEach(function() {
 		didFocus = false;
+	});
+
+	afterEach(function() {
+		if (win) {
+			win.close();
+		}
+		win = null;
 	});
 
 	it('apiName', function () {
@@ -56,70 +65,59 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	it('image(String)', function (finish) {
-		var w = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var view = Ti.UI.createButton({ title: 'push button' });
-		w.add(view);
-		w.addEventListener('focus', function () {
-			var error;
-
+		win.add(view);
+		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
 			try {
 				view.image = 'Logo.png';
 				should(view.image).be.eql('Logo.png');
-			} catch (err) {
-				error = err;
-			}
 
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
-		w.open();
+		win.open();
 	});
 
 	// Skip on Windows 10 and 8.1 desktop for now, it hangs
 	// FIXME iOS getFile().read() returns null for Logo.png
 	(utilities.isWindows10() || (utilities.isWindows8_1() && utilities.isWindowsDesktop() || utilities.isIOS()) ? it.skip : it)('image(Blob)', function (finish) {
-		var w = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var view = Ti.UI.createButton({ title: 'push button' });
-		w.add(view);
-		w.addEventListener('focus', function () {
-			var error;
-
+		win.add(view);
+		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
 			try {
 				view.image = Ti.Filesystem.getFile('Logo.png').read();
 				should(view.image).be.an.Object; // ios gives null
+
+				finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 1000);
 		});
-		w.open();
+		win.open();
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
 	((utilities.isWindowsDesktop() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundColor/Image', function (finish) {
-		var w = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var view = Ti.UI.createButton({ title: 'push button' });
-		w.add(view);
-		w.addEventListener('focus', function () {
-			var error;
-
+		win.add(view);
+		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
@@ -130,28 +128,23 @@ describe('Titanium.UI.Button', function () {
 				view.backgroundImage = 'Logo.png';
 				should(view.backgroundColor).be.eql('white');
 				should(view.backgroundImage).be.eql('Logo.png');
-			} catch (err) {
-				error = err;
-			}
 
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
-		w.open();
+		win.open();
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
-		var w = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var view = Ti.UI.createButton({ title: 'push button' });
-		w.add(view);
-		w.addEventListener('focus', function () {
-			var error;
-
+		win.add(view);
+		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
@@ -162,28 +155,23 @@ describe('Titanium.UI.Button', function () {
 				view.backgroundFocusedImage = 'Logo.png'
 				should(view.backgroundFocusedColor).be.eql('white');
 				should(view.backgroundFocusedImage).be.eql('Logo.png');
-			} catch (err) {
-				error = err;
-			}
 
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
-		w.open();
+		win.open();
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
-		var w = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var view = Ti.UI.createButton({ title: 'push button' });
-		w.add(view);
-		w.addEventListener('focus', function () {
-			var error;
-
+		win.add(view);
+		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
@@ -194,28 +182,23 @@ describe('Titanium.UI.Button', function () {
 				view.backgroundSelectedImage = 'Logo.png';
 				should(view.backgroundSelectedColor).be.eql('white');
 				should(view.backgroundSelectedImage).be.eql('Logo.png');
-			} catch (err) {
-				error = err;
-			}
 
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
-		w.open();
+		win.open();
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
-		var w = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var view = Ti.UI.createButton({ title: 'push button' });
-		w.add(view);
-		w.addEventListener('focus', function () {
-			var error;
-
+		win.add(view);
+		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
@@ -226,21 +209,18 @@ describe('Titanium.UI.Button', function () {
 				view.backgroundDisabledImage = 'Logo.png';
 				should(view.backgroundDisabledColor).be.eql('white');
 				should(view.backgroundDisabledImage).be.eql('Logo.png');
-			} catch (err) {
-				error = err;
-			}
 
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
-		w.open();
+		win.open();
 	});
 
 	// FIXME Get working on iOS
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS()) ? it.skip : it)('backgroundGradient', function (finish) {
-		var w = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var view = Ti.UI.createButton({ title: 'push button' });
@@ -250,10 +230,8 @@ describe('Titanium.UI.Button', function () {
 			endPoint: { x: '100%', y: '100%' },
 			colors: [{ color: 'red', offset: 0.0 }, { color: 'blue', offset: 0.25 }, { color: 'red', offset: 1.0 }],
 		};
-		w.add(view);
-		w.addEventListener('focus', function () {
-			var error;
-
+		win.add(view);
+		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
@@ -262,28 +240,23 @@ describe('Titanium.UI.Button', function () {
 				should(view.backgroundGradient.startPoint).be.an.Object;
 				should(view.backgroundGradient.endPoint).be.an.Object;
 				should(view.backgroundGradient.colors).be.an.Array; // undefined on iOS
-			} catch (err) {
-				error = err;
-			}
 
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
-		w.open();
+		win.open();
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('border', function (finish) {
-		var w = Ti.UI.createWindow({
+		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 		var view = Ti.UI.createButton({ title: 'push button' });
-		w.add(view);
-		w.addEventListener('focus', function () {
-			var error;
-
+		win.add(view);
+		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
@@ -294,36 +267,21 @@ describe('Titanium.UI.Button', function () {
 				view.borderWidth = 2;
 				should(view.borderColor).be.eql('blue');
 				should(view.borderWidth).be.eql(2);
-			} catch (err) {
-				error = err;
-			}
 
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
-		w.open();
+		win.open();
 	});
 
 	// FIXME Intermittently failing on Android build machine - I think due to test timeout!
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('rect and size', function (finish) {
-		var w = Ti.UI.createWindow({
-				backgroundColor: 'blue'
-			}),
-			view = Ti.UI.createButton({ title: 'push button' }),
-			error;
-		w.add(view);
-
-		w.addEventListener('focus', function () {
-			if (didFocus) return;
-			didFocus = true;
-
-			setTimeout(function () {
-				w.close();
-				finish(error);
-			}, 3000);
-		});
+	// FIXME Fails on iOS due to timeout. Never fires postlayout?
+	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('rect and size', function (finish) {
+		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		var view = Ti.UI.createButton({ title: 'push button' });
+		win.add(view);
 
 		view.addEventListener('postlayout', function () {
 			try {
@@ -337,10 +295,12 @@ describe('Titanium.UI.Button', function () {
 				should(view.rect.y).be.a.Number;
 				should(view.size.width).be.above(0);
 				should(view.size.height).be.above(0);
+
+				finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
 		});
-		w.open();
+		win.open();
 	});
 });

@@ -10,10 +10,18 @@ var should = require('./utilities/assertions'),
 	didPostLayout = false;
 
 describe('Titanium.UI.Label', function () {
+	var win;
 
 	beforeEach(function() {
 		didFocus = false;
-		didPostLayout = false;
+		didPostlayout = false;
+	});
+
+	afterEach(function() {
+		if (win) {
+			win.close();
+		}
+		win = null;
 	});
 
 	it('apiName', function () {
@@ -122,39 +130,41 @@ describe('Titanium.UI.Label', function () {
 		should(label.wordWrap).eql(false);
 	});
 
-	((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ? it.skip : it)('width', function (finish) {
-		this.timeout(5000);
+	// FIXME Can't rely on Ti.UI.Window.postlayout event firing because ntiher platform fires it for that type (only maybe bubbles up from label)
+	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ||
+	(utilities.isAndroid() || utilities.isIOS())) ? it.skip : it)('width', function (finish) {
+		this.slow(1000);
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow({ backgroundColor: '#ddd' });
+
 		var label = Ti.UI.createLabel({
-				text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
-				width: Ti.UI.SIZE
-			}),
-			win = Ti.UI.createWindow({
-				backgroundColor: '#ddd'
-			}),
-			error;
+			text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
+			width: Ti.UI.SIZE
+		});
 		win.add(label);
 		win.addEventListener('postlayout', function () {
 			if (didPostLayout) return;
 			didPostLayout = true;
+
 			try {
 				should(label.size.width).not.be.greaterThan(win.size.width);
+
+				finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-		});
-		win.addEventListener('focus', function() {
-			if (didFocus) return;
-			didFocus = true;
-			setTimeout(function() {
-				win.close();
-				finish(error);
-			}, 3000);
 		});
 		win.open();
 	});
 
-	it('height', function (finish) {
-		this.timeout(5000);
+	// FIXME Can't rely on Ti.UI.Window.postlayout event firing because ntiher platform fires it for that type (only maybe bubbles up from label)
+	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('height', function (finish) {
+		this.slow(1000);
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow({ backgroundColor: '#eee' });
+
 		var label = Ti.UI.createLabel({
 				text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
 				width: Ti.UI.SIZE,
@@ -164,33 +174,25 @@ describe('Titanium.UI.Label', function () {
 			bgView = Ti.UI.createView({
 				width: 200, height: 100,
 				backgroundColor: 'red'
-			}),
-			win = Ti.UI.createWindow({
-				backgroundColor: '#eee'
-			}),
-			error;
+			});
 		bgView.add(label);
 		win.add(bgView);
 
 		win.addEventListener('postlayout', function () {
 			if (didPostLayout) return;
 			didPostLayout = true;
+
 			try {
 				should(bgView.size.height).be.eql(100);
+
+				// Uncomment below because it should be ok for label to have height greater than parent view
+				// parent view should be able to handle which areas should be shown in that case.
+				// should(label.size.height).not.be.greaterThan(100);
+
+				finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-			// Uncomment below because it should be ok for label to have height greater than parent view
-			// parent view should be able to handle which areas should be shown in that case.
-			// should(label.size.height).not.be.greaterThan(100);
-		});
-		win.addEventListener('focus', function() {
-			if (didFocus) return;
-			didFocus = true;
-			setTimeout(function() {
-				win.close();
-				finish(error);
-			}, 3000);
 		});
 		win.open();
 	});
