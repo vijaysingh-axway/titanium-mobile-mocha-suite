@@ -115,6 +115,9 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it('#remove(View)', function (finish) {
+		this.slow(1000);
+		this.timeout(20000);
+
 		win = Ti.UI.createWindow({
 			backgroundColor: 'gray'
 		});

@@ -89,6 +89,9 @@ describe('Titanium.UI.Button', function () {
 	// Skip on Windows 10 and 8.1 desktop for now, it hangs
 	// FIXME iOS getFile().read() returns null for Logo.png
 	(utilities.isWindows10() || (utilities.isWindows8_1() && utilities.isWindowsDesktop() || utilities.isIOS()) ? it.skip : it)('image(Blob)', function (finish) {
+		this.slow(1000);
+		this.timeout(20000);
+
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
@@ -220,6 +223,9 @@ describe('Titanium.UI.Button', function () {
 
 	// FIXME Get working on iOS
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS()) ? it.skip : it)('backgroundGradient', function (finish) {
+		this.slow(1000);
+		this.timeout(20000);
+
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
