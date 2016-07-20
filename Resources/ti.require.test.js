@@ -107,25 +107,35 @@ describe('requireJS', function () {
 	});
 
 	// internal __filename
-	// FIXME Get parity across impls. I think all are slightly wrong here.
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('requireJS.__filename', function () {
+	it('requireJS.__filename', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 		should(object.filename).be.a.String;
-		should(object.filename).be.eql('ti.require.test_test'); // FIXME I think iOS/Android are more correct here,  but probably should be '/ti.require.test_test.js' for all!
-		// See https://nodejs.org/api/globals.html
+		should(object.filename).be.eql('/ti.require.test_test.js');
+	});
+
+	// internal __filename
+	it('requireJS.__dirname', function () {
+		var object = require('ti.require.test_test');
+		should(object).be.an.Object;
+		should(object.dirname).be.a.String;
+		should(object.dirname).be.eql('/');
 	});
 
 	it('loads package.json main property when requiring directory', function () {
 		var with_package = require('./with_package');
 		should(with_package).have.property('name');
 		should(with_package.name).be.eql('main.js');
+		should(with_package.filename).be.eql('/with_package/main.js');
+		should(with_package.dirname).be.eql('/with_package');
 	});
 
 	it('falls back to index.js when requiring directory with no package.json', function () {
 		var with_index_js = require('./with_index_js');
 		should(with_index_js).have.property('name');
 		should(with_index_js.name).be.eql('index.js');
+		should(with_index_js.filename).be.eql('/with_index_js/index.js');
+		should(with_index_js.dirname).be.eql('/with_index_js');
 	});
 
 	// TIMOB-23512
@@ -136,6 +146,8 @@ describe('requireJS', function () {
 		should(with_index_js.sub).be.eql('sub2.js');
 		// Was also failing if same file had multiple relative requires
 		should(with_index_js.sub3).be.eql('sub3.js');
+		should(with_index_js.filename).be.eql('/with_index_js/sub1.js');
+		should(with_index_js.dirname).be.eql('/with_index_js');
 	});
 
 	it('falls back to index.json when requiring directory with no package.json or index.js', function () {
@@ -148,6 +160,8 @@ describe('requireJS', function () {
 		var exact_js = require('./with_package/index.js');
 		should(exact_js).have.property('name');
 		should(exact_js.name).be.eql('index.js');
+		should(exact_js.filename).be.eql('/with_package/index.js');
+		should(exact_js.dirname).be.eql('/with_package');
 	});
 
 	it('loads exact match JSON file', function () {
@@ -160,6 +174,8 @@ describe('requireJS', function () {
 		var with_index_js = require('./with_index_js/index');
 		should(with_index_js).have.property('name');
 		should(with_index_js.name).be.eql('index.js');
+		should(with_index_js.filename).be.eql('/with_index_js/index.js');
+		should(with_index_js.dirname).be.eql('/with_index_js');
 	});
 
 	it('loads .json with matching file basename if no exact or .js match', function () {

@@ -17,6 +17,7 @@ exports.testFunc2 = function (arg1, arg2) {
 
 // test for internal __filename
 exports.filename = __filename;
+exports.dirname = __dirname;
 
 // public variables which should be exported
 exports.testStrVar = 'testVar0';
