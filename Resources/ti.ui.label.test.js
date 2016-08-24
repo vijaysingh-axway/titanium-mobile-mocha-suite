@@ -96,32 +96,29 @@ describe('Titanium.UI.Label', function () {
 		should(label.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
 	});
 
-	// Turn on/off the addition of ellipses at the end of the label if the text is too large to fit.
-	// Default: false
-	// FIXME Get working on iOS. ellipsize defaults to undefined, should be false according to docs: https://jira.appcelerator.org/browse/TIMOB-23501
-	// FIXME Should default to false on Android, but is undefined: https://jira.appcelerator.org/browse/TIMOB-23500
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('ellipsize', function () {
+	// set ellipsize in the label
+	// Default: Titanium.UI.TEXT_ELLIPSIZE_TRUNCATE_END
+	it('ellipsize', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
-		should(label.ellipsize).be.a.Boolean; // undefined on iOS and Android
+		should(label.ellipsize).be.a.Number;
 		should(label.getEllipsize).be.a.Function;
-		should(label.ellipsize).eql(false);
-		should(label.getEllipsize()).eql(false);
-		label.ellipsize = true;
-		should(label.getEllipsize()).eql(true);
-		should(label.ellipsize).eql(true);
+		should(label.ellipsize).eql(Titanium.UI.TEXT_ELLIPSIZE_TRUNCATE_END);
+		should(label.getEllipsize()).eql(Titanium.UI.TEXT_ELLIPSIZE_TRUNCATE_END);
+		label.ellipsize = Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_MIDDLE;
+		should(label.getEllipsize()).eql(Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_MIDDLE);
+		should(label.ellipsize).eql(Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_MIDDLE);
 	});
 
 	// Enable or disable word wrapping in the label.
 	// Defaults: true
 	// Intentionally skip on iOS, property not on platform.
-	// FIXME Should default to true on Android, but is undefined: https://jira.appcelerator.org/browse/TIMOB-23499
 	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('wordWrap', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
-		should(label.wordWrap).be.a.Boolean; // undefined on Android
+		should(label.wordWrap).be.a.Boolean;
 		should(label.getWordWrap).be.a.Function;
 		should(label.wordWrap).eql(true);
 		should(label.getWordWrap()).eql(true);
