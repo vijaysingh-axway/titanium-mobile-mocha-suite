@@ -35,5 +35,12 @@ describe('Titanium.UI.Switch', function () {
 		switch_ctrl.value = false;
 		should(switch_ctrl.value).be.eql(false);
 	});
+	
+	it('defaultValue', function() {
+		var switch_ctrl = Ti.UI.createSwitch();
+		should(switch_ctrl.value).be.eql(false);
+		switch_ctrl.value = true;
+		should(switch_ctrl.value).be.eql(true);
+	});
 
 });
