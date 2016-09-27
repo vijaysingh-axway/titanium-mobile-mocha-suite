@@ -127,7 +127,7 @@ describe('Titanium.Platform', function () {
 
 	it('name', function () {
 		should(Ti.Platform).have.readOnlyProperty('name').which.is.a.String;
-		['android', 'iPhone OS', 'windows', 'mobileweb'].indexOf(Ti.Platform.name).should.not.eql(-1);
+		['android', 'iOS', 'windows', 'mobileweb'].indexOf(Ti.Platform.name).should.not.eql(-1);
 		// TODO match with osname!
 	});
 
