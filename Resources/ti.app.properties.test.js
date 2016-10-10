@@ -75,6 +75,10 @@ describe('Titanium.App.Properties', function () {
 		var test_list = ['item1', 'item2', 'item3'];
 		Ti.App.Properties.setList('test_list', test_list);
 		should(Ti.App.Properties.getList('test_list')).be.eql(test_list);
+		
+		var names = [{name: "One"}, {name: 1}, {name: ""}, null, {name: true}, 1, "", null, false];
+		Ti.App.Properties.setList("names", names);
+		should(JSON.stringify(Ti.App.Properties.getList('names'))).be.eql(JSON.stringify(names));
 	});
 
 	it('Object', function () {
