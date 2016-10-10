@@ -40,7 +40,7 @@ function installSDK(sdkVersion, next) {
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
-	prc.on('close', function (code) {
+	prc.on('exit', function (code) {
 		if (code != 0) {
 			next('Failed to install SDK');
 		} else {
@@ -95,7 +95,7 @@ function generateProject(platforms, next) {
 	prc.stderr.on('data', function (data) {
 		console.log(data.toString());
 	});
-	prc.on('close', function (code) {
+	prc.on('exit', function (code) {
 		var setProcess;
 		if (code != 0) {
 			next('Failed to create project');
@@ -179,7 +179,7 @@ function copyMochaAssets(next) {
 
 function killiOSSimulator(next) {
 	var prc = spawn('killall', ['Simulator']);
-	prc.on('close', function (code) {
+	prc.on('exit', function (code) {
 		if (next) next();
 	});
 }
