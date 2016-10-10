@@ -123,7 +123,7 @@ function addTiAppProperties(next) {
 			// remove open tag
 			content.pop();
 			// now inject the overriden modules listing from xml file
-			content.push(s.readFileSync(path.join(SOURCE_DIR, 'modules', 'modules.xml')).toString());
+			content.push(fs.readFileSync(path.join(SOURCE_DIR, 'modules', 'modules.xml')).toString());
 		}
 		// ignore end modules tag since injection above already wrote it!
 		else if (line.indexOf('</modules>') >= 0) {
