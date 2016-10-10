@@ -383,8 +383,8 @@ function test(branch, platforms, callback) {
 		generateProject(platforms, next);
 	});
 
-	tasks.push(addTiAppProperties);
 	tasks.push(copyMochaAssets);
+	tasks.push(addTiAppProperties);
 
 	// run build for each platform, and spit out JUnit report
 	platforms.forEach(function (platform) {
