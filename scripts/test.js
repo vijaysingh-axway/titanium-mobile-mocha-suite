@@ -107,35 +107,35 @@ function generateProject(platforms, next) {
 
 // Add required properties for our unit tests!
 function addTiAppProperties(next) {
-	var tiapp_xml = path.join(PROJECT_DIR, 'tiapp.xml');
+	var tiapp_xml = path.join(PROJECT_DIR, 'tiapp.xml'),
+		content = [];
 
 	// Not so smart but this should work...
-	var content = [];
 	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function(line) {
 		content.push(line);
 		// FIXME app thinning breaks tests which expect image files to exist on filesystem normally!
 		if (line.indexOf('<ios>') >= 0) {
 			content.push('<use-app-thinning>false</use-app-thinning>');
 		}
-		// TODO Have this look at the existing modules under the test app folder to inject them
-		// inject the test modules for require
+		// Grab contents of modules/modules.xml to inject as moduel listign for tiapp.xml
+		// This allows PR to override
 		else if (line.indexOf('<modules>') >= 0) {
-			content.push('<module version="1.0.0">commonjs.index_js</module>');
-			content.push('<module version="1.0.0">commonjs.index_json</module>');
-			content.push('<module version="1.0.0">commonjs.legacy</module>');
-			content.push('<module version="1.0.0">commonjs.legacy.index_js</module>');
-			content.push('<module version="1.0.0">commonjs.legacy.index_json</module>');
-			content.push('<module version="1.0.0">commonjs.legacy.package</module>');
-			content.push('<module version="1.0.0">commonjs.package</module>');
-			content.push('<module platform="android">ti.map</module>');
-			content.push('<module platform="ios">ti.map</module>');
+			// remove open tag
+			content.pop();
+			// now inject the overriden modules listing from xml file
+			content.push(s.readFileSync(path.join(SOURCE_DIR, 'modules', 'modules.xml')).toString());
+		}
+		// ignore end modules tag since injection above already wrote it!
+		else if (line.indexOf('</modules>') >= 0) {
+			content.pop();
 		}
 		// Inject some properties used by tests!
+		// TODO Move this out to a separate file so PR could override
 		else if (line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
-			content.push('<property name="presetBool" type="bool">true</property>');
-			content.push('<property name="presetDouble" type="double">1.23456</property>');
-			content.push('<property name="presetInt" type="int">1337</property>');
-			content.push('<property name="presetString" type="string">Hello!</property>');
+			content.push('\t<property name="presetBool" type="bool">true</property>');
+			content.push('\t<property name="presetDouble" type="double">1.23456</property>');
+			content.push('\t<property name="presetInt" type="int">1337</property>');
+			content.push('\t<property name="presetString" type="string">Hello!</property>');
 		}
 	});
 	fs.writeFileSync(tiapp_xml, content.join('\n'));
