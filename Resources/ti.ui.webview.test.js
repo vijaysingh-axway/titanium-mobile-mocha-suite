@@ -26,7 +26,34 @@ describe('Titanium.UI.WebView', function () {
 		win = null;
 	});
 
-	// Skip this on desktop Windows 10 apps because it crashes the app now.
+	it('loading', function (finish) {
+		this.slow(5000);
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		var webView = Ti.UI.createWebView({
+			url: 'https://google.com'
+		});
+
+		should(webView.loading).be.a.Boolean;
+		should(webView.loading).be.eql(false);
+
+		webView.addEventListener('beforeload', function() {
+			should(webView.loading).be.a.Boolean;
+			should(webView.loading).be.eql(false);
+		});
+
+		webView.addEventListener('load', function() {
+			should(webView.loading).be.a.Boolean;
+			should(webView.loading).be.eql(true);
+			
+			finish();
+		});
+
+		win.add(webView);
+		win.open();
+	});
+	
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('url', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
