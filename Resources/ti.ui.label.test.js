@@ -32,6 +32,20 @@ describe('Titanium.UI.Label', function () {
 		should(label.apiName).be.eql('Ti.UI.Label');
 	});
 
+	it('maxLines', function () {
+	    var label = Ti.UI.createLabel({
+	        text: 'This is a label with propably more than three lines of text. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.',
+	        maxLines: 2
+	    });
+	    should(label.maxLines).be.a.Number;
+	    should(label.getMaxLines).be.a.Function;
+	    should(label.maxLines).eql(2);
+	    should(label.getMaxLines()).eql(2);
+	    label.maxLines = 1;
+	    should(label.maxLines).eql(1);
+	    should(label.getMaxLines()).eql(1);
+	});
+
 	it('text', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
@@ -127,7 +141,7 @@ describe('Titanium.UI.Label', function () {
 		should(label.wordWrap).eql(false);
 	});
 
-	// FIXME Can't rely on Ti.UI.Window.postlayout event firing because ntiher platform fires it for that type (only maybe bubbles up from label)
+	// FIXME Can't rely on Ti.UI.Window.postlayout event firing because neither platform fires it for that type (only maybe bubbles up from label)
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) ||
 	(utilities.isAndroid() || utilities.isIOS())) ? it.skip : it)('width', function (finish) {
 		this.slow(1000);
@@ -155,7 +169,7 @@ describe('Titanium.UI.Label', function () {
 		win.open();
 	});
 
-	// FIXME Can't rely on Ti.UI.Window.postlayout event firing because ntiher platform fires it for that type (only maybe bubbles up from label)
+	// FIXME Can't rely on Ti.UI.Window.postlayout event firing because neither platform fires it for that type (only maybe bubbles up from label)
 	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('height', function (finish) {
 		this.slow(1000);
 		this.timeout(10000);
