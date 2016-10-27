@@ -40,12 +40,12 @@ describe('Titanium.UI.WebView', function () {
 
 		webView.addEventListener('beforeload', function() {
 			should(webView.loading).be.a.Boolean;
-			should(webView.loading).be.eql(false);
+			should(webView.loading).be.eql(true);
 		});
 
 		webView.addEventListener('load', function() {
 			should(webView.loading).be.a.Boolean;
-			should(webView.loading).be.eql(true);
+			should(webView.loading).be.eql(false);
 			
 			finish();
 		});
