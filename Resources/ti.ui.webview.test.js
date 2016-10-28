@@ -26,7 +26,7 @@ describe('Titanium.UI.WebView', function () {
 		win = null;
 	});
 
-	it('loading', function (finish) {
+	(utilities.isAndroid() ? it.skip : it)('loading', function (finish) {
 		this.slow(5000);
 		this.timeout(10000);
 
