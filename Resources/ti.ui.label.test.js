@@ -90,6 +90,13 @@ describe('Titanium.UI.Label', function () {
 		label.textAlign = Titanium.UI.TEXT_ALIGNMENT_RIGHT;
 		should(label.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
 		should(label.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_RIGHT);
+		
+		// TIMOB-3408
+		if (utilities.isIOS()) {
+			label.textAlign = Ti.UI.TEXT_ALIGNMENT_JUSTIFY;
+			should(label.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_JUSTIFY);
+			should(label.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_JUSTIFY);
+		}
 	});
 
 	it('verticalAlign', function () {
