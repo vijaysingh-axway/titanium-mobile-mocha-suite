@@ -348,7 +348,7 @@ function cleanNonGaSDKs(sdkPath, next) {
  * app for each platform with our mocha test suite. Outputs the results in a JUnit
  * test report, and holds onto the results in memory as a JSON object.
  *
- * @param  {String}   branch    [description]
+ * @param  {String}   branch    branch/zip/url of SDK to install. If null/undefined, no SDK will be installed
  * @param  {Array[String]}   platforms [description]
  * @param  {Function} callback  [description]
  */
@@ -361,8 +361,12 @@ function test(branch, platforms, callback) {
 		// install new SDK and delete old test app in parallel
 		async.parallel([
 			function (cb) {
-				console.log('Installing SDK');
-				installSDK(branch, cb);
+				if (branch) {
+					console.log('Installing SDK');
+					installSDK(branch, cb);
+				} else {
+					cb();
+				}
 			},
 			clearPreviousApp
 		], next);
