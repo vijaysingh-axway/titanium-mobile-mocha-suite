@@ -603,10 +603,13 @@ describe('Titanium.UI.ListView', function () {
 		should(properties).not.be.undefined;
 		should(properties).be.an.Object;
 		
-		// Validate properties subtitleColor
+		// Validate properties subtitleColor and selectedSubtitleColor
 		should(properties.hasOwnProperty('subtitleColor')).be.true;
 		should(properties.subtitleColor).be.a.String;
 		should(properties.subtitleColor).be.eql('red');
+		should(properties.hasOwnProperty('selectedSubtitleColor')).be.true;
+		should(properties.selectedSubtitleColor).be.a.String;
+		should(properties.selectedSubtitleColor).be.eql('green');
 
 		// Validate properties title & subtitle
 		should(properties.hasOwnProperty('title')).be.true;
