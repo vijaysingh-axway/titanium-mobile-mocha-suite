@@ -76,6 +76,29 @@ describe('Titanium.UI.WebView', function () {
 		win.add(webview);
 		win.open();
 	});
+	
+	(!utilities.isIOS() ? it.skip : it)('keyboardDisplayRequiresUserAction', function (finish) {
+		win = Ti.UI.createWindow();
+		
+		var webView = Ti.UI.createWebView({
+			keyboardDisplayRequiresUserAction: true
+		});
+		
+		should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
+		should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
+		should(webView.keyboardDisplayRequiresUserAction).be.eql(true);
+		should(webView.getKeyboardDisplayRequiresUserAction()).be.eql(true);
+		
+		webView.setKeyboardDisplayRequiresUserAction(false);
+
+		should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
+		should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
+		should(webView.keyboardDisplayRequiresUserAction).be.eql(false);
+		should(webView.getKeyboardDisplayRequiresUserAction()).be.eql(false);
+
+		win.add(webView);
+		win.open();
+	});
 
 	// FIXME Times out on Android build machine. No idea why... Must be we never get focus event?
 	(utilities.isAndroid() ? it.skip : it)('url(local)', function (finish) {
