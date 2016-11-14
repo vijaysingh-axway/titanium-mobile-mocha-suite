@@ -407,4 +407,13 @@ describe('Titanium.UI.Window', function () {
 			}, 500);
 		}, 500);
 	});
+
+	it('window_applyProperties', function (finish) {
+		win = Ti.UI.createWindow();
+		win.open();
+		should(win.custom).not.exist;
+		win.applyProperties({custom: 1234});
+		should(win.custom).be.eql(1234);
+		finish();
+	});
 });
