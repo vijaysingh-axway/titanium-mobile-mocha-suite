@@ -131,35 +131,6 @@ describe('Titanium.UI.Label', function () {
 		should(label.getEllipsize()).eql(Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_MIDDLE);
 		should(label.ellipsize).eql(Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_MIDDLE);
 	});
-	
-	// Skip on Windows Phone since not available, yet
-	(!(utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('padding', function () {
-		var label = Ti.UI.createLabel({
-			text: 'this is some text',
-			padding: {
-				left: 20,
-				right: 20
-			}
-		});
-		should(label.padding).be.a.Object;
-		should(label.getPadding).be.a.Function;
-		should(label.setPadding).be.a.Function;
-		
-		should(label.padding.left).eql(20);
-		should(label.padding.right).eql(20);
-		should(label.getPadding().left).eql(20);
-		should(label.getPadding().right).eql(20);
-		
-		label.setPadding({
-			left: 10,
-			right: 10
-		});
-		
-		should(label.padding.left).eql(10);
-		should(label.padding.right).eql(10);
-		should(label.getPadding().left).eql(10);
-		should(label.getPadding().right).eql(10);
-	});
 
 	// Enable or disable word wrapping in the label.
 	// Defaults: true
