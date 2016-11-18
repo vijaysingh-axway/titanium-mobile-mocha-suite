@@ -34,6 +34,35 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.value).eql('other text');
 		should(textfield.getValue()).eql('other text');
 	});
+	
+	// Skip on Windows Phone since not available, yet
+	(!(utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('padding', function () {
+		var textfield = Ti.UI.createTextField({
+			value: 'this is some text',
+			padding: {
+				left: 20,
+				right: 20
+			}
+		});
+		should(textfield.padding).be.a.Object;
+		should(textfield.getPadding).be.a.Function;
+		should(textfield.setPadding).be.a.Function;
+		
+		should(textfield.padding.left).eql(20);
+		should(textfield.padding.right).eql(20);
+		should(textfield.getPadding().left).eql(20);
+		should(textfield.getPadding().right).eql(20);
+		
+		textfield.setPadding({
+			left: 10,
+			right: 10
+		});
+		
+		should(textfield.padding.left).eql(10);
+		should(textfield.padding.right).eql(10);
+		should(textfield.getPadding().left).eql(10);
+		should(textfield.getPadding().right).eql(10);
+	});
 
 	it('textAlign', function () {
 		var textfield = Ti.UI.createTextField({
