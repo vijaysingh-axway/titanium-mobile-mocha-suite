@@ -78,24 +78,34 @@ describe('Titanium.UI.WebView', function () {
 	});
 	
 	(!utilities.isIOS() ? it.skip : it)('keyboardDisplayRequiresUserAction', function (finish) {
-		win = Ti.UI.createWindow();
+		win = Ti.UI.createWindow();	
+		var webView = Ti.UI.createWebView();
 		
-		var webView = Ti.UI.createWebView({
-			keyboardDisplayRequiresUserAction: true
+		win.addEventListener('focus', function () {
+			if (didFocus) return;
+			didFocus = true;
+
+			try {
+				webview.keyboardDisplayRequiresUserAction = true;
+				
+				should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
+				should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
+				should(webView.keyboardDisplayRequiresUserAction).be.eql(true);
+				should(webView.getKeyboardDisplayRequiresUserAction()).be.eql(true);
+
+				webView.setKeyboardDisplayRequiresUserAction(false);
+
+				should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
+				should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
+				should(webView.keyboardDisplayRequiresUserAction).be.eql(false);
+				should(webView.getKeyboardDisplayRequiresUserAction()).be.eql(false);
+
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
 		
-		should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
-		should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
-		should(webView.keyboardDisplayRequiresUserAction).be.eql(true);
-		should(webView.getKeyboardDisplayRequiresUserAction()).be.eql(true);
-		
-		webView.setKeyboardDisplayRequiresUserAction(false);
-
-		should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
-		should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
-		should(webView.keyboardDisplayRequiresUserAction).be.eql(false);
-		should(webView.getKeyboardDisplayRequiresUserAction()).be.eql(false);
-
 		win.add(webView);
 		win.open();
 	});
