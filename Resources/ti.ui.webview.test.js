@@ -46,14 +46,14 @@ describe('Titanium.UI.WebView', function () {
 		webView.addEventListener('load', function() {
 			should(webView.loading).be.a.Boolean;
 			should(webView.loading).be.eql(false);
-			
+
 			finish();
 		});
 
 		win.add(webView);
 		win.open();
 	});
-	
+
 	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('url', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
@@ -76,18 +76,18 @@ describe('Titanium.UI.WebView', function () {
 		win.add(webview);
 		win.open();
 	});
-	
+
 	(!utilities.isIOS() ? it.skip : it)('keyboardDisplayRequiresUserAction', function (finish) {
-		win = Ti.UI.createWindow();	
+		win = Ti.UI.createWindow();
 		var webView = Ti.UI.createWebView();
-		
+
 		win.addEventListener('focus', function () {
 			if (didFocus) return;
 			didFocus = true;
 
 			try {
-				webview.keyboardDisplayRequiresUserAction = true;
-				
+				webView.keyboardDisplayRequiresUserAction = true;
+
 				should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
 				should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
 				should(webView.keyboardDisplayRequiresUserAction).be.eql(true);
@@ -105,7 +105,7 @@ describe('Titanium.UI.WebView', function () {
 				finish(err);
 			}
 		});
-		
+
 		win.add(webView);
 		win.open();
 	});
