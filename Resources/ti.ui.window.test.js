@@ -192,7 +192,7 @@ describe('Titanium.UI.Window', function () {
 		win.addEventListener('open', function () {
 			setTimeout(function () {
 				win.close();
-			}, 100);
+			}, 500);
 		});
 		win.open();
 	});
