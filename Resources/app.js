@@ -44,6 +44,7 @@ require('./ti.platform.displaycaps.test');
 require('./ti.require.test');
 require('./ti.stream.test');
 require('./ti.test');
+require('./ti.ui.test');
 require('./ti.ui.2dmatrix.test');
 require('./ti.ui.activityindicator.test');
 require('./ti.ui.alertdialog.test');

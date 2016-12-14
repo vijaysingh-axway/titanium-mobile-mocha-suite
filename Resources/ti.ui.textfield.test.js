@@ -34,7 +34,7 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.value).eql('other text');
 		should(textfield.getValue()).eql('other text');
 	});
-	
+
 	// Skip on Windows Phone since not available, yet
 	(!(utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('padding', function () {
 		var textfield = Ti.UI.createTextField({
@@ -47,17 +47,17 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.padding).be.a.Object;
 		should(textfield.getPadding).be.a.Function;
 		should(textfield.setPadding).be.a.Function;
-		
+
 		should(textfield.padding.left).eql(20);
 		should(textfield.padding.right).eql(20);
 		should(textfield.getPadding().left).eql(20);
 		should(textfield.getPadding().right).eql(20);
-		
+
 		textfield.setPadding({
 			left: 10,
 			right: 10
 		});
-		
+
 		should(textfield.padding.left).eql(10);
 		should(textfield.padding.right).eql(10);
 		should(textfield.getPadding().left).eql(10);
@@ -123,12 +123,36 @@ describe('Titanium.UI.TextField', function () {
 	// editable
 	// enableReturnKey
 	// font
-	// hintText
 	// keyboardType
 	// maxLength
 	// returnKeyType
 	// selection
 	// suppressReturn
+
+	it('hintText', function () {
+		var textfield = Ti.UI.createTextField({
+			hintText: 'Enter E-Mail ...'
+		});
+		should(textfield.getHintText).be.a.Function;
+		should(textfield.hintText).eql('Enter E-Mail ...');
+		should(textfield.getHintText()).eql('Enter E-Mail ...');
+		textfield.hintText = 'Enter Name ...';
+		should(textfield.hintText).eql('Enter Name ...');
+		should(textfield.getHintText()).eql('Enter Name ...');
+	});
+
+	it('hintTextColor', function () {
+		var textfield = Ti.UI.createTextField({
+			hintText: 'Enter E-Mail ...',
+			hintTextColor: 'red'
+		});
+		should(textfield.getHintTextColor).be.a.Function;
+		should(textfield.hintTextColor).eql('red');
+		should(textfield.getHintTextColor()).eql('red');
+		textfield.hintTextColor = 'blue';
+		should(textfield.hintTextColor).eql('blue');
+		should(textfield.getHintTextColor()).eql('blue');
+	});
 
 	it.skip('width', function (finish) {
 		this.timeout(5000);

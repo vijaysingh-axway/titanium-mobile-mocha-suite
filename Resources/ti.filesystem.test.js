@@ -142,4 +142,12 @@ describe('Titanium.Filesystem', function () {
 		should(msg.deleteFile()).be.true;
 		should(msg.exists()).be.false;
 	});
+
+	// TIMOB-23542 test getAsset()
+	(utilities.isIOS() ? it : it.skip)('getAsset()', function () {
+	    should(Ti.Filesystem.getAsset).not.be.undefined;
+	    should(Ti.Filesystem.getAsset).be.a.Function;
+	    var blob = Ti.Filesystem.getAsset('Logo.png');
+	    should(blob).be.an.Object;
+	});
 });
