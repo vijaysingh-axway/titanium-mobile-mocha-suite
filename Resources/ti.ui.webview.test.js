@@ -134,6 +134,24 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
+	// TIMOB-23542 webview data test
+	it('data', function(finish) {
+		win = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+		var blob = Ti.Filesystem.getFile('app.js').read();
+		var webview = Ti.UI.createWebView({
+			data: blob
+		});
+
+		webview.addEventListener('load', function() {
+			should(webview.data).be.an.object;
+			finish();
+		});
+		win.add(webview);
+		win.open();
+	});
+
 	// Skip this on desktop Windows apps because it crashes the app now.
 	// FIXME Parity issue! Windows require second argument which is callback function. Other platforms return value sync!
 	// FIXME Android returns null?
