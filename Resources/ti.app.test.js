@@ -196,4 +196,17 @@ describe('Titanium.App', function () {
 		should(Ti.App.getVersion).be.a.Function;
 		should(Ti.App.getVersion()).be.a.String;
 	});
+
+	// TIMOB-23542 test searchQuery
+	(utilities.isIOS() ? it : it.skip)('searchQuery', function () {
+	    should(Ti.App.iOS.createSearchQuery).not.be.undefined;
+	    should(Ti.App.iOS.createSearchQuery).be.a.Function;
+		var searchQuery = Ti.App.iOS.createSearchQuery({
+            queryString: 'title == "Titanium*"',
+            attributes: ["title", "displayName", "keywords", "contentType"]
+        });
+		should(searchQuery.attributes).be.an.Array;
+		should(searchQuery.attributes.length).be.eql(4);
+		should(searchQuery.queryString).be.eql('title == "Titanium*"');
+	});
 });
