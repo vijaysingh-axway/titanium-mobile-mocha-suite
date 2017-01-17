@@ -1020,4 +1020,46 @@ describe('Titanium.UI.TableView', function () {
 		win.add(tableView);
 		win.open();
 	});
+
+	// Verifies that we don't run into the JNI ref overflow issue on Android
+	it('TIMOB-15765', function () {
+		this.timeout(6e4); // minute
+
+		var numberOfTableRowsToTest = 400; // 50 is enough to trigger on Android 4.4.2. 400 hits error on Android 6.0/23
+
+		var vAnswerTable = Ti.UI.createTableView({
+			data: [Ti.UI.createTableViewRow({title:'Loading...'})],
+		});
+
+		var numOfQuestions = numberOfTableRowsToTest / 5;
+		var numOfAnswers = numOfQuestions * 4;
+		var sections = [];
+
+		for (var i = 0; i < numOfQuestions; i++) {
+			var questionTableSection = Ti.UI.createTableViewSection({});
+
+			var questionRow = Ti.UI.createTableViewRow({});
+
+			questionTableSection.add(questionRow);
+
+			for (var z = 0; z < numOfAnswers; z++) {
+				var answerRow = Ti.UI.createTableViewRow({});
+				var lAnswer = Ti.UI.createLabel({});
+
+				answerRow.add(lAnswer);
+				questionTableSection.add(answerRow);
+			}
+			sections.push(questionTableSection);
+		}
+
+		// Add the sections created above to the table view
+		vAnswerTable.setData(sections);
+
+		for (var i = 0; i < vAnswerTable.data.length; i++) {
+			Ti.API.info("Here after " + i + " iterations outer loop. Current section: " + vAnswerTable.data[i]);
+			for (var k = 0; k < vAnswerTable.data[i].rowCount; k++) {
+				Ti.API.info("Here after " + k + " iterations inner loop, " + i + " iterations outer loop. Current section row: "+  vAnswerTable.data[i].rows[k]);
+			}
+		}
+	});
 });

@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2017 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -201,8 +201,7 @@ describe('Titanium.Filesystem.File', function () {
 		should(dir.exists()).be.false;
 	});
 
-	// Intentionally skip on Android, doesn't support method // TODO For parity, add #createFile() to File on Android: https://jira.appcelerator.org/browse/TIMOB-23494
-	(utilities.isAndroid() ? it.skip : it)('#createFile() and #deleteFile()', function () {
+	it('#createFile() and #deleteFile()', function () {
 		var newFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'myfile');
 		should(newFile.exists()).be.false;
 		newFile.createFile();

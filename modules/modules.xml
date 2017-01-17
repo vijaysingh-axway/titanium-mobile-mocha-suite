@@ -8,4 +8,6 @@
 		<module>commonjs.package</module>
 		<module platform="android">ti.map</module>
 		<module platform="ios">ti.map</module>
+		<module platform="android">facebook</module>
+		<module platform="ios">facebook</module>
 	</modules>
