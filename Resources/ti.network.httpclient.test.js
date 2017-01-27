@@ -74,7 +74,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			finish(new Error('failed to retrieve large image: ' + e));
 		};
 
-		xhr.open('GET', 'http://www.ambientreality.com/ingot/moon%20background.png');
+		xhr.open('GET', 'https://userscontent2.emaze.com/images/de1f3140-6f4e-4a67-9626-14c39a8f93a2/18aaaec3-31fb-463b-bac9-19d848f7a583.png');
 		xhr.send();
 	});
 
@@ -143,7 +143,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			finish(new Error('failed to retrieve redirected large image: ' + e));
 		};
 
-		xhr.open('GET', 'http://www.ambientreality.com/ingot/moon.php');
+		xhr.open('GET', 'http://www.httpbin.org/redirect-to?url=hhttps%3A%2F%2Fuserscontent2.emaze.com%2Fimages%2Fde1f3140-6f4e-4a67-9626-14c39a8f93a2%2F18aaaec3-31fb-463b-bac9-19d848f7a583.png');
 		xhr.send();
 	});
 
@@ -159,7 +159,8 @@ describe('Titanium.Network.HTTPClient', function () {
 			Ti.API.debug(e);
 			finish(new Error('failed to post empty request: ' + e));
 		};
-		xhr.open('POST', 'http://www.ambientreality.com/ingot/post_test.php');
+
+		xhr.open('POST', 'http://www.httpbin.org/post');
 		xhr.send();
 	});
 
@@ -229,7 +230,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			Ti.API.debug(e);
 			finish(new Error('failed to send data: ' + e));
 		};
-		xhr.open('POST', 'http://www.ambientreality.com/ingot/post_test.php');
+		xhr.open('POST', 'http://www.httpbin.org/post');
 		xhr.send({
 			message: 'check me out',
 			numericid: 1234
@@ -300,22 +301,25 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://jira.appcelerator.org/browse/TIMOB-2849
 	it.skip('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
 		this.timeout(3e4);
-		var testServer = 'http://www.ambientreality.com/ingot/cookie_test.php';
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
 		xhr.onload = function (e) {
-			should(this.responseText).eql('Set 2 cookies');
+			var resp = JSON.parse(this.responseText);
+			should(resp.cookies.k1).eql('v1');
+			should(resp.cookies.k2).eql('v2');
 			var xhr2 = Ti.Network.createHTTPClient();
 			xhr2.setTimeout(3e4);
 			xhr2.onload = function (e) {
 				Ti.API.info('Clear Cookie');
-				should(this.responseText).eql('Set 2 cookies to expire a year ago.');
+				var resp2 = JSON.parse(this.responseText);
+				should(resp2.cookies.hasOwnProperty('v1')).be.false;
+				should(resp2.cookies.hasOwnProperty('v2')).be.false;
 				finish();
 			};
-			xhr2.open('GET', testServer + '?count=2&clear=true');
+			xhr2.open('GET', 'http://www.httpbin.org/cookies/delete?k2=&k1=');
 			xhr2.send();
 		};
-		xhr.open('GET', testServer + '?count=2&clear=false');
+		xhr.open('GET', 'http://www.httpbin.org/cookies/set?k2=v2&k1=v1');
 		xhr.send();
 	});
 
@@ -370,7 +374,7 @@ describe('Titanium.Network.HTTPClient', function () {
 		var buffer = Ti.createBuffer({
 			length: 1024 * 10
 		}).toBlob();
-		xhr.open('POST', 'http://www.ambientreality.com/ingot/post_test.php');
+		xhr.open('POST', 'http://www.httpbin.org/post');
 		xhr.send({
 			data: buffer,
 			username: 'fgsandford1000',
