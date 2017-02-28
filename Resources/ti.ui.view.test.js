@@ -28,8 +28,7 @@ describe('Titanium.UI.View', function () {
 		win = null;
 	});
 
-	// FIXME Get working on iOS and Android
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundColor/Image', function (finish) {
+	it('backgroundColor/Image', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
@@ -40,10 +39,10 @@ describe('Titanium.UI.View', function () {
 			didFocus = true;
 
 			try {
-				should(view.backgroundColor).be.a.String; // undefined on iOS and Android
-				should(view.backgroundImage).be.a.String;
 				view.backgroundColor = 'white';
 				view.backgroundImage = 'Logo.png';
+				should(view.backgroundColor).be.a.String;
+				should(view.backgroundImage).be.a.String;
 				should(view.backgroundColor).be.eql('white');
 				should(view.backgroundImage).be.eql('Logo.png');
 
@@ -131,7 +130,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME Get working on iOS
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS()) ? it.skip : it)('backgroundGradient', function (finish) {
+	(((utilities.isIOS()) ? it.skip : it)('backgroundGradient', function (finish) {
 		this.timeout(10000);
 
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
@@ -159,7 +158,7 @@ describe('Titanium.UI.View', function () {
 			}
 		});
 		win.open();
-	});
+	}));
 
 	// FIXME Get working on iOS and Android
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('border', function (finish) {
