@@ -113,11 +113,15 @@ function addTiAppProperties(next) {
 	// Not so smart but this should work...
 	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function(line) {
 		content.push(line);
-		// FIXME app thinning breaks tests which expect image files to exist on filesystem normally!
 		if (line.indexOf('<ios>') >= 0) {
-			content.push('<use-app-thinning>false</use-app-thinning>');
+			// Forse using the JScore on the emulator, not TiCore!
+			content.push('		<use-jscore-framework>true</use-jscore-framework>');
+		// app thinning breaks tests which expect image files to exist on filesystem normally!
+		} else if (line.indexOf('<use-app-thinning>') >= 0) {
+			content.pop();
+			content.push('		<use-app-thinning>false</use-app-thinning>');
 		}
-		// Grab contents of modules/modules.xml to inject as moduel listign for tiapp.xml
+		// Grab contents of modules/modules.xml to inject as moduel listing for tiapp.xml
 		// This allows PR to override
 		else if (line.indexOf('<modules>') >= 0) {
 			// remove open tag
