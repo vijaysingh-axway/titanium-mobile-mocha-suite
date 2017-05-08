@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2017 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -16,13 +16,6 @@ var $results = [],
 
 // ============================================================================
 // Add the tests here using "require"
-// ES6 syntax/compatability tests
-require('./es6.arrows.test');
-require('./es6.default.args.test');
-require('./es6.rest.args.test');
-require('./es6.spread.args.test');
-require('./es6.string.interpolation.test');
-// Titanium APIs
 require('./ti.accelerometer.test');
 require('./ti.api.test');
 require('./ti.app.test');
