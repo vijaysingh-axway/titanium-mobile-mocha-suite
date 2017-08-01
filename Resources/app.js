@@ -47,6 +47,7 @@ require('./ti.map.test');
 require('./ti.media.audioplayer.test');
 require('./ti.media.sound.test');
 require('./ti.network.test');
+require('./ti.network.cookie.test');
 require('./ti.network.httpclient.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
