@@ -25,7 +25,7 @@
     "commander": "*",
     "ejs": "~2.2.4",
     "stream-splitter": "~0.3.2",
-    "titanium": "git+http://github.com/appcelerator/titanium.git#master",
+    "titanium": "*",
     "wrench": "~1.5.4"
   },
   "engines": {
