@@ -29,6 +29,6 @@ describe('Titanium.Network.Cookie', function() {
 		});
 
 		should(cookie1.isValid()).be.true;
-		should(cookie2.isValid()).false;
+		should(cookie2.isValid()).be.false;
 	});
 });
