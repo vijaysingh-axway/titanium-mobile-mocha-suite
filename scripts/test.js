@@ -333,6 +333,7 @@ function cleanNonGaSDKs(sdkPath, next) {
 			if (thisSDKPath === sdkPath) { // skip SDK we just installed
 				return callback(null);
 			}
+			console.log('Removing ' + thisSDKPath);
 			wrench.rmdirRecursive(thisSDKPath, callback);
 		}, function (err) {
 			next(err);
@@ -349,17 +350,23 @@ function cleanNonGaSDKs(sdkPath, next) {
  * @param	{(String|String[])}	platforms 	[description]
  * @param	{String}   			target		Titanium target value to run the tests on
  * @param	{String}			deviceId	Titanium device id target to run the tests on
+ * @param	{Boolean}			skipSdkInstall	Don't try to install an SDK from `branch`
+ * @param	{Boolean}			cleanup	Delete all the non-GA SDKs when done? Defaults to true if we installed an SDK
  * @param	{Function} 			callback  	[description]
  */
-function test(branch, platforms, target, deviceId, callback) {
+function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, callback) {
 	let sdkPath;
+	// if we're not skipping sdk install and haven't specific whether to clean up or not, default to cleaning up non-GA SDKs
+	if (!skipSdkInstall && cleanup === undefined) {
+		cleanup = true;
+	}
 
 	const tasks = [];
 	tasks.push(function (next) {
 		// install new SDK and delete old test app in parallel
 		async.parallel([
 			function (cb) {
-				if (branch) {
+				if (!skipSdkInstall && branch) {
 					console.log('Installing SDK');
 					installSDK(branch, cb);
 				} else {
@@ -402,10 +409,14 @@ function test(branch, platforms, target, deviceId, callback) {
 		});
 	});
 
-	async.series(tasks, function (err) {
-		cleanNonGaSDKs(sdkPath, function (cleanupErr) {
-			callback(err || cleanupErr, results);
+	if (cleanup) {
+		tasks.push(function (next) {
+			cleanNonGaSDKs(sdkPath, next);
 		});
+	}
+
+	async.series(tasks, function (err) {
+		callback(err, results);
 	});
 }
 
@@ -483,9 +494,13 @@ if (module.id === '.') {
 			.option('-p, --platforms <platform1,platform2>', 'Run unit tests on the given platforms', /^(android(,ios|,windows)?)|(ios(,android)?)|(windows(,android)?)$/, 'android,ios')
 			.option('-T, --target [target]', 'Titanium platform target to run the unit tests on. Only valid when there is a single platform provided')
 			.option('-C, --device-id [id]', 'Titanium device id to run the unit tests on. Only valid when there is a target provided')
+			.option('-s, --skip-sdk-install', 'Skip the SDK installation step')
+			.option('-c, --cleanup', 'Cleanup non-GA SDKs. Default is true if we install an SDK')
 			.parse(process.argv);
 
 		const platforms = program.platforms.split(',');
+
+		console.log(program.cleanup);
 
 		if (platforms.length > 1 && program.target !== undefined) {
 			console.error('--target can only be used when there is a single platform provided');
@@ -497,7 +512,7 @@ if (module.id === '.') {
 			process.exit(1);
 		}
 
-		test(program.branch, platforms, program.target, program.deviceId, function (err, results) {
+		test(program.branch, platforms, program.target, program.deviceId, program.skipSdkInstall, program.cleanup, function (err, results) {
 			if (err) {
 				console.error(err.toString());
 				process.exit(1);

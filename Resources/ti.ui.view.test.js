@@ -16,12 +16,12 @@ describe('Titanium.UI.View', function () {
 
 	var win;
 
-	beforeEach(function() {
+	beforeEach(function () {
 		didFocus = false;
 		didPostLayout = false;
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		if (win != null) {
 			win.close();
 		}
@@ -35,7 +35,7 @@ describe('Titanium.UI.View', function () {
 		win.addEventListener('focus', function () {
 			var error;
 
-			if (didFocus) return;
+			if (didFocus) { return; }
 			didFocus = true;
 
 			try {
@@ -60,19 +60,19 @@ describe('Titanium.UI.View', function () {
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) { return; }
 			didFocus = true;
 
 			try {
 				should(view.backgroundFocusedColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundFocusedImage).be.a.String;
 				view.backgroundFocusedColor = 'white';
-				view.backgroundFocusedImage = 'Logo.png'
+				view.backgroundFocusedImage = 'Logo.png';
 				should(view.backgroundFocusedColor).be.eql('white');
 				should(view.backgroundFocusedImage).be.eql('Logo.png');
 
 				finish();
-			} catch(err) {
+			} catch (err) {
 				finish(err);
 			}
 		});
@@ -85,7 +85,7 @@ describe('Titanium.UI.View', function () {
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) { return; }
 			didFocus = true;
 
 			try {
@@ -110,7 +110,7 @@ describe('Titanium.UI.View', function () {
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) { return; }
 			didFocus = true;
 
 			try {
@@ -139,11 +139,11 @@ describe('Titanium.UI.View', function () {
 			type: 'linear',
 			startPoint: { x: '0%', y: '50%' },
 			endPoint: { x: '100%', y: '100%' },
-			colors: [{ color: 'red', offset: 0.0 }, { color: 'blue', offset: 0.25 }, { color: 'red', offset: 1.0 }],
+			colors: [ { color: 'red', offset: 0.0 }, { color: 'blue', offset: 0.25 }, { color: 'red', offset: 1.0 } ],
 		};
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) { return; }
 			didFocus = true;
 
 			try {
@@ -166,7 +166,7 @@ describe('Titanium.UI.View', function () {
 		var view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) { return; }
 			didFocus = true;
 
 			try {
@@ -194,7 +194,7 @@ describe('Titanium.UI.View', function () {
 		win.add(view);
 
 		view.addEventListener('postlayout', function () {
-			if (didPostLayout) return;
+			if (didPostLayout) { return; }
 			didPostLayout = true;
 
 			try {
@@ -227,7 +227,7 @@ describe('Titanium.UI.View', function () {
 		});
 
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) { return; }
 			didFocus = true;
 
 			try {
@@ -256,15 +256,15 @@ describe('Titanium.UI.View', function () {
 			left: 100,  top: 100
 		});
 
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			var animation = Ti.UI.createAnimation({
 				top: 150,
 				duration: 1000,
 			});
 
-			animation.addEventListener('complete', function() {
+			animation.addEventListener('complete', function () {
 				// make sure to give it a time to layout
-				setTimeout(function() {
+				setTimeout(function () {
 					try {
 						should(view.rect.x).be.eql(100);
 						should(view.rect.y).be.eql(150); // Android reports 100
@@ -295,15 +295,15 @@ describe('Titanium.UI.View', function () {
 			left: 100,  top: 100
 		});
 
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			var animation = Ti.UI.createAnimation({
 				left: 150,
 				duration: 1000,
 			});
 
-			animation.addEventListener('complete', function() {
+			animation.addEventListener('complete', function () {
 				// make sure to give it a time to layout
-				setTimeout(function() {
+				setTimeout(function () {
 
 					try {
 						should(view.rect.x).be.eql(150); // Android reports 100
@@ -343,8 +343,8 @@ describe('Titanium.UI.View', function () {
 				left: pos,
 				duration: 1000,
 			});
-			animation.addEventListener('complete', function() {
-				setTimeout(function() {
+			animation.addEventListener('complete', function () {
+				setTimeout(function () {
 					try {
 						should(view.rect.x).be.eql(pos);
 						should(view.rect.y).be.eql(100);
@@ -367,7 +367,7 @@ describe('Titanium.UI.View', function () {
 			view.animate(animation);
 		}
 
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			start();
 		});
 		win.add(view);
@@ -392,7 +392,7 @@ describe('Titanium.UI.View', function () {
 				// make sure to give it a time to layout
 				setTimeout(function () {
 					try {
-						should(view.rect.x).be.approximately(view.rect.width*9, 10);
+						should(view.rect.x).be.approximately(view.rect.width * 9, 10);
 						should(view.rect.y).be.eql(0);
 						should(view.left).be.eql(0);
 						should(view.top).be.eql(0);
@@ -420,15 +420,15 @@ describe('Titanium.UI.View', function () {
 		});
 		win.addEventListener('open', function () {
 			var animation = Ti.UI.createAnimation({
-					top: '90%',
-					duration: 1000
-				});
+				top: '90%',
+				duration: 1000
+			});
 			animation.addEventListener('complete', function () {
 				// make sure to give it a time to layout
 				setTimeout(function () {
 					try {
 						should(view.rect.x).be.eql(0);
-						should(view.rect.y).be.approximately(view.rect.height*9, 10);
+						should(view.rect.y).be.approximately(view.rect.height * 9, 10);
 						should(view.left).be.eql(0);
 						should(view.top).be.eql(0);
 
@@ -464,7 +464,7 @@ describe('Titanium.UI.View', function () {
 					try {
 						should(view.width).be.eql('10%');
 						should(view.height).be.eql('10%');
-						should(view.rect.width).be.approximately(view.rect.x*9, 10);
+						should(view.rect.width).be.approximately(view.rect.x * 9, 10);
 						should(view.left).be.eql('10%');
 						should(view.top).be.eql(0);
 
@@ -500,7 +500,7 @@ describe('Titanium.UI.View', function () {
 					try {
 						should(view.width).be.eql('10%');
 						should(view.height).be.eql('10%');
-						should(view.rect.height).be.approximately(view.rect.y*9, 10);
+						should(view.rect.height).be.approximately(view.rect.y * 9, 10);
 						should(view.left).be.eql(0);
 						should(view.top).be.eql('10%');
 
@@ -519,7 +519,7 @@ describe('Titanium.UI.View', function () {
 	// FIXME Android reports 223 for one of the values we expect 123 (result.y?)
 	(utilities.isAndroid() ? it.skip : it)('convertPointToView', function (finish) {
 		win = Ti.UI.createWindow();
-		var a = Ti.UI.createView({backgroundColor:'red'}),
+		var a = Ti.UI.createView({ backgroundColor:'red' }),
 			b = Ti.UI.createView({ top: '100', backgroundColor: 'blue' }),
 			error;
 
@@ -527,7 +527,7 @@ describe('Titanium.UI.View', function () {
 		win.add(a);
 
 		b.addEventListener('postlayout', function () {
-			if (didPostLayout) return;
+			if (didPostLayout) { return; }
 			didPostLayout = true;
 
 			try {
