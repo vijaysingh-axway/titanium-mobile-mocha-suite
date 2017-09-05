@@ -403,8 +403,14 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, call
 				if (err) {
 					return next(err);
 				}
-				results[platform] = result;
-				outputJUnitXML(result, platform, next);
+				let prefix;
+				if (target) {
+					prefix = platform + '.' + target;
+				} else {
+					prefix = platform;
+				}
+				results[prefix] = result;
+				outputJUnitXML(result, prefix, next);
 			});
 		});
 	});
