@@ -1,18 +1,19 @@
 /**
- * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2017 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
+'use strict';
 
-var path = require('path'),
+const path = require('path'),
 	fs = require('fs'),
 	async = require('async'),
 	wrench = require('wrench'),
-	colors = require('colors'),
+	colors = require('colors'), // eslint-disable-line no-unused-vars
 	ejs = require('ejs'),
 	StreamSplitter = require('stream-splitter'),
-	spawn = require('child_process').spawn,
-	exec = require('child_process').exec,
+	spawn = require('child_process').spawn, // eslint-disable-line security/detect-child-process
+	exec = require('child_process').exec, // eslint-disable-line security/detect-child-process
 	titanium = path.join(__dirname, 'node_modules', 'titanium', 'bin', 'titanium'),
 	SOURCE_DIR = path.join(__dirname, '..'),
 	PROJECT_NAME = 'mocha',
@@ -28,20 +29,19 @@ function clearPreviousApp(next) {
 }
 
 function installSDK(sdkVersion, next) {
-	var prc,
-		args = [titanium, 'sdk', 'install'];
-	if (sdkVersion.indexOf('.') == -1) { // no period, probably mean a branch
+	const args = [ titanium, 'sdk', 'install' ];
+	if (sdkVersion.indexOf('.') === -1) { // no period, probably mean a branch
 		args.push('-b');
 	}
 	args.push(sdkVersion);
 	args.push('-d'); // make default
 	console.log('Installing SDK with args: ' + args);
-	prc = spawn('node', args);
+	const prc = spawn('node', args);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
 	prc.on('exit', function (code) {
-		if (code != 0) {
+		if (code !== 0) {
 			next('Failed to install SDK');
 		} else {
 			next();
@@ -53,18 +53,16 @@ function installSDK(sdkVersion, next) {
  * Look up the full path to the SDK we just installed (the SDK we'll be hacking
  * to add our locally built Windows SDK into).
  *
- * @param next {Function} callback function
+ * @param {Function} next callback function
  **/
 function getSDKInstallDir(next) {
-	var prc = exec('node "' + titanium + '" info -o json -t titanium', function (error, stdout, stderr) {
-		var out,
-			selectedSDK;
+	exec('node "' + titanium + '" info -o json -t titanium', function (error, stdout) {
 		if (error !== null) {
 			return next('Failed to get SDK install dir: ' + error);
 		}
 
-		out = JSON.parse(stdout);
-		selectedSDK = out.titaniumCLI.selectedSDK; // may be null!
+		const out = JSON.parse(stdout);
+		const selectedSDK = out.titaniumCLI.selectedSDK; // may be null!
 		if (selectedSDK) {
 			next(null, out.titanium[selectedSDK].path);
 		} else {
@@ -76,19 +74,18 @@ function getSDKInstallDir(next) {
 
 /**
  * Runs `titanium create` to generate a project for the specific platforms.
- * @param  {Array[String]}   platforms
- * @param  {Function} next      [description]
+ * @param  {string[]} platforms array of platform ids to create a project targeted for
+ * @param  {Function} next  callback function
  */
 function generateProject(platforms, next) {
-	var prc;
-	prc = spawn('node', [titanium, 'create', '--force',
+	const prc = spawn('node', [ titanium, 'create', '--force',
 		'--type', 'app',
 		'--platforms', platforms.join(','),
 		'--name', PROJECT_NAME,
 		'--id', 'com.appcelerator.testApp.testing',
 		'--url', 'http://www.appcelerator.com',
 		'--workspace-dir', __dirname,
-		'--no-prompt']);
+		'--no-prompt' ]);
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
@@ -96,8 +93,7 @@ function generateProject(platforms, next) {
 		console.log(data.toString());
 	});
 	prc.on('exit', function (code) {
-		var setProcess;
-		if (code != 0) {
+		if (code !== 0) {
 			next('Failed to create project');
 		} else {
 			next();
@@ -107,11 +103,10 @@ function generateProject(platforms, next) {
 
 // Add required properties for our unit tests!
 function addTiAppProperties(next) {
-	var tiapp_xml = path.join(PROJECT_DIR, 'tiapp.xml'),
-		content = [];
-
+	const tiapp_xml = path.join(PROJECT_DIR, 'tiapp.xml');
+	const content = [];
 	// Not so smart but this should work...
-	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function(line) {
+	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function (line) {
 		content.push(line);
 		if (line.indexOf('<ios>') >= 0) {
 			// Forse using the JScore on the emulator, not TiCore!
@@ -120,22 +115,19 @@ function addTiAppProperties(next) {
 		} else if (line.indexOf('<use-app-thinning>') >= 0) {
 			content.pop();
 			content.push('		<use-app-thinning>false</use-app-thinning>');
-		}
 		// Grab contents of modules/modules.xml to inject as moduel listing for tiapp.xml
 		// This allows PR to override
-		else if (line.indexOf('<modules>') >= 0) {
+		} else if (line.indexOf('<modules>') >= 0) {
 			// remove open tag
 			content.pop();
 			// now inject the overriden modules listing from xml file
 			content.push(fs.readFileSync(path.join(SOURCE_DIR, 'modules', 'modules.xml')).toString());
-		}
 		// ignore end modules tag since injection above already wrote it!
-		else if (line.indexOf('</modules>') >= 0) {
+		} else if (line.indexOf('</modules>') >= 0) {
 			content.pop();
-		}
 		// Inject some properties used by tests!
 		// TODO Move this out to a separate file so PR could override
-		else if (line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
+		} else if (line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
 			content.push('\t<property name="presetBool" type="bool">true</property>');
 			content.push('\t<property name="presetDouble" type="double">1.23456</property>');
 			content.push('\t<property name="presetInt" type="int">1337</property>');
@@ -147,63 +139,46 @@ function addTiAppProperties(next) {
 	next();
 }
 
+function copyDir(src, dest) {
+	wrench.copyDirSyncRecursive(src, dest, {
+		forceDelete: true
+	});
+}
+
 function copyMochaAssets(next) {
-	var src = path.join(SOURCE_DIR, 'Resources'),
-		dest = path.join(PROJECT_DIR, 'Resources');
-	wrench.copyDirSyncRecursive(src, dest, {
-		forceDelete: true
-	});
-
+	copyDir(path.join(SOURCE_DIR, 'Resources'), path.join(PROJECT_DIR, 'Resources'));
 	// copy modules so we can test those too
-	src = path.join(SOURCE_DIR, 'modules'),
-	dest = path.join(PROJECT_DIR, 'modules');
-	wrench.copyDirSyncRecursive(src, dest, {
-		forceDelete: true
-	});
-
+	copyDir(path.join(SOURCE_DIR, 'modules'), path.join(PROJECT_DIR, 'modules'));
 	// copy plugins so we can test those too
-	src = path.join(SOURCE_DIR, 'plugins'),
-	dest = path.join(PROJECT_DIR, 'plugins');
-	if (fs.existsSync(src)) {
-		wrench.copyDirSyncRecursive(src, dest, {
-			forceDelete: true
-		});
-	}
-
+	copyDir(path.join(SOURCE_DIR, 'plugins'), path.join(PROJECT_DIR, 'plugins'));
 	// copy i18n so we can test those too
-	src = path.join(SOURCE_DIR, 'i18n'),
-	dest = path.join(PROJECT_DIR, 'i18n');
-	if (fs.existsSync(src)) {
-		wrench.copyDirSyncRecursive(src, dest, {
-			forceDelete: true
-		});
-	}
+	copyDir(path.join(SOURCE_DIR, 'i18n'), path.join(PROJECT_DIR, 'i18n'));
 	next();
 }
 
 function killiOSSimulator(next) {
-	var prc = spawn('killall', ['Simulator']);
-	prc.on('exit', function (code) {
-		if (next) next();
+	spawn('killall', [ 'Simulator' ]).on('exit', function () {
+		if (next) {
+			next();
+		}
 	});
 }
 
 function runBuild(platform, next) {
-	var args = [
-			titanium, 'build',
-			'--project-dir', PROJECT_DIR,
-			'--platform', platform,
-			'--target', (platform === 'android') ? 'emulator' : 'simulator',
-			'--log-level', 'info'
-		],
-		prc;
+	const args = [
+		titanium, 'build',
+		'--project-dir', PROJECT_DIR,
+		'--platform', platform,
+		'--target', (platform === 'android') ? 'emulator' : 'simulator',
+		'--log-level', 'info'
+	];
 	if (platform === 'ios') {
 		args.push('--hide-error-controller');
 		killiOSSimulator();
 	}
 	args.push('--no-prompt');
 	args.push('--no-colors');
-	prc = spawn('node', args);
+	const prc = spawn('node', args);
 	handleBuild(prc, next);
 }
 
@@ -213,42 +188,40 @@ function runBuild(platform, next) {
  * @param  {Function} next [description]
  */
 function handleBuild(prc, next) {
-	var results = [],
-		output = '',
+	const results = [];
+	let output = '',
 		stderr = '',
 		splitter = prc.stdout.pipe(StreamSplitter('\n'));
 
 	// Set encoding on the splitter Stream, so tokens come back as a String.
 	splitter.encoding = 'utf8';
 
-	splitter.on('token', function(token) {
+	splitter.on('token', function (token) {
 		console.log(token);
 
-		var str = token,
-			index = -1,
-			result;
+		let str = token,
+			index = -1;
 
-		if ((index = str.indexOf('!TEST_START: ')) != -1) {
+		if ((index = str.indexOf('!TEST_START: ')) !== -1) {
 			// grab out the JSON and add to our result set
 			str = str.slice(index + 13).trim();
 			output = '';
 			stderr = '';
-		} else if ((index = str.indexOf('!TEST_END: ')) != -1) {
+		} else if ((index = str.indexOf('!TEST_END: ')) !== -1) {
 			str = str.slice(index + 11).trim();
 			//  grab out the JSON and add to our result set
-			result = JSON.parse(massageJSONString(str));
+			let result = JSON.parse(massageJSONString(str));
 			result.stdout = output; // record what we saw in output during the test
 			result.stderr = stderr; // record what we saw in output during the test
 			results.push(result);
 			output = ''; // reset output
 			stderr = ''; // reset stderr
-			result = null; // reset test result object
-		} else if ((index = str.indexOf('!TEST_RESULTS_STOP!')) != -1) {
+		} else if ((index = str.indexOf('!TEST_RESULTS_STOP!')) !== -1) {
 			prc.kill();
-			return next(null, {date: (new Date).toISOString(), results: results});
+			return next(null, { date: (new Date()).toISOString(), results: results });
 		// Handle when app crashes and we haven't finished tests yet!
-	} else if (((index = str.indexOf('-- End application log ----')) != -1) ||
-				((index = str.indexOf('-- End simulator log ---')) != -1)) {
+		} else if (((index = str.indexOf('-- End application log ----')) !== -1)
+				|| ((index = str.indexOf('-- End simulator log ---')) !== -1)) {
 			prc.kill(); // quit this build...
 			return next('Failed to finish test suite before app crashed and logs ended!'); // failed too many times
 		} else {
@@ -256,7 +229,7 @@ function handleBuild(prc, next) {
 			output += str + '\n';
 		}
 	});
-	splitter.on('error', function(err) {
+	splitter.on('error', function (err) {
 		// Any errors that occur on a source stream will be emitted on the
 		// splitter Stream, if the source stream is piped into the splitter
 		// Stream, and if the source stream doesn't have any other error
@@ -271,45 +244,42 @@ function handleBuild(prc, next) {
 
 function massageJSONString(testResults) {
 	// preserve newlines, etc - use valid JSON
-	testResults = testResults.replace(/\\n/g, "\\n")
-			   .replace(/\\'/g, "\\'")
-			   .replace(/\\"/g, '\\"')
-			   .replace(/\\&/g, "\\&")
-			   .replace(/\\r/g, "\\r")
-			   .replace(/\\t/g, "\\t")
-			   .replace(/\\b/g, "\\b")
-			   .replace(/\\f/g, "\\f");
-	// remove non-printable and other non-valid JSON chars
-	return testResults.replace(/[\u0000-\u0019]+/g,'');
+	return testResults.replace(/\\n/g, '\\n')
+		.replace(/\\'/g, '\\\'')
+		.replace(/\\"/g, '\\"')
+		.replace(/\\&/g, '\\&')
+		.replace(/\\r/g, '\\r')
+		.replace(/\\t/g, '\\t')
+		.replace(/\\b/g, '\\b')
+		.replace(/\\f/g, '\\f')
+		// remove non-printable and other non-valid JSON chars
+		.replace(/[\u0000-\u0019]+/g, '');
 }
 
 /**
  * Converts JSON results of unit tests into a JUnit test result XML formatted file.
  *
- * @param jsonResults {Object} JSON containing results of the unit test output
- * @param prefix {String} prefix for test names to identify them uniquely
- * @param next {Function} callback function
+ * @param {Object} jsonResults JSON containing results of the unit test output
+ * @param {String} prefix prefix for test names to identify them uniquely
+ * @param {Function} next callback function
  */
 function outputJUnitXML(jsonResults, prefix, next) {
 	// We need to go through the results and separate them out into suites!
-	var suites = {},
-		keys = [],
-		values = [],
-		r = '';
-	jsonResults.results.forEach(function(item) {
-		var s = suites[item.suite] || {tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start:''}; // suite name to group by
+	const suites = {};
+	jsonResults.results.forEach(function (item) {
+		const s = suites[item.suite] || { tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start:'' }; // suite name to group by
 		s.tests.unshift(item);
 		s.duration += item.duration;
-		if (item.state == 'failed') {
+		if (item.state === 'failed') {
 			s.failures += 1;
-		} else if (item.state == 'passed') {
+		} else if (item.state === 'passed') {
 			s.passes += 1;
 		}
 		suites[item.suite] = s;
 	});
-	keys = Object.keys(suites);
-	values = keys.map(function(v) { return suites[v]; });
-	r = ejs.render('' + fs.readFileSync(JUNIT_TEMPLATE),  { 'suites': values, 'prefix': prefix });
+	const keys = Object.keys(suites);
+	const values = keys.map(function (v) { return suites[v]; }); // eslint-disable-line max-statements-per-line
+	const r = ejs.render('' + fs.readFileSync(JUNIT_TEMPLATE),  { 'suites': values, 'prefix': prefix });
 
 	// Write the JUnit XML to a file
 	fs.writeFileSync(path.join(__dirname, 'junit.' + prefix + '.xml'), r);
@@ -319,21 +289,19 @@ function outputJUnitXML(jsonResults, prefix, next) {
 /**
  * Remove all CI SDKs installed. Skip GA releases, and skip the passed in SDK path we just installed.
  * @param  {String} sdkPath The SDK we just installed for testing. Keep this one in case next run can use it.
- * @param {Function} next
+ * @param {Function} next callback function
  */
 function cleanNonGaSDKs(sdkPath, next) {
-	var prc = exec('node "' + titanium + '" sdk list -o json', function (error, stdout, stderr) {
-		var out,
-			installedSDKs;
+	exec('node "' + titanium + '" sdk list -o json', function (error, stdout) {
 		if (error !== null) {
 			return next('Failed to get list of SDKs: ' + error);
 		}
 
-		out = JSON.parse(stdout);
-		installedSDKs = out.installed;
+		const out = JSON.parse(stdout);
+		const installedSDKs = out.installed;
 		// Loop over the SDKs and remove any where the key doesn't end in GA, or the value isn't sdkPath
 		async.each(Object.keys(installedSDKs), function (item, callback) {
-			var thisSDKPath = installedSDKs[item];
+			const thisSDKPath = installedSDKs[item];
 			if (item.slice(-2) === 'GA') { // skip GA releases
 				return callback(null);
 			}
@@ -341,7 +309,7 @@ function cleanNonGaSDKs(sdkPath, next) {
 				return callback(null);
 			}
 			wrench.rmdirRecursive(thisSDKPath, callback);
-		}, function(err) {
+		}, function (err) {
 			next(err);
 		});
 	});
@@ -353,14 +321,13 @@ function cleanNonGaSDKs(sdkPath, next) {
  * test report, and holds onto the results in memory as a JSON object.
  *
  * @param  {String}   branch    branch/zip/url of SDK to install. If null/undefined, no SDK will be installed
- * @param  {Array[String]}   platforms [description]
- * @param  {Function} callback  [description]
+ * @param  {string[]} platforms array of platforms ids to create project for and test
+ * @param  {Function} callback  callback function when done
  */
 function test(branch, platforms, callback) {
-	var sdkPath,
-		tasks = [],
-		results = {};
+	let sdkPath;
 
+	const tasks = [];
 	tasks.push(function (next) {
 		// install new SDK and delete old test app in parallel
 		async.parallel([
@@ -395,6 +362,7 @@ function test(branch, platforms, callback) {
 	tasks.push(addTiAppProperties);
 
 	// run build for each platform, and spit out JUnit report
+	const results = {};
 	platforms.forEach(function (platform) {
 		tasks.push(function (next) {
 			runBuild(platform, function (err, result) {
@@ -415,34 +383,32 @@ function test(branch, platforms, callback) {
 }
 
 function outputResults(results, next) {
-	var indents = 0,
-		n = 0,
-		suites = {},
-		passes = 0,
-		failures = 0,
-		skipped = 0,
-		keys = [];
-
-	function indent() {
-		return Array(indents).join('  ')
-	}
+	const suites = {};
 
 	// start
 	console.log();
 
-	results.forEach(function(item) {
-		var s = suites[item.suite] || {tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start:''}; // suite name to group by
+	results.forEach(function (item) {
+		const s = suites[item.suite] || { tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start:'' }; // suite name to group by
 		s.tests.unshift(item);
 		s.duration += item.duration;
-		if (item.state == 'failed') {
+		if (item.state === 'failed') {
 			s.failures += 1;
-		} else if (item.state == 'passed') {
+		} else if (item.state === 'passed') {
 			s.passes += 1;
 		}
 		suites[item.suite] = s;
 	});
-	keys = Object.keys(suites);
 
+	let indents = 0,
+		n = 0,
+		passes = 0,
+		failures = 0,
+		skipped = 0;
+	function indent() {
+		return Array(indents).join('  ');
+	}
+	const keys = Object.keys(suites);
 	keys.forEach(function (v) {
 		++indents;
 		console.log('%s%s', indent(), v);
@@ -463,7 +429,9 @@ function outputResults(results, next) {
 			}
 		});
 		--indents;
-		if (1 == indents) console.log();
+		if (indents === 1) {
+			console.log();
+		}
 	});
 
 	// Spit out overall stats: test count, failure count, pending count, pass count.
@@ -478,9 +446,8 @@ exports.outputResults = outputResults;
 // When run as single script.
 if (module.id === '.') {
 	(function () {
-		var program = require('commander'),
-			packageJson = require('./package'),
-			platforms = [];
+		const program = require('commander'),
+			packageJson = require('./package');
 
 		program
 			.version(packageJson.version)
@@ -489,9 +456,9 @@ if (module.id === '.') {
 			.option('-p, --platforms <platform1,platform2>', 'Run unit tests on the given platforms', /^(android(,ios)?)|(ios(,android)?)$/, 'android,ios')
 			.parse(process.argv);
 
-		platforms = program.platforms.split(',');
+		const platforms = program.platforms.split(',');
 
-		test(program.branch, platforms, function(err, results) {
+		test(program.branch, platforms, function (err, results) {
 			if (err) {
 				console.error(err.toString());
 				process.exit(1);
@@ -514,5 +481,5 @@ if (module.id === '.') {
 				process.exit(0);
 			});
 		});
-	})();
+	}());
 }
