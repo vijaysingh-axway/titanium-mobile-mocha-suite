@@ -3,5 +3,8 @@
   "parserOptions": {
     "ecmaVersion": 2015,
     "sourceType": "script"
+  },
+  "rules": {
+    "no-implicit-globals": "off"
   }
 }
