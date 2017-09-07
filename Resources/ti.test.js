@@ -1,13 +1,14 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	assert = require('./utilities/assertions');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 describe('Titanium', function () {
 
@@ -17,12 +18,12 @@ describe('Titanium', function () {
 	});
 
 	// FIXME Get working on IOS!
-	(utilities.isIOS() ? it.skip : it)('version', function () {
+	it.iosBroken('version', function () {
 		should(Ti.version).not.eql('__TITANIUM_VERSION__');
 		should(Ti).have.readOnlyProperty('version').which.is.a.String;
 	});
 
-	it('getVersion()', function () {
+	it('#getVersion()', function () {
 		should(Ti.getVersion).be.a.Function;
 		should(Ti.getVersion()).be.a.String;
 		should(Ti.getVersion()).not.eql('__TITANIUM_VERSION__');
@@ -30,33 +31,33 @@ describe('Titanium', function () {
 	});
 
 	// FIXME Get working on IOS!
-	(utilities.isIOS() ? it.skip : it)('buildDate', function () {
+	it.iosBroken('buildDate', function () {
 		should(Ti.buildDate).not.eql('__TITANIUM_BUILD_DATE__');
 		should(Ti).have.readOnlyProperty('buildDate').which.is.a.String;
 		// TODO Test format of the date string. what should we expect? Android gives us: '2016/06/02 08:45'
 	});
 
-	it('getBuildDate()', function () {
+	it('#getBuildDate()', function () {
 		should(Ti.getBuildDate).be.a.Function;
 		should(Ti.getBuildDate()).be.a.String;
 		should(Ti.getBuildDate()).not.eql('__TITANIUM_BUILD_DATE__');
 	});
 
 	// FIXME Get working on IOS!
-	(utilities.isIOS() ? it.skip : it)('buildHash', function () {
+	it.iosBroken('buildHash', function () {
 		should(Ti.buildHash).not.eql('__TITANIUM_BUILD_HASH__');
 		should(Ti).have.readOnlyProperty('buildHash').which.is.a.String;
 		// TODO Test format of the buildHash string. what should we expect? Android gives us: 'c012548'
 	});
 
-	it('getBuildHash()', function () {
+	it('#getBuildHash()', function () {
 		should(Ti.getBuildHash).be.a.Function;
 		should(Ti.getBuildHash()).be.a.String;
 		should(Ti.getBuildHash()).not.eql('__TITANIUM_BUILD_HASH__');
 	});
 
 	// FIXME File a ticket in JIRA. Updating V8 fixes the property read/write issues, but exposes bug in that we set userAgent as read-only on Android and it shouldn't be
-	(utilities.isAndroid() ? it.skip : it)('userAgent', function () {
+	it.androidBroken('userAgent', function () {
 		should(Ti.userAgent).be.a.String;
 
 		var save = Ti.userAgent;
@@ -66,13 +67,13 @@ describe('Titanium', function () {
 		should(Ti.userAgent).be.eql(save);
 	});
 
-	it('getUserAgent()', function () {
+	it('#getUserAgent()', function () {
 		should(Ti.getUserAgent).be.a.Function;
 		should(Ti.getUserAgent()).be.a.String;
 	});
 
 	// FIXME Get working on IOS/Android!
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('setUserAgent()', function () {
+	it.androidAndIosBroken('#setUserAgent()', function () {
 		should(Ti.setUserAgent).be.a.Function;
 		var save = Ti.getUserAgent();
 		Ti.setUserAgent('Titanium_Mocha_Test');
@@ -83,34 +84,35 @@ describe('Titanium', function () {
 		should(Ti.userAgent).be.eql(save);
 	});
 
-	it('addEventListener()', function () {
+	it('#addEventListener()', function () {
 		should(Ti.addEventListener).be.a.Function;
 	});
 
-	it('removeEventListener()', function () {
+	it('#removeEventListener()', function () {
 		should(Ti.removeEventListener).be.a.Function;
 	});
 
 	// FIXME Get working on IOS/Android!
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('applyProperties()', function () {
+	it.androidAndIosBroken('#applyProperties()', function () {
 		should(Ti.applyProperties).be.a.Function;
 		Ti.mocha_test = undefined;
-		should(Ti.applyProperties({ mocha_test: 'mocha_test_value' }))
+		should(Ti.applyProperties({ mocha_test: 'mocha_test_value' }));
 		should(Ti.mocha_test !== undefined);
 		should(Ti.mocha_test).be.eql('mocha_test_value');
 		Ti.mocha_test = undefined;
 	});
 
-	it('createBuffer()', function () {
+	it('#createBuffer()', function () {
 		should(Ti.createBuffer).be.a.Function;
 	});
 
 	// FIXME Is this really a method we want to expose on our API? Seems like it shouldn't be
-	it.skip('createProxy()', function () {
+	// Undefined on Android, but there on iOS!
+	it.skip('#createProxy()', function () {
 		should(Ti.createProxy).be.a.Function;
 	});
 
-	it('fireEvent()', function () {
+	it('#fireEvent()', function () {
 		should(Ti.fireEvent).be.a.Function;
 	});
 });

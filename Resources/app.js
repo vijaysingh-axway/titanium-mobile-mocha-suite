@@ -4,15 +4,16 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
+'use strict';
 
 var win = Ti.UI.createWindow({
-	backgroundColor: 'yellow'
-});
+		backgroundColor: 'yellow'
+	}),
+	$results = [],
+	failed = false;
 win.open();
 
 require('./ti-mocha');
-var $results = [],
-	failed = false;
 
 // ============================================================================
 // Add the tests here using "require"
@@ -47,7 +48,6 @@ require('./ti.map.test');
 require('./ti.media.audioplayer.test');
 require('./ti.media.sound.test');
 require('./ti.network.test');
-require('./ti.network.cookie.test');
 require('./ti.network.httpclient.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
@@ -58,10 +58,13 @@ require('./ti.ui.test');
 require('./ti.ui.2dmatrix.test');
 require('./ti.ui.activityindicator.test');
 require('./ti.ui.alertdialog.test');
+require('./ti.ui.android.drawerlayout.test');
 require('./ti.ui.button.test');
 require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
 require('./ti.ui.imageview.test');
+require('./ti.ui.ios.test');
+require('./ti.ui.ios.previewcontext.test');
 require('./ti.ui.label.test');
 require('./ti.ui.layout.test');
 require('./ti.ui.listview.test');
@@ -75,6 +78,7 @@ require('./ti.ui.switch.test');
 require('./ti.ui.tab.test');
 require('./ti.ui.tableview.test');
 require('./ti.ui.textfield.test');
+require('./ti.ui.toolbar.test');
 require('./ti.ui.view.test');
 require('./ti.ui.webview.test');
 require('./ti.ui.window.test');
@@ -82,7 +86,6 @@ require('./ti.ui.windows.commandbar.test');
 require('./ti.utils.test');
 require('./ti.xml.test');
 // ============================================================================
-
 
 // add a special mocha reporter that will time each test run using
 // our microsecond timer
@@ -99,7 +102,7 @@ function $Reporter(runner) {
 		started = new Date().getTime();
 	});
 
-	runner.on('pending', function (test) {
+	runner.on('pending', function () {
 		// TODO Spit out something like !TEST_SKIP:  ?
 		started = new Date().getTime(); // reset timer. pending/skipped tests basically start and end immediately
 	});
@@ -122,20 +125,20 @@ function $Reporter(runner) {
 			},
 			stringified = JSON.stringify(result);
 
-			stringified = stringified.replace(/\\n/g, "\\n")
-					   .replace(/\\'/g, "\\'")
-					   .replace(/\\"/g, '\\"')
-					   .replace(/\\&/g, "\\&")
-					   .replace(/\\r/g, "\\r")
-					   .replace(/\\t/g, "\\t")
-					   .replace(/\\b/g, "\\b")
-					   .replace(/\\f/g, "\\f");
-			// remove non-printable and other non-valid JSON chars
-			stringified = stringified.replace(/[\u0000-\u0019]+/g,'');
+		stringified = stringified.replace(/\\n/g, '\\n')
+			.replace(/\\'/g, '\\\'')
+			.replace(/\\"/g, '\\"')
+			.replace(/\\&/g, '\\&')
+			.replace(/\\r/g, '\\r')
+			.replace(/\\t/g, '\\t')
+			.replace(/\\b/g, '\\b')
+			.replace(/\\f/g, '\\f');
+		// remove non-printable and other non-valid JSON chars
+		stringified = stringified.replace(/[\u0000-\u0019]+/g, '');
 		Ti.API.info('!TEST_END: ' + stringified);
 		$results.push(result);
 	});
-};
+}
 
 mocha.setup({
 	reporter: $Reporter,

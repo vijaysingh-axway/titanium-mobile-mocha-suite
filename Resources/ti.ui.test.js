@@ -1,35 +1,26 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	assert = require('./utilities/assertions');
+describe('Titanium.UI', function () {
 
-describe('Titanium', function () {
+	// TODO Write some tests for converting various units back and forth!
+	it('#convertUnits(String, Number)');
 
-	// TIMOB-23542 test previewContext
-	(utilities.isIOS() ? it : it.skip)('previewContext', function () {
-		should(Ti.UI.iOS.createPreviewContext).not.be.undefined;
-		should(Ti.UI.iOS.createPreviewContext).be.a.Function;
-		var previewContext = Ti.UI.iOS.createPreviewContext({
-			preview: Ti.UI.createView({
-				backgroundColor: "red"
-			}),
-			contentHeight: 300
-		});
-		should(previewContext.preview).be.an.Object;
-		should(previewContext.contentHeight).be.eql(300);
-	});
+	// Constants are tested in ti.ui.constants.test.js
 
-	// TIMOB-23542 test livePhotoBadge
-	(utilities.isIOS() ? it : it.skip)('livePhotoBadge', function () {
-		should(Ti.UI.iOS.createLivePhotoBadge).not.be.undefined;
-		should(Ti.UI.iOS.createLivePhotoBadge).be.a.Function;
-		var livePhotoBadge = Ti.UI.iOS.createLivePhotoBadge(Ti.UI.iOS.LIVEPHOTO_BADGE_OPTIONS_OVER_CONTENT);
-		should(livePhotoBadge).be.an.Object;
-	});
+	// TODO Write tests for Ti.UI.global properties below!
+	it('backgroundColor');
+	it('backgroundImage');
+	it('currentTab');
+	it('currentWindow');
+	it.ios('tintColor');
 });
