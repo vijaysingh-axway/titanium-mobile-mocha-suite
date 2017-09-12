@@ -35,6 +35,10 @@ Utility.isWindows10 = function () {
 	return this.isWindows() && Ti.Platform.version.indexOf('10.0') === 0;
 };
 
+Utility.isWindowsEmulator = function () {
+	return Ti.Platform.model === 'Microsoft Virtual';
+};
+
 Utility.isWindows8_1 = function () {
 	// We've seen 6.3.9600 and 6.3.9651.0 - so assume 6.3.x is Windows 8.1.x
 	return this.isWindows() && Ti.Platform.version.indexOf('6.3.') === 0;
@@ -76,6 +80,44 @@ filters = {
 			return 'skip';
 		}
 		return true;
+	},
+	// to mark when there's a bug in both iOS and Windows impl
+	iosAndWindowsBroken: function () {
+		if (Utility.isWindows() || Utility.isIOS()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// mark bugs specific to Windows 8.1 Desktop/Store
+	windowsDesktop81Broken: function () {
+		if (Utility.isWindows8_1() || Utility.isWindowsDesktop()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// mark bugs specific to Windows 8.1 Phone
+	windowsPhone81Broken: function () {
+		if (Utility.isWindows8_1() || Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// mark bugs specific to Windows Emulator
+	windowsEmulatorBroken: function () {
+		if (Utility.isWindowsEmulator()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// mark bugs specific to Windows 8.1
+	windows81Broken: function () {
+		if (Utility.isWindows8_1()) {
+			return 'skip';
+		}
+		return true;
+	},
+	allBroken: function () {
+		return 'skip';
 	}
 };
 // Alias broken tests on a given platform to "missing" filter for that platform.

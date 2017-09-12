@@ -1,11 +1,14 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 Array.prototype.contains = function (obj) {
 	var i = this.length;
@@ -71,13 +74,21 @@ describe('Titanium.App.Properties', function () {
 		should(Ti.App.Properties.getInt('presetInt')).be.eql(1337);
 	});
 
+	it('List default to null', function () {
+		should(Ti.App.Properties.getList('test_list_null', null)).be.eql(null);
+	});
+
+	it('Object default to null', function () {
+		should(Ti.App.Properties.getObject('test_object_null')).be.eql(null);
+	});
+
 	it('List', function () {
 		var test_list = ['item1', 'item2', 'item3'];
 		Ti.App.Properties.setList('test_list', test_list);
 		should(Ti.App.Properties.getList('test_list')).be.eql(test_list);
-		
-		var names = [{name: "One"}, {name: 1}, {name: ""}, null, {name: true}, 1, "", null, false];
-		Ti.App.Properties.setList("names", names);
+
+		var names = [{name: 'One'}, {name: 1}, {name: ''}, null, {name: true}, 1, '', null, false];
+		Ti.App.Properties.setList('names', names);
 		should(JSON.stringify(Ti.App.Properties.getList('names'))).be.eql(JSON.stringify(names));
 	});
 
@@ -85,6 +96,10 @@ describe('Titanium.App.Properties', function () {
 		var test_object = {item : 'item1'};
 		Ti.App.Properties.setObject('test_object', test_object);
 		should(Ti.App.Properties.getObject('test_object')).be.eql(test_object);
+	});
+
+	it('Object default to null', function () {
+		should(Ti.App.Properties.getObject('test_object_null')).be.eql(null);
 	});
 
 	it('getString default', function () {
@@ -112,7 +127,7 @@ describe('Titanium.App.Properties', function () {
 	});
 
 	// FIXME Get working on iOS
-	(utilities.isIOS() ? it.skip : it)('listProperties contains tiapp properties', function () {
+	it.iosBroken('listProperties contains tiapp properties', function () {
 		var properties = Ti.App.Properties.listProperties();
 		should(properties).be.a.Object;
 		should(properties.contains('ti.ui.defaultunit')).be.eql(true);
@@ -151,7 +166,7 @@ describe('Titanium.App.Properties', function () {
 	});
 
 	// FIXME Get working on Android and iOS
-	((utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('change events', function (finish) {
+	it.androidAndIosBroken('change events', function (finish) {
 		var eventCount = 0;
 		Ti.App.Properties.addEventListener('change', function (properties) {
 			should(properties.source).be.a.Object;
@@ -218,4 +233,13 @@ describe('Titanium.App.Properties', function () {
 		should(Ti.App.Properties.hasProperty('char4096')).be.false;
 	});
 
+	it('#removeAllProperties() should remove all properties', function () {
+		Ti.App.Properties.setString('test_removeAllProperties1', 'test1');
+		Ti.App.Properties.setString('test_removeAllProperties2', 'test2');
+		should(Ti.App.Properties.hasProperty('test_removeAllProperties1')).be.true;
+		should(Ti.App.Properties.hasProperty('test_removeAllProperties2')).be.true;
+		Ti.App.Properties.removeAllProperties();
+		should(Ti.App.Properties.hasProperty('test_removeAllProperties1')).be.false;
+		should(Ti.App.Properties.hasProperty('test_removeAllProperties2')).be.false;
+	});
 });

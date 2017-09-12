@@ -1,15 +1,18 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 describe('Titanium.UI.SearchBar', function () {
 	// FIXME Intermittently fails on Android?
-	(utilities.isAndroid() ? it.skip : it)('TableView', function (finish) {
+	it.androidBroken('TableView', function (finish) {
 		var win = Ti.UI.createWindow(),
 			sb = Ti.UI.createSearchBar({
 				barColor: 'blue',
@@ -41,7 +44,7 @@ describe('Titanium.UI.SearchBar', function () {
 	});
 
 	// FIXME this seems to hard-crash Android. No stacktrace, no errors from logcat. File a JIRA?
-	(utilities.isAndroid() ? it.skip : it)('ListView', function (finish) {
+	it.androidBroken('ListView', function (finish) {
 		var win = Ti.UI.createWindow(),
 			sb = Ti.UI.createSearchBar({
 				barColor: 'blue',
@@ -52,7 +55,10 @@ describe('Titanium.UI.SearchBar', function () {
 				width: '100%',
 				top: 75,
 				left: 0
-			});
+			}),
+			fruitSection = Ti.UI.createListSection({ headerTitle: 'Fruits ' });
+
+		listview.sections = [ fruitSection ];
 
 		win.addEventListener('open', function () {
 			var error;
@@ -73,12 +79,12 @@ describe('Titanium.UI.SearchBar', function () {
 	});
 
 	// FIXME this seems to hard-crash Android. No stacktrace, no errors from logcat. File a JIRA?
-	(utilities.isAndroid() ? it.skip : it)('TIMOB-9745,TIMOB-7020', function (finish) {
+	it.androidBroken('TIMOB-9745,TIMOB-7020', function (finish) {
 		var win = Ti.UI.createWindow(),
 			data = [{
 				title: 'Row 1',
 				color: 'red'
-			},{
+			}, {
 				title: 'Row 2',
 				color: 'green'
 			}],
@@ -96,7 +102,7 @@ describe('Titanium.UI.SearchBar', function () {
 				data: data
 			});
 
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			var error;
 
 			try {
@@ -117,5 +123,19 @@ describe('Titanium.UI.SearchBar', function () {
 			}, 1000);
 		});
 		win.open();
+	});
+
+	it('Should be able to set/set hintText', function (finish) {
+		var search = Ti.UI.createSearchBar({
+			hintText: 'Search'
+		});
+		should(search.hintText).eql('Search');
+		should(search.getHintText()).eql('Search');
+		should(function () {
+			search.setHintText('Updated search');
+		}).not.throw();
+		should(search.hintText).eql('Updated search');
+		should(search.getHintText()).eql('Updated search');
+		finish();
 	});
 });

@@ -1,26 +1,25 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-
-require('ti-mocha');
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false;
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 describe('Titanium.UI.Button', function () {
-
+	var win,
+		didFocus = false;
 	this.timeout(5000);
 
-	var win;
-
-	beforeEach(function() {
+	beforeEach(function () {
 		didFocus = false;
 	});
 
-	afterEach(function() {
+	afterEach(function () {
 		if (win) {
 			win.close();
 		}
@@ -65,13 +64,16 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	it('image(String)', function (finish) {
+		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -88,17 +90,20 @@ describe('Titanium.UI.Button', function () {
 
 	// Skip on Windows 10 and 8.1 desktop for now, it hangs
 	// FIXME iOS getFile().read() returns null for Logo.png
-	(utilities.isWindows10() || (utilities.isWindows8_1() && utilities.isWindowsDesktop() || utilities.isIOS()) ? it.skip : it)('image(Blob)', function (finish) {
+	it.iosAndWindowsBroken('image(Blob)', function (finish) {
+		var view;
 		this.slow(1000);
 		this.timeout(20000);
 
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -114,14 +119,17 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	((utilities.isWindowsDesktop() || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundColor/Image', function (finish) {
+	it.androidAndIosBroken('backgroundColor/Image', function (finish) {
+		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -141,21 +149,24 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundFocusedColor/Image', function (finish) {
+	it.androidAndIosBroken('backgroundFocusedColor/Image', function (finish) {
+		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
 				should(view.backgroundFocusedColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundFocusedImage).be.a.String;
 				view.backgroundFocusedColor = 'white';
-				view.backgroundFocusedImage = 'Logo.png'
+				view.backgroundFocusedImage = 'Logo.png';
 				should(view.backgroundFocusedColor).be.eql('white');
 				should(view.backgroundFocusedImage).be.eql('Logo.png');
 
@@ -168,14 +179,17 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundSelectedColor/Image', function (finish) {
+	it.androidAndIosBroken('backgroundSelectedColor/Image', function (finish) {
+		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -195,14 +209,17 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('backgroundDisabledColor/Image', function (finish) {
+	it.androidAndIosBroken('backgroundDisabledColor/Image', function (finish) {
+		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -222,14 +239,15 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS()) ? it.skip : it)('backgroundGradient', function (finish) {
+	it.iosBroken('backgroundGradient', function (finish) {
+		var view;
 		this.slow(1000);
 		this.timeout(20000);
 
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		view.backgroundGradient = {
 			type: 'linear',
 			startPoint: { x: '0%', y: '50%' },
@@ -238,7 +256,9 @@ describe('Titanium.UI.Button', function () {
 		};
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -256,14 +276,17 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('border', function (finish) {
+	it.androidAndIosBroken('border', function (finish) {
+		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -284,9 +307,10 @@ describe('Titanium.UI.Button', function () {
 
 	// FIXME Intermittently failing on Android build machine - I think due to test timeout!
 	// FIXME Fails on iOS due to timeout. Never fires postlayout?
-	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('rect and size', function (finish) {
+	it.androidAndIosBroken('rect and size', function (finish) {
+		var view;
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
-		var view = Ti.UI.createButton({ title: 'push button' });
+		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 
 		view.addEventListener('postlayout', function () {

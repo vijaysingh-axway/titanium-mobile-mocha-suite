@@ -1,15 +1,18 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 // FIXME Every test here fails on Android, likely due to permissions
 // FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
-((utilities.isAndroid() || utilities.isIOS()) ? describe.skip : describe)('Titanium.Contacts.Person', function() {
+describe.androidAndIosBroken('Titanium.Contacts.Person', function () {
 
 	it('apiName', function () {
 		should(Ti.Contacts.Person).have.a.readOnlyProperty('apiName').which.is.a.String;
@@ -84,7 +87,6 @@ var should = require('./utilities/assertions'),
 		// TODO Test modifying
 	});
 
-
 	it('fullName', function () {
 		var person = Ti.Contacts.createPerson();
 		should(person.fullName).not.be.undefined;
@@ -96,12 +98,12 @@ var should = require('./utilities/assertions'),
 		var person = Ti.Contacts.createPerson();
 		should(person.id).not.be.undefined;
 		// TODO id would be null unless we're grabbing one from a query!
-//			if (utilities.isAndroid()) {
-//				should(person.id).be.a.Number;
-//			} else {
-//				// is this property even available on iOS?
-//				should(person.id).be.a.String;
-//			}
+		//			if (utilities.isAndroid()) {
+		//				should(person.id).be.a.Number;
+		//			} else {
+		//				// is this property even available on iOS?
+		//				should(person.id).be.a.String;
+		//			}
 		// TODO Test read-only
 	});
 
@@ -110,14 +112,14 @@ var should = require('./utilities/assertions'),
 		should(person.identifier).not.be.undefined;
 		// TODO identifier would be null unless we're grabbing one from a query!
 		// is this property even available on Android?
-//			should(person.identifier).be.a.String;
+		//			should(person.identifier).be.a.String;
 		// TODO Test read-only
 	});
 
 	it('image', function () {
 		var person = Ti.Contacts.createPerson();
 		should(person.image).not.be.undefined;
-		//should(person.image).be.an.Object;
+		// should(person.image).be.an.Object;
 		// TODO Test image is a blob
 	});
 
@@ -138,7 +140,6 @@ var should = require('./utilities/assertions'),
 		should(person.jobTitle).be.a.String;
 		// TODO Test modifying?
 	});
-
 
 	it('kind', function () {
 		var person = Ti.Contacts.createPerson();
@@ -225,7 +226,7 @@ var should = require('./utilities/assertions'),
 		var person = Ti.Contacts.createPerson();
 		should(person.recordId).not.be.undefined;
 		// TODO recordId would be null unless we're grabbing one from a query!
-		//should(person.recordId).be.a.Number;
+		// should(person.recordId).be.a.Number;
 		// TODO Number on iOS, deprecated. Looks like Android has equivalent in 'id'? iOS moved to 'identifier' as String, which matches Windows
 	});
 

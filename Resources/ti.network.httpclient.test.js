@@ -1,13 +1,18 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 describe('Titanium.Network.HTTPClient', function () {
+	this.timeout(6e4);
+
 	it('apiName', function () {
 		var client = Ti.Network.createHTTPClient();
 		should(client).have.a.readOnlyProperty('apiName').which.is.a.String;
@@ -15,19 +20,16 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// FIXME iOS gives us an ELEMENT_NODE, not DOCUMENT_NODE
-	((utilities.isWindowsDesktop() || utilities.isIOS()) ? it.skip : it)('responseXML', function (finish) {
-		this.timeout(6e4);
-
+	it.iosBroken('responseXML', function (finish) {
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(6e4);
 
-		xhr.onload = function (e) {
+		xhr.onload = function () {
 			try {
 				should(xhr.responseXML === null).be.false;
 				should(xhr.responseXML.nodeType).eql(9); // DOCUMENT_NODE
 				finish();
-			}
-			catch (err) {
+			} catch (err) {
 				finish(err);
 			}
 		};
@@ -41,7 +43,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// Test for TIMOB-4513
-	it.skip('secureValidateProperty', function (finish) {
+	it('secureValidateProperty', function () {
 		var xhr = Ti.Network.createHTTPClient();
 		should(xhr).be.an.Object;
 
@@ -55,18 +57,14 @@ describe('Titanium.Network.HTTPClient', function () {
 		should(xhr.getValidatesSecureCertificate()).be.true;
 		xhr.setValidatesSecureCertificate(false);
 		should(xhr.getValidatesSecureCertificate()).be.false;
-
-		finish();
 	});
 
 	it('downloadLargeFile', function (finish) {
-		this.timeout(6e4);
-
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(6e4);
 
-		xhr.onload = function (e) {
-		  //  should(xhr.responseData.length).be.greaterThan(0);
+		xhr.onload = function () {
+			//  should(xhr.responseData.length).be.greaterThan(0);
 			finish();
 		};
 		xhr.onerror = function (e) {
@@ -79,12 +77,10 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	it('TIMOB-23127', function (finish) {
-		this.timeout(6e4);
-
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(6e4);
 
-		xhr.onload = function (e) {
+		xhr.onload = function () {
 			finish();
 		};
 
@@ -94,12 +90,10 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	it('TIMOB-23214', function (finish) {
-		this.timeout(6e4);
-
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(6e4);
 
-		xhr.onload = function (e) {
+		xhr.onload = function () {
 			finish();
 		};
 
@@ -109,12 +103,10 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	it('TIMOB-19042', function (finish) {
-		this.timeout(6e4);
-
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(6e4);
 
-		xhr.onload = function (e) {
+		xhr.onload = function () {
 			finish(new Error('onload shouldn\'t fire for an URL returning 404'));
 		};
 		xhr.onerror = function (e) {
@@ -129,13 +121,11 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/2156-android-invalid-redirect-alert-on-xhr-file-download
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/1381-android-buffer-large-xhr-downloads
 	it('largeFileWithRedirect', function (finish) {
-		this.timeout(6e4);
-
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(6e4);
 
-		xhr.onload = function (e) {
-			//should(xhr.responseData.length).be.greaterThan(0);
+		xhr.onload = function () {
+			// should(xhr.responseData.length).be.greaterThan(0);
 			finish();
 		};
 		xhr.onerror = function (e) {
@@ -149,10 +139,9 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// https://appcelerator.lighthouseapp.com/projects/32238-titanium-mobile/tickets/1649-android-httpclientsend-with-no-argument-causes-npe
 	it('emptyPOSTSend', function (finish) {
-		this.timeout(3e4);
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
-		xhr.onload = function (e) {
+		xhr.onload = function () {
 			finish();
 		};
 		xhr.onerror = function (e) {
@@ -164,15 +153,15 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.send();
 	});
 
-	//https://appcelerator.lighthouseapp.com/projects/32238/tickets/2339
-	it.skip('responseHeadersBug', function (finish) {
-		this.timeout(3e4);
+	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/2339
+	it('responseHeadersBug', function (finish) {
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
-		xhr.onload = function (e) {
-			var allHeaders = xhr.getAllResponseHeaders();
+		xhr.onload = function () {
+			var allHeaders = xhr.getAllResponseHeaders(),
+				header;
 			should(allHeaders.indexOf('Server:')).be.within(0, 1 / 0);
-			var header = xhr.getResponseHeader('Server');
+			header = xhr.getResponseHeader('Server');
 			should(header.length).be.greaterThan(0);
 			finish();
 		};
@@ -185,27 +174,26 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	it('requestHeaderMethods', function (finish) {
-		this.timeout(3e4);
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
 		xhr.onload = function (e) {
 			var response;
 			should(e.code).eql(0);
-			if (xhr.status == 200) {
+			if (xhr.status === 200) {
 				should(e.success).eql(true);
 
 				response = JSON.parse(xhr.responseText);
 				response['adhocHeader'].should.eql('notcleared');
 				response.should.not.have.property('clearedHeader');
-			} else if (xhr.status != 503) { // service unavailable (over quota)
-				fail('Received unexpected response: ' + xhr.status);
+			} else if (xhr.status !== 503) { // service unavailable (over quota)
+				finish('Received unexpected response: ' + xhr.status);
 				return;
 			}
 			finish();
 		};
-		xhr.onerror = function (e) {
-			if (xhr.status != 503) { // service unavailable (over quota)
-				fail('Received unexpected response: ' + xhr.status);
+		xhr.onerror = function () {
+			if (xhr.status !== 503) { // service unavailable (over quota)
+				finish('Received unexpected response: ' + xhr.status);
 				return;
 			}
 			finish();
@@ -220,10 +208,9 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	it('sendData', function (finish) {
-		this.timeout(3e4);
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
-		xhr.onload = function (e) {
+		xhr.onload = function () {
 			finish();
 		};
 		xhr.onerror = function (e) {
@@ -238,29 +225,30 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// Confirms that only the selected cookie is deleted
-	it.skip('clearCookiePositiveTest', function (finish) {
-		this.timeout(3e4);
-		var timer = 0;
-		var second_cookie_fn = function (e) {
-			var second_cookie_string = this.getResponseHeader('Set-Cookie').split.skip(';')[0];
-			clearTimeout(timer);
+	it('clearCookiePositiveTest', function (finish) {
+		var xhr = Ti.Network.createHTTPClient(),
+			cookie_string;
+		function second_cookie_fn() {
+			var second_cookie_string = this.getResponseHeader('Set-Cookie').split(';')[0];
 			// New Cookie should be different.
 			should(cookie_string).not.be.eql(second_cookie_string);
 			finish();
-		};
-		var xhr = Ti.Network.createHTTPClient();
-		var done = false;
-		var cookie_string;
+		}
 		xhr.setTimeout(3e4);
-		xhr.onload = function (e) {
-			cookie_string = this.getResponseHeader('Set-Cookie').split.skip(';')[0];
+		xhr.onload = function () {
+			cookie_string = this.getResponseHeader('Set-Cookie').split(';')[0];
 			xhr.clearCookies('https://my.appcelerator.com');
 			xhr.onload = second_cookie_fn;
-			xhr.open('GET', 'https://my.appcelerator.com/auth/login');
-			xhr.send();
+			// Have to do this on delay for Android, or else the open and send get cancelled due to:
+			// [WARN]  TiHTTPClient: (main) [2547,14552] open cancelled, a request is already pending for response.
+			// [WARN]  TiHTTPClient: (main) [1,14553] send cancelled, a request is already pending for response.
+			// FIXME We should file a bug to handle this better! Can't we "queue" up the open/send calls to occur as soon as this callback finishes?
+			setTimeout(function () {
+				xhr.open('GET', 'https://my.appcelerator.com/auth/login');
+				xhr.send();
+			}, 500);
 		};
 		xhr.onerror = function (e) {
-			clearTimeout(timer);
 			should(e).should.be.type('undefined');
 		};
 		xhr.open('GET', 'https://my.appcelerator.com/auth/login');
@@ -268,30 +256,26 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// Confirms that only the selected cookie is deleted
-	it.skip('clearCookieUnaffectedCheck', function (finish) {
-		this.timeout(3e4);
-		var timer = 0;
-		var second_cookie_fn = function (e) {
+	it('clearCookieUnaffectedCheck', function (finish) {
+		var xhr = Ti.Network.createHTTPClient(),
+			cookie_string;
+		function second_cookie_fn() {
+			var second_cookie_string;
 			Ti.API.info('Second Load');
-			var second_cookie_string = this.getResponseHeader('Set-Cookie').split.skip(';')[0];
-			clearTimeout(timer);
+			second_cookie_string = this.getResponseHeader('Set-Cookie').split(';')[0];
 			// Cookie should be the same
 			should(cookie_string).eql(second_cookie_string);
 			finish();
-		};
-		var xhr = Ti.Network.createHTTPClient();
-		var done = false;
-		var cookie_string;
+		}
 		xhr.setTimeout(3e4);
-		xhr.onload = function (e) {
-			cookie_string = this.getResponseHeader('Set-Cookie').split.skip(';')[0];
+		xhr.onload = function () {
+			cookie_string = this.getResponseHeader('Set-Cookie').split(';')[0];
 			xhr.clearCookies('http://www.microsoft.com');
 			xhr.onload = second_cookie_fn;
 			xhr.open('GET', 'https://my.appcelerator.com/auth/login');
 			xhr.send();
 		};
 		xhr.onerror = function (e) {
-			clearTimeout(timer);
 			should(e).should.be.type('undefined');
 		};
 		xhr.open('GET', 'https://my.appcelerator.com/auth/login');
@@ -299,25 +283,32 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	// https://jira.appcelerator.org/browse/TIMOB-2849
-	it.skip('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
-		this.timeout(3e4);
+	it('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
 		var xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(3e4);
-		xhr.onload = function (e) {
-			var resp = JSON.parse(this.responseText);
+		xhr.onload = function () {
+			var resp = JSON.parse(this.responseText),
+				xhr2;
 			should(resp.cookies.k1).eql('v1');
 			should(resp.cookies.k2).eql('v2');
-			var xhr2 = Ti.Network.createHTTPClient();
+			xhr2 = Ti.Network.createHTTPClient();
 			xhr2.setTimeout(3e4);
-			xhr2.onload = function (e) {
+			xhr2.onload = function () {
+				var resp2;
 				Ti.API.info('Clear Cookie');
-				var resp2 = JSON.parse(this.responseText);
+				resp2 = JSON.parse(this.responseText);
 				should(resp2.cookies.hasOwnProperty('v1')).be.false;
 				should(resp2.cookies.hasOwnProperty('v2')).be.false;
 				finish();
 			};
+			xhr2.onerror = function (e) {
+				finish(new Error(e.error || this.responseText));
+			};
 			xhr2.open('GET', 'http://www.httpbin.org/cookies/delete?k2=&k1=');
 			xhr2.send();
+		};
+		xhr.onerror = function (e) {
+			finish(new Error(e.error || this.responseText));
 		};
 		xhr.open('GET', 'http://www.httpbin.org/cookies/set?k2=v2&k1=v1');
 		xhr.send();
@@ -325,16 +316,13 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// https://jira.appcelerator.org/browse/TIMOB-11751
 	// https://jira.appcelerator.org/browse/TIMOB-17403
-	it.skip('callbackTestForGETMethod', function (finish) {
-		this.timeout(30000);
+	it('callbackTestForGETMethod', function (finish) {
+		var xhr = Ti.Network.createHTTPClient(),
+			dataStreamFinished = false;
+		xhr.setTimeout(3e4);
 
-		var xhr = Ti.Network.createHTTPClient();
-		xhr.setTimeout(30000);
-
-		var dataStreamFinished = false;
-
-		xhr.onreadystatechange = function (e) {
-			if (this.readyState == this.DONE) {
+		xhr.onreadystatechange = function () {
+			if (this.readyState === this.DONE) {
 				if (dataStreamFinished) {
 					finish();
 				} else {
@@ -345,7 +333,9 @@ describe('Titanium.Network.HTTPClient', function () {
 
 		xhr.ondatastream = function (e) {
 			should(e.progress).be.ok;
-			if (e.progress >= 1) dataStreamFinished = true;
+			if (e.progress >= 1) {
+				dataStreamFinished = true;
+			}
 		};
 
 		xhr.onerror = function (e) {
@@ -356,22 +346,27 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.send();
 	});
 
-	it.skip('callbackTestForPOSTMethod', function (finish) {
-		this.timeout(3e4);
-		var xhr = Ti.Network.createHTTPClient();
+	it('callbackTestForPOSTMethod', function (finish) {
+		var xhr = Ti.Network.createHTTPClient(),
+			sendStreamFinished = false,
+			buffer;
 		xhr.setTimeout(3e4);
-		var sendStreamFinished = false;
-		xhr.onreadystatechange = function (e) {
-			if (this.readyState == this.DONE && sendStreamFinished) finish();
+
+		xhr.onreadystatechange = function () {
+			if (this.readyState === this.DONE && sendStreamFinished) {
+				finish();
+			}
 		};
 		xhr.onsendstream = function (e) {
 			should(e.progress).be.ok;
-			if (e.progress >= .99) sendStreamFinished = true;
+			if (e.progress >= 0.99) {
+				sendStreamFinished = true;
+			}
 		};
 		xhr.onerror = function (e) {
 			should(e).should.be.type('undefined');
 		};
-		var buffer = Ti.createBuffer({
+		buffer = Ti.createBuffer({
 			length: 1024 * 10
 		}).toBlob();
 		xhr.open('POST', 'http://www.httpbin.org/post');
@@ -385,9 +380,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// FIXME Tests pass locally for me, but fail on Windows 8.1 and Win 10 desktop build agents
 	// FIXME iOS doesn't work. I think because of app thinning removing Logo.png
-	((utilities.isWindowsDesktop() || utilities.isWindows8_1() || utilities.isIOS()) ? it.skip : it)('POST multipart/form-data containing Ti.Blob', function (finish) {
-		this.timeout(6e4);
-
+	it.iosBroken('POST multipart/form-data containing Ti.Blob', function (finish) {
 		var xhr = Ti.Network.createHTTPClient(),
 			imageFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'Logo.png'),
 			newId = new Date().getTime(),
@@ -397,10 +390,11 @@ describe('Titanium.Network.HTTPClient', function () {
 
 		xhr.setTimeout(6e4);
 
-		xhr.onload = function (e) {
-			//should(e.code).eql(200);// because our API is insane, this always returns 0
+		xhr.onload = function () {
+			var result;
+			// should(e.code).eql(200);// because our API is insane, this always returns 0
 			should(xhr.status).eql(200);
-			var result = JSON.parse(xhr.responseText);
+			result = JSON.parse(xhr.responseText);
 			// check sent headers
 			should(result).have.property('headers');
 			should(result.headers).have.property('Content-Type');

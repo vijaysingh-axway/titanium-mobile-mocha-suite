@@ -1,49 +1,53 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
 var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false;
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.WebView', function () {
+	var win,
+		didFocus = false;
 	this.slow(2000);
 	this.timeout(10000);
 
-	var win;
-
-	beforeEach(function() {
+	beforeEach(function () {
 		didFocus = false;
 	});
 
-	afterEach(function() {
-		if (win != null) {
+	afterEach(function () {
+		if (win) {
 			win.close();
 		}
 		win = null;
 	});
 
-	(utilities.isAndroid() ? it.skip : it)('loading', function (finish) {
+	// FIXME: According to Ewan, iOS errors on should(webView.loading).be.eql(true); in the beforeLoad
+	it.androidBroken('loading', function (finish) {
+		var webView;
 		this.slow(5000);
 		this.timeout(10000);
 
 		win = Ti.UI.createWindow();
-		var webView = Ti.UI.createWebView({
+		webView = Ti.UI.createWebView({
 			url: 'https://google.com'
 		});
 
 		should(webView.loading).be.a.Boolean;
 		should(webView.loading).be.eql(false);
 
-		webView.addEventListener('beforeload', function() {
+		webView.addEventListener('beforeload', function () {
 			should(webView.loading).be.a.Boolean;
 			should(webView.loading).be.eql(true);
 		});
 
-		webView.addEventListener('load', function() {
+		webView.addEventListener('load', function () {
 			should(webView.loading).be.a.Boolean;
 			should(webView.loading).be.eql(false);
 
@@ -54,14 +58,17 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	((utilities.isWindows10() && utilities.isWindowsDesktop()) ? it.skip : it)('url', function (finish) {
+	it('url', function (finish) {
+		var webview;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var webview = Ti.UI.createWebView();
+		webview = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -77,12 +84,15 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	(!utilities.isIOS() ? it.skip : it)('keyboardDisplayRequiresUserAction', function (finish) {
+	it.ios('keyboardDisplayRequiresUserAction', function (finish) {
+		var webView;
 		win = Ti.UI.createWindow();
-		var webView = Ti.UI.createWebView();
+		webView = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -111,14 +121,17 @@ describe('Titanium.UI.WebView', function () {
 	});
 
 	// FIXME Times out on Android build machine. No idea why... Must be we never get focus event?
-	(utilities.isAndroid() ? it.skip : it)('url(local)', function (finish) {
+	it.androidBroken('url(local)', function (finish) {
+		var webview;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var webview = Ti.UI.createWebView();
+		webview = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -135,16 +148,18 @@ describe('Titanium.UI.WebView', function () {
 	});
 
 	// TIMOB-23542 webview data test
-	it('data', function(finish) {
+	it('data', function (finish) {
+		var blob,
+			webview;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		var blob = Ti.Filesystem.getFile('app.js').read();
-		var webview = Ti.UI.createWebView({
+		blob = Ti.Filesystem.getFile('app.js').read();
+		webview = Ti.UI.createWebView({
 			data: blob
 		});
 
-		webview.addEventListener('load', function() {
+		webview.addEventListener('load', function () {
 			should(webview.data).be.an.object;
 			finish();
 		});
@@ -152,20 +167,24 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	// Skip this on desktop Windows apps because it crashes the app now.
+	// Skip this on desktop Windows apps because it crashes the app now. - Works fine locally, to investigate EH
 	// FIXME Parity issue! Windows require second argument which is callback function. Other platforms return value sync!
 	// FIXME Android returns null?
 	// FIXME Sometimes times out on iOS. Not really sure why...
 	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('evalJS', function (finish) {
+		var webview,
+			hadError = false,
+			result;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
 
-		var webview = Ti.UI.createWebView(),
-			hadError = false;
+		webview = Ti.UI.createWebView();
 
 		webview.addEventListener('load', function () {
-			if (hadError) return;
+			if (hadError) {
+				return;
+			}
 
 			if (utilities.isWindows()) { // Windows requires an async callback function
 				webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";', function (result) {
@@ -178,7 +197,7 @@ describe('Titanium.UI.WebView', function () {
 					}
 				});
 			} else { // other platforms return the result as result of function call!
-				var result = webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";');
+				result = webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST";');
 				try {
 					should(result).be.eql('WebView.evalJS.TEST'); // Android reports null
 
@@ -189,7 +208,9 @@ describe('Titanium.UI.WebView', function () {
 			}
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) return;
+			if (didFocus) {
+				return;
+			}
 			didFocus = true;
 
 			try {
@@ -204,4 +225,97 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
+	it.windows('url (ms-appx)', function (finish) {
+		var w,
+			webview;
+
+		this.timeout(10000);
+
+		w = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+		webview = Ti.UI.createWebView();
+
+		webview.addEventListener('load', function () {
+			w.close();
+			finish();
+		});
+		w.addEventListener('open', function () {
+			should(function () {
+				webview.url = 'ms-appx:///ti.ui.webview.test.html';
+			}).not.throw();
+		});
+
+		w.add(webview);
+		w.open();
+	});
+
+	it.windows('url (ms-appx-web)', function (finish) {
+		var w,
+			webview;
+
+		this.timeout(10000);
+
+		w = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+		webview = Ti.UI.createWebView();
+
+		webview.addEventListener('load', function () {
+			w.close();
+			finish();
+		});
+		w.addEventListener('open', function () {
+			should(function () {
+				webview.url = 'ms-appx-web:///ti.ui.webview.test.html';
+			}).not.throw();
+		});
+
+		w.add(webview);
+		w.open();
+	});
+
+	it.windows('url (ms-appx-data)', function (finish) {
+		var w,
+			webview;
+
+		this.timeout(10000);
+
+		function prepare(files) {
+			var webroot = Ti.Filesystem.applicationDataDirectory + 'webroot',
+				webroot_file = Ti.Filesystem.getFile(webroot),
+				i,
+				file,
+				from,
+				to;
+
+			if (!webroot_file.exists()) {
+				webroot_file.createDirectory();
+			}
+			for (i = 0; i < files.length; i++) {
+				file = files[i];
+				from = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, file);
+				to = webroot + Ti.Filesystem.separator + file;
+				from.copy(to);
+			}
+		}
+
+		w = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+		webview = Ti.UI.createWebView();
+		webview.addEventListener('load', function () {
+			w.close();
+			finish();
+		});
+		w.addEventListener('open', function () {
+			prepare([ 'ti.ui.webview.test.html' ]);
+			should(function () {
+				webview.url = 'ms-appdata:///local/webroot/ti.ui.webview.test.html';
+			}).not.throw();
+		});
+
+		w.add(webview);
+		w.open();
+	});
 });
