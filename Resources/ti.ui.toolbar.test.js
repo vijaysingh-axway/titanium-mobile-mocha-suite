@@ -8,19 +8,10 @@
 /* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-
-var should = require('./utilities/assertions'),
-	win = null;
+var should = require('./utilities/assertions');
 
 describe('Titanium.UI.Toolbar', function () {
 	this.timeout(10000);
-
-	afterEach(function () {
-		if (win) {
-			win.close();
-		}
-		win = null;
-	});
 
 	it('SimpleToolbar', function () {
 		var send = Ti.UI.createButton({
@@ -38,10 +29,6 @@ describe('Titanium.UI.Toolbar', function () {
 		should(toolbar.apiName).be.eql('Ti.UI.Toolbar');
 		should(toolbar.items).be.an.Array;
 		should(toolbar.items.length).eql(2);
-
-		win = Ti.UI.createWindow();
-		win.add(toolbar);
-		win.open();
 	});
 
 	it.ios('SimpleiOSToolbarDeprecated', function () {
@@ -60,9 +47,5 @@ describe('Titanium.UI.Toolbar', function () {
 		should(toolbar.apiName).be.eql('Ti.UI.iOS.Toolbar');
 		should(toolbar.items).be.an.Array;
 		should(toolbar.items.length).eql(2);
-
-		win = Ti.UI.createWindow();
-		win.add(toolbar);
-		win.open();
 	});
 });
