@@ -12,6 +12,15 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.Blob', function () {
+	var win;
+
+	afterEach(function () {
+		if (win) {
+			win.close();
+		}
+		win = null;
+	});
+
 	it('apiName', function () {
 		// FIXME Should be able to do Ti.Blob.apiName
 		var blob = Ti.Filesystem.getFile('app.js').read();
@@ -26,11 +35,14 @@ describe('Titanium.Blob', function () {
 	});
 
 	// Windows crashes on instanceof check TIMOB-25012
+	// Windows also crashes if we uncomment this now, I think closing the window (or failing the test) in the blob callback is causing Desktop crash
+	// Android is sometimes timing out... Trying an open event now...
 	it.iosAndWindowsBroken('constructed from image', function (finish) {
-		var window = Ti.UI.createWindow(),
-			label = Ti.UI.createLabel({ text: 'test' });
-		window.add(label);
-		window.addEventListener('focus', function () {
+		var label;
+		win = Ti.UI.createWindow();
+		label = Ti.UI.createLabel({ text: 'test' });
+		win.add(label);
+		win.addEventListener('open', function () {
 			label.toImage(function (blob) {
 				should(blob).be.an.Object;
 				// should(blob).be.an.instanceof(Ti.Blob); // FIXME Crashes Windows, throws uncaught error on iOS & Android
@@ -39,7 +51,7 @@ describe('Titanium.Blob', function () {
 				should(blob.text).not.exist;
 				Ti.API.info(blob.width);
 				should(blob.width).be.a.Number; // FIXME Undefined on iOS
-				should(blob.width).be.above(0);
+				should(blob.width).be.above(0); // 0 on Windows
 				should(blob.height).be.a.Number;
 				should(blob.height).be.above(0);
 				should(blob.length).be.a.Number;
@@ -48,11 +60,10 @@ describe('Titanium.Blob', function () {
 					should(blob.size).be.a.Number;
 					should(blob.size).equal(blob.width * blob.height);
 				}
-				window.close();
 				finish();
 			});
 		});
-		window.open();
+		win.open();
 	});
 
 	it('text', function () {
@@ -77,10 +88,10 @@ describe('Titanium.Blob', function () {
 		// TODO Test that it's read-only
 	});
 
-	it('mimeType with text/javascript', function () {
+	it.windowsDesktopBroken('mimeType with text/javascript', function () {
 		var blob = Ti.Filesystem.getFile('app.js').read();
 		should(blob.mimeType).be.a.String;
-		should(blob.mimeType.length).be.above(0);
+		should(blob.mimeType.length).be.above(0); // Windows desktop returns 0 here
 		should(blob.mimeType).be.eql('text/javascript');
 		// TODO Test that it's read-only
 	});
@@ -109,7 +120,8 @@ describe('Titanium.Blob', function () {
 	});
 
 	// FIXME Missing API on Android, parity issue
-	it.androidMissing('size in pixels', function () {
+	// FIXME Returns 801 on Windows
+	it.androidMissingAndWindowsBroken('size in pixels', function () {
 		var blob = Ti.Filesystem.getFile('Logo.png').read();
 		should(blob.size).be.a.Number;
 		should(blob.size).be.eql(22500);

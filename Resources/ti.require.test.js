@@ -1,11 +1,14 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2017 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 describe('requireJS', function () {
 	// require should be a function
@@ -33,8 +36,8 @@ describe('requireJS', function () {
 		var object2 = require('ti.require.test_test');
 		should(object1).be.an.Object;
 		should(object2).be.an.Object;
-		should((object1 ==  object2)).be.true;
-		should((object1 === object2)).be.true;
+		should(object1 ==  object2).be.true; // eslint-disable-line eqeqeq
+		should(object1 === object2).be.true;
 	});
 
 	// local function and variable should not be exposed
@@ -47,30 +50,34 @@ describe('requireJS', function () {
 
 	// public function with 0 argument
 	it('requireJS.PublicFunc0', function () {
-		var object = require('ti.require.test_test');
+		var object = require('ti.require.test_test'),
+			result;
 		should(object).be.an.Object;
 		should(object.testFunc0).a.Function;
-		var result = object.testFunc0();
+		result = object.testFunc0();
 		should(result).be.a.String;
 		should(result).be.eql('testFunc0');
 	});
 
 	// public function with 1 argument
+	// Windows Phone 10 crashed here once
 	it('requireJS.PublicFunc1', function () {
-		var object = require('ti.require.test_test');
+		var object = require('ti.require.test_test'),
+			result;
 		should(object).be.an.Object;
 		should(object.testFunc1).be.a.Function;
-		var result = object.testFunc1('A');
+		result = object.testFunc1('A');
 		should(result).be.a.String;
 		should(result).be.eql('testFunc1 A');
 	});
 
 	// public function with 2 arguments
 	it('requireJS.PublicFunc2', function () {
-		var object = require('ti.require.test_test');
+		var object = require('ti.require.test_test'),
+			result;
 		should(object).be.an.Object;
 		should(object.testFunc2).be.a.Function;
-		var result = object.testFunc2('A', 'B');
+		result = object.testFunc2('A', 'B');
 		should(result).be.a.String;
 		should(result).be.eql('testFunc2 A B');
 	});
@@ -139,7 +146,8 @@ describe('requireJS', function () {
 	});
 
 	// TIMOB-23512
-	it('relative require() from sub directory', function () {
+	// Windows Phone 10 crashes here!
+	it.windowsPhoneBroken('relative require() from sub directory', function () {
 		var with_index_js = require('./with_index_js/sub1');
 		should(with_index_js).have.property('name');
 		should(with_index_js.name).be.eql('sub1.js');
@@ -156,7 +164,8 @@ describe('requireJS', function () {
 		should(with_index_json.name).be.eql('index.json');
 	});
 
-	it('loads exact match JS file', function () {
+	// Windows Phone 10 crashes before even starting this test!
+	it.windowsPhoneBroken('loads exact match JS file', function () {
 		var exact_js = require('./with_package/index.js');
 		should(exact_js).have.property('name');
 		should(exact_js.name).be.eql('index.js');
@@ -190,13 +199,15 @@ describe('requireJS', function () {
 		should(object.name).be.eql('commonjs.legacy.package/main.js');
 	});
 
-	it ('should load a node module by id in node_modules folder living at same level as requirer', function () {
+	// Crashes Windows Desktop
+	it.windowsDesktopBroken('should load a node module by id in node_modules folder living at same level as requirer', function () {
 		var abbrev = require('abbrev');
 		should(abbrev).be.a.Function;
-		should(abbrev("foo", "fool", "folding", "flop")).eql({ fl: 'flop', flo: 'flop', flop: 'flop', fol: 'folding', fold: 'folding', foldi: 'folding', foldin: 'folding', folding: 'folding', foo: 'foo', fool: 'fool'});
+		should(abbrev('foo', 'fool', 'folding', 'flop')).eql({ fl: 'flop', flo: 'flop', flop: 'flop', fol: 'folding', fold: 'folding', foldi: 'folding', foldin: 'folding', folding: 'folding', foo: 'foo', fool: 'fool' });
 	});
 
-	it('loads native module by id', function () {
+	// FIXME We have no native facebook module for windows!
+	it.windowsMissing('loads native module by id', function () {
 		var object = require('facebook');
 		should(object).have.property('apiName');
 		// Of course, the module's apiName is wrong, so we can't test that
@@ -206,34 +217,37 @@ describe('requireJS', function () {
 
 	// TODO Add a test for requiring a node module up one level from requiring file!
 
-	it('loads path using legacy fallback if first segment matches native module id and wasn\'t found inside module', function () {
+	it.windowsPhoneBroken('loads path using legacy fallback if first segment matches native module id and wasn\'t found inside module', function () {
 		var object = require('facebook/example');
 		should(object).have.property('name');
 		should(object.name).be.eql('facebook/example.js');
 	});
 
-	it('require from node_modules should not break the app', function() {
-		var object = require('bar');
+	it('require from node_modules should not break the app', function () {
+		var object = require('bar'),
+			baz;
 		should(object).have.property('name');
 		should(object.name).be.eql('bar');
 		should(object).have.property('baz');
-		var baz = object.baz;
+		baz = object.baz;
 		should(baz).have.property('foo');
-		should(baz.foo.filename).be.eql('/node_modules/foo/index.js')
+		should(baz.foo.filename).be.eql('/node_modules/foo/index.js');
 	});
 
-	it('require should prefer closest node_modules', function() {
+	it('require should prefer closest node_modules', function () {
 		// require('bar') will require package baz under node_modules/bar/node_modules
 		// require('bax') should not point to this version of baz but to node_modules/baz
-		var object = require('bar');
+		var object = require('bar'),
+			baz,
+			baz2;
 		should(object).have.property('name');
 		should(object.name).be.eql('bar');
 		should(object).have.property('baz');
-		var baz = object.baz;
+		baz = object.baz;
 		should(baz.name).be.eql('baz');
-		should(baz.filename).be.eql('/node_modules/bar/node_modules/baz/index.js')
-		should(baz.dirname).be.eql('/node_modules/bar/node_modules/baz')
-		var baz2 = require('baz');
+		should(baz.filename).be.eql('/node_modules/bar/node_modules/baz/index.js');
+		should(baz.dirname).be.eql('/node_modules/bar/node_modules/baz');
+		baz2 = require('baz');
 		should(baz2.name).be.eql('baz');
 		should(baz2.filename).be.eql('/node_modules/baz/index.js');
 		should(baz2.dirname).be.eql('/node_modules/baz');

@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2017 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -23,9 +23,8 @@ win.open();
 // ES6 syntax/compatability tests
 require('./es6.arrows.test');
 require('./es6.default.args.test');
-require('./es6.rest.args.test');
 // The JSCore used in Windows doesnt support rest args yet,
-// avoid requiring it until it dos otherwise it will crash
+// avoid requiring it until it does otherwise it will crash
 if (!utilities.isWindows()) {
 	require('./es6.rest.args.test');
 }
@@ -180,8 +179,18 @@ mocha.setup({
 	quiet: true
 });
 
+if (utilities.isWindows()) {
+	if (Ti.UI.Windows.beginExtendedExecution) {
+		Ti.UI.Windows.beginExtendedExecution();
+	}
+}
 // dump the output, which will get interpreted above in the logging code
 mocha.run(function () {
 	win.backgroundColor = failed ? 'red' : 'green';
 	Ti.API.info('!TEST_RESULTS_STOP!');
+	if (utilities.isWindows()) {
+		if (Ti.UI.Windows.endExtendedExecution) {
+			Ti.UI.Windows.endExtendedExecution();
+		}
+	}
 });

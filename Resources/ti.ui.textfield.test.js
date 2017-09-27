@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2017 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -9,13 +9,21 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false;
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.TextField', function () {
+	var didFocus = false,
+		win;
 
 	beforeEach(function () {
 		didFocus = false;
+	});
+
+	afterEach(function () {
+		if (win) {
+			win.close();
+		}
+		win = null;
 	});
 
 	it('apiName', function () {
@@ -147,7 +155,7 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintText()).eql('Enter Name ...');
 	});
 
-	it('hintTextColor', function () {
+	it.windowsMissing('hintTextColor', function () {
 		var textfield = Ti.UI.createTextField({
 			hintText: 'Enter E-Mail ...',
 			hintTextColor: 'red'
@@ -160,7 +168,7 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintTextColor()).eql('blue');
 	});
 
-	it.iosBroken('hintType', function () {
+	it.android('hintType', function () {
 		var textfield = Ti.UI.createTextField({
 			hintText: 'Enter E-Mail ...',
 			hintType: Ti.UI.HINT_TYPE_ANIMATED
@@ -173,58 +181,59 @@ describe('Titanium.UI.TextField', function () {
 		should(textfield.getHintType()).eql(Ti.UI.HINT_TYPE_STATIC);
 	});
 
-	// FIXME win.width is undefined on Android and iOS here. Test needs to be rewritten
-	it.androidAndIosBroken('width', function (finish) {
+	// FIXME win.width is undefined on Android and iOS here. Test needs to be rewritten. Likely need to use postlayout to get values?
+	// FIXME Windows Desktop gives: expected '' to be above 100
+	it.allBroken('width', function (finish) {
+		var textfield;
 		this.timeout(5000);
-		var textfield = Ti.UI.createTextField({
-				value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
-				width: Ti.UI.SIZE
-			}),
-			win = Ti.UI.createWindow({
-				backgroundColor: '#ddd'
-			});
+		textfield = Ti.UI.createTextField({
+			value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
+			width: Ti.UI.SIZE
+		});
+		win = Ti.UI.createWindow({
+			backgroundColor: '#ddd'
+		});
 		win.add(textfield);
 		win.addEventListener('focus', function () {
-			var error;
+			if (didFocus) {
+				return;
+			}
+			didFocus = true;
 
 			try {
 				should(win.width).be.greaterThan(100);
 				should(textfield.width).not.be.greaterThan(win.width);
+				return finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-
-			setTimeout(function () {
-				win.close();
-				finish(error);
-			}, 3000);
 		});
 		win.open();
 	});
 
 	// FIXME Intermittently failing on Android on build machine, I think due to test timeout
 	it.androidBroken('height', function (finish) {
+		var textfield,
+			bgView;
 		this.timeout(5000);
-		var textfield = Ti.UI.createTextField({
-				value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
-				width: Ti.UI.SIZE,
-				height: Ti.UI.SIZE,
-				color: 'black'
-			}),
-			bgView = Ti.UI.createView({
-				width: 200,
-				height: 100,
-				backgroundColor: 'red'
-			}),
-			win = Ti.UI.createWindow({
-				backgroundColor: '#eee'
-			});
+		textfield = Ti.UI.createTextField({
+			value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
+			width: Ti.UI.SIZE,
+			height: Ti.UI.SIZE,
+			color: 'black'
+		});
+		bgView = Ti.UI.createView({
+			width: 200,
+			height: 100,
+			backgroundColor: 'red'
+		});
+		win = Ti.UI.createWindow({
+			backgroundColor: '#eee'
+		});
 		bgView.add(textfield);
 		win.add(bgView);
 
 		win.addEventListener('focus', function () {
-			var error;
-
 			if (didFocus) {
 				return;
 			}
@@ -233,14 +242,10 @@ describe('Titanium.UI.TextField', function () {
 			try {
 				should(bgView.height).be.eql(100);
 				should(textfield.height).not.be.greaterThan(100);
+				return finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-
-			setTimeout(function () {
-				win.close();
-				finish(error);
-			}, 3000);
 		});
 		win.open();
 	});

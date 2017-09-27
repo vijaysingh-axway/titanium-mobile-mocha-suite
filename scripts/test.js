@@ -40,6 +40,9 @@ function installSDK(sdkVersion, next) {
 	prc.stdout.on('data', function (data) {
 		console.log(data.toString());
 	});
+	prc.stderr.on('data', function (data) {
+		console.log(data.toString());
+	});
 	prc.on('exit', function (code) {
 		if (code !== 0) {
 			next('Failed to install SDK');
@@ -208,7 +211,7 @@ function runBuild(platform, target, deviceId, next) {
 
 /**
  * Once a build has been spawned off this handles grabbing the test results from the output.
- * @param  {[type]}   prc  Handle of the running process from spawn
+ * @param  {child_process}   prc  Handle of the running process from spawn
  * @param  {Function} next [description]
  */
 function handleBuild(prc, next) {
@@ -506,8 +509,6 @@ if (module.id === '.') {
 
 		const platforms = program.platforms.split(',');
 
-		console.log(program.cleanup);
-
 		if (platforms.length > 1 && program.target !== undefined) {
 			console.error('--target can only be used when there is a single platform provided');
 			process.exit(1);
@@ -526,11 +527,17 @@ if (module.id === '.') {
 			}
 
 			async.eachSeries(platforms, function (platform, next) {
+				let prefix;
+				if (program.target) {
+					prefix = platform + '.' + program.target;
+				} else {
+					prefix = platform;
+				}
 				console.log();
 				console.log('=====================================');
-				console.log(platform.toUpperCase());
+				console.log(prefix.toUpperCase());
 				console.log('-------------------------------------');
-				outputResults(results[platform].results, next);
+				outputResults(results[prefix].results, next);
 			}, function (err) {
 				if (err) {
 					console.error(err.toString());

@@ -74,6 +74,18 @@ filters = {
 		}
 		return true;
 	},
+	androidIosAndWindowsPhoneBroken: function () {
+		if (Utility.isAndroid() || Utility.isIOS() || Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
+	androidIosAndWindowsDesktopBroken: function () {
+		if (Utility.isAndroid() || Utility.isIOS() || Utility.isWindowsDesktop()) {
+			return 'skip';
+		}
+		return true;
+	},
 	// to mark when there's a bug in both iOS and Android impl
 	androidAndIosBroken: function () {
 		if (Utility.isAndroid() || Utility.isIOS()) {
@@ -81,9 +93,42 @@ filters = {
 		}
 		return true;
 	},
+	// to mark when there's a bug in both Android and Windows Desktop impl
+	androidAndWindowsDesktopBroken: function () {
+		if (Utility.isAndroid() || Utility.isWindowsDesktop()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// to mark when there's a bug in both Android and Windows Phone impl
+	androidAndWindowsPhoneBroken: function () {
+		if (Utility.isAndroid() || Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// to mark when there's a bug in both Android and Windows impl
+	androidAndWindowsBroken: function () {
+		if (Utility.isAndroid() || Utility.isWindows()) {
+			return 'skip';
+		}
+		return true;
+	},
 	// to mark when there's a bug in both iOS and Windows impl
 	iosAndWindowsBroken: function () {
 		if (Utility.isWindows() || Utility.isIOS()) {
+			return 'skip';
+		}
+		return true;
+	},
+	iosAndWindowsPhoneBroken: function () {
+		if (Utility.isIOS() || Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
+	iosAndWindowsDesktopBroken: function () {
+		if (Utility.isWindowsDesktop() || Utility.isIOS()) {
 			return 'skip';
 		}
 		return true;
@@ -109,6 +154,20 @@ filters = {
 		}
 		return true;
 	},
+	// mark bugs specific to Windows Store
+	windowsDesktopBroken: function () {
+		if (Utility.isWindowsDesktop()) {
+			return 'skip';
+		}
+		return true;
+	},
+	// mark bugs specific to Windows Phone
+	windowsPhoneBroken: function () {
+		if (Utility.isWindowsPhone()) {
+			return 'skip';
+		}
+		return true;
+	},
 	// mark bugs specific to Windows 8.1
 	windows81Broken: function () {
 		if (Utility.isWindows8_1()) {
@@ -125,6 +184,12 @@ filters = {
 filters.androidBroken = filters.androidMissing;
 filters.iosBroken = filters.iosMissing;
 filters.windowsBroken = filters.windowsMissing;
+filters.androidAndWindowsMissing = filters.androidAndWindowsBroken;
+filters.androidBrokenAndIosMissing = filters.androidAndIosBroken;
+filters.androidMissingAndIosBroken = filters.androidAndIosBroken;
+filters.androidMissingAndWindowsBroken = filters.androidAndWindowsMissing;
+filters.androidMissingAndWindowsDesktopBroken = filters.androidAndWindowsDesktopBroken;
+filters.iosMissingAndWindowsDesktopBroken = filters.iosAndWindowsDesktopBroken;
 // Add our custom filters
 filter.addFilters(filters);
 
