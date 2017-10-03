@@ -7,7 +7,7 @@
 		<module>commonjs.legacy.package</module>
 		<module>commonjs.package</module>
 		<module platform="android">ti.map</module>
-		<module platform="ios" version="2.13.0">ti.map</module>
+		<module platform="ios" version="2.12.1">ti.map</module>
 		<module platform="android">facebook</module>
 		<module platform="ios">facebook</module>
 	</modules>
