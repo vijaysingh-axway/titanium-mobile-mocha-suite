@@ -180,8 +180,8 @@ mocha.setup({
 });
 
 if (utilities.isWindows()) {
-	if (Ti.UI.Windows.beginExtendedExecution) {
-		Ti.UI.Windows.beginExtendedExecution();
+	if (Ti.App.Windows.requestExtendedExecution) {
+		Ti.App.Windows.requestExtendedExecution();
 	}
 }
 // dump the output, which will get interpreted above in the logging code
@@ -189,8 +189,8 @@ mocha.run(function () {
 	win.backgroundColor = failed ? 'red' : 'green';
 	Ti.API.info('!TEST_RESULTS_STOP!');
 	if (utilities.isWindows()) {
-		if (Ti.UI.Windows.endExtendedExecution) {
-			Ti.UI.Windows.endExtendedExecution();
+		if (Ti.App.Windows.closeExtendedExecution) {
+			Ti.App.Windows.closeExtendedExecution();
 		}
 	}
 });
