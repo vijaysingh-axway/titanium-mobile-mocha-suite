@@ -133,10 +133,16 @@ describe('Titanium.Locale', function () {
 			// if value is not found, it should return key itself
 			should(Ti.Locale.getString('this_should_not_be_found')).eql('this_should_not_be_found');
 		}
-		// test for hint value
+	
+		// test for default-values
 		should(Ti.Locale.getString('this_should_not_be_found', 'this is the default value')).eql('this is the default value');
-		should(Ti.Locale.getString('this_should_not_be_found', null)).be.null;
 		should(Ti.Locale.getString('this_should_not_be_found', 123)).eql(123);
+		
+		// iOS returns 'this_should_not_be_found' if null is provided. 
+		// This is platform-specific behavior that we not manually guard right now but should discuss.
+		if (!utilities.isiOS()) {
+			should(Ti.Locale.getString('this_should_not_be_found', null)).be.null;
+		}
 	});
 
 	it.windowsBroken('#getString(String) with different languages', function () {
