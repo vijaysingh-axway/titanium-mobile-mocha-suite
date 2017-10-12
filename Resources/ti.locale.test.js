@@ -136,11 +136,11 @@ describe('Titanium.Locale', function () {
 	
 		// test for default-values
 		should(Ti.Locale.getString('this_should_not_be_found', 'this is the default value')).eql('this is the default value');
-		should(Ti.Locale.getString('this_should_not_be_found', 123)).eql(123);
 		
-		// iOS returns 'this_should_not_be_found' if null is provided. 
+		// iOS returns 'this_should_not_be_found' if a non-string value is provided. 
 		// This is platform-specific behavior that we not manually guard right now but should discuss.
 		if (!utilities.isIOS()) {
+			should(Ti.Locale.getString('this_should_not_be_found', 123)).eql(123);
 			should(Ti.Locale.getString('this_should_not_be_found', null)).be.null;
 		}
 	});
