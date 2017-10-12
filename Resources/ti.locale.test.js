@@ -140,7 +140,7 @@ describe('Titanium.Locale', function () {
 		
 		// iOS returns 'this_should_not_be_found' if null is provided. 
 		// This is platform-specific behavior that we not manually guard right now but should discuss.
-		if (!utilities.isiOS()) {
+		if (!utilities.isIOS()) {
 			should(Ti.Locale.getString('this_should_not_be_found', null)).be.null;
 		}
 	});
