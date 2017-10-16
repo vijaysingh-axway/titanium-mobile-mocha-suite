@@ -88,7 +88,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 						buffer += e.buffer.toString();
 
 						// EOF
-						if (e.buffer.bytesProcessed === -1) {
+						if (e.bytesProcessed === -1) {
 							if (buffer.indexOf('SUCCESS!') !== -1) {
 								finish();
 							} else {
