@@ -86,14 +86,14 @@ describe('Titanium.Network.Socket.TCP', function () {
 				Ti.Stream.pump(e.socket, function (e) {
 					if (e.buffer) {
 						buffer += e.buffer.toString();
-
-						// EOF
-						if (e.bytesProcessed === -1) {
-							if (buffer.indexOf('SUCCESS!') !== -1) {
-								finish();
-							} else {
-								finish(new Error('failed to receive success'));
-							}
+					}
+					// end of stream
+					// note: iOS e.buffer will be `null` where Android wont
+					if (e.bytesProcessed === -1) {
+						if (buffer.indexOf('SUCCESS!') !== -1) {
+							finish();
+						} else {
+							finish(new Error('failed to receive success'));
 						}
 					}
 				}, 1024, true);
