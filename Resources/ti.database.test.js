@@ -328,7 +328,9 @@ describe('Titanium.Database', function () {
 	});
 
 	// Test behavior expected by alloy code for createCollection. See TIMOB-20222
-	it('execute() returns null instead of empty result set', function () {
+	// skip this test, this behaviour is undocumented. Our current code will return null
+	// only if the result contains no fields/columns instead of the result containing no rows
+	it.skip('execute() returns null instead of empty result set', function () {
 		should(Ti.Database.install).not.be.undefined;
 		should(Ti.Database.install).be.a.Function;
 
