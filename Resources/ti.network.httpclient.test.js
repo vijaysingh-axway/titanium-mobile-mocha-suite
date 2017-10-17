@@ -21,7 +21,8 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// FIXME iOS gives us an ELEMENT_NODE, not DOCUMENT_NODE
 	it.iosAndWindowsBroken('responseXML', function (finish) {
-		var xhr = Ti.Network.createHTTPClient();
+		var xhr = Ti.Network.createHTTPClient(),
+			attempts = 3;
 		xhr.setTimeout(6e4);
 
 		xhr.onload = function () {
@@ -34,8 +35,13 @@ describe('Titanium.Network.HTTPClient', function () {
 			}
 		};
 		xhr.onerror = function (e) {
-			Ti.API.debug(e);
-			finish(new Error('failed to retrieve RSS feed: ' + e)); // Windows fails here. I think we need to update the URL!
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+	            finish(new Error('failed to retrieve RSS feed: ' + e)); // Windows fails here. I think we need to update the URL!
+	        }
 		};
 
 		xhr.open('GET', 'http://www.appcelerator.com/feed');
@@ -60,7 +66,8 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	it('downloadLargeFile', function (finish) {
-		var xhr = Ti.Network.createHTTPClient();
+		var xhr = Ti.Network.createHTTPClient(),
+			attempts = 3;
 		xhr.setTimeout(6e4);
 
 		xhr.onload = function () {
@@ -68,8 +75,13 @@ describe('Titanium.Network.HTTPClient', function () {
 			finish();
 		};
 		xhr.onerror = function (e) {
-			Ti.API.debug(e);
-			finish(new Error('failed to retrieve large image: ' + e));
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error('failed to retrieve large image: ' + e));
+			}
 		};
 
 		xhr.open('GET', 'https://userscontent2.emaze.com/images/de1f3140-6f4e-4a67-9626-14c39a8f93a2/18aaaec3-31fb-463b-bac9-19d848f7a583.png');
@@ -121,7 +133,8 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/2156-android-invalid-redirect-alert-on-xhr-file-download
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/1381-android-buffer-large-xhr-downloads
 	it('largeFileWithRedirect', function (finish) {
-		var xhr = Ti.Network.createHTTPClient();
+		var xhr = Ti.Network.createHTTPClient(),
+			attempts = 3;
 		xhr.setTimeout(6e4);
 
 		xhr.onload = function () {
@@ -129,8 +142,13 @@ describe('Titanium.Network.HTTPClient', function () {
 			finish();
 		};
 		xhr.onerror = function (e) {
-			Ti.API.debug(e);
-			finish(new Error('failed to retrieve redirected large image: ' + e));
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error('failed to retrieve redirected large image: ' + e));
+			}
 		};
 
 		xhr.open('GET', 'http://www.httpbin.org/redirect-to?url=https%3A%2F%2Fuserscontent2.emaze.com%2Fimages%2Fde1f3140-6f4e-4a67-9626-14c39a8f93a2%2F18aaaec3-31fb-463b-bac9-19d848f7a583.png');
@@ -139,14 +157,20 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// https://appcelerator.lighthouseapp.com/projects/32238-titanium-mobile/tickets/1649-android-httpclientsend-with-no-argument-causes-npe
 	it('emptyPOSTSend', function (finish) {
-		var xhr = Ti.Network.createHTTPClient();
+		var xhr = Ti.Network.createHTTPClient(),
+			attempts = 3;
 		xhr.setTimeout(3e4);
 		xhr.onload = function () {
 			finish();
 		};
 		xhr.onerror = function (e) {
-			Ti.API.debug(e);
-			finish(new Error('failed to post empty request: ' + e));
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error('failed to post empty request: ' + e));
+			}
 		};
 
 		xhr.open('POST', 'http://www.httpbin.org/post');
@@ -156,7 +180,8 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/2339
 	// Timing out on Windows Phone
 	it.windowsBroken('responseHeadersBug', function (finish) {
-		var xhr = Ti.Network.createHTTPClient();
+		var xhr = Ti.Network.createHTTPClient(),
+			attempts = 3;
 		xhr.setTimeout(3e4);
 		xhr.onload = function () {
 			var allHeaders = xhr.getAllResponseHeaders(),
@@ -167,8 +192,13 @@ describe('Titanium.Network.HTTPClient', function () {
 			finish();
 		};
 		xhr.onerror = function (e) {
-			Ti.API.debug(e);
-			finish(new Error('failed to retrieve headers: ' + e)); // Failing on Windows here, likely need to update test!
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error('failed to retrieve headers: ' + e)); // Failing on Windows here, likely need to update test!
+			}
 		};
 		xhr.open('GET', 'http://www.appcelerator.com'); // FIXME Update URL!
 		xhr.send();
@@ -209,14 +239,20 @@ describe('Titanium.Network.HTTPClient', function () {
 	});
 
 	it('sendData', function (finish) {
-		var xhr = Ti.Network.createHTTPClient();
+		var xhr = Ti.Network.createHTTPClient(),
+			attempts = 3;
 		xhr.setTimeout(3e4);
 		xhr.onload = function () {
 			finish();
 		};
 		xhr.onerror = function (e) {
-			Ti.API.debug(e);
-			finish(new Error('failed to send data: ' + e));
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error('failed to send data: ' + e));
+			}
 		};
 		xhr.open('POST', 'http://www.httpbin.org/post');
 		xhr.send({
@@ -287,11 +323,13 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://jira.appcelerator.org/browse/TIMOB-2849
 	// Windows does not yet support Ti.Network.Cookie
 	it.windowsMissing('setCookieClearCookieWithMultipleHTTPClients', function (finish) {
-		var xhr = Ti.Network.createHTTPClient();
+		var xhr = Ti.Network.createHTTPClient(),
+			attempts = 3;
 		xhr.setTimeout(3e4);
 		xhr.onload = function () {
 			var resp = JSON.parse(this.responseText),
 				xhr2;
+			attempts = 3;
 			should(resp.cookies.k1).eql('v1');
 			should(resp.cookies.k2).eql('v2');
 			xhr2 = Ti.Network.createHTTPClient();
@@ -305,13 +343,23 @@ describe('Titanium.Network.HTTPClient', function () {
 				finish();
 			};
 			xhr2.onerror = function (e) {
-				finish(new Error(e.error || this.responseText));
+				if (attempts-- > 0) {
+            		Ti.API.warn('failed, attempting to retry request...');
+            		xhr2.send();
+	        	} else {
+					finish(new Error(e.error || this.responseText));
+				}
 			};
 			xhr2.open('GET', 'http://www.httpbin.org/cookies/delete?k2=&k1=');
 			xhr2.send();
 		};
 		xhr.onerror = function (e) {
-			finish(new Error(e.error || this.responseText));
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+				finish(new Error(e.error || this.responseText));
+			}
 		};
 		xhr.open('GET', 'http://www.httpbin.org/cookies/set?k2=v2&k1=v1');
 		xhr.send();
@@ -321,7 +369,8 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://jira.appcelerator.org/browse/TIMOB-17403
 	// Windows Desktop is timing out here...
 	it.windowsBroken('callbackTestForGETMethod', function (finish) {
-		var xhr = Ti.Network.createHTTPClient(),
+		var xhr = Ti.Network.createHTTPClient(),,
+			attempts = 3,
 			dataStreamFinished = false;
 		xhr.setTimeout(3e4);
 
@@ -343,7 +392,13 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 
 		xhr.onerror = function (e) {
-			finish(new Error(e.error || this.responseText));
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error(e.error || this.responseText));
+			}
 		};
 
 		xhr.open('GET', 'http://www.appcelerator.com/assets/The_iPad_App_Wave.pdf');
@@ -352,7 +407,8 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// Windows Desktop is timing out here...
 	it.windowsBroken('callbackTestForPOSTMethod', function (finish) {
-		var xhr = Ti.Network.createHTTPClient(),
+		var xhr = Ti.Network.createHTTPClient(),,
+			attempts = 3,
 			sendStreamFinished = false,
 			buffer;
 		xhr.setTimeout(3e4);
@@ -369,7 +425,13 @@ describe('Titanium.Network.HTTPClient', function () {
 			}
 		};
 		xhr.onerror = function (e) {
-			finish(new Error(e.error || this.responseText));
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error(e.error || this.responseText));
+			}
 		};
 		buffer = Ti.createBuffer({
 			length: 1024 * 10
@@ -391,7 +453,8 @@ describe('Titanium.Network.HTTPClient', function () {
 			newId = new Date().getTime(),
 			newName = 'HEY_YOU_GUYS_WAIT_FOR_ME-' + newId,
 			form,
-			blob = imageFile.read(imageFile);
+			blob = imageFile.read(imageFile),
+			attempts = 3;
 
 		xhr.setTimeout(6e4);
 
@@ -419,7 +482,13 @@ describe('Titanium.Network.HTTPClient', function () {
 			finish();
 		};
 		xhr.onerror = function (e) {
-			finish(new Error(e.error || this.responseText));
+			if (attempts-- > 0) {
+            	Ti.API.warn('failed, attempting to retry request...');
+            	xhr.send();
+	        } else {
+	            Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error(e.error || this.responseText));
+			}
 		};
 
 		xhr.open('POST', 'http://www.httpbin.org/post');
