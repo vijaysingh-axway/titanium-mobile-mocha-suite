@@ -377,6 +377,7 @@ describe('Titanium.UI.View', function () {
 						if (count++ > 1) {
 							win.close();
 							finish();
+							return;
 						}
 						left += 50;
 						start();
