@@ -369,7 +369,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://jira.appcelerator.org/browse/TIMOB-17403
 	// Windows Desktop is timing out here...
 	it.windowsBroken('callbackTestForGETMethod', function (finish) {
-		var xhr = Ti.Network.createHTTPClient(),,
+		var xhr = Ti.Network.createHTTPClient(),
 			attempts = 3,
 			dataStreamFinished = false;
 		xhr.setTimeout(3e4);
@@ -407,7 +407,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// Windows Desktop is timing out here...
 	it.windowsBroken('callbackTestForPOSTMethod', function (finish) {
-		var xhr = Ti.Network.createHTTPClient(),,
+		var xhr = Ti.Network.createHTTPClient(),
 			attempts = 3,
 			sendStreamFinished = false,
 			buffer;
