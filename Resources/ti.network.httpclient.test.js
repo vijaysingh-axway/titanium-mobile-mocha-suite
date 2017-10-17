@@ -36,12 +36,12 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
-	            finish(new Error('failed to retrieve RSS feed: ' + e)); // Windows fails here. I think we need to update the URL!
-	        }
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
+				finish(new Error('failed to retrieve RSS feed: ' + e)); // Windows fails here. I think we need to update the URL!
+			}
 		};
 
 		xhr.open('GET', 'http://www.appcelerator.com/feed');
@@ -76,10 +76,10 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
 				finish(new Error('failed to retrieve large image: ' + e));
 			}
 		};
@@ -143,10 +143,10 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
 				finish(new Error('failed to retrieve redirected large image: ' + e));
 			}
 		};
@@ -165,10 +165,10 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
 				finish(new Error('failed to post empty request: ' + e));
 			}
 		};
@@ -193,10 +193,10 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
 				finish(new Error('failed to retrieve headers: ' + e)); // Failing on Windows here, likely need to update test!
 			}
 		};
@@ -247,10 +247,10 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
 				finish(new Error('failed to send data: ' + e));
 			}
 		};
@@ -344,9 +344,9 @@ describe('Titanium.Network.HTTPClient', function () {
 			};
 			xhr2.onerror = function (e) {
 				if (attempts-- > 0) {
-            		Ti.API.warn('failed, attempting to retry request...');
-            		xhr2.send();
-	        	} else {
+					Ti.API.warn('failed, attempting to retry request...');
+					xhr2.send();
+				} else {
 					finish(new Error(e.error || this.responseText));
 				}
 			};
@@ -355,9 +355,9 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
 				finish(new Error(e.error || this.responseText));
 			}
 		};
@@ -393,10 +393,10 @@ describe('Titanium.Network.HTTPClient', function () {
 
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
 				finish(new Error(e.error || this.responseText));
 			}
 		};
@@ -426,10 +426,10 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
 				finish(new Error(e.error || this.responseText));
 			}
 		};
@@ -483,10 +483,10 @@ describe('Titanium.Network.HTTPClient', function () {
 		};
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
-            	Ti.API.warn('failed, attempting to retry request...');
-            	xhr.send();
-	        } else {
-	            Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null , 2));
 				finish(new Error(e.error || this.responseText));
 			}
 		};

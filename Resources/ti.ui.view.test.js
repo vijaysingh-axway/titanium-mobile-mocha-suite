@@ -349,53 +349,50 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	// FIXME Android reports value of 200 for one of the comparisons to 100
-	// FIXME Intermittent timeout on iOS?
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('TIMOB-20598', function (finish) {
-		var view,
-			pos = 100,
-			count = 0,
-			error;
+	it('TIMOB-20598', function (finish) {
+		var view = Ti.UI.createView({
+				backgroundColor:'red',
+				width: 100, height: 100,
+				left: 100,  top: 100
+			}),
+			left = 150,
+			count = 0;
+
 		win = Ti.UI.createWindow();
-		view = Ti.UI.createView({
-			backgroundColor:'red',
-			width: 100, height: 100,
-			left: 100,  top: 100
-		});
 
 		function start() {
 			var animation = Ti.UI.createAnimation({
-				left: pos,
-				duration: 1000,
+				left: left,
+				duration: 1000
 			});
-			animation.addEventListener('complete', function () {
-				setTimeout(function () {
+
+			animation.addEventListener('complete', function() {
+				setTimeout(function() {
 					try {
-						should(view.rect.x).be.eql(pos);
+						should(view.rect.x).be.eql(left);
 						should(view.rect.y).be.eql(100);
 						should(view.left).be.eql(100);
 						should(view.top).be.eql(100);
-					} catch (err) {
-						error = err;
-					}
-					if (count > 1) {
-						win.close();
-						finish(error);
-					} else {
-						pos += 50;
-						count++;
+
+						if (count++ > 1) {
+							win.close();
+							finish();
+						}
+						left += 50;
 						start();
+					} catch (e) {
+						finish(e);
 					}
-				}, 500);
+				}, 1000);
 			});
 
 			view.animate(animation);
 		}
 
-		win.addEventListener('open', function () {
+		win.addEventListener('open', function() {
 			start();
 		});
+
 		win.add(view);
 		win.open();
 	});
