@@ -11,6 +11,8 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.Network.Socket.TCP', function () {
+	this.timeout(6e4);
+	
 	var socket;
 
 	afterEach(function () {
