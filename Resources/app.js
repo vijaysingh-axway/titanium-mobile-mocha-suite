@@ -111,7 +111,7 @@ function loadAddonTestFiles (name) {
 	// Only load the test files
 	} else if (/\w+.addontest\.js$/i.test(info.name)) {
 		try {
-			require(name.replace(/.js/, '')); // eslint-disable-line security/detect-non-literal-require
+			require(name.replace(/.js$/, '')); // eslint-disable-line security/detect-non-literal-require
 		} catch (e) {
 			console.log(e);
 		}
