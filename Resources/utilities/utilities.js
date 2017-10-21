@@ -177,8 +177,27 @@ filters = {
 	},
 	allBroken: function () {
 		return 'skip';
+	},
+	iosOnly: function () {
+		if (!Utility.isIOS()) {
+			return 'skip';
+		}
+		return true;
+	},
+	androidOnly: function () {
+		if (!Utility.isAndroid()) {
+			return 'skip';
+		}
+		return true;
+	},
+	windowsOnly: function () {
+		if (!Utility.isWindows()) {
+			return 'skip';
+		}
+		return true;
 	}
 };
+
 // Alias broken tests on a given platform to "missing" filter for that platform.
 // This is just handy to try and label where we have gaps in our APIs versus where we have bugs in our impl for a given platform
 filters.androidBroken = filters.androidMissing;
