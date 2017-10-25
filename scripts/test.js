@@ -353,10 +353,20 @@ function cleanupModules(next) {
 		const moduleDir = path.join(sdkDir, 'modules');
 		const pluginDir = path.join(sdkDir, 'plugins');
 		try {
-			console.log('Removing ' + moduleDir);
-			wrench.rmdirRecursive(moduleDir);
-			console.log('Removing ' + pluginDir);
-			wrench.rmdirRecursive(pluginDir);
+			if (fs.existsSync(moduleDir)) {
+				console.log('Removing ' + moduleDir);
+				wrench.rmdirSyncRecursive(moduleDir);
+			} else {
+				console.log(moduleDir + ' doesnt exist');
+			}
+
+			if (fs.existsSync(pluginDir)) {
+				console.log('Removing ' + pluginDir);
+				wrench.rmdirSyncRecursive(pluginDir);
+			} else {
+				console.log(pluginDir + ' doesnt exist');
+			}
+
 			return next();
 		} catch (e) {
 			console.log(e);
@@ -386,6 +396,16 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, call
 	}
 
 	const tasks = [];
+
+	// Only ever do this in CI so unless someone changes this code,
+	// or for some reason these are set on your machine it will never
+	// remove when running locally. That way no way can be angry at me
+	if (process.env.JENKINS || process.env.JENKINS_URL) {
+		tasks.push(function (next) {
+			cleanupModules(next);
+		});
+	}
+
 	tasks.push(function (next) {
 		// install new SDK and delete old test app in parallel
 		async.parallel([
