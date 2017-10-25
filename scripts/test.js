@@ -344,6 +344,27 @@ function cleanNonGaSDKs(sdkPath, next) {
 	});
 }
 
+function cleanupModules(next) {
+	exec('node "' + titanium + '" config sdk.defaultInstallLocation -o json', function (error, stdout) {
+		if (error !== null) {
+			return next('Failed to get SDK install location, so cant remove module: ' + error);
+		}
+		const sdkDir = JSON.parse(stdout.trim());
+		const moduleDir = path.join(sdkDir, 'modules');
+		const pluginDir = path.join(sdkDir, 'plugins');
+		try {
+			console.log('Removing ' + moduleDir);
+			wrench.rmdirRecursive(moduleDir);
+			console.log('Removing ' + pluginDir);
+			wrench.rmdirRecursive(pluginDir);
+			return next();
+		} catch (e) {
+			console.log(e);
+			return next(e);
+		}
+	});
+}
+
 /**
  * Installs a Titanium SDK to test against, generates a test app, then runs the
  * app for each platform with our mocha test suite. Outputs the results in a JUnit
@@ -421,6 +442,15 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, call
 	if (cleanup) {
 		tasks.push(function (next) {
 			cleanNonGaSDKs(sdkPath, next);
+		});
+	}
+
+	// Only ever do this in CI so unless someone changes this code,
+	// or for some reason these are set on your machine it will never
+	// remove when running locally. That way no way can be angry at me
+	if (process.env.JENKINS || process.env.JENKINS_URL) {
+		tasks.push(function (next) {
+			cleanupModules(next);
 		});
 	}
 
