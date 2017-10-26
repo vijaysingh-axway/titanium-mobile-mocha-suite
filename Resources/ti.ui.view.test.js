@@ -352,6 +352,7 @@ describe('Titanium.UI.View', function () {
 	// FIXME: Android view.rect.y is not the same as view.top
 	// FIXME: iOS fails with 'New layout set while view [object TiUIView] animating'
 	it.androidAndIosBroken('TIMOB-20598', function (finish) {
+		this.timeout(10000);
 		var view = Ti.UI.createView({
 				backgroundColor:'red',
 				width: 100, height: 100,
