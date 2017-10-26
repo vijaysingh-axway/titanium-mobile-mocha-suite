@@ -177,24 +177,6 @@ filters = {
 	},
 	allBroken: function () {
 		return 'skip';
-	},
-	iosOnly: function () {
-		if (!Utility.isIOS()) {
-			return 'skip';
-		}
-		return true;
-	},
-	androidOnly: function () {
-		if (!Utility.isAndroid()) {
-			return 'skip';
-		}
-		return true;
-	},
-	windowsOnly: function () {
-		if (!Utility.isWindows()) {
-			return 'skip';
-		}
-		return true;
 	}
 };
 
