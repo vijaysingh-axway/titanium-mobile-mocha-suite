@@ -876,7 +876,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME Get working on Android, fails
-	it.androidBroken('apiXmlNodeAppendChild', function () {
+	it.androidAndWindowsDesktopBroken('apiXmlNodeAppendChild', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			parentNode = doc.createElement('parentNode'),
 			childNode;
