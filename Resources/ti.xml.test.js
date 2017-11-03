@@ -767,7 +767,7 @@ describe('Titanium.XML', function () {
 	});
 
 	// FIXME Get working on Android, fails
-	it.androidAndAndWindowsBroken('apiXmlDocumentImportNode', function () {
+	it.androidAndWindowsBroken('apiXmlDocumentImportNode', function () {
 		var doc = Ti.XML.parseString('<a/>'),
 			otherDoc = Ti.XML.parseString(testSource['with_ns.xml']),
 			cakeNodes = otherDoc.documentElement.getElementsByTagNameNS('http://example.com', 'cake'),
