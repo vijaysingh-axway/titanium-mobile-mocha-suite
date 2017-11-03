@@ -728,7 +728,7 @@ describe('Titanium.XML', function () {
 		should(elements.length).be.equal(0);
 	});
 
-	it('apiXmlDocumentGetElementsByTagNameNS', function () {
+	it.windowsDesktopBroken('apiXmlDocumentGetElementsByTagNameNS', function () {
 		var doc = Ti.XML.parseString(testSource['with_ns.xml']),
 			elements,
 			i,
