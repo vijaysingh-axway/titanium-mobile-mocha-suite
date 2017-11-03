@@ -888,7 +888,7 @@ describe('Titanium.XML', function () {
 		should(parentNode.firstChild).eql(childNode);
 	});
 
-	it('apiXmlNodeCloneNode', function () {
+	it.windowsDesktopBroken('apiXmlNodeCloneNode', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			parentNode = doc.createElement('parent'),
 			childText,
