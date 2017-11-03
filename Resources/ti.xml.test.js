@@ -10,7 +10,7 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-describe('Titanium.XML', function () {
+describe.windowsDesktopBroken('Titanium.XML', function () {
 	var testSource = {},
 		invalidSource = {};
 
@@ -969,7 +969,7 @@ describe('Titanium.XML', function () {
 		should(results).eql(true);
 	});
 
-	it('apiXmlNodeHasChildNodes', function () {
+	it.windowsDesktopBroken('apiXmlNodeHasChildNodes', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			parentNode = doc.createElement('parentNode'),
 			parentNode2 = doc.createElement('parentNode2'),
