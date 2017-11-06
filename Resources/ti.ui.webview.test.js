@@ -31,7 +31,7 @@ describe('Titanium.UI.WebView', function () {
 	// FIXME: I think we need to tweak the test here. Set URL property after adding the listeners!
 	it.androidAndWindowsBroken('loading', function (finish) {
 		var webView,
-		var beforeLoaded = false;
+			beforeLoaded = false;
 
 		this.slow(5000);
 		this.timeout(10000);
@@ -50,7 +50,7 @@ describe('Titanium.UI.WebView', function () {
 				should(webView.loading).be.eql(false);
 
 				// Use this flag for our test, because "beforeload" also fires for resources
-				// inside the web-page (e.g. scripts), so this particular test may fail due 
+				// inside the web-page (e.g. scripts), so this particular test may fail due
 				// to recurring triggers of this event.
 				beforeLoaded = true;
 			}
