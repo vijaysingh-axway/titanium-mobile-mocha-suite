@@ -206,21 +206,21 @@ describe('requireJS', function () {
 		should(abbrev('foo', 'fool', 'folding', 'flop')).eql({ fl: 'flop', flo: 'flop', flop: 'flop', fol: 'folding', fold: 'folding', foldi: 'folding', foldin: 'folding', folding: 'folding', foo: 'foo', fool: 'fool' });
 	});
 
-	// FIXME We have no native facebook module for windows!
+	// FIXME We have no native ti.touchid module for windows!
 	it.windowsMissing('loads native module by id', function () {
-		var object = require('facebook');
+		var object = require('ti.touchid');
 		should(object).have.property('apiName');
 		// Of course, the module's apiName is wrong, so we can't test that
-		// should(object.apiName).be.eql('facebook');
-		should(object).have.property('uid');
+		// should(object.apiName).be.eql('ti.touchid');
+		should(object).have.property('authenticate');
 	});
 
 	// TODO Add a test for requiring a node module up one level from requiring file!
 
 	it.windowsPhoneBroken('loads path using legacy fallback if first segment matches native module id and wasn\'t found inside module', function () {
-		var object = require('facebook/example');
+		var object = require('ti.touchid/example');
 		should(object).have.property('name');
-		should(object.name).be.eql('facebook/example.js');
+		should(object.name).be.eql('ti.touchid/example.js');
 	});
 
 	it('require from node_modules should not break the app', function () {
