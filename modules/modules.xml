@@ -10,4 +10,5 @@
 		<module platform="ios">ti.map</module>
 		<module platform="android">ti.touchid</module>
 		<module platform="ios">ti.touchid</module>
+		<module platform="android">ti.playservices</module>
 	</modules>
