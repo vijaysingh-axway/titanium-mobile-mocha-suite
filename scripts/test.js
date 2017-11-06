@@ -346,10 +346,19 @@ function cleanNonGaSDKs(sdkPath, next) {
 
 function cleanupModules(next) {
 	exec('node "' + titanium + '" config sdk.defaultInstallLocation -o json', function (error, stdout) {
+		let sdkDir = '';
 		if (error !== null) {
-			return next('Failed to get SDK install location, so cant remove module: ' + error);
+			const osName = require('os').platform();
+			if (osName === 'win32') {
+				sdkDir = path.join(process.env.ProgramData, 'Titanium');
+			} else if (osName === 'darwin') {
+				sdkDir = path.join(process.env.HOME, 'Library', 'Application Support', 'Titanium');
+			} else if (osName === 'linux') {
+				sdkDir = path.join(process.env.HOME, '.titanium');
+			}
+		} else {
+			sdkDir = JSON.parse(stdout.trim());
 		}
-		const sdkDir = JSON.parse(stdout.trim());
 		const moduleDir = path.join(sdkDir, 'modules');
 		const pluginDir = path.join(sdkDir, 'plugins');
 		try {
