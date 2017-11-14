@@ -331,7 +331,6 @@ describe('Titanium.UI.WebView', function () {
 
 	it('userAgent', function (finish) {
 		var webView = Ti.UI.createWebView({
-			url: 'http://whatsmyuseragent.org',
 			userAgent: 'TEST AGENT'
 		});
 		win = Ti.UI.createWindow({ backgroundColor: 'gray' });
@@ -346,6 +345,7 @@ describe('Titanium.UI.WebView', function () {
 			}
 		});
 		win.add(webView);
+		webView.url = 'http://whatsmyuseragent.org';
 		win.open();
 	});
 });
