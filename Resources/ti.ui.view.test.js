@@ -353,14 +353,15 @@ describe('Titanium.UI.View', function () {
 	// FIXME: iOS fails with 'New layout set while view [object TiUIView] animating'
 	// FIXME: Windows fails with timeout
 	it.allBroken('TIMOB-20598', function (finish) {
-		this.timeout(10000);
-		var view = Ti.UI.createView({
-				backgroundColor:'red',
-				width: 100, height: 100,
-				left: 100,  top: 100
-			}),
+		var view,
 			left = 150,
 			count = 0;
+		this.timeout(10000);
+		view = Ti.UI.createView({
+			backgroundColor:'red',
+			width: 100, height: 100,
+			left: 100,  top: 100
+		});
 
 		win = Ti.UI.createWindow();
 
@@ -370,8 +371,8 @@ describe('Titanium.UI.View', function () {
 				duration: 1000
 			});
 
-			animation.addEventListener('complete', function() {
-				setTimeout(function() {
+			animation.addEventListener('complete', function () {
+				setTimeout(function () {
 					try {
 						should(view.rect.x).be.eql(left);
 						should(view.rect.y).be.eql(100);
@@ -394,7 +395,7 @@ describe('Titanium.UI.View', function () {
 			view.animate(animation);
 		}
 
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			start();
 		});
 
@@ -611,4 +612,13 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
+	it('border with only borderColor set', function (finish) {
+		var view = Ti.UI.createView({ width: 200, height: 200, borderColor: 'red', backgroundColor: 'white' });
+		win.add(view);
+		win.addEventListener('open', function () {
+			should(view.getBorderWidth()).eql('1');
+			finish();
+		});
+		win.open();
+	});
 });

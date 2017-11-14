@@ -537,7 +537,7 @@ describe('Titanium.Filesystem.File', function () {
 	// TIMOB-14364
 	it.ios('#setRemoteBackup()', function () {
 		should(function () {
-			Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory).setRemoteBackup(false);
+			Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory).setRemoteBackup(false);
 		}).not.throw();
 	});
 });

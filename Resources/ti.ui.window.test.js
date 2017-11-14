@@ -340,6 +340,11 @@ describe('Titanium.UI.Window', function () {
 		should(win.apiName).be.eql('Ti.UI.Window');
 	});
 
+	it('Stringify unopened Window', function () {
+		win = Ti.UI.createWindow();
+		Ti.API.info(JSON.stringify(win));
+	});
+
 	// FIXME Get working on iOS
 	// FIXME Get working on Android - Ti.UI.currentWindow is null
 	// Supposedly this property should only exist when using Ti.UI.Window.url to load JS files into own context! But we support elsewhere for Windows
@@ -375,39 +380,39 @@ describe('Titanium.UI.Window', function () {
 		var secondWindowBlur = 0;
 		var secondWindowOpen = 0;
 		var secondWindowClose = 0;
-		var thridWindowFocus = 0;
-		var thridWindowBlur = 0;
-		var thridWindowOpen = 0;
-		var thridWindowClose = 0;
+		var thirdWindowFocus = 0;
+		var thirdWindowBlur = 0;
+		var thirdWindowOpen = 0;
+		var thirdWindowClose = 0;
 
 		var rootWindow = Ti.UI.createWindow({
 			backgroundColor: 'navy'
 		});
 
-		rootWindow.addEventListener('focus', function () { rootWindowFocus++; });
-		rootWindow.addEventListener('blur', function () { rootWindowBlur++; });
-		rootWindow.addEventListener('open', function () { rootWindowOpen++; });
-		rootWindow.addEventListener('close', function () { rootWindowClose++; });
+		rootWindow.addEventListener('focus', function () { rootWindowFocus++; }); // eslint-disable-line max-statements-per-line
+		rootWindow.addEventListener('blur', function () { rootWindowBlur++; }); // eslint-disable-line max-statements-per-line
+		rootWindow.addEventListener('open', function () { rootWindowOpen++; }); // eslint-disable-line max-statements-per-line
+		rootWindow.addEventListener('close', function () { rootWindowClose++; }); // eslint-disable-line max-statements-per-line
 		rootWindow.open();
 
 		setTimeout(function () {
 			var secondWindow = Ti.UI.createWindow({
 				backgroundColor: 'pink'
 			});
-			secondWindow.addEventListener('focus', function () { secondWindowFocus++; });
-			secondWindow.addEventListener('blur', function () { secondWindowBlur++; });
-			secondWindow.addEventListener('open', function () { secondWindowOpen++; });
-			secondWindow.addEventListener('close', function () { secondWindowClose++; });
+			secondWindow.addEventListener('focus', function () { secondWindowFocus++; }); // eslint-disable-line max-statements-per-line
+			secondWindow.addEventListener('blur', function () { secondWindowBlur++; }); // eslint-disable-line max-statements-per-line
+			secondWindow.addEventListener('open', function () { secondWindowOpen++; }); // eslint-disable-line max-statements-per-line
+			secondWindow.addEventListener('close', function () { secondWindowClose++; }); // eslint-disable-line max-statements-per-line
 			secondWindow.open();
 
 			setTimeout(function () {
 				var thirdWindow = Ti.UI.createWindow({
 					backgroundColor: 'green'
 				});
-				thirdWindow.addEventListener('focus', function () { thridWindowFocus++; });
-				thirdWindow.addEventListener('blur', function () { thridWindowBlur++; });
-				thirdWindow.addEventListener('open', function () { thridWindowOpen++; });
-				thirdWindow.addEventListener('close', function () { thridWindowClose++; });
+				thirdWindow.addEventListener('focus', function () { thirdWindowFocus++; }); // eslint-disable-line max-statements-per-line
+				thirdWindow.addEventListener('blur', function () { thirdWindowBlur++; }); // eslint-disable-line max-statements-per-line
+				thirdWindow.addEventListener('open', function () { thirdWindowOpen++; }); // eslint-disable-line max-statements-per-line
+				thirdWindow.addEventListener('close', function () { thirdWindowClose++; }); // eslint-disable-line max-statements-per-line
 				thirdWindow.open();
 
 				setTimeout(function () {
@@ -427,10 +432,10 @@ describe('Titanium.UI.Window', function () {
 								should(secondWindowOpen).be.eql(1);
 								should(secondWindowClose).be.eql(1);
 
-								should(thridWindowFocus).be.eql(1);
-								should(thridWindowBlur).be.eql(1);
-								should(thridWindowOpen).be.eql(1);
-								should(thridWindowClose).be.eql(1);
+								should(thirdWindowFocus).be.eql(1);
+								should(thirdWindowBlur).be.eql(1);
+								should(thirdWindowOpen).be.eql(1);
+								should(thirdWindowClose).be.eql(1);
 								finish();
 							} catch (err) {
 								finish(err);

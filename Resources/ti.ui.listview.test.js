@@ -825,4 +825,68 @@ describe('Titanium.UI.ListView', function () {
 		win.add(listView);
 		win.open();
 	});
+
+	// iOS-only properties
+	it.ios('ListView.getSelectedRows', function () {
+		var win = Ti.UI.createWindow();
+
+		var list = Ti.UI.createListView({
+			sections: [ Ti.UI.createListSection({
+				items: [ {
+					properties: {
+						title: 'My Title 1',
+					}
+				}, {
+					properties: {
+						title: 'My Title 2',
+					}
+				} ]
+			}) ]
+		});
+		win.addEventListener('open', function () {
+			list.selectItem(0, 1);
+			should(list.selectedItems[0].section).be.eql(list.sections[0]);
+			should(list.selectedItems[0].sectionIndex).be.eql(0);
+			should(list.selectedItems[0].itemIndex).be.eql(1);
+			list.selectItem(0, 0);
+			should(list.selectedItems[0].section).be.eql(list.sections[0]);
+			should(list.selectedItems[0].sectionIndex).be.eql(0);
+			should(list.selectedItems[0].itemIndex).be.eql(0);
+		});
+		win.add(list);
+		win.open();
+	});
+
+	// iOS-only properties
+	it.ios('ListView.getSelectedRows', function () {
+		var win = Ti.UI.createWindow();
+
+		var list = Ti.UI.createListView({
+			allowsMultipleSelectionDuringEditing: true,
+			sections: [ Ti.UI.createListSection({
+				items: [ {
+					properties: {
+						title: 'My Title 1',
+					}
+				}, {
+					properties: {
+						title: 'My Title 2',
+					}
+				} ]
+			}) ]
+		});
+		win.addEventListener('open', function () {
+			should(list.allowsMultipleSelectionDuringEditing).be.eql(true);
+			should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(true);
+
+			list.allowsMultipleSelectionDuringEditing = false;
+			should(list.allowsMultipleSelectionDuringEditing).be.eql(false);
+			should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(false);
+			list.setAllowsMultipleSelectionDuringEditing(true);
+			should(list.allowsMultipleSelectionDuringEditing).be.eql(true);
+			should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(true);
+		});
+		win.add(list);
+		win.open();
+	});
 });

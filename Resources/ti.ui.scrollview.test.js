@@ -8,8 +8,7 @@
 /* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+var should = require('./utilities/assertions');
 
 describe('Titanium.UI.ScrollView', function () {
 	it('apiName', function () {
@@ -81,6 +80,18 @@ describe('Titanium.UI.ScrollView', function () {
 		should(bar.overScrollMode).be.a.Number;
 	});
 
+	// Android and iOS only
+	it.windowsMissing('refreshControl', function () {
+		var refreshControl = Ti.UI.createRefreshControl({
+			title: Ti.UI.createAttributedString({ text: 'Refreshing' }),
+			tintColor: 'red'
+		});
+		var bar = Ti.UI.createScrollView({
+			refreshControl: refreshControl
+		});
+		should(bar.refreshControl).be.eql(refreshControl);
+	});
+
 	// Intentionally skip on Android, not supported
 	// FIXME Get working on iOS. Defaults to undefined, is that OK?
 	it.androidMissingAndIosBroken('scrollIndicatorStyle', function () {
@@ -91,6 +102,8 @@ describe('Titanium.UI.ScrollView', function () {
 	it('scrollingEnabled', function () {
 		var bar = Ti.UI.createScrollView({});
 		should(bar.scrollingEnabled).be.a.Boolean;
+		bar.scrollingEnabled = false;
+		should(bar.scrollingEnabled).be.eql(false);
 	});
 
 	// Android-only property
@@ -132,5 +145,22 @@ describe('Titanium.UI.ScrollView', function () {
 	it('#scrollToBottom()', function () {
 		var bar = Ti.UI.createScrollView({});
 		should(bar.scrollToBottom).be.a.Function;
+	});
+
+	it('add-insert-remove', function () {
+		var scrollView = Ti.UI.createScrollView({ layout: 'vertical' });
+		var view1 = Ti.UI.createView();
+		var view2 = Ti.UI.createView();
+		scrollView.add(view1);
+		should(scrollView.children.length).be.eql(1);
+		scrollView.insertAt({ position: 0, view: view2 });
+		should(scrollView.children.length).be.eql(2);
+		should(scrollView.children[0]).be.eql(view2);
+		should(scrollView.children[1]).be.eql(view1);
+		scrollView.remove(view1);
+		should(scrollView.children.length).be.eql(1);
+		should(scrollView.children[0]).be.eql(view2);
+		scrollView.removeAllChildren();
+		should(scrollView.children.length).be.eql(0);
 	});
 });

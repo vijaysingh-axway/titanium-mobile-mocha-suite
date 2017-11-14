@@ -1,10 +1,13 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
 var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
@@ -15,8 +18,8 @@ describe('Titanium.Platform', function () {
 		should(Ti.Platform.apiName).be.eql('Ti.Platform');
 	});
 
-	// FIXME Get working on Android?
-	(utilities.isAndroid() ? it.skip : it)('canOpenURL()', function () {
+	// TODO: Expose on Android as well?
+	it.androidMissing('canOpenURL()', function () {
 		should(Ti.Platform.canOpenURL).be.a.Function; // Android gives undefined?
 		should(Ti.Platform.canOpenURL('http://www.appcelerator.com/')).be.a.Boolean;
 	});
@@ -91,10 +94,10 @@ describe('Titanium.Platform', function () {
 	it('batteryState', function () {
 		should(Ti.Platform).have.readOnlyProperty('batteryState').which.is.a.Number;
 		// Must be one of the constant values
-		[Ti.Platform.BATTERY_STATE_CHARGING,
+		[ Ti.Platform.BATTERY_STATE_CHARGING,
 			Ti.Platform.BATTERY_STATE_FULL,
 			Ti.Platform.BATTERY_STATE_UNKNOWN,
-			Ti.Platform.BATTERY_STATE_UNPLUGGED].indexOf(Ti.Platform.batteryState).should.not.eql(-1);
+			Ti.Platform.BATTERY_STATE_UNPLUGGED ].indexOf(Ti.Platform.batteryState).should.not.eql(-1);
 	});
 
 	it('displayCaps', function () {
@@ -127,7 +130,7 @@ describe('Titanium.Platform', function () {
 
 	it('name', function () {
 		should(Ti.Platform).have.readOnlyProperty('name').which.is.a.String;
-		['android', 'iOS', 'windows', 'mobileweb'].indexOf(Ti.Platform.name).should.not.eql(-1);
+		[ 'android', 'iOS', 'windows', 'mobileweb' ].indexOf(Ti.Platform.name).should.not.eql(-1);
 		// TODO match with osname!
 	});
 
@@ -139,14 +142,14 @@ describe('Titanium.Platform', function () {
 	it('osname', function () {
 		should(Ti.Platform).have.readOnlyProperty('osname').which.is.a.String;
 		// Must be one of the known platforms!
-		['android', 'iphone', 'ipad', 'windowsphone', 'windowsstore', 'mobileweb'].indexOf(Ti.Platform.osname).should.not.eql(-1);
+		[ 'android', 'iphone', 'ipad', 'windowsphone', 'windowsstore', 'mobileweb' ].indexOf(Ti.Platform.osname).should.not.eql(-1);
 		// TODO match up Ti.Platform.name?
 	});
 
 	it('ostype', function () {
 		should(Ti.Platform).have.readOnlyProperty('ostype').which.is.a.String;
 		// Verify it's one of the known values
-		['64bit', '32bit', 'unknown'].indexOf(Ti.Platform.ostype).should.not.eql(-1);
+		[ '64bit', '32bit', 'unknown' ].indexOf(Ti.Platform.ostype).should.not.eql(-1);
 	});
 
 	it('processorCount', function () {
@@ -166,5 +169,21 @@ describe('Titanium.Platform', function () {
 
 	it('version', function () {
 		should(Ti.Platform).have.readOnlyProperty('version').which.is.a.String;
+	});
+
+	it.ios('identifierForVendor', function () {
+		should(Ti.Platform.identifierForVendor).be.a.String;
+		should(Ti.Platform.getIdentifierForVendor).be.a.Function;
+		should(Ti.Platform.identifierForVendor).eql(Ti.Platform.getIdentifierForVendor());
+	});
+
+	it.ios('identifierForAdvertising', function () {
+		should(Ti.Platform.identifierForAdvertising).be.a.String;
+		should(Ti.Platform.getIdentifierForAdvertising).be.a.Function;
+		should(Ti.Platform.identifierForAdvertising).eql(Ti.Platform.getIdentifierForAdvertising());
+	});
+
+	it.ios('isAdvertisingTrackingEnabled', function () {
+		should(Ti.Platform.isAdvertisingTrackingEnabled).be.a.Boolean;
 	});
 });
