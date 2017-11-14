@@ -113,8 +113,6 @@ describe.ios('Titanium.UI.iOS', function () {
 		should(Ti.UI.iOS.KEYBOARD_DISMISS_MODE_INTERACTIVE).be.a.Number;
 		should(Ti.UI.iOS.KEYBOARD_DISMISS_MODE_NONE).be.a.Number;
 		should(Ti.UI.iOS.KEYBOARD_DISMISS_MODE_ON_DRAG).be.a.Number;
-		should(Ti.UI.iOS.KEYBOARD_DISMISS_MODE_ALWAYS).be.a.Number;
-		should(Ti.UI.iOS.KEYBOARD_DISMISS_MODE_AUTOMATIC).be.a.Number;
 
 		// Used in Window.largeTitleDisplayMode
 		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS).be.a.Number;

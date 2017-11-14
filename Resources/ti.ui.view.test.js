@@ -614,6 +614,7 @@ describe('Titanium.UI.View', function () {
 
 	it('border with only borderColor set', function (finish) {
 		var view = Ti.UI.createView({ width: 200, height: 200, borderColor: 'red', backgroundColor: 'white' });
+		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win.add(view);
 		win.addEventListener('open', function () {
 			should(view.getBorderWidth()).eql('1');
