@@ -454,4 +454,52 @@ describe('Titanium.UI.Window', function () {
 		win.applyProperties({ custom: 1234 });
 		should(win.custom).be.eql(1234);
 	});
+
+	it.ios('largeTitleEnabled', function () {
+		win = Ti.UI.createWindow({
+			title: 'this is some text',
+			largeTitleEnabled: true
+		});
+
+		should(win.largeTitleEnabled).be.a.Boolean;
+		should(win.getLargeTitleEnabled).be.a.Function;
+		should(win.setLargeTitleEnabled).be.a.Function;
+
+		should(win.largeTitleEnabled).eql(true);
+		should(win.getLargeTitleEnabled()).eql(true);
+
+		win.largeTitleEnabled = false;
+		should(win.largeTitleEnabled).eql(false);
+		should(win.getLargeTitleEnabled()).eql(false);
+
+		win.setLargeTitleEnabled(true);
+		should(win.largeTitleEnabled).eql(true);
+		should(win.getLargeTitleEnabled()).eql(true);
+	});
+
+	it.ios('largeTitleDisplayMode', function () {
+		win = Ti.UI.createWindow({
+			title: 'this is some text',
+			largeTitleDisplayMode: Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS
+		});
+
+		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS).be.a.Number;
+		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_AUTOMATIC).be.a.Number;
+		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER).be.a.Number;
+
+		should(win.largeTitleDisplayMode).be.a.Number;
+		should(win.getLargeTitleDisplayMode).be.a.Function;
+		should(win.setLargeTitleDisplayMode).be.a.Function;
+
+		should(win.largeTitleDisplayMode).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS);
+		should(win.getLargeTitleDisplayMode()).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS);
+
+		win.largeTitleDisplayMode = Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_AUTOMATIC;
+		should(win.largeTitleDisplayMode).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_AUTOMATIC);
+		should(win.getLargeTitleDisplayMode()).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_AUTOMATIC);
+
+		win.setLargeTitleDisplayMode(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER);
+		should(win.largeTitleDisplayMode).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER);
+		should(win.getLargeTitleDisplayMode()).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER);
+	});
 });
