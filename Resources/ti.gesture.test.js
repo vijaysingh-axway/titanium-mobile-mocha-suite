@@ -1,12 +1,14 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 describe('Titanium.Gesture', function () {
 	it('apiName', function () {
@@ -45,14 +47,14 @@ describe('Titanium.Gesture', function () {
 	});
 
 	// FIXME Seems like only Windows has this? Was it deprecated/removed?
-	(utilities.isWindows() ? it : it.skip)('isFaceDown()', function () {
+	it.windows('isFaceDown()', function () {
 		should(Ti.Gesture.isFaceDown).not.be.undefined;
 		should(Ti.Gesture.isFaceDown).be.a.Function;
 		should(Ti.Gesture.isFaceDown()).be.a.Boolean;
 	});
 
 	// FIXME Seems like only Windows has this? Was it deprecated/removed?
-	(utilities.isWindows() ? it : it.skip)('isFaceUp()', function () {
+	it.windows('isFaceUp()', function () {
 		should(Ti.Gesture.isFaceUp).not.be.undefined;
 		should(Ti.Gesture.isFaceUp).be.a.Function;
 		should(Ti.Gesture.isFaceUp()).be.a.Boolean;
@@ -62,5 +64,11 @@ describe('Titanium.Gesture', function () {
 		should(Ti.Gesture.getOrientation).not.be.undefined;
 		should(Ti.Gesture.getOrientation).be.a.Function;
 		should(Ti.Gesture.getOrientation()).be.a.Number;
+	});
+
+	it.windowsMissing('orientationchange', function () {
+		function listener () {}
+		Ti.Gesture.addEventListener('orientationchange', listener);
+		Ti.Gesture.removeEventListener('orientationchange', listener);
 	});
 });

@@ -13,9 +13,28 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.UI.Window', function () {
 	var win,
-		didFocus = false;
+		didFocus = false,
+		rootWindow;
 
 	this.timeout(5000);
+
+	// Create and open a root window for the rest of the below child window tests to use as a parent.
+	// We're not going to close this window until the end of this test suite.
+	// Note: Android needs this so that closing the last window won't back us out of the app.
+	before(function (finish) {
+		rootWindow = Ti.UI.createWindow();
+		rootWindow.addEventListener('open', function () {
+			finish();
+		});
+		rootWindow.open();
+	});
+
+	after(function (finish) {
+		rootWindow.addEventListener('close', function () {
+			finish();
+		});
+		rootWindow.close();
+	});
 
 	beforeEach(function () {
 		didFocus = false;
@@ -54,6 +73,39 @@ describe('Titanium.UI.Window', function () {
 		should(win.titleid).eql('other text');
 		should(win.getTitleid()).eql('other text');
 		should(win.title).eql('this is my value'); // FIXME Windows: https://jira.appcelerator.org/browse/TIMOB-23498
+	});
+
+	function doOrientationModeTest(mocha, finish, orientation) {
+		mocha.slow(5000);
+		mocha.timeout(20000);
+		win = Ti.UI.createWindow({
+			orientationModes: [ orientation ]
+		});
+		win.addEventListener('open', function () {
+			setTimeout(function () {
+				try {
+					should(win.orientationModes.length).be.eql(1);
+					should(win.orientationModes[0]).eql(orientation);
+					should(win.orientation).eql(orientation);
+					finish();
+				} catch (err) {
+					finish(err);
+				}
+			}, 3000);
+		});
+		win.open();
+	}
+
+	it.android('orientationModes-PORTRAIT', function (finish) {
+		doOrientationModeTest(this, finish, Ti.UI.PORTRAIT);
+	});
+
+	it.android('orientationModes-LANDSCAPE_LEFT', function (finish) {
+		doOrientationModeTest(this, finish, Ti.UI.LANDSCAPE_LEFT);
+	});
+
+	it.android('orientationModes-LANDSCAPE_RIGHT', function (finish) {
+		doOrientationModeTest(this, finish, Ti.UI.LANDSCAPE_RIGHT);
 	});
 
 	// FIXME Get working on iOS. iOS reports size of 100, which seems right...
