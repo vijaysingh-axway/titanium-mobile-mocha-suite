@@ -613,12 +613,14 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Runtime error on Windows.
-	it.windowsBroken('border with only borderColor set', function (finish) {
+	// FIXME: iOS updates borderWidth internally but doesn't expose the updated value to JS!
+	// FIXME: Docs say borderWidth is a Number, but Android returns a string!
+	it.iosAndWindowsBroken('border with only borderColor set', function (finish) {
 		var view = Ti.UI.createView({ width: 200, height: 200, borderColor: 'red', backgroundColor: 'white' });
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win.add(view);
 		win.addEventListener('open', function () {
-			should(view.getBorderWidth()).eql('1');
+			should(view.borderWidth).eql('1'); // undefined on ios, despite it actually setting borderWidth under the hood to min 1
 			finish();
 		});
 		win.open();
