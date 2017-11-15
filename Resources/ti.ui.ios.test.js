@@ -119,7 +119,7 @@ describe.ios('Titanium.UI.iOS', function () {
 		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_AUTOMATIC).be.a.Number;
 
 		// Used in LivePhotoBadge.type
-		should(Ti.UI.iOS.LIVEPHOTO_BATCH_OPTIONS_LIVE_OFF).be.a.Number;
-		should(Ti.UI.iOS.LIVEPHOTO_BATCH_OPTIONS_OVER_CONTENT).be.a.Number;
+		should(Ti.UI.iOS.LIVEPHOTO_BADGE_OPTIONS_LIVE_OFF).be.a.Number;
+		should(Ti.UI.iOS.LIVEPHOTO_BADGE_OPTIONS_OVER_CONTENT).be.a.Number;
 	});
 });
