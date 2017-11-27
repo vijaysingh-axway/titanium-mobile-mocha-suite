@@ -8,7 +8,8 @@
 /* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+var should = require('./utilities/assertions'),
+	utilities = require('./utilities/utilities');
 
 describe('Titanium.Media', function () {
 	it('#createVideoPlayer()', function () {
@@ -30,7 +31,11 @@ describe('Titanium.Media.VideoPlayer', function () {
 
 	it('scalingMode', function () {
 		var player = Ti.Media.createVideoPlayer();
-		should(player.scalingMode).be.a.Number;
+		if (utilities.isIOS()) { // FIXME: Parity issue!
+			should(player.scalingMode).be.a.String;
+		} else {
+			should(player.scalingMode).be.a.Number;
+		}
 	});
 
 	it.ios('allowsAirPlay', function () {
@@ -48,15 +53,15 @@ describe('Titanium.Media.VideoPlayer', function () {
 		should(player.volume).be.a.Number;
 	});
 
-	// it.ios('pictureInPictureEnabled', function () {
-	// 	var player = Ti.Media.createVideoPlayer();
-	// 	should(player.pictureInPictureEnabled).be.a.Boolean;
-	// });
+	it.ios('pictureInPictureEnabled', function () {
+		var player = Ti.Media.createVideoPlayer();
+		should(player.pictureInPictureEnabled).be.a.Boolean;
+	});
 
-	// it.ios('showsControls', function () {
-	// 	var player = Ti.Media.createVideoPlayer();
-	// 	should(player.showsControls).be.a.Boolean;
-	// });
+	it.ios('showsControls', function () {
+		var player = Ti.Media.createVideoPlayer();
+		should(player.showsControls).be.a.Boolean;
+	});
 
 	it.ios('playableDuration', function () {
 		var player = Ti.Media.createVideoPlayer();
@@ -78,8 +83,8 @@ describe('Titanium.Media.VideoPlayer', function () {
 		should(player.endPlaybackTime).be.a.Number;
 	});
 
-	// it.ios('moviePlayerStatus', function () {
-	// 	var player = Ti.Media.createVideoPlayer();
-	// 	should(player).have.readOnlyProperty('moviePlayerStatus').which.is.a.Number;
-	// });
+	it.ios('moviePlayerStatus', function () {
+		var player = Ti.Media.createVideoPlayer();
+		should(player).have.readOnlyProperty('moviePlayerStatus').which.is.a.Number;
+	});
 });

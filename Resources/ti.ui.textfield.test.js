@@ -250,4 +250,41 @@ describe('Titanium.UI.TextField', function () {
 		win.open();
 	});
 
+	// Tests adding and removing a TextField's focus.
+	it('focus-blur', function (finish) {
+		var textField;
+		this.timeout(5000);
+		win = Ti.UI.createWindow({ layout: 'vertical' });
+
+		// First TextField is needed to receive default focus on startup
+		// and to receive focus when second TextField has lost focus.
+		textField = Ti.UI.createTextField({
+			width: Ti.UI.FILL,
+			height: Ti.UI.SIZE,
+		});
+		win.add(textField);
+
+		// Second TextField is used to test focus/blur handling.
+		textField = Ti.UI.createTextField({
+			width: Ti.UI.FILL,
+			height: Ti.UI.SIZE,
+		});
+		textField.addEventListener('focus', function () {
+			// Focus has been received. Now test removing focus.
+			setTimeout(function () {
+				textField.blur();
+			}, 10);
+		});
+		textField.addEventListener('blur', function () {
+			// Focus has been lost. The test was finished successfully. (Timeout means failure.)
+			finish();
+		});
+		win.add(textField);
+
+		// Start the test when the window has been opened.
+		win.addEventListener('open', function () {
+			textField.focus();
+		});
+		win.open();
+	});
 });
