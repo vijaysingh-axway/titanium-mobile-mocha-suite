@@ -11,9 +11,8 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.Network.Socket.TCP', function () {
-	this.timeout(6e4);
-	
 	var socket;
+	this.timeout(6e4);
 
 	afterEach(function () {
 		if (socket && socket.state == Ti.Network.Socket.CONNECTED) { // eslint-disable-line eqeqeq
@@ -80,7 +79,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 		var buffer = '';
 		socket = Ti.Network.Socket.createTCP({
 			host: 'pastebin.com', port: 80,
-			timeout: 5000,
+			timeout: 20000,
 			connected: function (e) {
 				// receive callback
 				should(socket.read).not.be.null;
