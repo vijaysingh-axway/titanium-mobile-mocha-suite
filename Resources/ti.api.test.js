@@ -55,4 +55,14 @@ describe('Titanium.API', function () {
 		should(Ti.API.warn).be.a.Function;
 		should(Ti.API.warn('warn')).be.undefined;
 	});
+
+	it('Ti.API.log with one non-String parameter', function () {
+		Ti.API.log({ key: 'value' }); // used to cause crash on Android
+		should(true).equal(true);
+	});
+
+	it('Ti.API.log with second non-String parameter', function () {
+		Ti.API.log('debug', { key: 'value' }); // used to cause crash on Android
+		should(true).equal(true);
+	});
 });
