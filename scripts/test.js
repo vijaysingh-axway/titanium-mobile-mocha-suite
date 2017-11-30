@@ -115,17 +115,17 @@ function addTiAppProperties(next) {
 		content.push(line);
 		if (line.indexOf('<ios>') >= 0) {
 			// Forse using the JScore on the emulator, not TiCore!
-			content.push('		<use-jscore-framework>true</use-jscore-framework>');
+			content.push('\t\t<use-jscore-framework>true</use-jscore-framework>');
 		// app thinning breaks tests which expect image files to exist on filesystem normally!
 		} else if (line.indexOf('<use-app-thinning>') >= 0) {
 			content.pop();
-			content.push('		<use-app-thinning>false</use-app-thinning>');
+			content.push('\t\t<use-app-thinning>false</use-app-thinning>');
 		// Grab contents of modules/modules.xml to inject as moduel listing for tiapp.xml
 		// This allows PR to override
 		} else if (line.indexOf('<modules>') >= 0) {
 			// remove open tag
 			content.pop();
-			// now inject the overriden modules listing from xml file
+			// now inject the overridden modules listing from xml file
 			content.push(fs.readFileSync(path.join(SOURCE_DIR, 'modules', 'modules.xml')).toString());
 		// ignore end modules tag since injection above already wrote it!
 		} else if (line.indexOf('</modules>') >= 0) {
@@ -137,6 +137,13 @@ function addTiAppProperties(next) {
 			content.push('\t<property name="presetDouble" type="double">1.23456</property>');
 			content.push('\t<property name="presetInt" type="int">1337</property>');
 			content.push('\t<property name="presetString" type="string">Hello!</property>');
+		} else if (line.indexOf('<android xmlns:android') >= 0) {
+			// Inject the google maps api key
+			content.push('\t\t<manifest>');
+			content.push('\t\t\t<application>');
+			content.push('\t\t\t\t<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCN_aC6RMaynan8YzsO1HNHbhsr9ZADDlY"/>');
+			content.push('\t\t\t</application>');
+			content.push('\t\t</manifest>');
 		}
 	});
 	fs.writeFileSync(tiapp_xml, content.join('\n'));
