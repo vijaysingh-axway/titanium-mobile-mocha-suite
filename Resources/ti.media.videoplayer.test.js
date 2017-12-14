@@ -108,16 +108,18 @@ describe('Titanium.Media.VideoPlayer', function () {
 			scalingMode: Titanium.Media.VIDEO_SCALING_ASPECT_FIT
 		});
 
-		// When the first window openes, open the next one
+		// When the first window opens, open the next one
 		win.addEventListener('open', function () {
-			this.timeout(500);
-			nav.openWindow(detailWindow);
+			setTimeout(function () {
+				nav.openWindow(detailWindow);
+			}, 500);
 		});
 
 		// Once the next window opens, close it again
 		detailWindow.addEventListener('open', function () {
-			this.timeout(500);
-			nav.closeWindow(detailWindow);
+			setTimeout(function () {
+				nav.closeWindow(detailWindow);
+			}, 500);
 		});
 
 		// If the detail window closes successfully without a crash, we are good!
