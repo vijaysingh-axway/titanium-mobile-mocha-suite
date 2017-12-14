@@ -4,19 +4,32 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
+/* eslint-env mocha */
+/* global Ti, global */
+/* eslint no-unused-expressions: "off", no-global-assign: "off", no-native-reassign: "off" */
 'use strict';
 var utilities,
 	win,
 	$results = [],
-	failed = false;
+	failed = false,
+	should;
 
 require('./ti-mocha');
 // I *think* we need to load mocha first before utilities...
 utilities = require('./utilities/utilities');
+should = require('./utilities/assertions');
 win = Ti.UI.createWindow({
 	backgroundColor: 'yellow'
 });
 win.open();
+
+// Must test global is available in first app.js explicitly!
+// (since app.js is treated slightly differently than required files on at least Android)
+describe('global', function () {
+	it('should be available as \'global\'', function () {
+		should(global).be.ok;
+	});
+});
 
 // ============================================================================
 // Add the tests here using "require"

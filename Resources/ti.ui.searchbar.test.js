@@ -11,10 +11,18 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.UI.SearchBar', function () {
+	var win;
+
+	afterEach(function () {
+		if (win) {
+			win.close();
+		}
+		win = null;
+	});
+
 	// FIXME Intermittently fails on Android?
 	it.androidBroken('TableView', function (finish) {
-		var win = Ti.UI.createWindow(),
-			sb = Ti.UI.createSearchBar({
+		var sb = Ti.UI.createSearchBar({
 				barColor: 'blue',
 				height: 44
 			}),
@@ -25,19 +33,14 @@ describe('Titanium.UI.SearchBar', function () {
 				left: 0
 			});
 
+		win = Ti.UI.createWindow();
 		win.addEventListener('open', function () {
-			var error;
-
 			try {
 				table.search = sb;
+				finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-
-			setTimeout(function () {
-				win.close();
-				finish(error);
-			}, 1000);
 		});
 		win.add(table);
 		win.open();
@@ -45,8 +48,7 @@ describe('Titanium.UI.SearchBar', function () {
 
 	// FIXME this seems to hard-crash Android. No stacktrace, no errors from logcat. File a JIRA?
 	it.androidBroken('ListView', function (finish) {
-		var win = Ti.UI.createWindow(),
-			sb = Ti.UI.createSearchBar({
+		var sb = Ti.UI.createSearchBar({
 				barColor: 'blue',
 				height: 44
 			}),
@@ -60,19 +62,14 @@ describe('Titanium.UI.SearchBar', function () {
 
 		listview.sections = [ fruitSection ];
 
+		win = Ti.UI.createWindow();
 		win.addEventListener('open', function () {
-			var error;
-
 			try {
 				listview.searchView = sb;
+				finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-
-			setTimeout(function () {
-				win.close();
-				finish(error);
-			}, 1000);
 		});
 		win.add(listview);
 		win.open();
@@ -80,14 +77,13 @@ describe('Titanium.UI.SearchBar', function () {
 
 	// FIXME this seems to hard-crash Android. No stacktrace, no errors from logcat. File a JIRA?
 	it.androidBroken('TIMOB-9745,TIMOB-7020', function (finish) {
-		var win = Ti.UI.createWindow(),
-			data = [{
+		var data = [ {
 				title: 'Row 1',
 				color: 'red'
 			}, {
 				title: 'Row 2',
 				color: 'green'
-			}],
+			} ],
 			sb = Ti.UI.createSearchBar({
 				barColor: 'blue',
 				showCancel: false,
@@ -102,9 +98,8 @@ describe('Titanium.UI.SearchBar', function () {
 				data: data
 			});
 
+		win = Ti.UI.createWindow();
 		win.addEventListener('open', function () {
-			var error;
-
 			try {
 				win.add(table);
 				win.remove(table);
@@ -113,19 +108,15 @@ describe('Titanium.UI.SearchBar', function () {
 				should(sb.getHeight()).eql(44);
 				should(sb.getShowCancel()).be.false;
 				should(sb.getBarColor()).eql('blue');
+				finish();
 			} catch (err) {
-				error = err;
+				finish(err);
 			}
-
-			setTimeout(function () {
-				win.close();
-				finish(error);
-			}, 1000);
 		});
 		win.open();
 	});
 
-	it('Should be able to set/set hintText', function (finish) {
+	it('Should be able to set/set hintText', function () {
 		var search = Ti.UI.createSearchBar({
 			hintText: 'Search'
 		});
@@ -136,6 +127,39 @@ describe('Titanium.UI.SearchBar', function () {
 		}).not.throw();
 		should(search.hintText).eql('Updated search');
 		should(search.getHintText()).eql('Updated search');
-		finish();
+	});
+
+	it.ios('Should work with absolute-positioned search-bars (ListView)', function (finish) {
+		var data = [ { properties: { title: 'Bashful', hasDetail: true } } ],
+			searchBar,
+			listView;
+
+		win = Ti.UI.createWindow({ backgroundColor: 'white' });
+		win.addEventListener('open', function () {
+			should(listView.top).eql(50);
+			should(listView.bottom).eql(50);
+			should(listView.left).eql(40);
+			should(listView.right).eql(40);
+
+			should(searchBar.getWidth()).eql(150);
+
+			finish();
+		});
+
+		searchBar = Ti.UI.createSearchBar({
+			width : 150
+		});
+
+		listView = Ti.UI.createListView({
+			backgroundColor: '#999',
+			searchView: searchBar,
+			sections: [ Ti.UI.createListSection({ items: data }) ],
+			top: 50,
+			bottom: 50,
+			left: 40,
+			right: 40
+		});
+		win.add(listView);
+		win.open();
 	});
 });
