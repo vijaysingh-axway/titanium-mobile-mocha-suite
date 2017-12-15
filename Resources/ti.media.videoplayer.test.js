@@ -108,6 +108,8 @@ describe('Titanium.Media.VideoPlayer', function () {
 			scalingMode: Titanium.Media.VIDEO_SCALING_ASPECT_FIT
 		});
 
+		this.timeout(5000);
+
 		// When the first window opens, open the next one
 		win.addEventListener('open', function () {
 			setTimeout(function () {
