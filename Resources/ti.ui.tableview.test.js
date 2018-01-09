@@ -1086,7 +1086,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// Verifies that we don't run into the JNI ref overflow issue on Android
 	// FIXME Eventually crashes on Windows Desktop, crashes right away with no output on Phone
-	it.windowsBroken('TIMOB-15765', function () {
+	it.windowsBroken('TIMOB-15765 rev.1', function () {
 		var views = [],
 			references = 51200, // JNI max is 51200
 			error;
@@ -1110,6 +1110,29 @@ describe('Titanium.UI.TableView', function () {
 			}
 
 			Ti.API.info('success, created ' + references + ' references!');
+		} catch (e) {
+			error = e;
+		}
+		finish(error);
+	});
+
+	it.windowsBroken('TIMOB-15765 rev.2', function () {
+		var references = 51200, // JNI max is 51200
+			error;
+
+		// create references
+		try {
+			for (var i = 0; i < references; i++) {
+				var blob = Ti.createBuffer({ length: 1 }).toBlob();
+
+				should(blob).not.be.undefined;
+				should(blob).be.an.Object;
+
+				if (!(i % Math.floor(references / 10))) {
+					Ti.API.info('creating temporary references... ' + i + '/' + references);
+				}
+			}
+			Ti.API.info('success!');
 		} catch (e) {
 			error = e;
 		}
