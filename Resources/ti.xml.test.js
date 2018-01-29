@@ -1018,7 +1018,8 @@ describe.windowsDesktopBroken('Titanium.XML', function () {
 		should(results).eql(false);
 	});
 
-	it('apiXmlNodeNormalize', function () {
+	// TODO: "normalize()" is not available for Ti.XML.Node on iOS
+	it.iosMissing('apiXmlNodeNormalize', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']);
 		var parentNode = doc.createElement('parentNode');
 		parentNode.appendChild(doc.createTextNode('My '));
