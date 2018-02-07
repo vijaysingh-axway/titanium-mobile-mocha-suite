@@ -1,6 +1,9 @@
+/* eslint-env node */
+/* eslint no-unused-vars: "off" */
+
 // local variables and functions which should not be exported
 var localVariable = 'localVariable';
-var localFunction = function () {
+var localFunction = function () { // eslint-disable-line func-style
 	return 'localFunction';
 };
 
@@ -25,8 +28,9 @@ exports.testNumVar = 101;
 exports.testBoolVar = true;
 exports.testNullVar = null;
 
-// these are actually a side effect, but we can expose to global object
-this.globalFunctionFromModule = function () {
-	return "globalFunctionFromModule";
+// these are actually a side effect, but we can hang things off the global object
+// NOTE: Titanium used to support "this" as global too, but babel transpile breaks that
+global.globalFunctionFromModule = function () {
+	return 'globalFunctionFromModule';
 };
-this.globalStrVarFromModule = "globalStrVarFromModule";
+global.globalStrVarFromModule = 'globalStrVarFromModule';
