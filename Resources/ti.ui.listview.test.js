@@ -28,6 +28,18 @@ describe('Titanium.UI.ListView', function () {
 		should(listView.apiName).be.eql('Ti.UI.ListView');
 	});
 
+	it.windowsMissing('canScroll', function () {
+		var listView = Ti.UI.createListView({ canScroll: false });
+		should(listView.canScroll).be.eql(false);
+		should(listView.getCanScroll()).be.eql(false);
+		listView.canScroll = !listView.canScroll;
+		should(listView.canScroll).be.eql(true);
+		should(listView.getCanScroll()).be.eql(true);
+		listView.setCanScroll(!listView.getCanScroll());
+		should(listView.canScroll).be.eql(false);
+		should(listView.getCanScroll()).be.eql(false);
+	});
+
 	// FIXME Get working on Android, gives us sectionCount of 0 when it should be 1
 	it.androidBroken('createListView', function () {
 		var listView,

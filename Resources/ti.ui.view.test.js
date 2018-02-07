@@ -12,11 +12,27 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.View', function () {
-	var win,
+	var rootWindow,
+		win,
 		didFocus = false,
 		didPostLayout = false;
 
 	this.timeout(5000);
+
+	before(function (finish) {
+		rootWindow = Ti.UI.createWindow();
+		rootWindow.addEventListener('open', function () {
+			finish();
+		});
+		rootWindow.open();
+	});
+
+	after(function (finish) {
+		rootWindow.addEventListener('close', function () {
+			finish();
+		});
+		rootWindow.close();
+	});
 
 	beforeEach(function () {
 		didFocus = false;
@@ -623,6 +639,56 @@ describe('Titanium.UI.View', function () {
 			should(view.borderWidth).eql('1'); // undefined on ios, despite it actually setting borderWidth under the hood to min 1
 			finish();
 		});
+		win.open();
+	});
+
+	// these properties should be present with all events
+	// for this automated test we will be using 'focus'
+	it('event source and bubbles property', function (finish) {
+		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		win.addEventListener('focus', function (e) {
+			if (didFocus) {
+				return;
+			}
+			didFocus = true;
+
+			try {
+				should(e.source).be.a.Object;
+				should(e.bubbles).be.a.Boolean;
+
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.open();
+	});
+
+	// TIMOB-25656: Android specific issue where getOrCreateView() could return null
+	it.android('getOrCreateView() should always return a View', function (finish) {
+		win = Ti.UI.createWindow();
+
+		win.addEventListener('open', function () {
+
+			var child = Ti.UI.createWindow();
+
+			child.addEventListener('open', function () {
+				var imageView = Ti.UI.createImageView();
+
+				child.addEventListener('close', function () {
+					try {
+						imageView.tintColor;
+					} catch (error) {
+						finish(error);
+					}
+					finish();
+				});
+				child.close();
+			});
+
+			child.open();
+		});
+
 		win.open();
 	});
 });

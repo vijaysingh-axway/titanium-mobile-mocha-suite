@@ -332,8 +332,11 @@ describe('Titanium.UI.WebView', function () {
 	// FIXME: Timeout on Windows.
 	it.windowsBroken('userAgent', function (finish) {
 		var webView = Ti.UI.createWebView({
-			userAgent: 'TEST AGENT'
-		});
+				userAgent: 'TEST AGENT'
+			}),
+			url = 'http://whatsmyuseragent.org',
+			retry = 3;
+
 		win = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		webView.addEventListener('load', function (e) {
@@ -341,12 +344,15 @@ describe('Titanium.UI.WebView', function () {
 				userAgent = exp && exp.length > 1 ? exp[1] : undefined;
 			if (userAgent && userAgent === webView.userAgent) {
 				finish();
+			} else if (retry--) {
+				Ti.API.warn('could not obtain userAgent, retrying...');
+				webView.url = url;
 			} else {
 				finish(new Error('invalid userAgent'));
 			}
 		});
 		win.add(webView);
-		webView.url = 'http://whatsmyuseragent.org';
+		webView.url = url;
 		win.open();
 	});
 });

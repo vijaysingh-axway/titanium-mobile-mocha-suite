@@ -104,4 +104,15 @@ describe('Titanium.UI.EmailDialog', function () {
 		should(email.bccRecipients).eql([ 'other@example.com' ]);
 		should(email.getBccRecipients()).eql([ 'other@example.com' ]);
 	});
+
+	(utilities.isWindowsDesktop() ? it.skip : it)('addAttachment', function () {
+		var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'File.txt'),
+			blob,
+			email;
+		file.write('File test.');
+		blob = Ti.createBuffer({ value: 'Blob test.' }).toBlob();
+		email = Ti.UI.createEmailDialog();
+		email.addAttachment(file);
+		email.addAttachment(blob);
+	});
 });

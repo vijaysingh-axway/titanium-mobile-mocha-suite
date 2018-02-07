@@ -39,7 +39,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error('failed to retrieve RSS feed: ' + e)); // Windows fails here. I think we need to update the URL!
 			}
 		};
@@ -79,7 +79,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error('failed to retrieve large image: ' + e));
 			}
 		};
@@ -146,7 +146,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error('failed to retrieve redirected large image: ' + e));
 			}
 		};
@@ -168,7 +168,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error('failed to post empty request: ' + e));
 			}
 		};
@@ -196,7 +196,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error('failed to retrieve headers: ' + e)); // Failing on Windows here, likely need to update test!
 			}
 		};
@@ -250,7 +250,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error('failed to send data: ' + e));
 			}
 		};
@@ -284,7 +284,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			setTimeout(function () {
 				xhr.open('GET', 'https://my.appcelerator.com/auth/login');
 				xhr.send();
-			}, 500);
+			}, 5000);
 		};
 		xhr.onerror = function (e) {
 			should(e).should.be.type('undefined');
@@ -310,8 +310,14 @@ describe('Titanium.Network.HTTPClient', function () {
 			cookie_string = this.getResponseHeader('Set-Cookie').split(';')[0];
 			xhr.clearCookies('http://www.microsoft.com');
 			xhr.onload = second_cookie_fn;
-			xhr.open('GET', 'https://my.appcelerator.com/auth/login');
-			xhr.send();
+			// Have to do this on delay for Android, or else the open and send get cancelled due to:
+			// [WARN]  TiHTTPClient: (main) [2547,14552] open cancelled, a request is already pending for response.
+			// [WARN]  TiHTTPClient: (main) [1,14553] send cancelled, a request is already pending for response.
+			// FIXME We should file a bug to handle this better! Can't we "queue" up the open/send calls to occur as soon as this callback finishes?
+			setTimeout(function () {
+				xhr.open('GET', 'https://my.appcelerator.com/auth/login');
+				xhr.send();
+			}, 5000);
 		};
 		xhr.onerror = function (e) {
 			should(e).should.be.type('undefined');
@@ -378,6 +384,10 @@ describe('Titanium.Network.HTTPClient', function () {
 			if (this.readyState === this.DONE) {
 				if (dataStreamFinished) {
 					finish();
+				} else if (attempts-- > 0) {
+					Ti.API.warn('failed, attempting to retry request...');
+					xhr.abort();
+					xhr.send();
 				} else {
 					finish(new Error('onreadystatechange done fired before 100% progress'));
 				}
@@ -394,9 +404,10 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
 				Ti.API.warn('failed, attempting to retry request...');
+				xhr.abort();
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error(e.error || this.responseText));
 			}
 		};
@@ -429,7 +440,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error(e.error || this.responseText));
 			}
 		};
@@ -486,7 +497,7 @@ describe('Titanium.Network.HTTPClient', function () {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
-				Ti.API.debug(JSON.stringify(e, null , 2));
+				Ti.API.debug(JSON.stringify(e, null, 2));
 				finish(new Error(e.error || this.responseText));
 			}
 		};
