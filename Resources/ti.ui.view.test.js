@@ -47,32 +47,21 @@ describe('Titanium.UI.View', function () {
 		win = null;
 	});
 
-	// FIXME: This will intermittently time out on Android.
 	it('backgroundColor/Image', function (finish) {
-		var view;
-		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
-		view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
-		win.add(view);
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
+		var view = Ti.UI.createView({ width: Ti.UI.FILL, height: Ti.UI.FILL });
 
-			try {
-				view.backgroundColor = 'white';
-				view.backgroundImage = 'Logo.png';
-				should(view.backgroundColor).be.a.String;
-				should(view.backgroundImage).be.a.String;
-				should(view.backgroundColor).be.eql('white');
-				should(view.backgroundImage).be.eql('Logo.png');
+		try {
+			view.backgroundColor = 'white';
+			view.backgroundImage = 'Logo.png';
+			should(view.backgroundColor).be.a.String;
+			should(view.backgroundImage).be.a.String;
+			should(view.backgroundColor).be.eql('white');
+			should(view.backgroundImage).be.eql('Logo.png');
 
-				finish();
-			} catch (err) {
-				finish(err);
-			}
-		});
-		win.open();
+			finish();
+		} catch (e) {
+			finish(e);
+		}
 	});
 
 	// FIXME Get working on iOS and Android
