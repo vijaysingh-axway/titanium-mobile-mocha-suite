@@ -17,7 +17,8 @@ describe('Titanium.UI.View', function () {
 		didFocus = false,
 		didPostLayout = false;
 
-	this.timeout(5000);
+	this.slow(2000);
+	this.timeout(10000);
 
 	before(function (finish) {
 		rootWindow = Ti.UI.createWindow();
@@ -46,6 +47,7 @@ describe('Titanium.UI.View', function () {
 		win = null;
 	});
 
+	// FIXME: This will intermittently time out on Android.
 	it('backgroundColor/Image', function (finish) {
 		var view;
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
@@ -160,7 +162,6 @@ describe('Titanium.UI.View', function () {
 	// FIXME Get working on iOS
 	it.iosBroken('backgroundGradient', function (finish) {
 		var view;
-		this.timeout(10000);
 
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		view = Ti.UI.createView({ width:Ti.UI.FILL, height:Ti.UI.FILL });
@@ -255,8 +256,6 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME Get working on iOS! After #hide() call, visible still returns true)
 	(((utilities.isWindows8_1() && utilities.isWindowsDesktop()) || utilities.isIOS()) ? it.skip : it)('hide() and show() change visible property value', function (finish) {
-		this.slow(2000);
-		this.timeout(7500);
 
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
@@ -372,7 +371,7 @@ describe('Titanium.UI.View', function () {
 		var view,
 			left = 150,
 			count = 0;
-		this.timeout(10000);
+
 		view = Ti.UI.createView({
 			backgroundColor:'red',
 			width: 100, height: 100,

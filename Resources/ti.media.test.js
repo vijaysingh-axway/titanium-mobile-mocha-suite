@@ -37,7 +37,28 @@ describe('Titanium.Media', function () {
 		should(Ti.Media.previewImage).be.a.Function;
 	});
 
-	it.android('preview image read/write external storage', function (finish) {
+	// java.lang.ClassCastException: byte[] cannot be cast to org.appcelerator.titanium.io.TiBaseFile
+	it.androidBroken('preview image from screenshot', function (finish) {
+		// take a screenshot
+		Ti.Media.takeScreenshot(function (image) {
+			if (image && image.media) {
+				Ti.Media.previewImage({
+					success: function () {
+						finish();
+					},
+					error: function (e) {
+						finish(e);
+					},
+					image: image
+				});
+			} else {
+				finish(new Error('failed to obtain screenshot'));
+			}
+		});
+	});
+
+	// Fails to write to file on CI machine
+	it.androidBroken('preview image read/write external storage', function (finish) {
 
 		// take a screenshot
 		Ti.Media.takeScreenshot(function (image) {
