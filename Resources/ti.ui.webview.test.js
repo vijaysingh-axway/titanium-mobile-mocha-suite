@@ -67,6 +67,7 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
+	// FIXME: This test fails intermittently on iOS. I'm changign the url to Google to see if that helps any
 	it('url', function (finish) {
 		var webview;
 		win = Ti.UI.createWindow({
@@ -81,7 +82,7 @@ describe('Titanium.UI.WebView', function () {
 			didFocus = true;
 
 			try {
-				webview.url = 'http://www.appcelerator.com/';
+				webview.url = 'https://www.google.com';
 
 				finish();
 			} catch (err) {
