@@ -103,6 +103,7 @@ require('./ti.ui.searchbar.test');
 require('./ti.ui.slider.test');
 require('./ti.ui.switch.test');
 require('./ti.ui.tab.test');
+require('./ti.ui.tabgroup.test');
 require('./ti.ui.tableview.test');
 require('./ti.ui.textarea.test');
 require('./ti.ui.textfield.test');

@@ -18,6 +18,18 @@ describe('Titanium.Media', function () {
 });
 
 describe('Titanium.Media.VideoPlayer', function () {
+	it.windowsMissing('VIDEO_PLAYBACK_* constants', function () {
+		should(Ti.Media.VIDEO_PLAYBACK_STATE_STOPPED).eql(0);
+		should(Ti.Media.VIDEO_PLAYBACK_STATE_PLAYING).eql(1);
+		should(Ti.Media.VIDEO_PLAYBACK_STATE_PAUSED).eql(2);
+		should(Ti.Media.VIDEO_PLAYBACK_STATE_INTERRUPTED).eql(3);
+
+		if (utilities.isAndroid()) {
+			should(Ti.Media.VIDEO_PLAYBACK_STATE_SEEKING_FORWARD).eql(4);
+			should(Ti.Media.VIDEO_PLAYBACK_STATE_SEEKING_BACKWARD).eql(5);
+		}
+	});
+
 	it('apiName', function () {
 		var player = Ti.Media.createVideoPlayer();
 		should(player).have.readOnlyProperty('apiName').which.is.a.String;

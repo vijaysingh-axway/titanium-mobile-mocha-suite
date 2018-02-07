@@ -554,4 +554,24 @@ describe('Titanium.UI.Window', function () {
 		should(win.largeTitleDisplayMode).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER);
 		should(win.getLargeTitleDisplayMode()).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER);
 	});
+
+	it.ios('.extendSafeArea exists', function (finish) {
+		this.timeout(5000);
+		// TODO: Add more unit tests related to top, bottom, left, right margins of win.safeAreaView.
+		win = Ti.UI.createWindow({
+			backgroundColor: 'gray',
+			extendSafeArea: false
+		});
+
+		win.addEventListener('open', function () {
+			try {
+				should(win.safeAreaView).be.a.Object;
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+
+		win.open();
+	});
 });

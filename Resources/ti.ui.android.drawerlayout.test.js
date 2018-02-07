@@ -113,4 +113,34 @@ describe.android('Titanium.UI.Android.DrawerLayout', function () {
 		should(drawerLayout.toolbarEnabled).be.a.Boolean;
 		should(drawerLayout.toolbarEnabled).be.true; // default value
 	});
+
+	// Test for theme with disabled default ActionBar
+	it.android('toolbarEnabled for Theme.AppCompat.NoTitleBar', function () {
+		var window = Ti.UI.createWindow({ theme: 'Theme.AppCompat.NoTitleBar' });
+		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
+		window.add(drawerLayout);
+		should(drawerLayout.toolbarEnabled).be.a.Boolean;
+		should(drawerLayout.toolbarEnabled).be.true; // default value
+		drawerLayout.toolbarEnabled = false;
+		should(drawerLayout.toolbarEnabled).be.a.Boolean;
+		should(drawerLayout.toolbarEnabled).be.false;
+		drawerLayout.toolbarEnabled = true;
+		should(drawerLayout.toolbarEnabled).be.a.Boolean;
+		should(drawerLayout.toolbarEnabled).be.true;
+		window.close();
+	});
+
+	it.android('Toolbar used as toolbar', function (finish) {
+		var window = Ti.UI.createWindow({ theme: 'Theme.AppCompat.NoTitleBar' });
+		var toolbar = Ti.UI.createToolbar({ titleTextColor: 'red', backgroundColor: 'cyan' });
+		var drawerLayout = Ti.UI.Android.createDrawerLayout({ toolbar: toolbar });
+		window.add(drawerLayout);
+		window.addEventListener('open', function () {
+			should(drawerLayout.toolbar.getTitleTextColor()).be.a.String;
+			should(drawerLayout.toolbar.getTitleTextColor()).eql('red');
+			finish();
+		});
+		window.open();
+	});
+
 });
