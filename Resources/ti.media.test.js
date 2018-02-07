@@ -37,11 +37,12 @@ describe('Titanium.Media', function () {
 		should(Ti.Media.previewImage).be.a.Function;
 	});
 
-	// java.lang.ClassCastException: byte[] cannot be cast to org.appcelerator.titanium.io.TiBaseFile
+	// FIXME: java.lang.ClassCastException: byte[] cannot be cast to org.appcelerator.titanium.io.TiBaseFile
 	// This assumes the TiBlob is from a file, but in this case it's not.
 	// MediaModule.java needs to be updated to write to a temp file in this case,
 	// like we do for EmailDialogProxy
-	it.androidBroken('preview image from screenshot', function (finish) {
+	// it.android('preview image from screenshot', function (finish) {
+	it.allBroken('preview image from screenshot', function (finish) {
 		// take a screenshot
 		Ti.Media.takeScreenshot(function (image) {
 			if (image && image.media) {
@@ -60,10 +61,10 @@ describe('Titanium.Media', function () {
 		});
 	});
 
-	// Fails to write to file on CI machine
+	// FIXME: Fails to write to file on CI machine
 	// Presumably it's because we need to ask for storage permissions, which we can't do in a headless way
-	it.androidBroken('preview image read/write external storage', function (finish) {
-
+	// it.android('preview image read/write external storage', function (finish) {
+	it.allBroken('preview image read/write external storage', function (finish) {
 		// take a screenshot
 		Ti.Media.takeScreenshot(function (image) {
 			var tmp;
