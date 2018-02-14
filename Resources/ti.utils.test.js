@@ -65,7 +65,7 @@ describe('Titanium.Utils', function () {
 	});
 
 	// FIXME: base64encode accepts Ti.File as a parameter on iOS/Android, but not on Windows.
-	it.windowsBroken('#base64encode(Ti.Filesystem.File)', function () {
+	it.androidAndWindowsBroken('#base64encode(Ti.Filesystem.File)', function () {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'txtFiles/decodedFile.txt');
 		var blob = Ti.Utils.base64encode(f);
 
@@ -75,8 +75,8 @@ describe('Titanium.Utils', function () {
 		should(blob.text).eql('SSBhbSBub3QgZW5jb2RlZCB5ZXQu');
 	});
 
-	// FIXME: base64decode accepts Ti.File as a parameter on iOS/Android, but not on Windows.
-	it.windowsBroken('#base64decode(Ti.Filesystem.File)', function () {
+	// FIXME: base64decode accepts Ti.File as a parameter on iOS, but not on Android/Windows.
+	it.androidAndWindowsBroken('#base64decode(Ti.Filesystem.File)', function () {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'txtFiles/encodedFile.txt');
 		var blob = Ti.Utils.base64decode(f);
 

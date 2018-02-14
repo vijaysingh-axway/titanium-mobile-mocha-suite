@@ -273,8 +273,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	// FIXME Android reports view.rect.y to be 100, others report 150
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (top)', function (finish) {
+	(utilities.isWindows10() && utilities.isWindowsDesktop() ? it.skip : it)('animate (top)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
@@ -313,8 +312,7 @@ describe('Titanium.UI.View', function () {
 	});
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
-	// FIXME Android reports view.rect.x to be 100, others report 150
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (left)', function (finish) {
+	(utilities.isWindows10() && utilities.isWindowsDesktop() ? it.skip : it)('animate (left)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
@@ -353,7 +351,6 @@ describe('Titanium.UI.View', function () {
 		win.open();
 	});
 
-	// FIXME: Android view.rect.y is not the same as view.top
 	// FIXME: iOS fails with 'New layout set while view [object TiUIView] animating'
 	// FIXME: Windows fails with timeout
 	it.allBroken('TIMOB-20598', function (finish) {
@@ -409,7 +406,7 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	// FIXME Android reports 90% for one of comparisons to 0 (view.left?)
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (left %)', function (finish) {
+	(utilities.isWindows10() && utilities.isWindowsDesktop() ? it.skip : it)('animate (left %)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
@@ -445,7 +442,7 @@ describe('Titanium.UI.View', function () {
 
 	// FIXME: Windows 10 Store app fails for this...need to figure out why.
 	// FIXME Android reports 90% for one of comparisons to 0 (view.top?)
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid()) ? it.skip : it)('animate (top %)', function (finish) {
+	(utilities.isWindows10() && utilities.isWindowsDesktop() ? it.skip : it)('animate (top %)', function (finish) {
 		var view;
 		win = Ti.UI.createWindow();
 		view = Ti.UI.createView({
