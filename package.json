@@ -25,6 +25,15 @@
   "bugs": {
     "url": "https://github.com/appcelerator/titanium-mobile-mocha-suite/issues"
   },
+  "dependencies": {
+    "async": "~0.9.0",
+    "colors": "*",
+    "commander": "*",
+    "ejs": "~2.2.4",
+    "stream-splitter": "~0.3.2",
+    "titanium": "*",
+    "wrench": "~1.5.4"
+  },
   "devDependencies": {
     "eslint-config-axway": "*",
     "eslint-plugin-mocha": "*",
