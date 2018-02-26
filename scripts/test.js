@@ -137,6 +137,7 @@ function addTiAppProperties(next) {
 			content.push('\t<property name="presetDouble" type="double">1.23456</property>');
 			content.push('\t<property name="presetInt" type="int">1337</property>');
 			content.push('\t<property name="presetString" type="string">Hello!</property>');
+			content.push('\t<transpile>true</transpile>');
 		} else if (line.indexOf('<android xmlns:android') >= 0) {
 			// Inject the google maps api key
 			content.push('\t\t<manifest>');
