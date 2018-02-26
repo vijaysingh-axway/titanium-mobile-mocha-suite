@@ -14,7 +14,7 @@ const path = require('path'),
 	StreamSplitter = require('stream-splitter'),
 	spawn = require('child_process').spawn, // eslint-disable-line security/detect-child-process
 	exec = require('child_process').exec, // eslint-disable-line security/detect-child-process
-	titanium = path.join(__dirname, 'node_modules', 'titanium', 'bin', 'titanium'),
+	titanium = require.resolve('titanium'),
 	SOURCE_DIR = path.join(__dirname, '..'),
 	PROJECT_NAME = 'mocha',
 	PROJECT_DIR = path.join(__dirname, PROJECT_NAME),
@@ -561,7 +561,7 @@ exports.outputResults = outputResults;
 if (module.id === '.') {
 	(function () {
 		const program = require('commander'),
-			packageJson = require('./package');
+			packageJson = require('../package');
 
 		program
 			.version(packageJson.version)
