@@ -1,0 +1,40 @@
+{
+  "name": "titanium-mobile-mocha-suite",
+  "version": "0.0.2",
+  "description": "Build script to test the SDK API using mocha tests.",
+  "author": {
+    "name": "Appcelerator, Inc.",
+    "email": "npmjs@appcelerator.com"
+  },
+  "maintainers": [
+    {
+      "name": "Chee Kiat Ng",
+      "email": "cng@appcelerator.com"
+    },
+    {
+      "name": "Chris Williams",
+      "email": "cwilliams@appcelerator.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/appcelerator/titanium-mobile-mocha-suite.git"
+  },
+  "license": "Apache Public License v2",
+  "main": "./test",
+  "bugs": {
+    "url": "https://github.com/appcelerator/titanium-mobile-mocha-suite/issues"
+  },
+  "dependencies": {
+    "async": "~0.9.0",
+    "colors": "*",
+    "commander": "*",
+    "ejs": "~2.2.4",
+    "stream-splitter": "~0.3.2",
+    "titanium": "*",
+    "wrench": "~1.5.4"
+  },
+  "engines": {
+    "node": ">=4.0"
+  }
+}
