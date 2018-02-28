@@ -210,6 +210,10 @@ function runBuild(platform, target, deviceId, next) {
 		args.push(deviceId);
 	}
 
+	if (platform === 'windows') {
+		args.push('--forceUnInstall');
+	}
+
 	args.push('--no-prompt');
 	args.push('--no-colors');
 	// TODO Use fork since we're spawning off another node process
