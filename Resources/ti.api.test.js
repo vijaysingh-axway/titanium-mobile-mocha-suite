@@ -65,4 +65,8 @@ describe('Titanium.API', function () {
 		Ti.API.log('debug', { key: 'value' }); // used to cause crash on Android
 		should(true).equal(true);
 	});
+
+	it.android('TIMOB-25757', function () {
+		should.not.exist(Ti.API.bubbleParent);
+	});
 });

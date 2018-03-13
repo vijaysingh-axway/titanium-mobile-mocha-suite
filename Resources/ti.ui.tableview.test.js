@@ -1073,13 +1073,11 @@ describe('Titanium.UI.TableView', function () {
 	});
 
 	it.ios('Delete row (Search Active)', function (finish) {
-		var win = Ti.UI.createWindow({
-				backgroundColor: 'blue'
-			}),
-			section_0,
+		var section_0,
 			searchBar,
 			tableView,
 			isFocused;
+		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		section_0 = Ti.UI.createTableViewSection({ headerTitle: 'Zero' });
 		section_0.add(Ti.UI.createTableViewRow({ title: 'Red' }));
 		section_0.add(Ti.UI.createTableViewRow({ title: 'White' }));
@@ -1118,5 +1116,34 @@ describe('Titanium.UI.TableView', function () {
 
 		win.add(tableView);
 		win.open();
+	});
+
+	it('set and clear data', function (finish) {
+		var data_a = [
+				{ title: 'Square', backgroundSelectedColor: 'red' },
+				{ title: 'Circle', backgroundSelectedColor: 'blue' },
+				{ title: 'Triangle', backgroundSelectedColor: 'purple' }
+			],
+			data_b = [
+				{ title: 'Red', backgroundSelectedColor: 'red' },
+				{ title: 'Green', backgroundSelectedColor: 'green' },
+				{ title: 'Blue', backgroundSelectedColor: 'blue' }
+			],
+			tv = Ti.UI.createTableView(),
+			error;
+
+		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
+
+		try {
+			tv.data = [];
+			tv.setData(data_a);
+			tv.data = [];
+			tv.setData(data_b);
+			tv.data = [];
+			tv.setData(data_a);
+		} catch (e) {
+			error = e;
+		}
+		finish(error);
 	});
 });

@@ -4,44 +4,43 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false;
+describe('Titanium.UI.Picker', function () {
+	var fruit, color, win;
 
-describe('Titanium.UI.Picker', function() {
 	this.timeout(10000);
 
-	var fruit = ['Bananas', 'Strawberries', 'Mangos', 'Grapes'];
-	var color = ['red', 'green', 'blue', 'orange', 'red', 'green', 'blue', 'orange'];
-	var win;
+	fruit = [ 'Bananas', 'Strawberries', 'Mangos', 'Grapes' ];
+	color = [ 'red', 'green', 'blue', 'orange', 'red', 'green', 'blue', 'orange' ];
 
-	beforeEach(function() {
-		didFocus = false;
-		didPostlayout = false;
-	});
-
-	afterEach(function() {
+	afterEach(function () {
 		if (win) {
 			win.close();
 		}
 		win = null;
 	});
 
-	it('DatePicker', function(finish) {
+	it('DatePicker', function (finish) {
+		var date,
+			picker;
+
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		var date = new Date(),
-			picker = Ti.UI.createPicker({
-				type: Ti.UI.PICKER_TYPE_DATE,
-				value: date
-			});
+		date = new Date();
+		picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_DATE,
+			value: date
+		});
 		win.add(picker);
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			try {
 				should(picker.getValue()).be.eql(date);
-
 				finish();
 			} catch (err) {
 				finish(err);
@@ -50,20 +49,22 @@ describe('Titanium.UI.Picker', function() {
 		win.open();
 	});
 
-	it('TimePicker', function(finish) {
+	it('TimePicker', function (finish) {
+		var date,
+			picker;
+
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		var date = new Date(),
-			picker = Ti.UI.createPicker({
-				type: Ti.UI.PICKER_TYPE_TIME,
-				value: date
-			});
+		date = new Date();
+		picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_TIME,
+			value: date
+		});
 		win.add(picker);
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			try {
 				should(picker.getValue()).be.eql(date);
-
 				finish();
 			} catch (err) {
 				finish(err);
@@ -72,19 +73,20 @@ describe('Titanium.UI.Picker', function() {
 		win.open();
 	});
 
-	it('PlainPicker', function(finish) {
+	it('PlainPicker', function (finish) {
+		var picker;
+
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		var picker = Ti.UI.createPicker({
+		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
 		});
 		win.add(picker);
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			try {
 				should(picker).be.an.Object;
 				picker.getValue();
-
 				finish();
 			} catch (err) {
 				finish(err);
@@ -93,20 +95,26 @@ describe('Titanium.UI.Picker', function() {
 		win.open();
 	});
 
-	it('PlainPicker.add(PickerColumn)', function(finish) {
+	it('PlainPicker.add(PickerColumn)', function (finish) {
+		var picker,
+			column,
+			i,
+			ilen,
+			row;
+
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		var picker = Ti.UI.createPicker({
+		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
 		});
 
 		win.add(picker);
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			try {
-				var column = Ti.UI.createPickerColumn();
-				for (var i = 0, ilen = fruit.length; i < ilen; i++) {
-					var row = Ti.UI.createPickerRow({
+				column = Ti.UI.createPickerColumn();
+				for (i = 0, ilen = fruit.length; i < ilen; i++) {
+					row = Ti.UI.createPickerRow({
 						title: fruit[i], color: color[i], font: { fontSize: 24 },
 					});
 					column.addRow(row);
@@ -119,42 +127,48 @@ describe('Titanium.UI.Picker', function() {
 				should(picker.columns[0].rows.length).be.eql(fruit.length);
 
 				finish();
-			}
-			catch (err) {
+			} catch (err) {
 				finish(err);
 			}
 		});
 		win.open();
 	});
 
-	it('PlainPicker.add(multiple PickerColumn)', function(finish) {
+	it('PlainPicker.add(multiple PickerColumn)', function (finish) {
+		var column1,
+			column2,
+			picker,
+			i,
+			ilen,
+			row;
+
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		var picker = Ti.UI.createPicker({
+		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
 		});
 
 		win.add(picker);
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			try {
-			var column1 = Ti.UI.createPickerColumn();
-				for (var i = 0, ilen = fruit.length; i < ilen; i++) {
-					var row = Ti.UI.createPickerRow({
+				column1 = Ti.UI.createPickerColumn();
+				for (i = 0, ilen = fruit.length; i < ilen; i++) {
+					row = Ti.UI.createPickerRow({
 						title: fruit[i], color: color[i], font: { fontSize: 24 },
 					});
 					column1.addRow(row);
 				}
 
-				var column2 = Ti.UI.createPickerColumn();
-				for (var i = 0, ilen = color.length; i < ilen; i++) {
-					var row = Ti.UI.createPickerRow({
+				column2 = Ti.UI.createPickerColumn();
+				for (i = 0, ilen = color.length; i < ilen; i++) {
+					row = Ti.UI.createPickerRow({
 						title: color[i]
 					});
 					column2.addRow(row);
 				}
 
-				picker.add([column1, column2]);
+				picker.add([ column1, column2 ]);
 
 				should(picker.columns.length).be.eql(2);
 				should(picker.columns[0]).be.an.Object;
@@ -166,27 +180,31 @@ describe('Titanium.UI.Picker', function() {
 				should(picker.columns[1].rows.length).be.eql(color.length);
 
 				finish();
-			}
-			catch (err) {
+			} catch (err) {
 				finish(err);
 			}
 		});
 		win.open();
 	});
 
-	it('PlainPicker.add (PickerRow)', function(finish) {
+	it('PlainPicker.add (PickerRow)', function (finish) {
+		var picker,
+			i,
+			ilen,
+			rows;
+
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		var picker = Ti.UI.createPicker({
+		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
 		});
 
 		win.add(picker);
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			try {
-				var rows = [];
-				for (var i = 0, ilen = fruit.length; i < ilen; i++) {
+				rows = [];
+				for (i = 0, ilen = fruit.length; i < ilen; i++) {
 					rows.push(Ti.UI.createPickerRow({
 						title: fruit[i], color: color[i], font: { fontSize: 24 },
 					}));
@@ -201,16 +219,21 @@ describe('Titanium.UI.Picker', function() {
 		win.open();
 	});
 
-	it('PlainPicker.removeRow', function(finish) {
+	it('PlainPicker.removeRow', function (finish) {
+		var picker,
+			i,
+			ilen,
+			column,
+			row;
+
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		var picker = Ti.UI.createPicker({
-				type: Ti.UI.PICKER_TYPE_PLAIN
-			}),
-			column = Ti.UI.createPickerColumn(),
-			row;
-		for (var i = 0, ilen = fruit.length; i < ilen; i++) {
+		picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_PLAIN
+		});
+		column = Ti.UI.createPickerColumn();
+		for (i = 0, ilen = fruit.length; i < ilen; i++) {
 			row = Ti.UI.createPickerRow({
 				title: fruit[i], color: color[i], font: { fontSize: 24 },
 			});
@@ -219,7 +242,7 @@ describe('Titanium.UI.Picker', function() {
 		picker.add(column);
 
 		win.add(picker);
-		win.addEventListener('open', function() {
+		win.addEventListener('open', function () {
 			try {
 				should(picker.columns.length).be.eql(1);
 				should(picker.columns[0]).be.an.Object;
@@ -238,6 +261,32 @@ describe('Titanium.UI.Picker', function() {
 				finish(err);
 			}
 		});
+		win.open();
+	});
+
+	it('PlainPicker change event', function (finish) {
+		var win = Ti.UI.createWindow();
+		var type2 = [];
+		var pickerType = Ti.UI.createPicker();
+
+		type2[0] = Ti.UI.createPickerRow({ title: 'Row 1' });
+		type2[1] = Ti.UI.createPickerRow({ title: 'Row 2' });
+
+		win.add(pickerType);
+		pickerType.addEventListener('postlayout', loadTypes);
+		pickerType.selectionIndicator = true;
+		pickerType.addEventListener('change', pickerChange);
+
+		function loadTypes() {
+			pickerType.removeEventListener('postlayout', loadTypes);
+			pickerType.add(type2);
+			pickerType.setSelectedRow(0, 1);
+		}
+
+		function pickerChange() {
+			finish();
+		}
+
 		win.open();
 	});
 });

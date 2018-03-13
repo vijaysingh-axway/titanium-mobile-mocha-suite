@@ -162,4 +162,32 @@ describe('Titanium.UI.SearchBar', function () {
 		win.add(listView);
 		win.open();
 	});
+
+	// TODO: Expose Windows as well
+	// We have in in Ti.UI.Android.SearchView for Android, but need more parity here
+	it.windowsMissing('.hintTextColor', function () {
+		var searchBar = Ti.UI.createSearchBar({
+			hintText: 'Enter E-Mail ...',
+			hintTextColor: 'red'
+		});
+		should(searchBar.getHintTextColor).be.a.Function;
+		should(searchBar.hintTextColor).eql('red');
+		should(searchBar.getHintTextColor()).eql('red');
+		searchBar.hintTextColor = 'blue';
+		should(searchBar.hintTextColor).eql('blue');
+		should(searchBar.getHintTextColor()).eql('blue');
+	});
+
+	// TODO: Expose Windows as well
+	it.windowsMissing('.color', function () {
+		var searchBar = Ti.UI.createSearchBar({
+			color: 'red'
+		});
+		should(searchBar.getColor).be.a.Function;
+		should(searchBar.color).eql('red');
+		should(searchBar.getColor()).eql('red');
+		searchBar.color = 'blue';
+		should(searchBar.color).eql('blue');
+		should(searchBar.getColor()).eql('blue');
+	});
 });
