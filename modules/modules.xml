@@ -9,5 +9,5 @@
 		<module platform="android">ti.map</module>
 		<module platform="ios">ti.map</module>
 		<module platform="android">facebook</module>
-		<module platform="ios">facebook</module>
+		<module platform="ios" version="5.4.0">facebook</module>
 	</modules>
