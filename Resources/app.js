@@ -33,6 +33,7 @@ describe('global', function () {
 
 // ============================================================================
 // Add the tests here using "require"
+require('./error.test');
 // ES6 syntax/compatability tests
 require('./es6.arrows.test');
 require('./es6.default.args.test');

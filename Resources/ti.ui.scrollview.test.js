@@ -11,6 +11,16 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.UI.ScrollView', function () {
+	var win;
+	this.timeout(5000);
+
+	afterEach(function () {
+		if (win) {
+			win.close();
+		}
+		win = null;
+	});
+
 	it('apiName', function () {
 		var scrollView = Ti.UI.createScrollView({});
 		should(scrollView).have.readOnlyProperty('apiName').which.is.a.String;
@@ -167,5 +177,32 @@ describe('Titanium.UI.ScrollView', function () {
 		should(scrollView.children[0]).be.eql(view2);
 		scrollView.removeAllChildren();
 		should(scrollView.children.length).be.eql(0);
+	});
+
+	// Verify ScrollView shrinks width/height-wise to just fit its contents.
+	it('Ti.UI.SIZE', function (finish) {
+		var scrollView;
+		this.slow(5000);
+		this.timeout(20000);
+		win = Ti.UI.createWindow();
+		scrollView = Ti.UI.createScrollView({
+			layout: 'vertical',
+			showHorizontalScrollIndicator: false,
+			shorVerticalScrollIndicator: true,
+			width: Ti.UI.SIZE,
+			height: Ti.UI.SIZE
+		});
+		scrollView.add(Ti.UI.createLabel({ text: 'Test' }));
+		scrollView.addEventListener('postlayout', function () {
+			try {
+				should(scrollView.size.width < (win.size.width / 2)).be.eql(true);
+				should(scrollView.size.height < (win.size.height / 2)).be.eql(true);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.add(scrollView);
+		win.open();
 	});
 });

@@ -1146,4 +1146,25 @@ describe('Titanium.UI.TableView', function () {
 		}
 		finish(error);
 	});
+
+	it('appendSection and appendRow (TIMOB-25936)', function (finish) {
+		var table = Ti.UI.createTableView(),
+			i,
+			j;
+		win = Ti.UI.createWindow({ backgroundColor: '#f00' });
+
+		for (i = 0; i < 2; ++i) {
+			table.appendSection(Ti.UI.createTableViewSection({ headerTitle: 'Header ' + i, className: 'Header' }));
+			for (j = 0; j < 3; j++) {
+				table.appendRow(Ti.UI.createTableViewRow({ title: 'Row ' + j, className: 'Row' }));
+			}
+		}
+
+		win.addEventListener('open', function () {
+			finish();
+		});
+
+		win.add(table);
+		win.open();
+	});
 });

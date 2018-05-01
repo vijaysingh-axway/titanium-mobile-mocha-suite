@@ -252,4 +252,32 @@ describe('requireJS', function () {
 		should(baz2.filename).be.eql('/node_modules/baz/index.js');
 		should(baz2.dirname).be.eql('/node_modules/baz');
 	});
+
+	it('require should not fail when exports is falsey', function () {
+		var files = [
+				{ filename: 'empty-double', expected: '' },
+				{ filename: 'empty-single', expected: '' },
+				{ filename: 'false', expected: false },
+				{ filename: 'nan', expected: NaN },
+				{ filename: 'null', expected: null },
+				{ filename: 'undefined', expected: undefined },
+				{ filename: 'zero', expected: 0 }
+			],
+			obj,
+			result;
+		for (obj in files) {
+			obj = files[obj];
+			should.doesNotThrow(
+				// eslint-disable-next-line no-loop-func
+				function () {
+					result = require('./fixtures/' + obj.filename); // eslint-disable-line security/detect-non-literal-require
+				}
+			);
+			if (obj.filename === 'nan') {
+				isNaN(result).should.be.true;
+			}  else {
+				should(result).be.exactly(obj.expected);
+			}
+		}
+	});
 });

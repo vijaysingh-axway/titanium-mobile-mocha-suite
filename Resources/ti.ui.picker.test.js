@@ -289,4 +289,38 @@ describe('Titanium.UI.Picker', function () {
 
 		win.open();
 	});
+
+	it('DatePicker minDate', function (finish) {
+		var win = Ti.UI.createWindow({
+				title: 'Form' }),
+			dp = Ti.UI.createPicker({
+				titleype: Ti.UI.PICKER_TYPE_DATE
+			}),
+			date = new Date(2018, 1, 1);
+
+		dp.setMinDate(date);
+		win.addEventListener('open', function () {
+			should(dp.minDate).be.eql(date);
+			finish();
+		});
+		win.add(dp);
+		win.open();
+	});
+
+	it('DatePicker maxDate', function (finish) {
+		var win = Ti.UI.createWindow({
+				title: 'Form' }),
+			dp = Ti.UI.createPicker({
+				type: Ti.UI.PICKER_TYPE_DATE
+			}),
+			date = new Date(2020, 1, 20);
+
+		dp.setMaxDate(date);
+		win.addEventListener('open', function () {
+			should(dp.maxDate).be.eql(date);
+			finish();
+		});
+		win.add(dp);
+		win.open();
+	});
 });
