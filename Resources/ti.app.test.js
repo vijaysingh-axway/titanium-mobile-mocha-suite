@@ -223,7 +223,7 @@ describe('Titanium.App', function () {
 
 	it('#fireEvent - JSON serialization (TIMOB-25785)', function (finish) {
 		var validObject, validArray, invalidObject, invalidArray;
-		this.timeout = 10000;
+		this.timeout(10000);
 
 		validObject = {
 			nl: null,
