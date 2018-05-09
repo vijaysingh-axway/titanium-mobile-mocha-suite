@@ -138,14 +138,57 @@ function loadAddonTestFiles (name) {
 
 // ============================================================================
 
+/**
+ * To make Jenkins junit reporting happy, let's use anything up until '#'/'.' in
+ * suite names as the full "class name". Then concanetate the remainder with the test name.
+ * This should consolidate tests together under our API names like 'Ti.Buffer', with subsuites' tests
+ * just represented as separate tests (the sub-suite name gets prefixed to the test name)
+ * @param  {string[]} suites  stack of suite names
+ * @param  {string} testTitle single test name
+ * @return {object}
+ */
+function suiteAndTitle(suites, testTitle) {
+	var i;
+	var char;
+	var index = -1;
+	var suiteName = '';
+	var newTestTitle = '';
+	for (i = 0; i < suites.length; i++) {
+		char = suites[i].charAt(0);
+		if (char === '.' || char === '#') {
+			index = i;
+			break;
+		}
+	}
+	if (index !== -1) {
+		suiteName = suites.slice(0, index).join('.');
+		newTestTitle = suites.slice(index).join(' ') + ' ' + testTitle;
+	} else {
+		suiteName = suites.join('.');
+		newTestTitle = testTitle;
+	}
+	return {
+		suite: suiteName,
+		title: newTestTitle
+	};
+}
+
 // add a special mocha reporter that will time each test run using
 // our microsecond timer
 function $Reporter(runner) {
 	var started,
-		title;
+		suites = [];
 
 	runner.on('suite', function (suite) {
-		title = suite.title;
+		if (suite.title) {
+			suites.push(suite.title);
+		}
+	});
+
+	runner.on('suite end', function (suite) {
+		if (suite.title) {
+			suites.pop();
+		}
 	});
 
 	runner.on('test', function (test) {
@@ -168,11 +211,12 @@ function $Reporter(runner) {
 	runner.on('test end', function (test) {
 		var tdiff = new Date().getTime() - started,
 			err = test.err,
+			fixedNames = suiteAndTitle(suites, test.title),
 			result = {
 				state: test.state || 'skipped',
 				duration: tdiff,
-				suite: title,
-				title: test.title,
+				suite: fixedNames.suite,
+				title: fixedNames.title,
 				error: err,
 				message: ''
 			},
