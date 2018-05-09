@@ -11,12 +11,11 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.UI.Picker', function () {
-	var fruit, color, win;
+	var fruit = [ 'Bananas', 'Strawberries', 'Mangos', 'Grapes' ];
+	var color = [ 'red', 'green', 'blue', 'orange', 'red', 'green', 'blue', 'orange' ];
+	var win;
 
 	this.timeout(10000);
-
-	fruit = [ 'Bananas', 'Strawberries', 'Mangos', 'Grapes' ];
-	color = [ 'red', 'green', 'blue', 'orange', 'red', 'green', 'blue', 'orange' ];
 
 	afterEach(function () {
 		if (win) {
@@ -26,16 +25,14 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('DatePicker', function (finish) {
-		var date,
-			picker;
+		var date = new Date();
+		var picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_DATE,
+			value: date
+		});
 
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
-		});
-		date = new Date();
-		picker = Ti.UI.createPicker({
-			type: Ti.UI.PICKER_TYPE_DATE,
-			value: date
 		});
 		win.add(picker);
 		win.addEventListener('open', function () {
@@ -50,16 +47,14 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('TimePicker', function (finish) {
-		var date,
-			picker;
+		var date = new Date();
+		var picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_TIME,
+			value: date
+		});
 
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
-		});
-		date = new Date();
-		picker = Ti.UI.createPicker({
-			type: Ti.UI.PICKER_TYPE_TIME,
-			value: date
 		});
 		win.add(picker);
 		win.addEventListener('open', function () {
@@ -74,13 +69,12 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('PlainPicker', function (finish) {
-		var picker;
+		var picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_PLAIN
+		});
 
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
-		});
-		picker = Ti.UI.createPicker({
-			type: Ti.UI.PICKER_TYPE_PLAIN
 		});
 		win.add(picker);
 		win.addEventListener('open', function () {
@@ -96,21 +90,19 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('PlainPicker.add(PickerColumn)', function (finish) {
-		var picker,
-			column,
-			i,
-			ilen,
-			row;
+		var picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_PLAIN
+		});
 
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		picker = Ti.UI.createPicker({
-			type: Ti.UI.PICKER_TYPE_PLAIN
-		});
-
 		win.add(picker);
 		win.addEventListener('open', function () {
+			var column,
+				i,
+				ilen,
+				row;
 			try {
 				column = Ti.UI.createPickerColumn();
 				for (i = 0, ilen = fruit.length; i < ilen; i++) {
@@ -135,22 +127,20 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('PlainPicker.add(multiple PickerColumn)', function (finish) {
-		var column1,
-			column2,
-			picker,
-			i,
-			ilen,
-			row;
+		var picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_PLAIN
+		});
 
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		picker = Ti.UI.createPicker({
-			type: Ti.UI.PICKER_TYPE_PLAIN
-		});
-
 		win.add(picker);
 		win.addEventListener('open', function () {
+			var column1,
+				column2,
+				i,
+				ilen,
+				row;
 			try {
 				column1 = Ti.UI.createPickerColumn();
 				for (i = 0, ilen = fruit.length; i < ilen; i++) {
@@ -188,22 +178,19 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('PlainPicker.add (PickerRow)', function (finish) {
-		var picker,
-			i,
-			ilen,
-			rows;
+		var picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_PLAIN
+		});
 
 		win = Ti.UI.createWindow({
 			backgroundColor: '#000'
 		});
-		picker = Ti.UI.createPicker({
-			type: Ti.UI.PICKER_TYPE_PLAIN
-		});
-
 		win.add(picker);
 		win.addEventListener('open', function () {
-			try {
+			var i,
+				ilen,
 				rows = [];
+			try {
 				for (i = 0, ilen = fruit.length; i < ilen; i++) {
 					rows.push(Ti.UI.createPickerRow({
 						title: fruit[i], color: color[i], font: { fontSize: 24 },
@@ -226,9 +213,6 @@ describe('Titanium.UI.Picker', function () {
 			column,
 			row;
 
-		win = Ti.UI.createWindow({
-			backgroundColor: '#000'
-		});
 		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_PLAIN
 		});
@@ -241,6 +225,9 @@ describe('Titanium.UI.Picker', function () {
 		}
 		picker.add(column);
 
+		win = Ti.UI.createWindow({
+			backgroundColor: '#000'
+		});
 		win.add(picker);
 		win.addEventListener('open', function () {
 			try {
@@ -265,13 +252,13 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('PlainPicker change event', function (finish) {
-		var win = Ti.UI.createWindow();
 		var type2 = [];
 		var pickerType = Ti.UI.createPicker();
 
 		type2[0] = Ti.UI.createPickerRow({ title: 'Row 1' });
 		type2[1] = Ti.UI.createPickerRow({ title: 'Row 2' });
 
+		win = Ti.UI.createWindow();
 		win.add(pickerType);
 		pickerType.addEventListener('postlayout', loadTypes);
 		pickerType.selectionIndicator = true;
@@ -291,14 +278,13 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('DatePicker minDate', function (finish) {
-		var win = Ti.UI.createWindow({
-				title: 'Form' }),
-			dp = Ti.UI.createPicker({
-				titleype: Ti.UI.PICKER_TYPE_DATE
-			}),
-			date = new Date(2018, 1, 1);
-
+		var dp = Ti.UI.createPicker({
+			titleype: Ti.UI.PICKER_TYPE_DATE
+		});
+		var date = new Date(2018, 1, 1);
 		dp.setMinDate(date);
+
+		win = Ti.UI.createWindow({ title: 'Form' });
 		win.addEventListener('open', function () {
 			should(dp.minDate).be.eql(date);
 			finish();
@@ -308,14 +294,13 @@ describe('Titanium.UI.Picker', function () {
 	});
 
 	it('DatePicker maxDate', function (finish) {
-		var win = Ti.UI.createWindow({
-				title: 'Form' }),
-			dp = Ti.UI.createPicker({
-				type: Ti.UI.PICKER_TYPE_DATE
-			}),
-			date = new Date(2020, 1, 20);
-
+		var dp = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_DATE
+		});
+		var date = new Date(2020, 1, 20);
 		dp.setMaxDate(date);
+
+		win = Ti.UI.createWindow({ title: 'Form' });
 		win.addEventListener('open', function () {
 			should(dp.maxDate).be.eql(date);
 			finish();
