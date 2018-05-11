@@ -127,7 +127,6 @@ describe.android('Titanium.UI.Android.DrawerLayout', function () {
 		drawerLayout.toolbarEnabled = true;
 		should(drawerLayout.toolbarEnabled).be.a.Boolean;
 		should(drawerLayout.toolbarEnabled).be.true;
-		window.close();
 	});
 
 	it.android('Toolbar used as toolbar', function (finish) {
@@ -138,6 +137,7 @@ describe.android('Titanium.UI.Android.DrawerLayout', function () {
 		window.addEventListener('open', function () {
 			should(drawerLayout.toolbar.getTitleTextColor()).be.a.String;
 			should(drawerLayout.toolbar.getTitleTextColor()).eql('red');
+			window.close();
 			finish();
 		});
 		window.open();
