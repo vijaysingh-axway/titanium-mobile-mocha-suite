@@ -1,12 +1,14 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2018 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+var should = require('./utilities/assertions');
 
 describe('Titanium.UI.ScrollableView', function () {
 	var win;
@@ -30,7 +32,7 @@ describe('Titanium.UI.ScrollableView', function () {
 		should(scrollableView.apiName).be.eql('Ti.UI.ScrollableView');
 	});
 
-	(utilities.isIOS() ? it.skip : it)('views', function () {
+	it.iosBroken('views', function () {
 		var bar = Ti.UI.createScrollableView({});
 		should(bar.views).be.an.Array; // iOS returns undefined
 		should(bar.getViews).be.a.Function;
@@ -42,7 +44,7 @@ describe('Titanium.UI.ScrollableView', function () {
 	});
 
 	// FIXME explicitly setting currentPage doesn't seem to update value on Android
-	(utilities.isAndroid() ? it.skip : it)('currentPage', function () {
+	it.androidBroken('currentPage', function () {
 		var bar = Ti.UI.createScrollableView({});
 		should(bar.currentPage).be.a.Number;
 		should(bar.getCurrentPage).be.a.Function;
