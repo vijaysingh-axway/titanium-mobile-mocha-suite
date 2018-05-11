@@ -1167,4 +1167,11 @@ describe('Titanium.UI.TableView', function () {
 		win.add(table);
 		win.open();
 	});
+	
+	it.windowsMissing('scrollable', function () {
+		var tableView = Ti.UI.createTableView({ scrollable: false });
+		should(tableView.scrollable).be.eql(false);
+		tableView.scrollable = !tableView.scrollable;
+		should(tableView.scrollable).be.eql(true);
+	});
 });
