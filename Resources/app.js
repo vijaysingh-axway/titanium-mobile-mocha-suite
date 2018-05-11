@@ -267,13 +267,17 @@ if (utilities.isWindows()) {
 		Ti.App.Windows.requestExtendedExecution();
 	}
 }
-// dump the output, which will get interpreted above in the logging code
-mocha.run(function () {
-	win.backgroundColor = failed ? 'red' : 'green';
-	Ti.API.info('!TEST_RESULTS_STOP!');
-	if (utilities.isWindows()) {
-		if (Ti.App.Windows.closeExtendedExecution) {
-			Ti.App.Windows.closeExtendedExecution();
+
+// Start the executing the test suite once the root window has been displayed.
+win.addEventListener('open', function () {
+	mocha.run(function () {
+		// We've finished executing all tests.
+		win.backgroundColor = failed ? 'red' : 'green';
+		Ti.API.info('!TEST_RESULTS_STOP!');
+		if (utilities.isWindows()) {
+			if (Ti.App.Windows.closeExtendedExecution) {
+				Ti.App.Windows.closeExtendedExecution();
+			}
 		}
-	}
+	});
 });
