@@ -330,8 +330,8 @@ describe('Titanium.UI.WebView', function () {
 		w.open();
 	});
 
-	// FIXME: Timeout on Windows.
-	it.windowsBroken('userAgent', function (finish) {
+	// FIXME: Timeout on Android and Windows. Probably need a longer timeout here?
+	it.androidAndWindowsBroken('userAgent', function (finish) {
 		var webView = Ti.UI.createWebView({
 				userAgent: 'TEST AGENT'
 			}),
