@@ -1184,8 +1184,7 @@ describe.windowsDesktopBroken('Titanium.XML', function () {
 		should(thirdNewAttr.specified).be.Boolean;
 		should(thirdNewAttr.specified).be.true;
 	});
-	
-	
+
 	it.ios('parseString (invalid xml)', function () {
 		should(Ti.XML.parseString).be.a.Function;
 		should(function () {
