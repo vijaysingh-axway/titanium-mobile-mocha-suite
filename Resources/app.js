@@ -18,10 +18,6 @@ require('./ti-mocha');
 // I *think* we need to load mocha first before utilities...
 utilities = require('./utilities/utilities');
 should = require('./utilities/assertions');
-win = Ti.UI.createWindow({
-	backgroundColor: 'yellow'
-});
-win.open();
 
 // Must test global is available in first app.js explicitly!
 // (since app.js is treated slightly differently than required files on at least Android)
@@ -268,8 +264,12 @@ if (utilities.isWindows()) {
 	}
 }
 
-// Start the executing the test suite once the root window has been displayed.
+// Display a window to host the test and show the final result.
+win = Ti.UI.createWindow({
+	backgroundColor: 'yellow'
+});
 win.addEventListener('open', function () {
+	// Start executing the test suite.
 	mocha.run(function () {
 		// We've finished executing all tests.
 		win.backgroundColor = failed ? 'red' : 'green';
@@ -281,3 +281,4 @@ win.addEventListener('open', function () {
 		}
 	});
 });
+win.open();
