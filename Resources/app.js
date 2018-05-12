@@ -266,7 +266,8 @@ if (utilities.isWindows()) {
 
 // Display a window to host the test and show the final result.
 win = Ti.UI.createWindow({
-	backgroundColor: 'yellow'
+	backgroundColor: 'yellow',
+	keepScreenOn: true
 });
 win.addEventListener('open', function () {
 	// Start executing the test suite.
