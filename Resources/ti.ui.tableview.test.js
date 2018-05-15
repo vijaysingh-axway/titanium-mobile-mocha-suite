@@ -1131,9 +1131,7 @@ describe('Titanium.UI.TableView', function () {
 			],
 			tv = Ti.UI.createTableView(),
 			error;
-
-		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
-
+		
 		try {
 			tv.data = [];
 			tv.setData(data_a);
@@ -1148,14 +1146,13 @@ describe('Titanium.UI.TableView', function () {
 	});
 
 	it('appendSection and appendRow (TIMOB-25936)', function (finish) {
-		var table = Ti.UI.createTableView(),
-			i,
-			j;
+		var table = Ti.UI.createTableView();
+		
 		win = Ti.UI.createWindow({ backgroundColor: '#f00' });
 
-		for (i = 0; i < 2; ++i) {
+		for (var i = 0; i < 2; ++i) {
 			table.appendSection(Ti.UI.createTableViewSection({ headerTitle: 'Header ' + i, className: 'Header' }));
-			for (j = 0; j < 3; j++) {
+			for (var j = 0; j < 3; j++) {
 				table.appendRow(Ti.UI.createTableViewRow({ title: 'Row ' + j, className: 'Row' }));
 			}
 		}
