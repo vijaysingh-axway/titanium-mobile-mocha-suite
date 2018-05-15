@@ -59,7 +59,8 @@ describe('Titanium.UI.Picker', function () {
 		win.add(picker);
 		win.addEventListener('open', function () {
 			try {
-				should(picker.getValue()).be.eql(date);
+				should(picker.getValue().getHours()).be.eql(date.getHours());
+				should(picker.getValue().getMinutes()).be.eql(date.getMinutes());
 				finish();
 			} catch (err) {
 				finish(err);
