@@ -122,4 +122,19 @@ describe.ios('Titanium.UI.iOS', function () {
 		should(Ti.UI.iOS.LIVEPHOTO_BADGE_OPTIONS_LIVE_OFF).be.a.Number;
 		should(Ti.UI.iOS.LIVEPHOTO_BADGE_OPTIONS_OVER_CONTENT).be.a.Number;
 	});
+	
+	it('#createStepper()', function () {
+		var stepper;
+		should(Ti.UI.iOS.createStepper).not.be.undefined;
+		should(Ti.UI.iOS.createStepper).be.a.Function;
+		stepper = Ti.UI.iOS.createStepper({
+			steps: 3,
+			maximum: 30,
+			minimum: 0,
+			value: 20
+		});
+		should(stepper.value).be.eql(20);
+		stepper.setValue(30);
+		should(stepper.value).be.eql(30);
+	});
 });
