@@ -574,4 +574,23 @@ describe('Titanium.UI.Window', function () {
 
 		win.open();
 	});
+	
+	it.ios('.homeIndicatorAutoHidden', function (finish) {
+		win = Ti.UI.createWindow({
+			title: 'this is some text'
+		});
+
+		win.addEventListener('open', function () {
+			try {
+				should(win.homeIndicatorAutoHidden).be.a.Boolean;
+				should(win.homeIndicatorAutoHidden).be.false;
+				win.setHomeIndicatorAutoHidden(true);
+				should(win.homeIndicatorAutoHidden).be.true;
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.open();
+	});
 });
