@@ -868,8 +868,8 @@ describe('Titanium.UI.ListView', function () {
 		win.add(list);
 		win.open();
 	});
-	
-	it.windowsAndAndroidMissing('.refreshControl (in NavigationWindow)', function (finish) {
+
+	it.androidAndWindowsMissing('.refreshControl (in NavigationWindow)', function (finish) {
 		var window, nav, control, listView;
 
 		window = Ti.UI.createWindow({
