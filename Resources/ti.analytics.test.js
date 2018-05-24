@@ -62,4 +62,23 @@ describe('Titanium.Analytics', function () {
 			should(Ti.Analytics.featureEvent(tests[t], payloads[t])).be.eql(tests[t]);
 		}
 	});
+
+	it.androidMissing('.optedOut', function () {
+		should(Ti.Analytics.optedOut).be.a.Boolean;
+		should(Ti.Analytics.setOptedOut).be.a.Function;
+		should(Ti.Analytics.getOptedOut).be.a.Function;
+
+		should(Ti.Analytics.optedOut).eql(false);
+		should(Ti.Analytics.getOptedOut()).eql(false);
+
+		Ti.Analytics.optedOut = true;
+
+		should(Ti.Analytics.optedOut).eql(true);
+		should(Ti.Analytics.getOptedOut()).eql(true);
+
+		Ti.Analytics.setOptedOut(false);
+
+		should(Ti.Analytics.optedOut).eql(false);
+		should(Ti.Analytics.getOptedOut()).eql(false);
+	});
 });

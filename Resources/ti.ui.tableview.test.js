@@ -1131,7 +1131,7 @@ describe('Titanium.UI.TableView', function () {
 			],
 			tv = Ti.UI.createTableView(),
 			error;
-		
+
 		try {
 			tv.data = [];
 			tv.setData(data_a);
@@ -1147,7 +1147,7 @@ describe('Titanium.UI.TableView', function () {
 
 	it('appendSection and appendRow (TIMOB-25936)', function (finish) {
 		var table = Ti.UI.createTableView();
-		
+
 		win = Ti.UI.createWindow({ backgroundColor: '#f00' });
 
 		for (var i = 0; i < 2; ++i) {
@@ -1164,14 +1164,14 @@ describe('Titanium.UI.TableView', function () {
 		win.add(table);
 		win.open();
 	});
-	
+
 	it.windowsMissing('scrollable', function () {
 		var tableView = Ti.UI.createTableView({ scrollable: false });
 		should(tableView.scrollable).be.eql(false);
 		tableView.scrollable = !tableView.scrollable;
 		should(tableView.scrollable).be.eql(true);
 	});
-	
+
 	it.ios('#separatorStyle', function () {
 		var section_0,
 			tableView;
@@ -1263,5 +1263,42 @@ describe('Titanium.UI.TableView', function () {
 		should(tableView.scrollable).be.eql(false);
 		tableView.scrollable = !tableView.scrollable;
 		should(tableView.scrollable).be.eql(true);
+	});
+
+	it('Add and remove headerView/footerView ', function (finish) {
+		var win = Ti.UI.createWindow({ backgroundColor: 'gray' }),
+			headerView = Ti.UI.createView({
+				backgroundColor: 'red',
+				height: 100,
+				width: Ti.UI.FILL
+			}),
+			footerView = Ti.UI.createView({
+				backgroundColor: 'green',
+				height: 100,
+				width: Ti.UI.FILL
+			}),
+			table = Ti.UI.createTableView({
+				headerView: headerView,
+				footerView: footerView,
+				data: [
+					{ title: 'ITEM' }
+				]
+			});
+
+		win.addEventListener('open', function () {
+			should(table.headerView).not.be.null;
+			should(table.footerView).not.be.null;
+
+			table.headerView = null;
+			table.footerView = null;
+
+			should(table.headerView).be.null;
+			should(table.footerView).be.null;
+
+			finish();
+		});
+
+		win.add(table);
+		win.open();
 	});
 });

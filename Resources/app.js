@@ -32,12 +32,12 @@ describe('global', function () {
 require('./error.test');
 // ES6 syntax/compatability tests
 require('./es6.arrows.test');
+require('./es6.class.test');
 require('./es6.default.args.test');
+require('./es6.import.test');
 require('./es6.rest.args.test');
 require('./es6.spread.args.test');
 require('./es6.string.interpolation.test');
-require('./es6.class.test');
-require('./es6.import.test');
 // Titanium APIs
 require('./ti.accelerometer.test');
 require('./ti.analytics.test');
@@ -47,8 +47,8 @@ require('./ti.app.ios.searchquery.test');
 require('./ti.app.properties.test');
 require('./ti.app.windows.backgroundservice.test');
 require('./ti.blob.test');
-require('./ti.builtin.test');
 require('./ti.buffer.test');
+require('./ti.builtin.test');
 require('./ti.calendar.calendar.test');
 require('./ti.codec.test');
 require('./ti.contacts.test');
@@ -87,10 +87,12 @@ require('./ti.ui.constants.test');
 require('./ti.ui.emaildialog.test');
 require('./ti.ui.imageview.test');
 require('./ti.ui.ios.test');
+require('./ti.ui.ios.navigationwindow.test');
 require('./ti.ui.ios.previewcontext.test');
 require('./ti.ui.label.test');
 require('./ti.ui.layout.test');
 require('./ti.ui.listview.test');
+require('./ti.ui.maskedimage.test');
 require('./ti.ui.optiondialog.test');
 require('./ti.ui.picker.test');
 require('./ti.ui.progressbar.test');

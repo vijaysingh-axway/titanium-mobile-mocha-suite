@@ -298,4 +298,19 @@ describe('Titanium.App', function () {
 
 		Ti.App.fireEvent('test1', { obj: validObject });
 	});
+
+	it.ios('Multiple global event listeners (TIMOB-25836)', function (finish) {
+		function functionA () {
+			Ti.App.removeEventListener('TestCheckNetwork', functionA);
+		}
+
+		function functionB () {
+			Ti.App.removeEventListener('TestCheckNetwork', functionB);
+			finish();
+		}
+
+		Ti.App.addEventListener('TestCheckNetwork', functionA);
+		Ti.App.addEventListener('TestCheckNetwork', functionB);
+		Ti.App.fireEvent('TestCheckNetwork');
+	});
 });

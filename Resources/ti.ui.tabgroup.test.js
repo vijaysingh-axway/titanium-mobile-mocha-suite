@@ -47,4 +47,74 @@ describe('Titanium.UI.TabGroup', function () {
 		tabGroup.addTab(tab);
 		tabGroup.open();
 	});
+
+	it.ios('tabs', function () {
+		var win = Ti.UI.createWindow();
+		tabGroup = Ti.UI.createTabGroup();
+		tab = Ti.UI.createTab({
+			title: 'Tab',
+			window: win
+		});
+
+		tabGroup.addTab(tab);
+		should(tabGroup.tabs.length).eql(1);
+		tabGroup.removeTab(tab);
+		should(tabGroup.tabs.length).eql(0);
+	});
+
+	it.ios('allowUserCustomization', function () {
+		var win = Ti.UI.createWindow();
+		tabGroup = Ti.UI.createTabGroup({
+			allowUserCustomization: true
+		});
+		tab = Ti.UI.createTab({
+			title: 'Tab',
+			window: win
+		});
+
+		tabGroup.addTab(tab);
+		should(tabGroup.allowUserCustomization).eql(true);
+		tabGroup.setAllowUserCustomization(false);
+		should(tabGroup.allowUserCustomization).eql(false);
+	});
+
+	it.ios('tabsTranslucent', function () {
+		var win = Ti.UI.createWindow();
+		tabGroup = Ti.UI.createTabGroup({
+			tabsTranslucent: true
+		});
+		tab = Ti.UI.createTab({
+			title: 'Tab',
+			window: win
+		});
+
+		tabGroup.addTab(tab);
+		should(tabGroup.tabsTranslucent).eql(true);
+		tabGroup.setTabsTranslucent(false);
+		should(tabGroup.tabsTranslucent).eql(false);
+	});
+
+	it('close event', function (finish) {
+		var win;
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		tabGroup = Ti.UI.createTabGroup();
+
+		tabGroup.addEventListener('open', function () {
+			tabGroup.close();
+		});
+
+		tabGroup.addEventListener('close', function () {
+			finish();
+		});
+
+		tab = Ti.UI.createTab({
+			title: 'Tab',
+			window: win
+		});
+		tabGroup.addTab(tab);
+
+		tabGroup.open();
+	});
 });

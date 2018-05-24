@@ -71,9 +71,9 @@ describe('Titanium.Media.VideoPlayer', function () {
 		should(player.pictureInPictureEnabled).be.a.Boolean;
 	});
 
-	it.windowsMissing('showsControls', function () {
+	it('showsControls', function () {
 		var player = Ti.Media.createVideoPlayer();
-		should(player.showsControls).be.a.Boolean;
+		should(player).have.readOnlyProperty('showsControls').which.is.a.Boolean;
 	});
 
 	it.ios('playableDuration', function () {
@@ -101,15 +101,67 @@ describe('Titanium.Media.VideoPlayer', function () {
 		should(player).have.readOnlyProperty('moviePlayerStatus').which.is.a.Number;
 	});
 
-	it.ios('Close window containing a video player (TIMOB-25574)', function (finish) {
-		var win = Ti.UI.createWindow();
+	it.ios('playbackState', function () {
+		var player = Ti.Media.createVideoPlayer();
+		should(player).have.readOnlyProperty('playbackState').which.is.a.Number;
+	});
 
-		var nav = Ti.UI.iOS.createNavigationWindow({
+	it.ios('Close window containing a video player (TIMOB-25574)', function (finish) {
+		var win,
+			nav;
+		this.timeout(15000);
+
+		win = Ti.UI.createWindow({
+			backgroundColor: 'white'
+		});
+		nav = Ti.UI.iOS.createNavigationWindow({
 			window: win
 		});
 
-		var detailWindow = Ti.UI.createWindow();
+		win.addEventListener('focus', openWindow);
 
+		nav.open();
+
+		function openWindow() {
+			var detailWindow,
+				videoPlayer;
+			win.removeEventListener('focus', openWindow);
+			detailWindow = Ti.UI.createWindow({
+				backgroundColor: 'black'
+			});
+
+			videoPlayer = Ti.Media.createVideoPlayer({
+				url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+				autoplay: true,
+				backgroundColor: 'blue',
+				height: 300,
+				width: 300,
+				mediaControlStyle: Ti.Media.VIDEO_CONTROL_NONE,
+				scalingMode: Ti.Media.VIDEO_SCALING_ASPECT_FILL,
+				repeatMode: Ti.Media.VIDEO_REPEAT_MODE_ONE,
+				showsControls: false
+			});
+
+			detailWindow.addEventListener('open', function () {
+				setTimeout(function () {
+					detailWindow.close();
+				}, 2000);
+			});
+
+			detailWindow.addEventListener('close', function () {
+				setTimeout(function () {
+					finish(); // We are done!
+				}, 2000);
+			});
+
+			detailWindow.add(videoPlayer);
+			nav.openWindow(detailWindow);
+		}
+	});
+
+	it.ios('Release video player and close window (TIMOB-26033)', function (finish) {
+		var win = Ti.UI.createWindow();
+		var videoWindow = Ti.UI.createWindow();
 		var videoPlayer = Ti.Media.createVideoPlayer({
 			url: 'https://www.w3schools.com/html/mov_bbb.mp4',
 			top: 2,
@@ -123,26 +175,26 @@ describe('Titanium.Media.VideoPlayer', function () {
 
 		this.timeout(10000);
 
-		// When the first window opens, open the next one
 		win.addEventListener('open', function () {
 			setTimeout(function () {
-				nav.openWindow(detailWindow);
+				videoWindow.open();
 			}, 2000);
 		});
 
-		// Once the next window opens, close it again
-		detailWindow.addEventListener('open', function () {
+		videoWindow.addEventListener('open', function () {
 			setTimeout(function () {
-				nav.closeWindow(detailWindow);
+				videoPlayer.release();
+				videoWindow.remove(videoPlayer);
+				videoPlayer = null;
+				videoWindow.close();
 			}, 2000);
 		});
 
-		// If the detail window closes successfully without a crash, we are good!
-		detailWindow.addEventListener('close', function () {
+		videoWindow.addEventListener('close', function () {
 			finish();
 		});
 
-		detailWindow.add(videoPlayer);
-		nav.open();
+		videoWindow.add(videoPlayer);
+		win.open();
 	});
 });
