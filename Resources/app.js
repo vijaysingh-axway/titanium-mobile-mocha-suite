@@ -41,6 +41,7 @@ require('./es6.string.interpolation.test');
 // Titanium APIs
 require('./ti.accelerometer.test');
 require('./ti.analytics.test');
+require('./ti.android.notificationmanager.test');
 require('./ti.android.service.test');
 require('./ti.api.test');
 require('./ti.app.test');
