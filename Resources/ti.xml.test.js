@@ -40,10 +40,10 @@ describe.windowsDesktopBroken('Titanium.XML', function () {
 		invalidSource = {};
 
 		for (i = 0; i < testFiles.length; i++) {
-			testSource[testFiles[i]] = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, testFiles[i]).read().text;
+			testSource[testFiles[i]] = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'xml', testFiles[i]).read().text;
 		}
 		for (i = 0; i < invalidFiles.length; i++) {
-			invalidSource[invalidFiles[i]] = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, invalidFiles[i]).read().text;
+			invalidSource[invalidFiles[i]] = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'xml', invalidFiles[i]).read().text;
 		}
 	});
 
