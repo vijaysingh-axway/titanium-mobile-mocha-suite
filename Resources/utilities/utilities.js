@@ -1,5 +1,5 @@
 'use strict';
-var filter = require('../mocha-filter'),
+var filter = require('./mocha-filter'),
 	filters = {},
 	Utility = {};
 
