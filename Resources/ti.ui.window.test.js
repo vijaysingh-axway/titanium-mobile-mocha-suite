@@ -8,8 +8,7 @@
 /* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+var should = require('./utilities/assertions');
 
 describe('Titanium.UI.Window', function () {
 	var win,
@@ -47,7 +46,7 @@ describe('Titanium.UI.Window', function () {
 		win = null;
 	});
 
-	it('title', function () {
+	it('.title', function () {
 		win = Ti.UI.createWindow({
 			title: 'this is some text'
 		});
@@ -60,7 +59,7 @@ describe('Titanium.UI.Window', function () {
 		should(win.getTitle()).eql('other text');
 	});
 
-	it('titleid', function () {
+	it('.titleid', function () {
 		win = Ti.UI.createWindow({
 			titleid: 'this_is_my_key'
 		});
@@ -75,57 +74,65 @@ describe('Titanium.UI.Window', function () {
 		should(win.title).eql('this is my value'); // FIXME Windows: https://jira.appcelerator.org/browse/TIMOB-23498
 	});
 
-	function doOrientationModeTest(mocha, finish, orientation) {
-		mocha.slow(5000);
-		mocha.timeout(20000);
-		win = Ti.UI.createWindow({
-			orientationModes: [ orientation ]
-		});
-		win.addEventListener('open', function () {
-			setTimeout(function () {
+	// TODO Why not run this on iOS? Seems to fail, though
+	describe.android('.orientationModes', function () {
+		this.slow(5000);
+		this.timeout(20000);
+
+		function doOrientationModeTest(orientation, finish) {
+			win = Ti.UI.createWindow({
+				orientationModes: [ orientation ]
+			});
+			win.addEventListener('open', function () {
 				try {
-					should(win.orientationModes.length).be.eql(1);
-					should(win.orientationModes[0]).eql(orientation);
-					should(win.orientation).eql(orientation);
+					win.orientationModes.should.have.length(1);
+					win.orientationModes[0].should.eql(orientation);
+					win.orientation.should.eql(orientation); // FIXME Fails on LANDSCAPE_RIGHT
 					finish();
-				} catch (err) {
-					finish(err);
+				} catch (e) {
+					finish(e);
 				}
-			}, 3000);
+			});
+			win.open();
+		}
+
+		it('PORTRAIT', function (finish) {
+			doOrientationModeTest(Ti.UI.PORTRAIT, finish);
 		});
-		win.open();
-	}
 
-	it.android('orientationModes-PORTRAIT', function (finish) {
-		doOrientationModeTest(this, finish, Ti.UI.PORTRAIT);
+		it('LANDSCAPE_LEFT', function (finish) {
+			doOrientationModeTest(Ti.UI.LANDSCAPE_LEFT, finish);
+		});
+
+		it.androidBroken('LANDSCAPE_RIGHT', function (finish) {
+			doOrientationModeTest(Ti.UI.LANDSCAPE_RIGHT, finish);
+		});
 	});
 
-	it.android('orientationModes-LANDSCAPE_LEFT', function (finish) {
-		doOrientationModeTest(this, finish, Ti.UI.LANDSCAPE_LEFT);
-	});
-
-	it.android('orientationModes-LANDSCAPE_RIGHT', function (finish) {
-		doOrientationModeTest(this, finish, Ti.UI.LANDSCAPE_RIGHT);
-	});
-
-	// FIXME Get working on iOS. iOS reports size of 100, which seems right...
-	// FIXME Get working on Android. Also reports size of 100...
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('window_size_is_read_only', function (finish) {
+	// FIXME Move these rect/size tests into Ti.UI.View!
+	it.windowsDesktopBroken('.size is read-only', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue',
 			width: 100,
 			height: 100
 		});
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
+		win.addEventListener('postlayout', function () {
 			try {
-				// FIXME size should only be accessible in postlayout callback, which iOS and Android don't currently fire for Ti.UI.Window!
-				should(win.size.width).not.be.eql(100); // iOS fails here
-				should(win.size.height).not.be.eql(100);
+				win.size.width.should.eql(100);
+				win.size.height.should.eql(100);
+				// size just returns 0 for x/y
+				win.size.x.should.eql(0);
+				win.size.y.should.eql(0);
+
+				// try to change the size
+				win.size.width = 120;
+				win.size.height = 120;
+
+				// shouldn't actually change
+				win.size.width.should.eql(100);
+				win.size.height.should.eql(100);
+				win.size.x.should.eql(0);
+				win.size.y.should.eql(0);
 
 				finish();
 			} catch (err) {
@@ -135,39 +142,37 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	// FIXME Get working on iOS. reports left of 100, which seems right!
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('window_position_is_read_only', function (finish) {
+	it.androidAndWindowsDesktopBroken('.rect is read-only', function (finish) {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'green',
 			left: 100,
 			right: 100
 		});
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
+		win.addEventListener('postlayout', function () {
+			var width,
+				height;
 			try {
-				// FIXME rect should only be accessible in postlayout callback, which iOS and Android don't currently fire for Ti.UI.Window!
-				should(win.rect.left).not.be.eql(100); // ios reports 100
-				should(win.rect.right).not.be.eql(100);
+				win.rect.x.should.eql(100); // get 0 on Android
+				win.rect.y.should.eql(0);
+				width = win.rect.width;
+				height = win.rect.height;
+
+				// try to change the rect
+				win.rect.x = 120;
+				win.rect.y = 5;
+				win.rect.width = 10;
+				win.rect.height = 5;
+
+				// shouldn't actually change
+				win.rect.x.should.eql(100);
+				win.rect.y.should.eql(0);
+				win.rect.width.should.eql(width);
+				win.rect.height.should.eql(height);
 
 				finish();
 			} catch (err) {
 				finish(err);
 			}
-		});
-		win.open();
-	});
-
-	// FIXME https://jira.appcelerator.org/browse/TIMOB-23640
-	(((utilities.isWindows10() && utilities.isWindowsDesktop()) || utilities.isAndroid() || utilities.isIOS()) ? it.skip : it)('postlayout event gets fired', function (finish) {
-		win = Ti.UI.createWindow({ backgroundColor: 'yellow' });
-
-		// Confirms that Ti.UI.Window fires postlayout event
-		win.addEventListener('postlayout', function () {
-			finish();
 		});
 		win.open();
 	});
@@ -201,69 +206,80 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it('blur event is fired when closed', function (finish) {
-		this.slow(5000);
+	describe('events', function () {
 		this.timeout(20000);
 
-		win = Ti.UI.createWindow({
-			backgroundColor: 'pink'
+		// FIXME https://jira.appcelerator.org/browse/TIMOB-23640
+		it.windowsDesktopBroken('postlayout event gets fired', function (finish) {
+			win = Ti.UI.createWindow({ backgroundColor: 'yellow' });
+
+			// Confirms that Ti.UI.Window fires postlayout event
+			win.addEventListener('postlayout', function () {
+				finish();
+			});
+			win.open();
 		});
 
-		win.addEventListener('blur', function () {
-			finish();
-		});
-		win.addEventListener('open', function () {
-			setTimeout(function () {
-				win.close();
-			}, 100);
-		});
-		win.open();
-	});
+		it('blur event is fired when closed', function (finish) {
+			this.slow(5000);
 
-	it('focus event is fired when opened', function (finish) {
-		this.slow(2000);
-		this.timeout(20000);
+			win = Ti.UI.createWindow({
+				backgroundColor: 'pink'
+			});
 
-		win = Ti.UI.createWindow({
-			backgroundColor: 'pink'
-		});
-
-		win.addEventListener('focus', function () {
-			finish();
-		});
-		win.open();
-	});
-
-	it('open event is fired', function (finish) {
-		this.slow(2000);
-		this.timeout(20000);
-
-		win = Ti.UI.createWindow({
-			backgroundColor: 'pink'
+			win.addEventListener('blur', function () {
+				finish();
+			});
+			win.addEventListener('open', function () {
+				setTimeout(function () {
+					win.close();
+				}, 100);
+			});
+			win.open();
 		});
 
-		win.addEventListener('open', function () {
-			finish();
-		});
-		win.open();
-	});
+		it('focus event is fired when opened', function (finish) {
+			this.slow(2000);
 
-	it('close event is fired', function (finish) {
-		this.slow(5000);
-		this.timeout(20000);
+			win = Ti.UI.createWindow({
+				backgroundColor: 'pink'
+			});
 
-		win = Ti.UI.createWindow({
-			backgroundColor: 'pink'
+			win.addEventListener('focus', function () {
+				finish();
+			});
+			win.open();
 		});
-		win.addEventListener('close', function () {
-			finish();
+
+		it('open event is fired', function (finish) {
+			this.slow(2000);
+
+			win = Ti.UI.createWindow({
+				backgroundColor: 'pink'
+			});
+
+			win.addEventListener('open', function () {
+				finish();
+			});
+			win.open();
 		});
-		win.addEventListener('open', function () {
-			setTimeout(function () {
-				win.close();
-			}, 500);
+
+		it('close event is fired', function (finish) {
+			this.slow(5000);
+
+			win = Ti.UI.createWindow({
+				backgroundColor: 'pink'
+			});
+			win.addEventListener('close', function () {
+				finish();
+			});
+			win.addEventListener('open', function () {
+				setTimeout(function () {
+					win.close();
+				}, 500);
+			});
+			win.open();
 		});
-		win.open();
 	});
 
 	// For this test, you should see errors in the console, it is expected.
@@ -296,9 +312,9 @@ describe('Titanium.UI.Window', function () {
 		this.slow(5000);
 		this.timeout(30000);
 
-		win = Ti.UI.createWindow({ backgroundColor:'green' });
-		win2 = Ti.UI.createWindow({ backgroundColor:'blue' });
-		win3 = Ti.UI.createWindow({ backgroundColor:'gray' });
+		win = Ti.UI.createWindow({ backgroundColor: 'green' });
+		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		win.addEventListener('focus', function () {
 			if (didFocus) {
@@ -328,9 +344,9 @@ describe('Titanium.UI.Window', function () {
 		this.slow(5000);
 		this.timeout(20000);
 
-		win = Ti.UI.createWindow({ backgroundColor:'green' });
-		win2 = Ti.UI.createWindow({ backgroundColor:'blue' });
-		win3 = Ti.UI.createWindow({ backgroundColor:'gray' });
+		win = Ti.UI.createWindow({ backgroundColor: 'green' });
+		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		win.addEventListener('focus', function () {
 			if (didFocus) {
@@ -359,9 +375,9 @@ describe('Titanium.UI.Window', function () {
 		this.slow(5000);
 		this.timeout(30000);
 
-		win = Ti.UI.createWindow({ backgroundColor:'green' });
-		win2 = Ti.UI.createWindow({ backgroundColor:'blue' });
-		win3 = Ti.UI.createWindow({ backgroundColor:'gray' });
+		win = Ti.UI.createWindow({ backgroundColor: 'green' });
+		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		win.addEventListener('focus', function () {
 			if (didFocus) {
@@ -395,31 +411,6 @@ describe('Titanium.UI.Window', function () {
 	it('Stringify unopened Window', function () {
 		win = Ti.UI.createWindow();
 		Ti.API.info(JSON.stringify(win));
-	});
-
-	// FIXME Get working on iOS
-	// FIXME Get working on Android - Ti.UI.currentWindow is null
-	// Supposedly this property should only exist when using Ti.UI.Window.url to load JS files into own context! But we support elsewhere for Windows
-	it.androidAndIosBroken('window_currentWindow', function (finish) {
-		win = Ti.UI.createWindow({
-			backgroundColor: 'yellow'
-		});
-		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
-			try {
-				should(Ti.UI.currentWindow).exist; // Android gives null
-				should(Ti.UI.currentWindow).be.eql(win); // iOS fails here
-
-				finish();
-			} catch (err) {
-				finish(err);
-			}
-		});
-		win.open();
 	});
 
 	// Times out on Android and Windows Desktop
@@ -535,10 +526,6 @@ describe('Titanium.UI.Window', function () {
 			largeTitleDisplayMode: Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS
 		});
 
-		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS).be.a.Number;
-		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_AUTOMATIC).be.a.Number;
-		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER).be.a.Number;
-
 		should(win.largeTitleDisplayMode).be.a.Number;
 		should(win.getLargeTitleDisplayMode).be.a.Function;
 		should(win.setLargeTitleDisplayMode).be.a.Function;
@@ -555,7 +542,7 @@ describe('Titanium.UI.Window', function () {
 		should(win.getLargeTitleDisplayMode()).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER);
 	});
 
-	it.ios('.extendSafeArea exists', function (finish) {
+	it.ios('.extendSafeArea', function (finish) {
 		this.timeout(5000);
 		// TODO: Add more unit tests related to top, bottom, left, right margins of win.safeAreaView.
 		win = Ti.UI.createWindow({
@@ -567,8 +554,8 @@ describe('Titanium.UI.Window', function () {
 			try {
 				should(win.safeAreaView).be.a.Object;
 				finish();
-			} catch (err) {
-				finish(err);
+			} catch (e) {
+				finish(e);
 			}
 		});
 
@@ -587,18 +574,10 @@ describe('Titanium.UI.Window', function () {
 				win.setHomeIndicatorAutoHidden(true);
 				should(win.homeIndicatorAutoHidden).be.true;
 				finish();
-			} catch (err) {
-				finish(err);
+			} catch (e) {
+				finish(e);
 			}
 		});
 		win.open();
-	});
-
-	it.ios('.modalPresentationStyles', function () {
-		should(Ti.UI.iOS.MODAL_PRESENTATION_PAGESHEET).be.a.Number;
-		should(Ti.UI.iOS.MODAL_PRESENTATION_FORMSHEET).be.a.Number;
-		should(Ti.UI.iOS.MODAL_PRESENTATION_CURRENT_CONTEXT).be.a.Number;
-		should(Ti.UI.iOS.MODAL_PRESENTATION_OVER_CURRENT_CONTEXT).be.a.Number;
-		should(Ti.UI.iOS.MODAL_PRESENTATION_OVER_CURRENT_FULL_SCREEN).be.a.Number;
 	});
 });

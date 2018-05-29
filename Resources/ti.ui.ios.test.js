@@ -117,12 +117,20 @@ describe.ios('Titanium.UI.iOS', function () {
 		// Used in Window.largeTitleDisplayMode
 		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS).be.a.Number;
 		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_AUTOMATIC).be.a.Number;
+		should(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_NEVER).be.a.Number;
 
 		// Used in LivePhotoBadge.type
 		should(Ti.UI.iOS.LIVEPHOTO_BADGE_OPTIONS_LIVE_OFF).be.a.Number;
 		should(Ti.UI.iOS.LIVEPHOTO_BADGE_OPTIONS_OVER_CONTENT).be.a.Number;
+
+		// modal Presentation Styles
+		should(Ti.UI.iOS.MODAL_PRESENTATION_PAGESHEET).be.a.Number;
+		should(Ti.UI.iOS.MODAL_PRESENTATION_FORMSHEET).be.a.Number;
+		should(Ti.UI.iOS.MODAL_PRESENTATION_CURRENT_CONTEXT).be.a.Number;
+		should(Ti.UI.iOS.MODAL_PRESENTATION_OVER_CURRENT_CONTEXT).be.a.Number;
+		should(Ti.UI.iOS.MODAL_PRESENTATION_OVER_CURRENT_FULL_SCREEN).be.a.Number;
 	});
-	
+
 	it('#createStepper()', function () {
 		var stepper;
 		should(Ti.UI.iOS.createStepper).not.be.undefined;
