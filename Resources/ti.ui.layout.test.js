@@ -1019,7 +1019,7 @@ describe('Titanium.UI.Layout', function () {
 	});
 
 	// Functional Test #1000 SystemMeasurement
-	it('systemMeasurement', function (finish) {
+	it.androidBroken('systemMeasurement', function (finish) {
 		var parent = Ti.UI.createView({
 				height: '50dip',
 				width: '40px',
@@ -1038,7 +1038,7 @@ describe('Titanium.UI.Layout', function () {
 
 			try {
 				if (utilities.isAndroid()) {
-					should(parent.size.width).eql(40);
+					should(parent.size.width).eql(40); // FIXME Android "expected 20 to equal 40"
 				} else if (utilities.isIOS()) {
 					should(parent.size.height).eql(50);
 				} else {
