@@ -22,6 +22,27 @@ Ti.API.info('Executing service script: "ti.android.service.normal.js"');
 // Notify owner that this service has been executed.
 Ti.App.fireEvent('service.normal:executed', {});
 
+// Set up as a foreground service if requested via intent.
+let notificationId = service.intent.getIntExtra('foregroundNotificationId', 0);
+if (notificationId !== 0) {
+	let channel = null;
+	if (Ti.Platform.Android.API_LEVEL >= 26) {
+		channel = Ti.Android.NotificationManager.createNotificationChannel({
+			id: 'ti_android_service_normal_channel',
+			name: 'Channel Name',
+			importance: Ti.Android.IMPORTANCE_DEFAULT
+		});
+	}
+	service.foregroundNotify(notificationId, Ti.Android.createNotification({
+		contentTitle: 'Foreground Service',
+		contentText: 'Content Text',
+		channelId: channel ? channel.id : null,
+		contentIntent: Ti.Android.createPendingIntent({
+			intent: Ti.App.Android.launchIntent
+		})
+	}));
+}
+
 // Have this service stop itself if requested via intent.
 if (service.intent.getBooleanExtra('doSelfStop', false)) {
 	setTimeout(function () {
