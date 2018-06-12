@@ -29,7 +29,12 @@ describe('global', function () {
 
 // ============================================================================
 // Add the tests here using "require"
+// Global behavior
+require('./console.test');
 require('./error.test');
+require('./global.test');
+require('./string.test');
+require('./timers.test');
 // ES6 syntax/compatability tests
 require('./es6.arrows.test');
 require('./es6.class.test');
@@ -50,7 +55,6 @@ require('./ti.app.properties.test');
 require('./ti.app.windows.backgroundservice.test');
 require('./ti.blob.test');
 require('./ti.buffer.test');
-require('./ti.builtin.test');
 require('./ti.calendar.calendar.test');
 require('./ti.codec.test');
 require('./ti.contacts.test');
