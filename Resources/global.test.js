@@ -10,12 +10,8 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-describe('Global', function () {
-	it('require', function () {
-		should(require).be.a.Function;
-	});
-
-	it('global exists at top-level', function () {
+describe('global', function () {
+	it('exists at top-level', function () {
 		should(global).be.an.Object;
 	});
 });

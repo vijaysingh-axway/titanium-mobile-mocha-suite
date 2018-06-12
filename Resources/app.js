@@ -26,13 +26,15 @@ describe('global', function () {
 		should(global).be.ok;
 	});
 });
+// TODO: Add tests that __filename, __dirname are available in app.js too!
 
 // ============================================================================
 // Add the tests here using "require"
-// Global behavior
+// Global behavior (top-level timers, functions, types)
 require('./console.test');
 require('./error.test');
 require('./global.test');
+require('./require.test');
 require('./string.test');
 require('./timers.test');
 // ES6 syntax/compatability tests
@@ -80,7 +82,6 @@ require('./ti.network.socket.tcp.test');
 require('./ti.network.socket.udp.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
-require('./ti.require.test');
 require('./ti.stream.test');
 require('./ti.test');
 require('./ti.ui.test');
