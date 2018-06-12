@@ -10,20 +10,17 @@
 'use strict';
 var should = require('./utilities/assertions');
 
-describe('requireJS', function () {
-	// require should be a function
-	it('requireJS.Function', function () {
+describe('require()', function () {
+	it('exists as a Function at top-level', function () {
 		should(require).be.a.Function;
 	});
 
-	// require should return object
-	it('requireJS.Object', function () {
+	it('returns an Object', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 	});
 
-	// require for invalid file should throw error
-	it('requireJS.NonObject', function () {
+	it('throws when requiring invalid file', function () {
 		(function () {
 			var object = require('requireJS_test_notfound');
 			should(object).not.be.an.Object;
@@ -31,7 +28,7 @@ describe('requireJS', function () {
 	});
 
 	// require should cache object
-	it('requireJS.ObjectCache', function () {
+	it('caches results for same module id', function () {
 		var object1 = require('ti.require.test_test');
 		var object2 = require('ti.require.test_test');
 		should(object1).be.an.Object;
@@ -41,7 +38,7 @@ describe('requireJS', function () {
 	});
 
 	// local function and variable should not be exposed
-	it('requireJS.LocalFunc', function () {
+	it('does not expose un-exported local variable or function', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 		should(object.localVariable).be.undefined;
@@ -49,7 +46,7 @@ describe('requireJS', function () {
 	});
 
 	// public function with 0 argument
-	it('requireJS.PublicFunc0', function () {
+	it('does expose exported function', function () {
 		var object = require('ti.require.test_test'),
 			result;
 		should(object).be.an.Object;
@@ -61,7 +58,7 @@ describe('requireJS', function () {
 
 	// public function with 1 argument
 	// Windows Phone 10 crashed here once
-	it('requireJS.PublicFunc1', function () {
+	it('does expose exported function accepting single argument', function () {
 		var object = require('ti.require.test_test'),
 			result;
 		should(object).be.an.Object;
@@ -72,7 +69,7 @@ describe('requireJS', function () {
 	});
 
 	// public function with 2 arguments
-	it('requireJS.PublicFunc2', function () {
+	it('does expose exported function accepting two arguments', function () {
 		var object = require('ti.require.test_test'),
 			result;
 		should(object).be.an.Object;
@@ -83,7 +80,7 @@ describe('requireJS', function () {
 	});
 
 	// public string variable
-	it('requireJS.PublicStrVar', function () {
+	it('does expose exported String variable', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 		should(object.testStrVar).be.a.String;
@@ -91,7 +88,7 @@ describe('requireJS', function () {
 	});
 
 	// public number variable
-	it('requireJS.PublicNumVar', function () {
+	it('does expose exported Number variable', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 		should(object.testNumVar).be.a.Number;
@@ -99,7 +96,7 @@ describe('requireJS', function () {
 	});
 
 	// public boolean variable
-	it('requireJS.PublicBoolVar', function () {
+	it('does expose exported Boolean variable', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 		should(object.testBoolVar).be.a.Boolean;
@@ -107,22 +104,20 @@ describe('requireJS', function () {
 	});
 
 	// public null variable
-	it('requireJS.PublicNullVar', function () {
+	it('does expose exported null variable', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 		should(object.testNullVar).be.null;
 	});
 
-	// internal __filename
-	it('requireJS.__filename', function () {
+	it('exposes __filename inside required module', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 		should(object.filename).be.a.String;
 		should(object.filename).be.eql('/ti.require.test_test.js');
 	});
 
-	// internal __filename
-	it('requireJS.__dirname', function () {
+	it('exposes __dirname isnide required module', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object;
 		should(object.dirname).be.a.String;
@@ -234,7 +229,7 @@ describe('requireJS', function () {
 		should(baz.foo.filename).be.eql('/node_modules/foo/index.js');
 	});
 
-	it('require should prefer closest node_modules', function () {
+	it('should prefer closest node_modules', function () {
 		// require('bar') will require package baz under node_modules/bar/node_modules
 		// require('bax') should not point to this version of baz but to node_modules/baz
 		var object = require('bar'),
@@ -253,7 +248,7 @@ describe('requireJS', function () {
 		should(baz2.dirname).be.eql('/node_modules/baz');
 	});
 
-	it('require should not fail when exports is falsey', function () {
+	it('should not fail when exports is falsey', function () {
 		var files = [
 				{ filename: 'empty-double', expected: '' },
 				{ filename: 'empty-single', expected: '' },
