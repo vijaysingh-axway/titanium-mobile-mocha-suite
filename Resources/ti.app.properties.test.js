@@ -12,9 +12,13 @@ var should = require('./utilities/assertions');
 
 Array.prototype.contains = function (obj) {
 	var i = this.length;
-	while (i--) if (this[i] === obj) return true;
+	while  (i--) {
+		if (this[i] === obj) {
+			return true;
+		}
+	}
 	return false;
-}
+};
 
 describe('Titanium.App.Properties', function () {
 
@@ -78,22 +82,18 @@ describe('Titanium.App.Properties', function () {
 		should(Ti.App.Properties.getList('test_list_null', null)).be.eql(null);
 	});
 
-	it('Object default to null', function () {
-		should(Ti.App.Properties.getObject('test_object_null')).be.eql(null);
-	});
-
 	it('List', function () {
-		var test_list = ['item1', 'item2', 'item3'];
+		var test_list = [ 'item1', 'item2', 'item3' ];
 		Ti.App.Properties.setList('test_list', test_list);
 		should(Ti.App.Properties.getList('test_list')).be.eql(test_list);
 
-		var names = [{name: 'One'}, {name: 1}, {name: ''}, null, {name: true}, 1, '', null, false];
+		var names = [ { name: 'One' }, { name: 1 }, { name: '' }, null, { name: true }, 1, '', null, false ];
 		Ti.App.Properties.setList('names', names);
 		should(JSON.stringify(Ti.App.Properties.getList('names'))).be.eql(JSON.stringify(names));
 	});
 
 	it('Object', function () {
-		var test_object = {item : 'item1'};
+		var test_object = { item: 'item1' };
 		Ti.App.Properties.setObject('test_object', test_object);
 		should(Ti.App.Properties.getObject('test_object')).be.eql(test_object);
 	});
@@ -177,8 +177,8 @@ describe('Titanium.App.Properties', function () {
 		Ti.App.Properties.setDouble('test_double', 1.23);
 		Ti.App.Properties.setInt('test_int', 1);
 		Ti.App.Properties.setString('test_string', 'test');
-		Ti.App.Properties.setList('test_list', [1, 2, 3]);
-		Ti.App.Properties.setObject('test_object', {test: 'test'});
+		Ti.App.Properties.setList('test_list', [ 1, 2, 3 ]);
+		Ti.App.Properties.setObject('test_object', { test: 'test' });
 
 		// verify all change events have fired
 		setTimeout(function () {

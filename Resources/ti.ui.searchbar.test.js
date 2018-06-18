@@ -147,7 +147,7 @@ describe('Titanium.UI.SearchBar', function () {
 		});
 
 		searchBar = Ti.UI.createSearchBar({
-			width : 150
+			width: 150
 		});
 
 		listView = Ti.UI.createListView({

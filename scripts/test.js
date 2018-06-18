@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015-2017 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-2018 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
@@ -297,7 +297,7 @@ function massageJSONString(testResults) {
 		.replace(/\\b/g, '\\b')
 		.replace(/\\f/g, '\\f')
 		// remove non-printable and other non-valid JSON chars
-		.replace(/[\u0000-\u0019]+/g, '');
+		.replace(/[\u0000-\u0019]+/g, ''); // eslint-disable-line no-control-regex
 }
 
 /**
@@ -311,7 +311,7 @@ function outputJUnitXML(jsonResults, prefix, next) {
 	// We need to go through the results and separate them out into suites!
 	const suites = {};
 	jsonResults.results.forEach(function (item) {
-		const s = suites[item.suite] || { tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start:'' }; // suite name to group by
+		const s = suites[item.suite] || { tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start: '' }; // suite name to group by
 		s.tests.unshift(item);
 		s.duration += item.duration;
 		if (item.state === 'failed') {
@@ -323,7 +323,7 @@ function outputJUnitXML(jsonResults, prefix, next) {
 	});
 	const keys = Object.keys(suites);
 	const values = keys.map(function (v) { return suites[v]; }); // eslint-disable-line max-statements-per-line
-	const r = ejs.render('' + fs.readFileSync(JUNIT_TEMPLATE),  { 'suites': values, 'prefix': prefix });
+	const r = ejs.render('' + fs.readFileSync(JUNIT_TEMPLATE),  { suites: values, prefix: prefix });
 
 	// Write the JUnit XML to a file
 	fs.writeFileSync(path.join(__dirname, 'junit.' + prefix + '.xml'), r);
@@ -512,7 +512,7 @@ function outputResults(results, next) {
 	console.log();
 
 	results.forEach(function (item) {
-		const s = suites[item.suite] || { tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start:'' }; // suite name to group by
+		const s = suites[item.suite] || { tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start: '' }; // suite name to group by
 		s.tests.unshift(item);
 		s.duration += item.duration;
 		if (item.state === 'failed') {

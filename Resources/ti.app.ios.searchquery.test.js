@@ -21,9 +21,9 @@ describe.ios('Titanium.App.iOS', function () {
 describe.ios('Titanium.App.iOS.SearchQuery', function () {
 	it('constructor', function () {
 		var searchQuery = Ti.App.iOS.createSearchQuery({
-						queryString: 'title == "Titanium*"',
-						attributes: ["title", "displayName", "keywords", "contentType"]
-				});
+			queryString: 'title == "Titanium*"',
+			attributes: [ 'title', 'displayName', 'keywords', 'contentType' ]
+		});
 		should(searchQuery).have.readOnlyProperty('apiName').which.is.a.String;
 		should(searchQuery.apiName).be.eql('Ti.App.iOS.SearchQuery');
 		should(searchQuery.attributes).be.an.Array;

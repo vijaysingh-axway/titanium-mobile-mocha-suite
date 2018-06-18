@@ -108,7 +108,7 @@ describe('Titanium', function () {
 
 	// FIXME Is this really a method we want to expose on our API? Seems like it shouldn't be
 	// Undefined on Android, but there on iOS!
-	it.skip('#createProxy()', function () {
+	it.skip('#createProxy()', function () { // eslint-disable-line mocha/no-skipped-tests
 		should(Ti.createProxy).be.a.Function;
 	});
 

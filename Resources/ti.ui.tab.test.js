@@ -1,21 +1,18 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2015-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
 
 require('ti-mocha');
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities'),
-	didFocus = false;
+var should = require('./utilities/assertions');
 
 describe('Titanium.UI.Tab', function () {
-
-	beforeEach(function() {
-		didFocus = false;
-	});
-
 	it('apiName', function () {
 		var tab = Ti.UI.createTab({
 			text: 'this is some text'

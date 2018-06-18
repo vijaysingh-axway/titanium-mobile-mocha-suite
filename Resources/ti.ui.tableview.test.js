@@ -144,7 +144,7 @@ describe('Titanium.UI.TableView', function () {
 	// FIXME Also crashes Android, with no stack trace or errors in logcat
 	it.androidAndIosBroken('insertRowAfter', function (finish) {
 		var tableView = Ti.UI.createTableView({
-			data: [ { title:'Red' } ]
+			data: [ { title: 'Red' } ]
 		});
 
 		win = Ti.UI.createWindow({
@@ -236,7 +236,7 @@ describe('Titanium.UI.TableView', function () {
 	// FIXME Crashes Android as well
 	it.androidAndIosBroken('insertRowBefore', function (finish) {
 		var tableView = Ti.UI.createTableView({
-			data: [ { title:'Red' }, { title:'White' } ]
+			data: [ { title: 'Red' }, { title: 'White' } ]
 		});
 
 		win = Ti.UI.createWindow({
@@ -320,7 +320,7 @@ describe('Titanium.UI.TableView', function () {
 	// FIXME Crashes on Android too
 	it.androidAndIosBroken('add row', function (finish) {
 		var tableView = Ti.UI.createTableView({
-			data: [ { title:'Red' } ]
+			data: [ { title: 'Red' } ]
 		});
 
 		win = Ti.UI.createWindow({
@@ -363,7 +363,7 @@ describe('Titanium.UI.TableView', function () {
 	// FIXME Occasionally crashes Android as well
 	it.androidAndIosBroken('add rows', function (finish) {
 		var tableView = Ti.UI.createTableView({
-			data: [ { title:'Red' } ]
+			data: [ { title: 'Red' } ]
 		});
 
 		win = Ti.UI.createWindow({
@@ -1083,7 +1083,7 @@ describe('Titanium.UI.TableView', function () {
 		section_0.add(Ti.UI.createTableViewRow({ title: 'White' }));
 		section_0.add(Ti.UI.createTableViewRow({ title: 'Purple' }));
 
-		searchBar = Ti.UI.createSearchBar({ showCancel:true });
+		searchBar = Ti.UI.createSearchBar({ showCancel: true });
 		tableView = Ti.UI.createTableView({
 			data: [ section_0 ],
 			search: searchBar
@@ -1158,7 +1158,7 @@ describe('Titanium.UI.TableView', function () {
 		}
 
 		win.addEventListener('open', function () {
-			setTimeout(function() {
+			setTimeout(function () {
 				finish();
 			}, 1000);
 		});

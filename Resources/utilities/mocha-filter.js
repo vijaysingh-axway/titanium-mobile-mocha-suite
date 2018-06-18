@@ -51,7 +51,7 @@ module.exports.setupMocha = function (_checks, skipOriginals) {
 		/**
 		 * Parse the provided functions
 		 */
-		var parseFunctions = function (_key) {
+		function parseFunctions(_key) {
 			/**
 			 * Function to return when the checks have been processed
 			 */
@@ -67,7 +67,7 @@ module.exports.setupMocha = function (_checks, skipOriginals) {
 					return ext(func, passed && notFailed);
 				}
 			};
-		};
+		}
 
 		for (var key in _checks) {
 			parseFunctions(key);
@@ -78,14 +78,14 @@ module.exports.setupMocha = function (_checks, skipOriginals) {
 	/**
 	 * Populate the functions with the new checks
 	 */
-	var populateFunctions = function (_i, _extension) {
-		functions[_i][_extension] = extensions[_extension];
-	};
+	function populateFunctions(_i, _extension, _extensions) {
+		functions[_i][_extension] = _extensions[_extension];
+	}
 
 	for (var i in functions) {
 		var extensions = ext(functions[i], true);
 		for (var extension in extensions) {
-			populateFunctions(i, extension);
+			populateFunctions(i, extension, extensions);
 		}
 	}
 };
@@ -94,8 +94,9 @@ module.exports.setupMocha = function (_checks, skipOriginals) {
  * Add a new filter to the mocha functions. The predefined filters
  * cannot be overwritten, but user-defined ones can.
  *
- * @param name      The name of the filter, which will be used in the test
- * @param filter    The function that will determine whether to run the test
+ * @param {String} name      The name of the filter, which will be used in the test
+ * @param {Function} filter    The function that will determine whether to run the test
+ * @returns {Boolean}
  */
 module.exports.addFilter = function (name, filter) {
 	if (originalChecks.indexOf(name) > -1) {
@@ -109,7 +110,7 @@ module.exports.addFilter = function (name, filter) {
 /**
  * Add mutliple filters at once
  *
- * @param filters    Object containing the filters to add
+ * @param {Object} filters    Object containing the filters to add
  */
 module.exports.addFilters = function (filters) {
 	var keys = Object.keys(filters);

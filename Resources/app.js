@@ -68,7 +68,6 @@ require('./ti.filesystem.file.test');
 require('./ti.filesystem.filestream.test');
 require('./ti.geolocation.test');
 require('./ti.gesture.test');
-require('./ti.internal.test');
 require('./ti.locale.test');
 require('./ti.map.test');
 require('./ti.media.test');
@@ -256,7 +255,7 @@ function $Reporter(runner) {
 			.replace(/\\b/g, '\\b')
 			.replace(/\\f/g, '\\f');
 		// remove non-printable and other non-valid JSON chars
-		stringified = stringified.replace(/[\u0000-\u0019]+/g, '');
+		stringified = stringified.replace(/[\u0000-\u0019]+/g, ''); // eslint-disable-line no-control-regex
 		Ti.API.info('!TEST_END: ' + stringified);
 		$results.push(result);
 	});

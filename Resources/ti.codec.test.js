@@ -1,22 +1,27 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
-describe('Titanium.Codec', function() {
+describe('Titanium.Codec', function () {
 	it('apiName', function () {
 		should(Ti.Codec).have.a.readOnlyProperty('apiName').which.is.a.String;
 		should(Ti.Codec.apiName).be.eql('Ti.Codec');
 	});
 
-	it('testAPI', function() {
+	it('testAPI', function () {
 		should(Ti.Codec).be.an.Object;
 		var functions = [ 'encodeNumber', 'decodeNumber', 'encodeString', 'decodeString', 'getNativeByteOrder' ];
-		for (var i = 0; i < functions.length; i++) should(Ti.Codec[functions[i]]).be.a.Function;
+		for (var i = 0; i < functions.length; i++) {
+			should(Ti.Codec[functions[i]]).be.a.Function;
+		}
 		should(Ti.Codec.CHARSET_ASCII).eql('ascii');
 		should(Ti.Codec.CHARSET_UTF8).eql('utf8');
 		should(Ti.Codec.CHARSET_UTF16).eql('utf16');
@@ -37,15 +42,18 @@ describe('Titanium.Codec', function() {
 
 	it('testEncodeIntegers', function () {
 		var buffer = Ti.createBuffer({
-			length: 8
-		});
+				length: 8
+			}),
+			i;
 		Ti.Codec.encodeNumber({
 			source: 78187493530,
 			dest: buffer,
 			type: Ti.Codec.TYPE_LONG
 		});
-		if (Ti.Codec.getNativeByteOrder() == Ti.Codec.BIG_ENDIAN) {
-			for (var i = 0; 3 > i; i++) should(buffer[i]).eql(0);
+		if (Ti.Codec.getNativeByteOrder() == Ti.Codec.BIG_ENDIAN) { // eslint-disable-line eqeqeq
+			for (i = 0; i < 3; i++) {
+				should(buffer[i]).eql(0);
+			}
 			should(buffer[3]).eql(18);
 			should(buffer[4]).eql(52);
 			should(buffer[5]).eql(86);
@@ -57,7 +65,9 @@ describe('Titanium.Codec', function() {
 			should(buffer[2]).eql(86);
 			should(buffer[1]).eql(120);
 			should(buffer[0]).eql(154);
-			for (var i = 5; 8 > i; i++) should(buffer[i]).eql(0);
+			for (i = 5; i < 8; i++) {
+				should(buffer[i]).eql(0);
+			}
 		}
 		buffer.length = 10;
 		buffer.clear();
@@ -68,7 +78,9 @@ describe('Titanium.Codec', function() {
 			byteOrder: Ti.Codec.BIG_ENDIAN,
 			position: 2
 		});
-		for (var i = 2; 5 > i; i++) should(buffer[i]).eql(0);
+		for (i = 2; i < 5; i++) {
+			should(buffer[i]).eql(0);
+		}
 		should(buffer[5]).eql(18);
 		should(buffer[6]).eql(52);
 		should(buffer[7]).eql(86);
@@ -109,7 +121,7 @@ describe('Titanium.Codec', function() {
 		should(buffer[0]).eql(buffer[1]);
 	});
 
-	it('testDecodeIntegers', function() {
+	it('testDecodeIntegers', function () {
 		var buffer = Ti.createBuffer({
 			length: 8
 		});
@@ -153,7 +165,9 @@ describe('Titanium.Codec', function() {
 		});
 		should(buffer[0]).eql(63);
 		should(buffer[1]).eql(213);
-		for (var i = 2; 8 > i; i++) should(buffer[i]).eql(85);
+		for (var i = 2; i < 8; i++) {
+			should(buffer[i]).eql(85);
+		}
 		// 1.23456789 -> 0x3ff3c0ca4283de1b
 		buffer = Ti.createBuffer({
 			value: 1.23456789,
@@ -183,14 +197,16 @@ describe('Titanium.Codec', function() {
 		should(buffer[3]).eql(25);
 	});
 
-	it('testDecodeFloatingPoint', function() {
+	it('testDecodeFloatingPoint', function () {
 		var buffer = Ti.createBuffer({
 			length: 8
 		});
 		// Should be ~1/3
 		buffer[0] = 63;
 		buffer[1] = 213;
-		for (var i = 2; 8 > i; i++) buffer[i] = 85;
+		for (var i = 2; i < 8; i++) {
+			buffer[i] = 85;
+		}
 		var n = Ti.Codec.decodeNumber({
 			source: buffer,
 			type: Ti.Codec.TYPE_DOUBLE,
@@ -229,7 +245,7 @@ describe('Titanium.Codec', function() {
 		should(n.toFixed(4)).eql(1.2345);
 	});
 
-	it('testEncodeString', function() {
+	it('testEncodeString', function () {
 		var PHRASE = 'Wer reitet so spät durch Nacht und Wind?';
 		var buffer = Ti.createBuffer({
 			length: 1024
@@ -262,7 +278,7 @@ describe('Titanium.Codec', function() {
 		})).eql(PHRASE);
 	});
 
-	it('testDecodeString', function() {
+	it('testDecodeString', function () {
 		var TEST = 'spät';
 		var buffer = Ti.createBuffer({
 			length: 5

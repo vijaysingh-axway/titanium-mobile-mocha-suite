@@ -4,9 +4,14 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-import * as a from './es6.module';
-import b from './es6.module';
-import { testExport } from './es6.module';
+/* eslint-env mocha */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
+
+import * as a from './es6.module'; // eslint-disable-line import/no-duplicates
+import b from './es6.module'; // eslint-disable-line import/no-duplicates, no-duplicate-imports
+import { testExport } from './es6.module'; // eslint-disable-line import/no-duplicates, no-duplicate-imports
 
 const SUCCESS = 'SUCCESS!';
 

@@ -80,7 +80,7 @@ describe.android('Titanium.Android.Service', function () {
 			url: 'ti.android.service.normal.js',
 		});
 		service = Ti.Android.createService(intent);
-		service.addEventListener('start', function (e) {
+		service.addEventListener('start', function (e) { // eslint-disable-line no-unused-vars
 			// The 'start' event must be fired first and only once.
 			should(wasStartReceived).be.eql(false);
 			should(wasResumeReceived).be.eql(false);
@@ -88,7 +88,7 @@ describe.android('Titanium.Android.Service', function () {
 			should(wasStopReceived).be.eql(false);
 			wasStartReceived = true;
 		});
-		service.addEventListener('resume', function (e) {
+		service.addEventListener('resume', function (e) { // eslint-disable-line no-unused-vars
 			// The 'resume' event must be fired second and only once.
 			should(wasStartReceived).be.eql(true);
 			should(wasResumeReceived).be.eql(false);
@@ -96,13 +96,13 @@ describe.android('Titanium.Android.Service', function () {
 			should(wasStopReceived).be.eql(false);
 			wasResumeReceived = true;
 		});
-		appEventHandler = function (e) {
+		appEventHandler = function (e) { // eslint-disable-line no-unused-vars
 			// The service script must only be executed once.
 			should(wasServiceExecuted).be.eql(false);
 			wasServiceExecuted = true;
 		};
 		Ti.App.addEventListener('service.normal:executed', appEventHandler);
-		service.addEventListener('pause', function (e) {
+		service.addEventListener('pause', function (e) { // eslint-disable-line no-unused-vars
 			// The 'pause' event must be fired third and only once.
 			should(wasStartReceived).be.eql(true);
 			should(wasResumeReceived).be.eql(true);
@@ -110,7 +110,7 @@ describe.android('Titanium.Android.Service', function () {
 			should(wasStopReceived).be.eql(false);
 			wasPauseReceived = true;
 		});
-		service.addEventListener('stop', function (e) {
+		service.addEventListener('stop', function (e) { // eslint-disable-line no-unused-vars
 			// The 'stop' event must be fired last and only once.
 			should(wasStartReceived).be.eql(true);
 			should(wasResumeReceived).be.eql(true);
@@ -151,7 +151,7 @@ describe.android('Titanium.Android.Service', function () {
 		});
 		intent.putExtra('interval', interval);
 		service = Ti.Android.createService(intent);
-		service.addEventListener('start', function (e) {
+		service.addEventListener('start', function (e) { // eslint-disable-line no-unused-vars
 			// The 'start' event must be fired first and only once.
 			should(wasStartReceived).be.eql(false);
 			should(wasResumeReceived).be.eql(false);
@@ -159,7 +159,7 @@ describe.android('Titanium.Android.Service', function () {
 			should(wasStopReceived).be.eql(false);
 			wasStartReceived = true;
 		});
-		service.addEventListener('resume', function (e) {
+		service.addEventListener('resume', function (e) { // eslint-disable-line no-unused-vars
 			// The 'resume' event must be fired second.
 			if (!wasResumeReceived) {
 				should(wasStartReceived).be.eql(true);
@@ -169,11 +169,11 @@ describe.android('Titanium.Android.Service', function () {
 			}
 			resumeCount++;
 		});
-		appEventHandler = function (e) {
+		appEventHandler = function (e) { // eslint-disable-line no-unused-vars
 			executeCount++;
 		};
 		Ti.App.addEventListener('service.interval:executed', appEventHandler);
-		service.addEventListener('pause', function (e) {
+		service.addEventListener('pause', function (e) { // eslint-disable-line no-unused-vars
 			// The 'pause' event must be fired third.
 			if (!wasPauseReceived) {
 				should(wasStartReceived).be.eql(true);
@@ -189,7 +189,7 @@ describe.android('Titanium.Android.Service', function () {
 				should(Date.now() - startTime).not.be.lessThan(totalDuration);
 			}
 		});
-		service.addEventListener('stop', function (e) {
+		service.addEventListener('stop', function (e) { // eslint-disable-line no-unused-vars
 			// The 'stop' event must be fired last and only once.
 			should(wasStartReceived).be.eql(true);
 			should(wasResumeReceived).be.eql(true);

@@ -58,7 +58,7 @@ describe('Titanium.UI.TextArea', function () {
 	});
 
 	it('backgroundColor', function () {
-		var textArea = Ti.UI.createTextArea({ backgroundColor:'red' });
+		var textArea = Ti.UI.createTextArea({ backgroundColor: 'red' });
 		should(textArea.backgroundColor).be.a.String;
 		should(textArea.backgroundColor).eql('red');
 		textArea.setBackgroundColor('white');

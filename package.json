@@ -31,15 +31,21 @@
     "commander": "*",
     "ejs": "~2.2.4",
     "stream-splitter": "~0.3.2",
-    "titanium": "*",
+    "titanium": "^5.1.1",
     "wrench": "~1.5.4"
   },
   "devDependencies": {
-    "eslint-config-axway": "*",
-    "eslint-plugin-mocha": "*",
-    "grunt-appc-js": "^2.0.1"
+    "eslint-config-axway": "^2.0.14",
+    "eslint-plugin-mocha": "^5.0.0",
+    "grunt": "^1.0.3",
+    "grunt-appc-js": "^2.1.0",
+    "grunt-cli": "^1.2.0"
   },
   "engines": {
-    "node": ">=4.0"
+    "node": ">=6.0"
+  },
+  "scripts": {
+    "test": "grunt",
+    "integration": "node scripts/test.js -p android,ios -b master"
   }
 }

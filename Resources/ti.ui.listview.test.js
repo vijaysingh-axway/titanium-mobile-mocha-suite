@@ -250,7 +250,7 @@ describe('Titanium.UI.ListView', function () {
 				]
 			},
 			listView = Ti.UI.createListView({
-				templates: { 'template': myTemplate },
+				templates: { template: myTemplate },
 				defaultItemTemplate: 'template'
 			}),
 			sections = [],
@@ -942,16 +942,16 @@ describe('Titanium.UI.ListView', function () {
 			listView = Ti.UI.createListView({
 				templates: {
 					test: {
-						childTemplates: [{
+						childTemplates: [ {
 							type: 'Ti.UI.Android.CardView',
-							childTemplates: [{
+							childTemplates: [ {
 								type: 'Ti.UI.Label',
 								bindId: 'label',
 								properties: {
 									color: 'black',
 									bindId: 'label'
 								}
-							}],
+							} ],
 							properties: {
 								width: Ti.UI.FILL,
 								height: Ti.UI.SIZE,
@@ -959,7 +959,7 @@ describe('Titanium.UI.ListView', function () {
 								backgroundColor: 'white',
 								layout: 'vertical'
 							}
-						}]
+						} ]
 					}
 				},
 				defaultItemTemplate: 'test'
@@ -967,7 +967,7 @@ describe('Titanium.UI.ListView', function () {
 			section = Ti.UI.createListSection(),
 			items = [];
 
-		['A', 'B', 'C'].forEach((item) => items.push({
+		[ 'A', 'B', 'C' ].forEach((item) => items.push({
 			label: { text: item },
 			template: 'test'
 		}));

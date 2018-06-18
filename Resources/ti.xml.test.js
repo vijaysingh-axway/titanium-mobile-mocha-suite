@@ -254,7 +254,7 @@ describe.windowsDesktopBroken('Titanium.XML', function () {
 		should(threeList.length).eql(4);
 		one = xml.documentElement.getElementsByTagName('one').item(0);
 		next = one.nextSibling;
-		for (;next != null && next.nodeType != next.ELEMENT_NODE;) {
+		for (;next != null && next.nodeType != next.ELEMENT_NODE;) { // eslint-disable-line eqeqeq, no-eq-null
 			next = next.nextSibling;
 		}
 		should(one === null).be.eql(false);
@@ -295,7 +295,7 @@ describe.windowsDesktopBroken('Titanium.XML', function () {
 		script = scriptList.item(0);
 		for (i = 0; i < script.childNodes.length; i++) {
 			node = script.childNodes.item(i);
-			if (node.nodeType == node.CDATA_SECTION_NODE) {
+			if (node.nodeType == node.CDATA_SECTION_NODE) { // eslint-disable-line eqeqeq
 				cData = node;
 				break;
 			}
@@ -446,7 +446,7 @@ describe.windowsDesktopBroken('Titanium.XML', function () {
 			should(a.nodeType).eql(b.nodeType);
 			should(a.nodeName).eql(b.nodeName);
 			should(a.nodeValue).eql(b.nodeValue);
-			if (a.nodeType == 1) {
+			if (a.nodeType == 1) { // eslint-disable-line eqeqeq
 				aAttribs = sortAttributeList(a.attributes);
 				bAttribs = sortAttributeList(b.attributes);
 				should(aAttribs.length).eql(bAttribs.length);
@@ -1100,7 +1100,7 @@ describe.windowsDesktopBroken('Titanium.XML', function () {
 
 		for (i = 0; i < nodes.length; i++) {
 			node = nodes.item(i);
-			if (node.nodeType == node.ELEMENT_NODE) {
+			if (node.nodeType == node.ELEMENT_NODE) { // eslint-disable-line eqeqeq
 				count++;
 			}
 		}

@@ -89,7 +89,7 @@ describe('Titanium.Media', function () {
 			}
 		});
 	});
-	
+
 	it('openPhotoGallery', function () {
 		should(Ti.Media.openPhotoGallery).not.be.undefined;
 		should(Ti.Media.openPhotoGallery).be.a.Function;

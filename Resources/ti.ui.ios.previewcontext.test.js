@@ -18,7 +18,7 @@ describe.ios('Titanium.UI.iOS', function () {
 		should(Ti.UI.iOS.createPreviewContext).be.a.Function;
 		previewContext = Ti.UI.iOS.createPreviewContext({
 			preview: Ti.UI.createView({
-				backgroundColor: "red"
+				backgroundColor: 'red'
 			}),
 			contentHeight: 300
 		});

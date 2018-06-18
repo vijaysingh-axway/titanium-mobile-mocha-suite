@@ -8,8 +8,8 @@
 /* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+
+var should = require('./utilities/assertions');
 
 describe('Titanium.UI.OptionDialog', function () {
 
@@ -58,7 +58,7 @@ describe('Titanium.UI.OptionDialog', function () {
 		should(bar.getButtonNames).be.a.Function;
 		should(bar.buttonNames).be.empty;
 		should(bar.getButtonNames()).be.empty;
-		bar.buttonNames = ['this','other'];
+		bar.buttonNames = [ 'this', 'other' ];
 		should(bar.buttonNames.length).eql(2);
 		should(bar.getButtonNames().length).eql(2);
 	});
@@ -70,7 +70,7 @@ describe('Titanium.UI.OptionDialog', function () {
 		should(bar.getOptions).be.a.Function;
 		should(bar.options).be.empty;
 		should(bar.getOptions()).be.empty;
-		bar.options = ['this','other'];
+		bar.options = [ 'this', 'other' ];
 		should(bar.options.length).eql(2);
 		should(bar.getOptions().length).eql(2);
 	});

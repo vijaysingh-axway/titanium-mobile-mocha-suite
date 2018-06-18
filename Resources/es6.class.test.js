@@ -4,6 +4,10 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
+/* eslint-env mocha */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+
 import Test from './es6.class.js';
 
 const SUCCESS = 'SUCCESS!';
@@ -11,7 +15,7 @@ const SUCCESS = 'SUCCESS!';
 describe('ES6 Class', function () {
 
 	it('imported class', function () {
-		
+
 		let test = new Test();
 
 		should(test.testGetterSetter).equal('GETTER');

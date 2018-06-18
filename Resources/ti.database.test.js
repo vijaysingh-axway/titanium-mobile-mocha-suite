@@ -1,11 +1,14 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+/* eslint-env mocha */
+/* global Ti */
+/* eslint no-unused-expressions: "off" */
+'use strict';
+var should = require('./utilities/assertions');
 
 describe('Titanium.Database', function () {
 	it('apiName', function () {
@@ -31,7 +34,7 @@ describe('Titanium.Database', function () {
 
 	// FIXME Get working for iOS - gets back John Smith\\u0000'
 	// FIXME Get working on Android, either lastInsertRowId or rowsAffected is starting as 1, not 0
-	((utilities.isIOS() || utilities.isAndroid()) ? it.skip : it)('install()', function () {
+	it.androidAndIosBroken('install()', function () {
 		should(Ti.Database.install).not.be.undefined;
 		should(Ti.Database.install).be.a.Function;
 
@@ -46,8 +49,6 @@ describe('Titanium.Database', function () {
 		should(db).be.a.Object;
 
 		// Confirm 'db.file' property is a valid object
-		var file = db.file;
-		Ti.API.info(db.file.name);
 		should(db.file).be.a.Object;
 
 		// Validate the 'db.lastInsertRowId' property
@@ -65,7 +66,7 @@ describe('Titanium.Database', function () {
 		// Define test data
 		var testName = 'John Smith';
 		var testNumber = 123456789;
-		var testArray = ['Smith John', 987654321];
+		var testArray = [ 'Smith John', 987654321 ];
 
 		// Execute a query to return the rows of the database
 		var rows = db.execute('SELECT rowid, text, number FROM testTable');
@@ -101,15 +102,15 @@ describe('Titanium.Database', function () {
 			var number = rows.fieldByName('number');
 			should(number).be.a.Number;
 
-			//Case insensitive search
+			// Case insensitive search
 			number = rows.fieldByName('NUMBER');
 			should(number).be.a.Number;
 
 			// Validate the test data
-			if (index == 1) {
+			if (index === 1) {
 				should(text).be.eql(testName);
 				should(number).be.eql(testNumber);
-			} else if (index == 2) {
+			} else if (index === 2) {
 				should(number).be.eql(testArray[1]);
 				should(text).be.eql(testArray[0]);
 			}
@@ -145,7 +146,7 @@ describe('Titanium.Database', function () {
 
 	// Check if open exists and make sure it does not throw exception
 	// FIXME Get working on Android, either lastInsertRowId or rowsAffected is starting as 1, not 0
-	(utilities.isAndroid() ? it.skip : it)('open()', function () {
+	it.androidBroken('open()', function () {
 		should(Ti.Database.open).not.be.undefined;
 		should(Ti.Database.open).be.a.Function;
 
@@ -160,7 +161,6 @@ describe('Titanium.Database', function () {
 		should(db).be.a.Object;
 
 		// Confirm 'db.file' property is a valid object
-		var file = db.file;
 		should(db.file).be.a.Object;
 
 		// Validate the 'db.lastInsertRowId' property
@@ -192,7 +192,7 @@ describe('Titanium.Database', function () {
 		should(db.rowsAffected).be.eql(1);
 
 		// Define more test data
-		var testArray = ['Smith John', 987654321];
+		var testArray = [ 'Smith John', 987654321 ];
 
 		// Insert more test data into the table
 		db.execute('INSERT INTO testTable (text, number) VALUES (?, ?)', testArray);
@@ -228,10 +228,10 @@ describe('Titanium.Database', function () {
 			should(number).be.a.Number;
 
 			// Validate the test data
-			if (index == 1) {
+			if (index === 1) {
 				should(text).be.eql(testName);
 				should(number).be.eql(testNumber);
-			} else if (index == 2) {
+			} else if (index === 2) {
 				should(number).be.eql(testArray[1]);
 				should(text).be.eql(testArray[0]);
 			}
@@ -253,7 +253,7 @@ describe('Titanium.Database', function () {
 
 	// Check if it guards against 'closed' results
 	// FIXME Get working on Android, seems to retain rowCount after Result.close()
-	(utilities.isAndroid() ? it.skip : it)('closed_guard', function () {
+	it.androidBroken('closed_guard', function () {
 		// Database name
 		var dbName = 'testDbOpen';
 
@@ -278,7 +278,7 @@ describe('Titanium.Database', function () {
 		should(db.rowsAffected).be.eql(1);
 
 		// Define more test data
-		var testArray = ['Smith John', 987654321];
+		var testArray = [ 'Smith John', 987654321 ];
 
 		// Insert more test data into the table
 		db.execute('INSERT INTO testTable (text, number) VALUES (?, ?)', testArray);
@@ -330,7 +330,7 @@ describe('Titanium.Database', function () {
 	// Test behavior expected by alloy code for createCollection. See TIMOB-20222
 	// skip this test, this behaviour is undocumented. Our current code will return null
 	// only if the result contains no fields/columns instead of the result containing no rows
-	it.skip('execute() returns null instead of empty result set', function () {
+	it.skip('execute() returns null instead of empty result set', function () { // eslint-disable-line mocha/no-skipped-tests
 		should(Ti.Database.install).not.be.undefined;
 		should(Ti.Database.install).be.a.Function;
 

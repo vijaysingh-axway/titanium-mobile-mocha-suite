@@ -309,7 +309,7 @@ describe('Titanium.UI.Picker', function () {
 		win.add(dp);
 		win.open();
 	});
-	
+
 	it('DatePicker postlayout event', function (finish) {
 		var win = Ti.UI.createWindow(),
 			dp = Ti.UI.createPicker({
