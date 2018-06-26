@@ -248,4 +248,26 @@ describe('Titanium.UI.Label', function () {
 		win.add(label);
 		win.open();
 	});
+
+	it.ios('minimumFontSize', function () {
+		var label = Ti.UI.createLabel({
+			text: 'this is some text',
+			textAlign: 'left',
+			font: {
+				fontSize: 36
+			},
+			color: 'black',
+			wordWrap: false,
+			ellipsize: false,
+			minimumFontSize: 28,
+			height: 50
+		});
+		should(label.minimumFontSize).be.a.Number;
+		should(label.getMinimumFontSize).be.a.Function;
+		should(label.minimumFontSize).eql(28);
+		should(label.getMinimumFontSize()).eql(28);
+		label.minimumFontSize = 22;
+		should(label.minimumFontSize).eql(22);
+		should(label.getMinimumFontSize()).eql(22);
+	});
 });
