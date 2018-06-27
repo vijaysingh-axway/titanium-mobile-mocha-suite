@@ -20,15 +20,11 @@ describe('Titanium.UI.TableView', function () {
 		didFocus = false;
 	});
 
-	afterEach(function (done) {
+	afterEach(function () {
 		if (win) {
-			win.open();
-			win.addEventListener('close', function () {
-				done();
-				win = null;
-			});
 			win.close();
 		}
+		win = null;
 	});
 
 	it('Ti.UI.TableView', function () {
