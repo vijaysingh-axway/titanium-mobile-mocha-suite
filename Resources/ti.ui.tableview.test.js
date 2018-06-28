@@ -20,11 +20,16 @@ describe('Titanium.UI.TableView', function () {
 		didFocus = false;
 	});
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
 			win.close();
 		}
 		win = null;
+
+		// timeout to allow window to close
+		setTimeout(() => {
+			done();
+		}, 500);
 	});
 
 	it('Ti.UI.TableView', function () {
@@ -177,6 +182,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				return finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -226,6 +232,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -265,6 +272,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -310,6 +318,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -353,6 +362,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -398,6 +408,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -444,6 +455,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -488,6 +500,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -543,6 +556,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -590,6 +604,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -632,6 +647,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -689,6 +705,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -750,6 +767,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -819,6 +837,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -890,6 +909,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -1008,6 +1028,7 @@ describe('Titanium.UI.TableView', function () {
 			} catch (err) {
 				finish(err);
 			}
+			win.close();
 		});
 
 		win.add(tableView);
@@ -1145,28 +1166,6 @@ describe('Titanium.UI.TableView', function () {
 		finish(error);
 	});
 
-	it('appendSection and appendRow (TIMOB-25936)', function (finish) {
-		var table = Ti.UI.createTableView();
-
-		win = Ti.UI.createWindow({ backgroundColor: '#f00' });
-
-		for (var i = 0; i < 2; ++i) {
-			table.appendSection(Ti.UI.createTableViewSection({ headerTitle: 'Header ' + i, className: 'Header' }));
-			for (var j = 0; j < 3; j++) {
-				table.appendRow(Ti.UI.createTableViewRow({ title: 'Row ' + j, className: 'Row' }));
-			}
-		}
-
-		win.addEventListener('open', function () {
-			setTimeout(function () {
-				finish();
-			}, 1000);
-		});
-
-		win.add(table);
-		win.open();
-	});
-
 	it.windowsMissing('scrollable', function () {
 		var tableView = Ti.UI.createTableView({ scrollable: false });
 		should(tableView.scrollable).be.eql(false);
@@ -1298,6 +1297,7 @@ describe('Titanium.UI.TableView', function () {
 			should(table.headerView).be.null;
 			should(table.footerView).be.null;
 
+			win.close();
 			finish();
 		});
 
