@@ -1304,4 +1304,32 @@ describe('Titanium.UI.TableView', function () {
 		win.add(table);
 		win.open();
 	});
+
+	it.ios('TIMOB-26164 : updateRow + insertRowAfter causing crash on main thread', function (finish) {
+		var tableView = Ti.UI.createTableView({
+			data: [ { title: 'Red' } ]
+		});
+
+		win = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+		win.addEventListener('focus', function () {
+			if (didFocus) {
+				return;
+			}
+			didFocus = true;
+
+			try {
+				tableView.updateRow(0, { title: 'Green' });
+				tableView.insertRowAfter(0, { title: 'White' });
+
+				finish();
+			} catch (err) {
+				return finish(err);
+			}
+		});
+
+		win.add(tableView);
+		win.open();
+	});
 });

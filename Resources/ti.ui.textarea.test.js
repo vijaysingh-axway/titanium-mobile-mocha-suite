@@ -160,4 +160,21 @@ describe('Titanium.UI.TextArea', function () {
 		should(textArea.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
 		should(textArea.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP);
 	});
+
+	it.android('lines', function () {
+		var textArea = Ti.UI.createTextArea({
+			lines: 1,
+			maxLines: 5
+		});
+		should(textArea.lines).be.a.Number;
+		should(textArea.getLines).be.a.Function;
+		should(textArea.maxLines).be.a.Number;
+		should(textArea.getMaxLines).be.a.Function;
+		should(textArea.getLines()).eql(1);
+		should(textArea.maxLines).eql(5);
+		textArea.lines = 2;
+		textArea.setMaxLines(6);
+		should(textArea.lines).eql(2);
+		should(textArea.getMaxLines()).eql(6);
+	});
 });

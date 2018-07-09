@@ -81,13 +81,18 @@ describe('Titanium.App', function () {
 		should(Ti.App.getDisableNetworkActivityIndicator()).be.a.Boolean;
 	});
 
-	// FIXME Enable on iOS only once fixed. we get undefined
-	it.skip('forceSplashAsSnapshot', function () { // eslint-disable-line mocha/no-skipped-tests
+	it.ios('forceSplashAsSnapshot', function () {
 		should(Ti.App.forceSplashAsSnapshot).be.a.Boolean;
+		should(Ti.App.forceSplashAsSnapshot).be.false;
+
+		Ti.App.forceSplashAsSnapshot = true;
+		should(Ti.App.forceSplashAsSnapshot).be.true;
+
+		Ti.App.forceSplashAsSnapshot = false;
+		should(Ti.App.forceSplashAsSnapshot).be.false;
 	});
 
-	// FIXME Enable on iOS only once fixed. we get undefined
-	it.skip('#getForceSplashAsSnapshot()', function () { // eslint-disable-line mocha/no-skipped-tests
+	it.ios('#getForceSplashAsSnapshot()', function () {
 		should(Ti.App.getForceSplashAsSnapshot).be.a.Function;
 		should(Ti.App.getForceSplashAsSnapshot()).be.a.Boolean;
 	});
