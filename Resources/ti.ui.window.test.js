@@ -39,11 +39,16 @@ describe('Titanium.UI.Window', function () {
 		didFocus = false;
 	});
 
-	afterEach(function () {
+	afterEach(function (done) {
 		if (win) {
 			win.close();
 		}
 		win = null;
+
+		// timeout to allow window to close
+		setTimeout(() => {
+			done();
+		}, 500);
 	});
 
 	it('.title', function () {
@@ -233,7 +238,7 @@ describe('Titanium.UI.Window', function () {
 			win.addEventListener('open', function () {
 				setTimeout(function () {
 					win.close();
-				}, 100);
+				}, 500);
 			});
 			win.open();
 		});
