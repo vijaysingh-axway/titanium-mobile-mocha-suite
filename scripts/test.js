@@ -284,6 +284,12 @@ function handleBuild(prc, next) {
 		console.log(data.toString().trim());
 		stderr += data.toString().trim() + '\n';
 	});
+
+	prc.on('close', (code) => {
+		if (code) {
+			return next(code);
+		}
+	})
 }
 
 function massageJSONString(testResults) {
