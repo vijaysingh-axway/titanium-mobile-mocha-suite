@@ -126,7 +126,11 @@ loadAddonTestFiles(Ti.Filesystem.resourcesDirectory);
 
 function loadAddonTestFiles (name) {
 	var info = Ti.Filesystem.getFile(name);
-	if (info && info.isDirectory()) {
+	if (!info) {
+		console.warn('could not load addon test files: ' + name);
+		return;
+	}
+	if (info.isDirectory()) {
 		info.getDirectoryListing().forEach(function (listing) {
 			loadAddonTestFiles(listing);
 		});
