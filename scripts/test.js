@@ -201,10 +201,6 @@ function runBuild(platform, target, deviceId, next) {
 		'--log-level', 'info'
 	];
 	if (platform === 'ios') {
-		
-		// since Xcode 10 is installed on our nodes, we need to force Xcode 9
-		args.push(...['--ios-version', '11.0']);
-		
 		args.push('--hide-error-controller');
 		killiOSSimulator();
 	}
