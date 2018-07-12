@@ -6,9 +6,9 @@
  */
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
-'use strict';
 
-import Test from './es6.class.js';
+import Test from './es6.class';
+import should from './utilities/assertions';
 
 const SUCCESS = 'SUCCESS!';
 
