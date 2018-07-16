@@ -335,19 +335,21 @@ describe('Titanium.UI.WebView', function () {
 		var webView = Ti.UI.createWebView({
 				userAgent: 'TEST AGENT'
 			}),
-			url = 'http://whatsmyuseragent.org',
+			url = 'http://www.whatsmyua.info',
 			retry = 3;
 
 		win = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		webView.addEventListener('load', function (e) {
-			var exp = /user-agent.+\s+.+>(.*)</g.exec(e.source.html),
+			var exp = /"input">(.*)<\/textarea/g.exec(e.source.html),
 				userAgent = exp && exp.length > 1 ? exp[1] : undefined;
 			if (userAgent && userAgent === webView.userAgent) {
 				finish();
 			} else if (retry--) {
 				Ti.API.warn('could not obtain userAgent, retrying...');
-				webView.url = url;
+				setTimeout(function () {
+					webView.url = url;
+				}, 1000);
 			} else {
 				finish(new Error('invalid userAgent'));
 			}
