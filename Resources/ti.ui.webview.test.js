@@ -14,8 +14,8 @@ var should = require('./utilities/assertions'),
 describe('Titanium.UI.WebView', function () {
 	var win,
 		didFocus = false;
-	this.slow(2000);
-	this.timeout(10000);
+	this.slow(3000);
+	this.timeout(30000);
 
 	beforeEach(function () {
 		didFocus = false;
