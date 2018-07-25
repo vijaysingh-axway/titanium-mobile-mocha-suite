@@ -181,6 +181,20 @@ describe('Titanium.Blob', function () {
 		}).not.throw();
 	});
 
+	it('imageAsCompressed', function () {
+		// create view to render
+		const view = Ti.UI.createView({ backgroundColor: 'red', width: 256, height: 256 });
+
+		// render view as image
+		should(view.toImage).be.a.Function;
+		const img = view.toImage();
+
+		// compress image
+		should(img.imageAsCompressed).be.a.Function;
+		const cmp = img.imageAsCompressed(0.1);
+		should(cmp).not.be.undefined;
+	});
+
 	// FIXME Get working for iOS - I think app thinning is getting rid of Logo.png
 	it.iosBroken('imageAsResized', function () {
 		var blob = Ti.Filesystem.getFile('Logo.png').read();

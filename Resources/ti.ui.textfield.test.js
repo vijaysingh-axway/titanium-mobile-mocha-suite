@@ -331,4 +331,12 @@ describe('Titanium.UI.TextField', function () {
 		});
 		win.open();
 	});
+
+	it.ios('.passwordRules', function () {
+		var textField = Ti.UI.createTextField({
+			passwordMask: true,
+			passwordRules: 'required: upper; required: lower; required: digit; max-consecutive: 2'
+		});
+		should(textField.passwordRules).equal('required: upper; required: lower; required: digit; max-consecutive: 2');
+	});
 });

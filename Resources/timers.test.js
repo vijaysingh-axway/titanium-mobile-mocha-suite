@@ -5,7 +5,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti */
+/* global Ti, global */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions');
@@ -25,5 +25,15 @@ describe('Timers', function () {
 
 	it('clearInterval', function () {
 		should(clearInterval).be.a.Function;
+	});
+
+	it('should be able to override', function () {
+		const methodNames = [ 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval' ];
+		for (const methodName of methodNames) {
+			const descriptor = Object.getOwnPropertyDescriptor(global, methodName);
+			should(descriptor.configurable).be.true;
+			should(descriptor.enumerable).be.true;
+			should(descriptor.writable).be.true;
+		}
 	});
 });

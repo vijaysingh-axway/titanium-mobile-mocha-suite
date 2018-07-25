@@ -13,6 +13,14 @@ var should = require('./utilities/assertions'),
 
 describe('Titanium.UI', function () {
 
+	it.ios('.AUTOFILL_TYPE_NEW_PASSWORD', function () {
+		should(Ti.UI).have.a.constant('AUTOFILL_TYPE_NEW_PASSWORD').which.is.a.String;
+	});
+
+	it.ios('.AUTOFILL_TYPE_ONE_TIME_CODE', function () {
+		should(Ti.UI).have.a.constant('AUTOFILL_TYPE_ONE_TIME_CODE').which.is.a.String;
+	});
+
 	// TODO Use the JSCA file to generate tests!
 	var ALL = [ 'iphone', 'ipad', 'android', 'mobileweb', 'windowsstore', 'windowsphone' ],
 		NOT_ANDROID = [ 'iphone', 'ipad', 'mobileweb', 'windowsstore', 'windowsphone' ],

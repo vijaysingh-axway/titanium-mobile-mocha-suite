@@ -81,6 +81,7 @@ require('./ti.network.socket.tcp.test');
 require('./ti.network.socket.udp.test');
 require('./ti.platform.test');
 require('./ti.platform.displaycaps.test');
+require('./ti.proxy.test');
 require('./ti.stream.test');
 require('./ti.test');
 require('./ti.ui.test');
