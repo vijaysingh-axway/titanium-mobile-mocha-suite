@@ -1,6 +1,6 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2018 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -287,8 +287,12 @@ describe('Titanium.UI.Picker', function () {
 
 		win = Ti.UI.createWindow({ title: 'Form' });
 		win.addEventListener('open', function () {
-			should(dp.minDate).be.eql(date);
-			finish();
+			try {
+				should(dp.minDate).be.eql(date);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
 		win.add(dp);
 		win.open();
@@ -303,19 +307,23 @@ describe('Titanium.UI.Picker', function () {
 
 		win = Ti.UI.createWindow({ title: 'Form' });
 		win.addEventListener('open', function () {
-			should(dp.maxDate).be.eql(date);
-			finish();
+			try {
+				should(dp.maxDate).be.eql(date);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
 		});
 		win.add(dp);
 		win.open();
 	});
 
 	it('DatePicker postlayout event', function (finish) {
-		var win = Ti.UI.createWindow(),
-			dp = Ti.UI.createPicker({
-				type: Ti.UI.PICKER_TYPE_DATE
-			});
+		var dp = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_DATE
+		});
 
+		win = Ti.UI.createWindow({ title: 'Form' });
 		dp.addEventListener('postlayout', function () {
 			finish();
 		});
