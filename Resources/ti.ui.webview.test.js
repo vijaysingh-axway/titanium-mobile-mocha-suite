@@ -38,7 +38,7 @@ describe('Titanium.UI.WebView', function () {
 
 		win = Ti.UI.createWindow();
 		webView = Ti.UI.createWebView({
-			url: 'https://google.com'
+			url: 'https://www.google.com'
 		});
 
 		should(webView.loading).be.a.Boolean;
