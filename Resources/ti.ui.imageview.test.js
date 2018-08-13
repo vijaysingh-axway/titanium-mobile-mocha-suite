@@ -329,4 +329,20 @@ describe('Titanium.UI.ImageView', function () {
 		win.add(view);
 		win.open();
 	});
+
+	it('.image (URL-redirect-autorotate)', function (finish) {
+		this.slow(8000);
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		let imageView = Ti.UI.createImageView({
+			image: 'http://raw.githubusercontent.com/recurser/exif-orientation-examples/master/Portrait_3.jpg',
+			autorotate: true
+		});
+		imageView.addEventListener('load', function () {
+			finish();
+		});
+		win.add(imageView);
+		win.open();
+	});
 });

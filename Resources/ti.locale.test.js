@@ -110,16 +110,25 @@ describe('Titanium.Locale', function () {
 		}
 	});
 
-	// FIXME Get working on iOS, setLangauge doesn't seem to affect currentLocale
-	it.iosBroken('#setLanguage(String) changes current local and language', function () {
-		should(Ti.Locale.setLanguage).be.a.Function;
-		Ti.Locale.setLanguage('en-GB');
-		should(Ti.Locale.currentLocale).eql('en-GB'); // iOS returns 'en-US'
-		should(Ti.Locale.currentLanguage).eql('en');
-		// TODO Should the currentCountry become 'GB'? Or stay 'US'?
-		Ti.Locale.setLanguage('fr');
-		should(Ti.Locale.currentLocale).eql('fr');
-		should(Ti.Locale.currentLanguage).eql('fr');
+	describe('#setLanguage(String)', function () {
+		it('is a Function', function () {
+			should(Ti.Locale.setLanguage).be.a.Function;
+		});
+
+		it('changes currentLanguage', function () {
+			Ti.Locale.setLanguage('fr');
+			should(Ti.Locale.currentLanguage).eql('fr');
+		});
+
+		// FIXME Get working on iOS, setLangauge doesn't seem to affect currentLocale
+		it.iosBroken('changes currentLocale', function () {
+			Ti.Locale.setLanguage('en-GB');
+			should(Ti.Locale.currentLocale).eql('en-GB'); // iOS returns 'en-US'
+			Ti.Locale.setLanguage('fr');
+			should(Ti.Locale.currentLocale).eql('fr');
+		});
+
+		// TODO test if it changes the currentCountry?
 	});
 
 	it.windowsBroken('#getString(String, String) with default/hint value', function () {
