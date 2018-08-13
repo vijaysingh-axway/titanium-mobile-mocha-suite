@@ -18,6 +18,43 @@ describe('Titanium.Media', function () {
 		should(media.apiName).be.eql('Ti.Media');
 	});
 
+	// constants
+	it('AUDIO_STATE_BUFFERING', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_BUFFERING').which.is.a.Number;
+	});
+
+	it('AUDIO_STATE_INITIALIZED', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_INITIALIZED').which.is.a.Number;
+	});
+
+	it('AUDIO_STATE_PAUSED', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_PAUSED').which.is.a.Number;
+	});
+
+	it('AUDIO_STATE_PLAYING', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_PLAYING').which.is.a.Number;
+	});
+
+	it('AUDIO_STATE_STARTING', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_STARTING').which.is.a.Number;
+	});
+
+	it('AUDIO_STATE_STOPPED', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_STOPPED').which.is.a.Number;
+	});
+
+	it('AUDIO_STATE_STOPPING', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_STOPPING').which.is.a.Number;
+	});
+
+	it('AUDIO_STATE_WAITING_FOR_DATA', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_WAITING_FOR_DATA').which.is.a.Number;
+	});
+
+	it('AUDIO_STATE_WAITING_FOR_QUEUE', function () {
+		should(Ti.Media).have.constant('AUDIO_STATE_WAITING_FOR_QUEUE').which.is.a.Number;
+	});
+
 	// video recording quality constants tests
 	it('Video recording quality 640x480', function () {
 		should(Ti.Media.QUALITY_640x480).not.be.undefined;

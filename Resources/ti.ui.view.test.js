@@ -837,4 +837,18 @@ describe('Titanium.UI.View', function () {
 		win.add(view);
 		win.open();
 	});
+
+	it('.backgroundImage (URL-redirect)', function (finish) {
+		this.slow(8000);
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		win.add(Ti.UI.createView({
+			backgroundImage: 'http://raw.githubusercontent.com/recurser/exif-orientation-examples/master/Portrait_1.jpg'
+		}));
+		win.addEventListener('open', function () {
+			finish();
+		});
+		win.open();
+	});
 });

@@ -17,54 +17,60 @@ describe('Titanium.Media', function () {
 });
 
 describe('Titanium.Media.AudioPlayer', function () {
+	var audioPlayer;
+
+	beforeEach(function () {
+		audioPlayer = Ti.Media.createAudioPlayer({ url: 'sample.mp3' });
+	});
+
+	afterEach(function () {
+		audioPlayer = null;
+	});
+
 	it('apiName', function () {
-		var player = Ti.Media.createAudioPlayer();
-		should(player).have.a.readOnlyProperty('apiName').which.is.a.String;
-		should(player.apiName).be.eql('Ti.Media.AudioPlayer');
-		// FIXME This only works on an instance of a proxy now on Android
-		// should(Ti.Media.AudioPlayer).have.readOnlyProperty('apiName').which.is.a.String;
-		// should(Ti.Media.AudioPlayer.apiName).be.eql('Ti.Media.AudioPlayer');
+		should(audioPlayer).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(audioPlayer.apiName).be.eql('Ti.Media.AudioPlayer');
 	});
 
-	// constants
-	// Trying to loop over an array of constants makes the tests mysteriously fail
-	// FIXME These only work on instances of proxy on iOS
-	it.iosBroken('STATE_BUFFERING', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_BUFFERING').which.is.a.Number;
+	it('.url', function () {
+		should(audioPlayer.url).be.a.String;
+		should(audioPlayer.getUrl).be.a.Function;
+		should(audioPlayer.setUrl).be.a.Function;
+		should(audioPlayer.url).eql(audioPlayer.getUrl());
 	});
 
-	it.iosBroken('STATE_INITIALIZED', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_INITIALIZED').which.is.a.Number;
+	it('#start, #stop', function (finish) {
+		should(audioPlayer.start).be.a.Function;
+		should(audioPlayer.stop).be.a.Function;
+
+		audioPlayer.start();
+
+		setTimeout(function () {
+			audioPlayer.stop();
+			finish();
+		}, 1000);
 	});
 
-	it.iosBroken('STATE_PAUSED', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_PAUSED').which.is.a.Number;
+	it('#pause', function (finish) {
+		should(audioPlayer.pause).be.a.Function;
+
+		audioPlayer.start();
+
+		setTimeout(function () {
+			audioPlayer.pause();
+			finish();
+		}, 1000);
 	});
 
-	it.iosBroken('STATE_PLAYING', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_PLAYING').which.is.a.Number;
-	});
+	it('#restart', function (finish) {
+		should(audioPlayer.restart).be.a.Function;
 
-	it.iosBroken('STATE_STARTING', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_STARTING').which.is.a.Number;
-	});
+		audioPlayer.start();
 
-	it.iosBroken('STATE_STOPPED', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_STOPPED').which.is.a.Number;
+		setTimeout(function () {
+			audioPlayer.restart();
+			audioPlayer.stop();
+			finish();
+		}, 1000);
 	});
-
-	it.iosBroken('STATE_STOPPING', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_STOPPING').which.is.a.Number;
-	});
-
-	it.iosBroken('STATE_WAITING_FOR_DATA', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_WAITING_FOR_DATA').which.is.a.Number;
-	});
-
-	it.iosBroken('STATE_WAITING_FOR_QUEUE', function () {
-		should(Ti.Media.AudioPlayer).have.constant('STATE_WAITING_FOR_QUEUE').which.is.a.Number;
-	});
-
-	// TODO Add tests for non-constant properties
-	// TODO Add tests for methods
 });

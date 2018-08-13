@@ -32,7 +32,7 @@ describe('Titanium.UI.ScrollableView', function () {
 		should(scrollableView.apiName).be.eql('Ti.UI.ScrollableView');
 	});
 
-	it.iosBroken('views', function () {
+	it('views', function () {
 		var bar = Ti.UI.createScrollableView({});
 		should(bar.views).be.an.Array; // iOS returns undefined
 		should(bar.getViews).be.a.Function;
@@ -41,6 +41,57 @@ describe('Titanium.UI.ScrollableView', function () {
 		bar.views = [ Ti.UI.createView(), Ti.UI.createView() ];
 		should(bar.views.length).eql(2);
 		should(bar.getViews().length).eql(2);
+	});
+
+	it.windowsMissing('clipViews', function (finish) {
+		this.slow(5000);
+		this.timeout(5000);
+
+		var scrollableView = Ti.UI.createScrollableView({
+			clipViews: true
+		});
+
+		win = Ti.UI.createWindow();
+		win.addEventListener('open', function () {
+			should(scrollableView.clipViews).eql(true);
+			finish();
+		});
+
+		var view1 = Ti.UI.createView({ id: 'view1', backgroundColor: '#836' });
+		var view2 = Ti.UI.createView({ id: 'view2', backgroundColor: '#246' });
+		var view3 = Ti.UI.createView({ id: 'view3', backgroundColor: '#48b' });
+
+		scrollableView.setViews([ view1, view2, view3 ]);
+
+		win.add(scrollableView);
+		win.open();
+	});
+
+	// TODO: Add parity?
+	it.android('padding', function (finish) {
+		this.slow(5000);
+		this.timeout(5000);
+
+		var scrollableView = Ti.UI.createScrollableView({
+			padding: { left: 20, right: 20 }
+		});
+
+		win = Ti.UI.createWindow();
+		win.addEventListener('open', function () {
+			should(scrollableView.padding).be.an.Object;
+			should(scrollableView.padding.left).eql(20);
+			should(scrollableView.padding.right).eql(20);
+			finish();
+		});
+
+		var view1 = Ti.UI.createView({ id: 'view1', backgroundColor: '#836' });
+		var view2 = Ti.UI.createView({ id: 'view2', backgroundColor: '#246' });
+		var view3 = Ti.UI.createView({ id: 'view3', backgroundColor: '#48b' });
+
+		scrollableView.setViews([ view1, view2, view3 ]);
+
+		win.add(scrollableView);
+		win.open();
 	});
 
 	// FIXME explicitly setting currentPage doesn't seem to update value on Android
