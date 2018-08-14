@@ -45,6 +45,7 @@ require('./ti.android.notificationmanager.test');
 require('./ti.android.service.test');
 require('./ti.api.test');
 require('./ti.app.test');
+require('./ti.app.ios.test');
 require('./ti.app.ios.searchquery.test');
 require('./ti.app.properties.test');
 require('./ti.app.windows.backgroundservice.test');
