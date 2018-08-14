@@ -31,6 +31,12 @@ describe.ios('Titanium.App.iOS', function () {
 
 	it('#cancelLocalNotification(id)', function () {
 		should(Ti.App.iOS.cancelLocalNotification).be.a.Function;
+		// TODO: Add more tests
+	});
+
+	it('#cancelAllLocalNotifications()', function () {
+		should(Ti.App.iOS.cancelAllLocalNotifications).be.a.Function;
+		// TODO: Add more tests
 	});
 
 	it('#createSearchQuery(args)', function () {
@@ -109,18 +115,22 @@ describe.ios('Titanium.App.iOS', function () {
 	});
 
 	it('#createUserDefaults(args)', function (finish) {
-		this.timeout = 5000;
+		var userDefaults;
+		this.timeout(5000);
 
 		should(Ti.App.iOS.createUserDefaults).be.a.Function;
 
-		var userDefaults = Ti.App.iOS.createUserDefaults({
+		userDefaults = Ti.App.iOS.createUserDefaults({
 			suiteName: 'group.mySuite'
 		});
 
-		userDefaults.addEventListener('change', finish);
+		userDefaults.addEventListener('change', function () {
+			finish();
+		});
 
 		should(userDefaults).be.an.Object;
 		should(userDefaults.apiName).eql('Ti.App.iOS.UserDefaults');
+		// should(userDefaults.suiteName).eql('group.mySuite'); // This is a creation only value and cannot be access/read later!
 		should(userDefaults.getInt).be.a.Function;
 		should(userDefaults.setInt).be.a.Function;
 		should(userDefaults.getBool).be.a.Function;
@@ -185,6 +195,7 @@ describe.ios('Titanium.App.iOS', function () {
 		should(Ti.App.iOS.USER_NOTIFICATION_BEHAVIOR_TEXTINPUT).be.a.Number;
 
 		should(Ti.App.iOS.USER_NOTIFICATION_CATEGORY_OPTION_CUSTOM_DISMISS_ACTION).be.a.Number;
+		should(Ti.App.iOS.USER_NOTIFICATION_CATEGORY_OPTION_ALLOW_IN_CARPLAY).be.a.Number;
 		should(Ti.App.iOS.USER_NOTIFICATION_CATEGORY_OPTION_HIDDEN_PREVIEWS_SHOW_TITLE).be.a.Number;
 		should(Ti.App.iOS.USER_NOTIFICATION_CATEGORY_OPTION_HIDDEN_PREVIEWS_SHOW_SUBTITLE).be.a.Number;
 		should(Ti.App.iOS.USER_NOTIFICATION_CATEGORY_OPTION_NONE).be.a.Number;
@@ -201,7 +212,7 @@ describe.ios('Titanium.App.iOS', function () {
 		should(Ti.App.iOS.UTTYPE_AUDIO).be.a.String;
 		should(Ti.App.iOS.UTTYPE_BMP).be.a.String;
 		should(Ti.App.iOS.UTTYPE_FLAT_RTFD).be.a.String;
-		should(Ti.App.iOS.UTTYPE_GID).be.a.String;
+		should(Ti.App.iOS.UTTYPE_GIF).be.a.String;
 		should(Ti.App.iOS.UTTYPE_HTML).be.a.String;
 		should(Ti.App.iOS.UTTYPE_ICO).be.a.String;
 		should(Ti.App.iOS.UTTYPE_IMAGE).be.a.String;
