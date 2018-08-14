@@ -165,7 +165,7 @@ describe.ios('Titanium.App.iOS', function () {
 
 	it('UserNotificationCenter', function () {
 		should(Ti.App.iOS.UserNotificationCenter).be.an.Object;
-		should(Ti.App.iOS.UserNotificationCenter.apiName).eql('Ti.Proxy'); // TODO: Override "apiName"
+		should(Ti.App.iOS.UserNotificationCenter.apiName).eql('Ti.App.iOS.UserNotificationCenter');
 		should(Ti.App.iOS.UserNotificationCenter.getDeliveredNotifications).be.a.Function;
 		should(Ti.App.iOS.UserNotificationCenter.getPendingNotifications).be.a.Function;
 		should(Ti.App.iOS.UserNotificationCenter.removeDeliveredNotifications).be.a.Function;
