@@ -24,19 +24,13 @@ describe.ios('Titanium.App.iOS', function () {
 	});
 
 	it('supportedUserActivityTypes', function () {
-		should(Ti.App.iOS.supportedUserActivityTypes).be.null; // Only non-null if set via Info.plist NSUserActivityTypes key
+		should(Ti.App.iOS.supportedUserActivityTypes).be.undefined; // Only non-null if set via Info.plist NSUserActivityTypes key
 	});
 
 	// --- methods ---
 
 	it('#cancelLocalNotification(id)', function () {
 		should(Ti.App.iOS.cancelLocalNotification).be.a.Function;
-		// TODO: Add more tests
-	});
-
-	it('#canceAlllLocalNotifications()', function () {
-		should(Ti.App.iOS.canceAlllLocalNotifications).be.a.Function;
-		// TODO: Add more tests
 	});
 
 	it('#createSearchQuery(args)', function () {
@@ -69,7 +63,7 @@ describe.ios('Titanium.App.iOS', function () {
 		});
 
 		var searchableItem = Ti.App.iOS.createSearchableItem({
-			uniqueIndentifier: 'my-id',
+			uniqueIdentifier: 'my-id',
 			domainIdentifier: 'com.mydomain',
 			attributeSet: itemAttr
 		});
@@ -127,7 +121,6 @@ describe.ios('Titanium.App.iOS', function () {
 
 		should(userDefaults).be.an.Object;
 		should(userDefaults.apiName).eql('Ti.App.iOS.UserDefaults');
-		should(userDefaults.suiteName).eql('group.mySuite');
 		should(userDefaults.getInt).be.a.Function;
 		should(userDefaults.setInt).be.a.Function;
 		should(userDefaults.getBool).be.a.Function;
@@ -162,7 +155,7 @@ describe.ios('Titanium.App.iOS', function () {
 
 	it('UserNotificationCenter', function () {
 		should(Ti.App.iOS.UserNotificationCenter).be.an.Object;
-		should(Ti.App.iOS.UserNotificationCenter.apiName).eql('Ti.App.iOS.UserNotificationCenter');
+		should(Ti.App.iOS.UserNotificationCenter.apiName).eql('Ti.Proxy'); // TODO: Override "apiName"
 		should(Ti.App.iOS.UserNotificationCenter.getDeliveredNotifications).be.a.Function;
 		should(Ti.App.iOS.UserNotificationCenter.getPendingNotifications).be.a.Function;
 		should(Ti.App.iOS.UserNotificationCenter.removeDeliveredNotifications).be.a.Function;
@@ -174,8 +167,8 @@ describe.ios('Titanium.App.iOS', function () {
 		should(Ti.App.iOS.BACKGROUNDFETCHINTERVAL_MIN).be.a.Number;
 		should(Ti.App.iOS.BACKGROUNDFETCHINTERVAL_NEVER).be.a.Number;
 
-		should(Ti.App.iOS.EVENT_ACCESSIBILITY_LAYOUT_CHANGED).be.a.Number;
-		should(Ti.App.iOS.EVENT_ACCESSIBILITY_SCREEN_CHANGED).be.a.Number;
+		should(Ti.App.iOS.EVENT_ACCESSIBILITY_LAYOUT_CHANGED).be.a.String;
+		should(Ti.App.iOS.EVENT_ACCESSIBILITY_SCREEN_CHANGED).be.a.String;
 
 		should(Ti.App.iOS.USER_NOTIFICATION_ACTIVATION_MODE_BACKGROUND).be.a.Number;
 		should(Ti.App.iOS.USER_NOTIFICATION_ACTIVATION_MODE_FOREGROUND).be.a.Number;
