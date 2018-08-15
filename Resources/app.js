@@ -26,7 +26,24 @@ describe('global', function () {
 		should(global).be.ok;
 	});
 });
-// TODO: Add tests that __filename, __dirname are available in app.js too!
+
+// Must have __dirname in the global scope, even in our app.js
+describe('__dirname', function () {
+	it.windowsMissing('should be available as \'__dirname\'', function () {
+		should(__dirname).be.ok;
+		should(__dirname).be.a.String;
+		should(__dirname).be.eql('/');
+	});
+});
+
+// Must have __filename in the global scope, even in our app.js
+describe('__filename', function () {
+	it.windowsMissing('should be available as \'__filename\'', function () {
+		should(__filename).be.ok;
+		should(__filename).be.a.String;
+		should(__filename).be.eql('/app.js');
+	});
+});
 
 // ============================================================================
 // Add the tests here using "require"
@@ -48,10 +65,12 @@ require('./es6.string.interpolation.test');
 // Titanium APIs
 require('./ti.accelerometer.test');
 require('./ti.analytics.test');
+require('./ti.android.test');
 require('./ti.android.notificationmanager.test');
 require('./ti.android.service.test');
 require('./ti.api.test');
 require('./ti.app.test');
+require('./ti.app.ios.test');
 require('./ti.app.ios.searchquery.test');
 require('./ti.app.properties.test');
 require('./ti.app.windows.backgroundservice.test');
