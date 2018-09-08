@@ -139,11 +139,12 @@ function addTiAppProperties(next) {
 			content.push('\t<property name="presetString" type="string">Hello!</property>');
 			content.push('\t<transpile>true</transpile>');
 		} else if (line.indexOf('<android xmlns:android') >= 0) {
-			// Inject the google maps api key
+			// Inject permissions and google maps api key
 			content.push('\t\t<manifest>');
 			content.push('\t\t\t<application>');
 			content.push('\t\t\t\t<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCN_aC6RMaynan8YzsO1HNHbhsr9ZADDlY"/>');
 			content.push('\t\t\t</application>');
+			content.push('\t\t\t<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>');
 			content.push('\t\t</manifest>');
 			// Inject Android services
 			content.push('\t\t<services>');
