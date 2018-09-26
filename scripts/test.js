@@ -109,9 +109,16 @@ function generateProject(platforms, next) {
 // Add required properties for our unit tests!
 function addTiAppProperties(next) {
 	const tiapp_xml = path.join(PROJECT_DIR, 'tiapp.xml');
+	const tiapp_xml_string = fs.readFileSync(tiapp_xml).toString();
 	const content = [];
+	const insertManifest = () => {
+		content.push('\t\t\t<application>');
+		content.push('\t\t\t\t<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCN_aC6RMaynan8YzsO1HNHbhsr9ZADDlY"/>');
+		content.push('\t\t\t</application>');
+	};
+
 	// Not so smart but this should work...
-	fs.readFileSync(tiapp_xml).toString().split(/\r?\n/).forEach(function (line) {
+	tiapp_xml_string.split(/\r?\n/).forEach(function (line) {
 		content.push(line);
 		if (line.indexOf('<ios>') >= 0) {
 			// Forse using the JScore on the emulator, not TiCore!
@@ -139,17 +146,20 @@ function addTiAppProperties(next) {
 			content.push('\t<property name="presetString" type="string">Hello!</property>');
 			content.push('\t<transpile>true</transpile>');
 		} else if (line.indexOf('<android xmlns:android') >= 0) {
-			// Inject the google maps api key
-			content.push('\t\t<manifest>');
-			content.push('\t\t\t<application>');
-			content.push('\t\t\t\t<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCN_aC6RMaynan8YzsO1HNHbhsr9ZADDlY"/>');
-			content.push('\t\t\t</application>');
-			content.push('\t\t</manifest>');
+			// Insert manifest
+			if (!tiapp_xml_string.includes('<manifest')) {
+				content.push('\t\t<manifest>');
+				insertManifest();
+				content.push('\t\t</manifest>');
+			}
+
 			// Inject Android services
 			content.push('\t\t<services>');
 			content.push('\t\t\t<service url="ti.android.service.normal.js"/>');
 			content.push('\t\t\t<service url="ti.android.service.interval.js" type="interval"/>');
 			content.push('\t\t</services>');
+		} else if (line.indexOf('<manifest') >= 0) {
+			insertManifest();
 		}
 	});
 	fs.writeFileSync(tiapp_xml, content.join('\n'));
@@ -289,7 +299,7 @@ function handleBuild(prc, next) {
 		if (code) {
 			return next(code);
 		}
-	})
+	});
 }
 
 function massageJSONString(testResults) {
