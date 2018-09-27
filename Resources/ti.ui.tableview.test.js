@@ -11,14 +11,9 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.UI.TableView', function () {
-	var win,
-		didFocus = false;
+	var win;
 
 	this.timeout(5000);
-
-	beforeEach(function () {
-		didFocus = false;
-	});
 
 	afterEach(function (done) {
 		if (win) {
@@ -157,11 +152,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -207,11 +197,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -252,11 +237,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -299,11 +279,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -340,11 +315,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -385,11 +355,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -437,11 +402,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -484,11 +444,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -531,11 +486,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -587,11 +537,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.an.Object;
@@ -635,11 +580,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sections[0].rowCount).be.eql(3);
 				tableView.updateRow(1, Ti.UI.createTableViewRow({ title: 'Green' }));
@@ -684,11 +624,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(1);
 				should(tableView.sections[0]).be.eql(section_0);
@@ -742,11 +677,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(2);
 				should(tableView.sections[0]).be.eql(section_0);
@@ -810,11 +740,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				tableView.updateSection(1, section_2);
 
@@ -880,11 +805,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(2);
 				should(tableView.sections[0]).be.eql(section_0);
@@ -999,11 +919,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(tableView.sectionCount).be.eql(2);
 				should(tableView.sections[0]).be.eql(section_0);
@@ -1319,11 +1234,6 @@ describe('Titanium.UI.TableView', function () {
 			backgroundColor: 'blue'
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				tableView.updateRow(0, { title: 'Green' });
 				tableView.insertRowAfter(0, { title: 'White' });

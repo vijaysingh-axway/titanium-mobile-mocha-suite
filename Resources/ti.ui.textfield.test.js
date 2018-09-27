@@ -12,12 +12,7 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.TextField', function () {
-	var didFocus = false,
-		win;
-
-	beforeEach(function () {
-		didFocus = false;
-	});
+	var win;
 
 	afterEach(function () {
 		if (win) {
@@ -195,11 +190,6 @@ describe('Titanium.UI.TextField', function () {
 		});
 		win.add(textfield);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(win.width).be.greaterThan(100);
 				should(textfield.width).not.be.greaterThan(win.width);
@@ -234,11 +224,6 @@ describe('Titanium.UI.TextField', function () {
 		win.add(bgView);
 
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(bgView.height).be.eql(100);
 				should(textfield.height).not.be.greaterThan(100);

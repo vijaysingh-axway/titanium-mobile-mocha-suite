@@ -19,12 +19,10 @@ function createWindow(_args) {
 
 describe('Titanium.UI.Layout', function () {
 	var win,
-		didFocus = false,
 		didPostlayout = false;
 	this.timeout(5000);
 
 	beforeEach(function () {
-		didFocus = false;
 		didPostlayout = false;
 	});
 
@@ -1898,11 +1896,6 @@ describe('Titanium.UI.Layout', function () {
 		// FIXME Make sure we call finish after both events/assertion blocks happen!
 		// FIXME we can't rely on size/rect being valid on a focus event!
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			Ti.API.info('Got focus event');
 			try {
 				should(label.rect.width).not.eql(0);

@@ -11,13 +11,8 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.UI.Button', function () {
-	var win,
-		didFocus = false;
+	var win;
 	this.timeout(5000);
-
-	beforeEach(function () {
-		didFocus = false;
-	});
 
 	afterEach(function () {
 		if (win) {
@@ -71,11 +66,6 @@ describe('Titanium.UI.Button', function () {
 		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				view.image = 'Logo.png';
 				should(view.image).be.eql('Logo.png');
@@ -101,11 +91,6 @@ describe('Titanium.UI.Button', function () {
 		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				view.image = Ti.Filesystem.getFile('Logo.png').read();
 				should(view.image).be.an.Object; // ios gives null
@@ -127,11 +112,6 @@ describe('Titanium.UI.Button', function () {
 		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.backgroundColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundImage).be.a.String;
@@ -157,11 +137,6 @@ describe('Titanium.UI.Button', function () {
 		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.backgroundFocusedColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundFocusedImage).be.a.String;
@@ -187,11 +162,6 @@ describe('Titanium.UI.Button', function () {
 		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.backgroundSelectedColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundSelectedImage).be.a.String;
@@ -217,11 +187,6 @@ describe('Titanium.UI.Button', function () {
 		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.backgroundDisabledColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundDisabledImage).be.a.String;
@@ -256,11 +221,6 @@ describe('Titanium.UI.Button', function () {
 		};
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.backgroundGradient.type).be.eql('linear');
 				should(view.backgroundGradient.startPoint).be.an.Object;
@@ -285,11 +245,6 @@ describe('Titanium.UI.Button', function () {
 		view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.borderColor).be.a.String; // undefined on iOS and Android
 				should(view.borderWidth).be.a.Number; // '0' (as a string!) on Windows
