@@ -851,4 +851,27 @@ describe('Titanium.UI.View', function () {
 		});
 		win.open();
 	});
+
+	// FIXME Get working on iOS
+	it.android('backgroundDisabledColor', function (finish) {
+		var view;
+		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		view = Ti.UI.createView({ width: Ti.UI.FILL, height: Ti.UI.FILL });
+		win.add(view);
+		win.addEventListener('focus', function () {
+			if (didFocus) {
+				return;
+			}
+			didFocus = true;
+
+			try {
+				view.backgroundDisabledColor = '#88FFFFFF';
+				should(view.getBackgroundDisabledColor()).be.eql('#88FFFFFF');
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.open();
+	});
 });
