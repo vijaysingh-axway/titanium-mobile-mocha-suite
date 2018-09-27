@@ -20,7 +20,7 @@ describe('Titanium.Media.AudioPlayer', function () {
 	var audioPlayer;
 
 	beforeEach(function () {
-		audioPlayer = Ti.Media.createAudioPlayer({ url: 'sample.mp3' });
+		audioPlayer = Ti.Media.createAudioPlayer({ url: '/sample.mp3' });
 	});
 
 	afterEach(function () {

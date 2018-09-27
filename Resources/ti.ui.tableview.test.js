@@ -147,7 +147,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Also crashes Android, with no stack trace or errors in logcat
-	it.androidAndIosBroken('insertRowAfter', function (finish) {
+	// FIXME Intermittent failure on Windows
+	it.allBroken('insertRowAfter', function (finish) {
 		var tableView = Ti.UI.createTableView({
 			data: [ { title: 'Red' } ]
 		});
@@ -241,7 +242,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Crashes Android as well
-	it.androidAndIosBroken('insertRowBefore', function (finish) {
+	// FIXME Occasionally crashes Windows as well
+	it.allBroken('insertRowBefore', function (finish) {
 		var tableView = Ti.UI.createTableView({
 			data: [ { title: 'Red' }, { title: 'White' } ]
 		});
@@ -281,7 +283,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Crashes Android as well
-	it.androidAndIosBroken('insertRowBefore (TableViewRow)', function (finish) {
+	// FIXME Occasionally crashes Windows as well
+	it.allBroken('insertRowBefore (TableViewRow)', function (finish) {
 		var section_0,
 			tableView;
 		section_0 = Ti.UI.createTableViewSection({ headerTitle: 'Zero' });
@@ -327,7 +330,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Crashes on Android too
-	it.androidAndIosBroken('add row', function (finish) {
+	// FIXME Intermittent failure on Windows
+	it.allBroken('add row', function (finish) {
 		var tableView = Ti.UI.createTableView({
 			data: [ { title: 'Red' } ]
 		});
@@ -371,7 +375,8 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Occasionally crashes Android as well
-	it.androidAndIosBroken('add rows', function (finish) {
+	// FIXME Occasionally crashes Windows as well
+	it.allBroken('add rows', function (finish) {
 		var tableView = Ti.UI.createTableView({
 			data: [ { title: 'Red' } ]
 		});

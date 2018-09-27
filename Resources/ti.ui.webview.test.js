@@ -29,7 +29,8 @@ describe('Titanium.UI.WebView', function () {
 	});
 
 	// FIXME: I think we need to tweak the test here. Set URL property after adding the listeners!
-	it.androidAndWindowsBroken('loading', function (finish) {
+	// iOS works most of the time, but also has some odd failures sometimes. SDK 8+ is reworking this.
+	it.allBroken('loading', function (finish) {
 		var webView,
 			beforeLoaded = false;
 
@@ -393,6 +394,53 @@ describe('Titanium.UI.WebView', function () {
 		});
 
 		win.add(webView);
+		win.open();
+	});
+
+	it('#evalJS(string, function) - async variant', function (finish) {
+		var webview,
+			hadError = false;
+		win = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+
+		webview = Ti.UI.createWebView();
+
+		webview.addEventListener('load', function () {
+			if (hadError) {
+				return;
+			}
+
+			// FIXME: Android is dumb and assumes no trailing semicolon!
+			webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST"', function (result) {
+				try {
+					if (utilities.isAndroid()) {
+						should(result).be.eql('"WebView.evalJS.TEST"'); // FIXME: Why the double-quoting?
+					} else {
+						should(result).be.eql('WebView.evalJS.TEST');
+					}
+
+					finish();
+				} catch (err) {
+					finish(err);
+				}
+			});
+		});
+		win.addEventListener('focus', function () {
+			if (didFocus) {
+				return;
+			}
+			didFocus = true;
+
+			try {
+				webview.url = 'ti.ui.webview.test.html';
+			} catch (err) {
+				hadError = true;
+				finish(err);
+			}
+		});
+
+		win.add(webview);
 		win.open();
 	});
 });

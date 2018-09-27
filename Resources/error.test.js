@@ -82,4 +82,28 @@ describe('Error', function () {
 			ex.should.not.have.property('nativeStack');
 		}
 	});
+
+	// Google V8 normally returns '{}' in this case because Error properties are not enumerable.
+	// This tests Titanium's custom Error.toJSON() handling to expose properties like JavaScriptCore.
+	it('JSON.stringify(Error)', function () {
+		var err = new Error('My error message'),
+			jsonString = JSON.stringify(err),
+			jsonTable = JSON.parse(jsonString);
+		should(jsonTable.message).be.eql(err.message);
+	});
+
+	it('JSON.stringify(NestedError)', function () {
+		var errorTop,
+			jsonString,
+			jsonTable;
+		errorTop = new Error('Top error message');
+		errorTop.nestedError = new TypeError('Nested error message');
+		jsonString = JSON.stringify({
+			wasSuccessful: false,
+			error: errorTop,
+		});
+		jsonTable = JSON.parse(jsonString);
+		should(jsonTable.error.message).be.eql(errorTop.message);
+		should(jsonTable.error.nestedError.message).be.eql(errorTop.nestedError.message);
+	});
 });

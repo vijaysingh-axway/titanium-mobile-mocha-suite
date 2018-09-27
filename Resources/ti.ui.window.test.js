@@ -643,4 +643,24 @@ describe('Titanium.UI.Window', function () {
 		});
 		win.open();
 	});
+
+	it.ios('.statusBarStyle', function (finish) {
+		win = Ti.UI.createWindow({
+			title: 'This is status bar style test',
+			statusBarStyle: Ti.UI.iOS.StatusBar.LIGHT_CONTENT
+		});
+
+		win.addEventListener('open', function () {
+			try {
+				should(win.statusBarStyle).be.a.Number;
+				should(win.statusBarStyle).eql(Ti.UI.iOS.StatusBar.LIGHT_CONTENT);
+				win.setStatusBarStyle(Ti.UI.iOS.StatusBar.GRAY);
+				should(win.statusBarStyle).eql(Ti.UI.iOS.StatusBar.GRAY);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.open();
+	});
 });
