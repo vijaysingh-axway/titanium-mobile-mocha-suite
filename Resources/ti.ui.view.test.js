@@ -14,7 +14,6 @@ var should = require('./utilities/assertions'),
 describe('Titanium.UI.View', function () {
 	var rootWindow,
 		win,
-		didFocus = false,
 		didPostLayout = false;
 
 	this.slow(2000);
@@ -36,7 +35,6 @@ describe('Titanium.UI.View', function () {
 	});
 
 	beforeEach(function () {
-		didFocus = false;
 		didPostLayout = false;
 	});
 
@@ -71,11 +69,6 @@ describe('Titanium.UI.View', function () {
 		view = Ti.UI.createView({ width: Ti.UI.FILL, height: Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.backgroundFocusedColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundFocusedImage).be.a.String;
@@ -99,11 +92,6 @@ describe('Titanium.UI.View', function () {
 		view = Ti.UI.createView({ width: Ti.UI.FILL, height: Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.backgroundSelectedColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundSelectedImage).be.a.String;
@@ -127,11 +115,6 @@ describe('Titanium.UI.View', function () {
 		view = Ti.UI.createView({ width: Ti.UI.FILL, height: Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.backgroundDisabledColor).be.a.String; // undefined on iOS and Android
 				should(view.backgroundDisabledImage).be.a.String;
@@ -316,11 +299,6 @@ describe('Titanium.UI.View', function () {
 		view = Ti.UI.createView({ width: Ti.UI.FILL, height: Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(view.borderColor).be.a.String; // undefined on iOS and Android
 				should(view.borderWidth).be.a.Number; // Windows gives: expected '0' to be a number
@@ -378,11 +356,6 @@ describe('Titanium.UI.View', function () {
 		});
 
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				Ti.API.info('Got focus event');
 				should(win.visible).be.true;
@@ -759,11 +732,6 @@ describe('Titanium.UI.View', function () {
 	it.windowsMissing('event source and bubbles property', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win.addEventListener('focus', function (e) {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				should(e.source).be.a.Object;
 				should(e.bubbles).be.a.Boolean;
@@ -859,11 +827,6 @@ describe('Titanium.UI.View', function () {
 		view = Ti.UI.createView({ width: Ti.UI.FILL, height: Ti.UI.FILL });
 		win.add(view);
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				view.backgroundDisabledColor = '#88FFFFFF';
 				should(view.getBackgroundDisabledColor()).be.eql('#88FFFFFF');

@@ -12,14 +12,9 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.WebView', function () {
-	var win,
-		didFocus = false;
+	var win;
 	this.slow(3000);
 	this.timeout(30000);
-
-	beforeEach(function () {
-		didFocus = false;
-	});
 
 	afterEach(function () {
 		if (win) {
@@ -77,11 +72,6 @@ describe('Titanium.UI.WebView', function () {
 		webview = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webview.url = 'https://www.google.com';
 
@@ -101,11 +91,6 @@ describe('Titanium.UI.WebView', function () {
 		webView = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webView.keyboardDisplayRequiresUserAction = true;
 
@@ -140,11 +125,6 @@ describe('Titanium.UI.WebView', function () {
 		webview = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webview.url = 'ti.ui.webview.test.html';
 
@@ -220,11 +200,6 @@ describe('Titanium.UI.WebView', function () {
 			}
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webview.url = 'ti.ui.webview.test.html';
 			} catch (err) {
@@ -427,11 +402,6 @@ describe('Titanium.UI.WebView', function () {
 			});
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webview.url = 'ti.ui.webview.test.html';
 			} catch (err) {
