@@ -330,4 +330,43 @@ describe('Titanium.UI.Picker', function () {
 		win.add(dp);
 		win.open();
 	});
+
+	it.android('Selected index persistance', function (finish) {
+		// workaround iOS triggering of 'postlayout' event
+		var containerView = Ti.UI.createView();
+		var picker = Ti.UI.createPicker({});
+		var rows = [];
+		var indexToTest = 2;
+
+		for (var index = 0; index < 5; index++) {
+			rows.push(Ti.UI.createPickerRow({ title: 'Item ' + (index + 1).toString() }));
+		}
+
+		picker.add(rows);
+
+		win = Ti.UI.createWindow();
+		win.add(picker);
+
+		picker.addEventListener('change', function () {
+			win.remove(picker);
+			containerView.addEventListener('postlayout', finishTest);
+			containerView.add(picker);
+			win.add(containerView);
+		});
+
+		picker.addEventListener('postlayout', changeItem);
+
+		win.open();
+
+		function changeItem() {
+			picker.removeEventListener('postlayout', changeItem);
+			picker.setSelectedRow(0, indexToTest);
+		}
+
+		function finishTest() {
+			if (rows.indexOf(picker.getSelectedRow(0)) === indexToTest) {
+				finish();
+			}
+		}
+	});
 });
