@@ -355,13 +355,13 @@ describe('Titanium.UI.ImageView', function () {
 
 		win = Ti.UI.createWindow();
 		let imageView = Ti.UI.createImageView({
-			image: 'Logo.png',
 			autorotate: true
 		});
 		imageView.addEventListener('load', function () {
 			finish();
 		});
 		win.add(imageView);
+		imageView.image = 'Logo.png';
 		win.open();
 	});
 });
