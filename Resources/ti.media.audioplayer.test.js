@@ -83,7 +83,7 @@ describe('Titanium.Media.AudioPlayer', function () {
 		}, 1000);
 	});
 
-	it('.duration', function (finish) {
+	it.windowsMissing('.duration', function (finish) {
 		this.timeout(2000);
 		audioPlayer.start();
 
