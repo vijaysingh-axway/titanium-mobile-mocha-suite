@@ -263,7 +263,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	// Confirms that only the selected cookie is deleted
 	// FIXME Windows hangs on this test! Maybe due to setTimeout in onload?
-	it.windowsBroken('clearCookiePositiveTest', function (finish) {
+	it.allBroken('clearCookiePositiveTest', function (finish) {
 		var xhr = Ti.Network.createHTTPClient(),
 			cookie_string;
 		function second_cookie_fn() {
@@ -275,21 +275,21 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.setTimeout(3e4);
 		xhr.onload = function () {
 			cookie_string = this.getResponseHeader('Set-Cookie').split(';')[0];
-			xhr.clearCookies('https://my.appcelerator.com');
+			xhr.clearCookies('https://www.google.com');
 			xhr.onload = second_cookie_fn;
 			// Have to do this on delay for Android, or else the open and send get cancelled due to:
 			// [WARN]  TiHTTPClient: (main) [2547,14552] open cancelled, a request is already pending for response.
 			// [WARN]  TiHTTPClient: (main) [1,14553] send cancelled, a request is already pending for response.
 			// FIXME We should file a bug to handle this better! Can't we "queue" up the open/send calls to occur as soon as this callback finishes?
 			setTimeout(function () {
-				xhr.open('GET', 'https://my.appcelerator.com/auth/login');
+				xhr.open('GET', 'https://www.google.com');
 				xhr.send();
 			}, 5000);
 		};
 		xhr.onerror = function (e) {
 			should(e).should.be.type('undefined');
 		};
-		xhr.open('GET', 'https://my.appcelerator.com/auth/login');
+		xhr.open('GET', 'https://www.google.com');
 		xhr.send();
 	});
 
@@ -315,14 +315,14 @@ describe('Titanium.Network.HTTPClient', function () {
 			// [WARN]  TiHTTPClient: (main) [1,14553] send cancelled, a request is already pending for response.
 			// FIXME We should file a bug to handle this better! Can't we "queue" up the open/send calls to occur as soon as this callback finishes?
 			setTimeout(function () {
-				xhr.open('GET', 'https://my.appcelerator.com/auth/login');
+				xhr.open('GET', 'https://www.google.com');
 				xhr.send();
 			}, 5000);
 		};
 		xhr.onerror = function (e) {
 			should(e).should.be.type('undefined');
 		};
-		xhr.open('GET', 'https://my.appcelerator.com/auth/login');
+		xhr.open('GET', 'https://www.google.com');
 		xhr.send();
 	});
 
