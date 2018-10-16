@@ -240,39 +240,37 @@ function $Reporter(runner) {
 	});
 
 	runner.on('test end', function (test) {
-		var tdiff = new Date().getTime() - started,
-			err = test.err,
-			fixedNames = suiteAndTitle(suites, test.title),
-			result = {
-				state: test.state || 'skipped',
-				duration: tdiff,
-				suite: fixedNames.suite,
-				title: fixedNames.title,
-				error: err,
-				message: ''
-			},
-			message,
-			stack,
-			index,
-			msg,
-			stringified;
+		const tdiff = new Date().getTime() - started;
+		const fixedNames = suiteAndTitle(suites, test.title);
+		const result = {
+			state: test.state || 'skipped',
+			duration: tdiff,
+			suite: fixedNames.suite,
+			title: fixedNames.title,
+			error: test.err,
+			message: ''
+		};
 
-		if (err) {
-			message = err.message || '';
-			stack = err.stack || message;
-			index = stack.indexOf(message) + message.length;
-			msg = stack.slice(0, index);
+		if (test.err) {
+			let message = test.err.message || 'Error';
+			let stack = test.err.stack || '';
 			// uncaught
-			if (err.uncaught) {
-				msg = 'Uncaught ' + msg;
+			if (test.err.uncaught) {
+				message = 'Uncaught ' + message;
 			}
-			result.message = msg;
-			// indent stack trace without msg
-			stack = stack.slice(index ? index + 1 : index).replace(/^/gm, '  ');
+
+			// if there's both a stack and message property and they differ, but message is in the stack, strip it from the stack
+			if (test.err.message && test.err.stack && stack.indexOf(message) !== -1) {
+				// stack trace includes the message in it!
+				const index = stack.indexOf(message) + message.length;
+				// indent stack trace without msg
+				stack = stack.slice(index ? index + 1 : index).replace(/^/gm, '  ');
+			}
+			result.message = message;
 			result.stack = stack;
 		}
 
-		stringified = JSON.stringify(result);
+		let stringified = JSON.stringify(result);
 		stringified = stringified.replace(/\\n/g, '\\n')
 			.replace(/\\'/g, '\\\'')
 			.replace(/\\"/g, '\\"')
