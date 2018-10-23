@@ -345,4 +345,23 @@ describe('Titanium.UI.ImageView', function () {
 		win.add(imageView);
 		win.open();
 	});
+
+	// On Android, paths are relative to JS file.
+	// On iOS and Windows, paths are relative to app's "Resources" directory.
+	// The below works on all platforms because this JS file is in the "Resources" directory.
+	it('.image (root-relative-path)', function (finish) {
+		this.slow(8000);
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		let imageView = Ti.UI.createImageView({
+			autorotate: true
+		});
+		imageView.addEventListener('load', function () {
+			finish();
+		});
+		win.add(imageView);
+		imageView.image = 'Logo.png';
+		win.open();
+	});
 });

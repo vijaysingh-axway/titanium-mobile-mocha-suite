@@ -12,14 +12,9 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.WebView', function () {
-	var win,
-		didFocus = false;
+	var win;
 	this.slow(3000);
 	this.timeout(30000);
-
-	beforeEach(function () {
-		didFocus = false;
-	});
 
 	afterEach(function () {
 		if (win) {
@@ -77,11 +72,6 @@ describe('Titanium.UI.WebView', function () {
 		webview = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webview.url = 'https://www.google.com';
 
@@ -101,11 +91,6 @@ describe('Titanium.UI.WebView', function () {
 		webView = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webView.keyboardDisplayRequiresUserAction = true;
 
@@ -140,11 +125,6 @@ describe('Titanium.UI.WebView', function () {
 		webview = Ti.UI.createWebView();
 
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webview.url = 'ti.ui.webview.test.html';
 
@@ -220,11 +200,6 @@ describe('Titanium.UI.WebView', function () {
 			}
 		});
 		win.addEventListener('focus', function () {
-			if (didFocus) {
-				return;
-			}
-			didFocus = true;
-
 			try {
 				webview.url = 'ti.ui.webview.test.html';
 			} catch (err) {
@@ -394,6 +369,48 @@ describe('Titanium.UI.WebView', function () {
 		});
 
 		win.add(webView);
+		win.open();
+	});
+
+	it('#evalJS(string, function) - async variant', function (finish) {
+		var webview,
+			hadError = false;
+		win = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+
+		webview = Ti.UI.createWebView();
+
+		webview.addEventListener('load', function () {
+			if (hadError) {
+				return;
+			}
+
+			// FIXME: Android is dumb and assumes no trailing semicolon!
+			webview.evalJS('Ti.API.info("Hello, World!");"WebView.evalJS.TEST"', function (result) {
+				try {
+					if (utilities.isAndroid()) {
+						should(result).be.eql('"WebView.evalJS.TEST"'); // FIXME: Why the double-quoting?
+					} else {
+						should(result).be.eql('WebView.evalJS.TEST');
+					}
+
+					finish();
+				} catch (err) {
+					finish(err);
+				}
+			});
+		});
+		win.addEventListener('focus', function () {
+			try {
+				webview.url = 'ti.ui.webview.test.html';
+			} catch (err) {
+				hadError = true;
+				finish(err);
+			}
+		});
+
+		win.add(webview);
 		win.open();
 	});
 });

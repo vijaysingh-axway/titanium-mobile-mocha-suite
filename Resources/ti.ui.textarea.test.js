@@ -177,4 +177,53 @@ describe('Titanium.UI.TextArea', function () {
 		should(textArea.lines).eql(2);
 		should(textArea.getMaxLines()).eql(6);
 	});
+
+	// Tests adding and removing a TextArea's focus.
+	it('textArea in tabGroup', function (finish) {
+		var windowA, windowB, tabA, tabB, tabGroup;
+
+		this.timeout(7500);
+
+		windowA = Ti.UI.createWindow();
+		windowB = Ti.UI.createWindow();
+
+		tabA = Ti.UI.createTab({
+			window: windowA,
+			title: 'Tab A'
+		});
+
+		tabB = Ti.UI.createTab({
+			window: windowB,
+			title: 'Tab B'
+		});
+
+		tabGroup = Titanium.UI.createTabGroup({
+			tabs: [ tabA, tabB ]
+		});
+
+		windowA.addEventListener('open', function () {
+			var subwin, typingView, keyboardMessageView, keyboardMessage;
+
+			subwin = Ti.UI.createWindow({ backgroundColor: 'blur' });
+
+			subwin.addEventListener('open', function () {
+				finish();
+				// TODO: Clean up the tab group!
+			});
+
+			typingView = Ti.UI.createView();
+			keyboardMessageView = Ti.UI.createView();
+			keyboardMessage = Ti.UI.createTextArea();
+
+			keyboardMessageView.add(keyboardMessage);
+			typingView.add(keyboardMessageView);
+			subwin.add(typingView);
+
+			setTimeout(function () {
+				tabA.open(subwin);
+			}, 1000);
+		});
+
+		tabGroup.open();
+	});
 });
