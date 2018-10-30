@@ -18,6 +18,14 @@ describe('Titanium.Media', function () {
 });
 
 describe('Titanium.Media.VideoPlayer', function () {
+	var win;
+
+	afterEach(function () {
+		if (win) {
+			win.close();
+		}
+		win = null;
+	});
 
 	it.windowsMissing('VIDEO_PLAYBACK_* constants', function () {
 		should(Ti.Media.VIDEO_PLAYBACK_STATE_STOPPED).eql(0);
@@ -94,6 +102,32 @@ describe('Titanium.Media.VideoPlayer', function () {
 		// should(player).have.readOnlyProperty('duration').which.is.a.Number;
 		should(player).have.a.property('duration').which.is.a.Number;
 		player.duration.should.eql(0); // default
+	});
+
+	it.ios('playableDuration in milliseconds', function (finish) {
+		var videoPlayer = Ti.Media.createVideoPlayer({
+			url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+			autoplay: true,
+			showsControls: false,
+			height: 200
+		});
+
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		videoPlayer.addEventListener('durationavailable', function (e) {
+			try {
+				e.duration.should.be.above(1000);
+				videoPlayer.duration.should.be.above(1000);
+				videoPlayer.playableDuration.should.be.above(1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+
+		win.add(videoPlayer);
+		win.open();
 	});
 
 	it('currentPlaybackTime', function () {
