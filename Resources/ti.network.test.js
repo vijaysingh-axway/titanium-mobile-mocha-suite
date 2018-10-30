@@ -8,8 +8,7 @@
 /* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+var should = require('./utilities/assertions');
 
 describe('Titanium.Network', function () {
 
@@ -78,19 +77,14 @@ describe('Titanium.Network', function () {
 	});
 
 	// Methods
-	it.windowsBroken('encodeURIComponent()', function () {
+	it.windowsPhone81Broken('encodeURIComponent()', function () {
 		var text;
 		should(Ti.Network.encodeURIComponent).be.a.Function;
 		text = Ti.Network.encodeURIComponent('Look what I found! I like this:');
-		// TODO Open a JIRA ticket for parity! iOS encodes exclamation points, Windows/Android do not
-		if (utilities.isIOS()) {
-			text.should.eql('Look%20what%20I%20found%21%20I%20like%20this%3A');
-		} else {
-			text.should.eql('Look%20what%20I%20found!%20I%20like%20this%3A');
-		}
+		text.should.eql('Look%20what%20I%20found!%20I%20like%20this%3A');
 	});
 
-	it.windowsBroken('decodeURIComponent()', function () {
+	it.windowsPhone81Broken('decodeURIComponent()', function () {
 		var text;
 		should(Ti.Network.decodeURIComponent).be.a.Function;
 		text = Ti.Network.decodeURIComponent('Look%20what%20I%20found!%20I%20like%20this%3A');
