@@ -18,6 +18,14 @@ describe('Titanium.Media', function () {
 });
 
 describe('Titanium.Media.VideoPlayer', function () {
+	var win;
+
+	afterEach(function () {
+		if (win) {
+			win.close();
+		}
+		win = null;
+	});
 
 	it.windowsMissing('VIDEO_PLAYBACK_* constants', function () {
 		should(Ti.Media.VIDEO_PLAYBACK_STATE_STOPPED).eql(0);
@@ -96,6 +104,32 @@ describe('Titanium.Media.VideoPlayer', function () {
 		player.duration.should.eql(0); // default
 	});
 
+	it.ios('playableDuration in milliseconds', function (finish) {
+		var videoPlayer = Ti.Media.createVideoPlayer({
+			url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+			autoplay: true,
+			showsControls: false,
+			height: 200
+		});
+
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		videoPlayer.addEventListener('durationavailable', function (e) {
+			try {
+				e.duration.should.be.above(1000);
+				videoPlayer.duration.should.be.above(1000);
+				videoPlayer.playableDuration.should.be.above(1000);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+
+		win.add(videoPlayer);
+		win.open();
+	});
+
 	it('currentPlaybackTime', function () {
 		var player = Ti.Media.createVideoPlayer();
 		should(player).have.a.property('currentPlaybackTime').which.is.a.Number;
@@ -119,8 +153,7 @@ describe('Titanium.Media.VideoPlayer', function () {
 
 	// FIXME: Skipping until TIMOB-26299 is fixed
 	it.allBroken('Close window containing a video player (TIMOB-25574)', function (finish) {
-		var win,
-			nav;
+		var nav;
 		this.timeout(15000);
 
 		win = Ti.UI.createWindow({
@@ -174,7 +207,6 @@ describe('Titanium.Media.VideoPlayer', function () {
 
 	// FIXME: Skipping until TIMOB-26299 is fixed.
 	it.allBroken('Release video player and close window (TIMOB-26033)', function (finish) {
-		var win = Ti.UI.createWindow();
 		var videoWindow = Ti.UI.createWindow();
 		var videoPlayer = Ti.Media.createVideoPlayer({
 			url: 'https://www.w3schools.com/html/mov_bbb.mp4',
@@ -189,6 +221,7 @@ describe('Titanium.Media.VideoPlayer', function () {
 
 		this.timeout(10000);
 
+		win = Ti.UI.createWindow();
 		win.addEventListener('open', function () {
 			setTimeout(function () {
 				videoWindow.open();

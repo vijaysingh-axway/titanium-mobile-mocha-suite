@@ -591,4 +591,35 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.open('GET', 'https://www.nasa.gov/sites/default/files/thumbnails/image/sun_0.jpg');
 		xhr.send();
 	});
+
+	it('send on response', function (finish) {
+		var xhr = Ti.Network.createHTTPClient({}),
+			count = 0;
+
+		this.timeout(6e4);
+		xhr.setTimeout(6e4);
+
+		xhr.onload = function (e) {
+			try {
+				const response = e.source.responseDictionary ? e.source.responseDictionary.json : null;
+
+				if (response !== undefined) {
+					if (response && response.count <= 8) {
+						return xhr.send(JSON.stringify({ count: ++count }));
+					}
+					return finish();
+				}
+				finish(new Error('invalid json response!\n\n' + JSON.stringify(response, null, 1)));
+			} catch (err) {
+				finish(err);
+			}
+		};
+		xhr.onerror = function (e) {
+			finish(e);
+		};
+
+		xhr.open('POST', 'https://httpbin.org/post');
+		xhr.setRequestHeader('Content-Type', 'application/json; charset=utf8');
+		xhr.send(JSON.stringify({ count: count }));
+	});
 });
