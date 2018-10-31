@@ -605,7 +605,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Fails intermittently on Android build machine
-	it.androidAndIosBroken('append section', function (finish) {
+	it.allBroken('append section', function (finish) {
 		var section_0,
 			section_1,
 			tableView;
