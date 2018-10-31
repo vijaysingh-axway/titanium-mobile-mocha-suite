@@ -658,7 +658,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME intermittently fails on Android build machine - I think due to test timeout
-	it.androidAndIosBroken('delete section', function (finish) {
+	it.allBroken('delete section', function (finish) {
 		var section_0,
 			section_1,
 			tableView;
@@ -715,7 +715,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME Fails on Android on build machine
-	it.androidAndIosBroken('update section', function (finish) {
+	it.allBroken('update section', function (finish) {
 		var section_0,
 			section_1,
 			section_2,
