@@ -780,7 +780,7 @@ describe('Titanium.UI.TableView', function () {
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
 	// FIXME intermittently fails on Android build machine (timeout?)
-	it.iosBroken('insertSectionAfter', function (finish) {
+	it.iosAndWindowsBroken('insertSectionAfter', function (finish) {
 		var section_0,
 			section_1,
 			section_2,
