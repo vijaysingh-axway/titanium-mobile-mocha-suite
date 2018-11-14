@@ -549,8 +549,8 @@ describe('Titanium.Network.HTTPClient', function () {
 		});
 		xhr.setTimeout(6e4);
 
-		xhr.onload = function () {
-			finish(new Error('With wrong password it is authenticating'));
+		xhr.onload = function (e) {
+			finish(new Error('Authenticating with wrong password: ' + JSON.stringify(e, null, 1)));
 		};
 		xhr.onerror = function () {
 			// This request should fail as password is wrong.
@@ -619,7 +619,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			finish(e);
 		};
 
-		xhr.open('POST', 'https://httpbin.org/post');
+		xhr.open('POST', 'http://httpbin.org/post');
 		xhr.setRequestHeader('Content-Type', 'application/json; charset=utf8');
 		xhr.send(JSON.stringify({ count: count }));
 	});
