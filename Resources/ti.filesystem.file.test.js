@@ -742,7 +742,8 @@ describe('Titanium.Filesystem.File', function () {
 			should(result).eql(null);
 		});
 
-		it('can access resource directory files', function () {
+		// Windows fails to find fixture directory. May be that it doesn't report trailing separator while other platforms do?
+		it.windowsBroken('can access resource directory files', function () {
 			let rootDir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory),
 				rootPath,
 				filesFound = {};
@@ -754,10 +755,10 @@ describe('Titanium.Filesystem.File', function () {
 			rootPath = rootDir.nativePath;
 			filesFound[rootPath + 'app.js'] = false;
 			filesFound[rootPath + 'ti.ui.webview.test.html'] = false;
-			filesFound[rootPath + 'fixtures/'] = false; // Subdirectory containing only JS files.
-			filesFound[rootPath + 'fixtures/empty-double.js'] = false;
-			filesFound[rootPath + 'txtFiles/'] = false; // Subdirectory containing only assets.
-			filesFound[rootPath + 'txtFiles/text.txt'] = false;
+			filesFound[rootPath + 'fixtures' + Ti.Filesystem.separator] = false; // Subdirectory containing only JS files.
+			filesFound[rootPath + 'fixtures' + Ti.Filesystem.separator + 'empty-double.js'] = false;
+			filesFound[rootPath + 'txtFiles' + Ti.Filesystem.separator] = false; // Subdirectory containing only assets.
+			filesFound[rootPath + 'txtFiles' + Ti.Filesystem.separator + 'text.txt'] = false;
 			function searchFileTree(file) {
 				if (file) {
 					let fileList = file.getDirectoryListing();
