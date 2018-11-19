@@ -18,7 +18,8 @@ describe('Titanium.Analytics', function () {
 		should(Ti.Analytics.apiName).be.eql('Ti.Analytics');
 	});
 
-	it('lastEvent', function () {
+	// FIXME: this is an invalid test as lastEvent can return null or undefined if an event is not queued
+	it.skip('lastEvent', function () {
 		should(Ti.Analytics.lastEvent).not.be.undefined;
 		// FIXME: iOS and Android return a JSON string value here, while Windows has an Object!
 		if (utilities.isWindows()) {
