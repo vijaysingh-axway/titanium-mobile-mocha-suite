@@ -11,20 +11,160 @@
 var should = require('./utilities/assertions');
 
 describe('Timers', function () {
-	it('setTimeout', function () {
-		should(setTimeout).be.a.Function;
+	describe('#setTimeout', function () {
+		it('is a function', function () {
+			should(setTimeout).be.a.Function;
+		});
+
+		it('accepts callback and interval', function (finish) {
+			setTimeout(function () {
+				finish();
+			}, 1);
+		});
+
+		it('accepts callback and no specified interval', function (finish) {
+			setTimeout(function () {
+				finish();
+			});
+		});
+
+		it('accepts callback and negative interval, still fires', function (finish) {
+			setTimeout(function () {
+				finish();
+			}, -1);
+		});
+
+		it('accepts callback, interval, and additional arguments', function (finish) {
+			setTimeout(function (argOne, argTwo, argThree) {
+				try {
+					argOne.should.eql(2);
+					argTwo.should.eql('3');
+					argThree.should.be.an.Object;
+					argThree.should.have.a.property('name').which.eql('four');
+					finish();
+				} catch (err) {
+					finish(err);
+				}
+			}, 1, 2, '3', { name: 'four' });
+		});
 	});
 
-	it('setInterval', function () {
-		should(setInterval).be.a.Function;
+	describe('#setInterval', function () {
+		it('is a function', function () {
+			should(setInterval).be.a.Function;
+		});
+
+		it('accepts callback and interval', function (finish) {
+			var timerId,
+				finished = false;
+			timerId = setInterval(function () {
+				if (finished) {
+					return;
+				}
+				finished = true;
+				clearInterval(timerId);
+				finish();
+			}, 10);
+		});
+
+		it('accepts callback and no specified interval', function (finish) {
+			var timerId,
+				finished = false;
+			timerId = setInterval(function () {
+				if (finished) {
+					return;
+				}
+				finished = true;
+				clearInterval(timerId);
+				finish();
+			});
+		});
+
+		it('accepts callback and negative interval, still fires', function (finish) {
+			var timerId,
+				finished = false;
+			timerId = setInterval(function () {
+				if (finished) {
+					return;
+				}
+				finished = true;
+				clearInterval(timerId);
+				finish();
+			}, -1);
+		});
+
+		it('accepts callback, interval, and additional arguments', function (finish) {
+			var timerId,
+				finished = false;
+			timerId = setInterval(function (argOne, argTwo, argThree) {
+				if (finished) {
+					return;
+				}
+				finished = true;
+				clearInterval(timerId);
+				try {
+					argOne.should.eql(2);
+					argTwo.should.eql('3');
+					argThree.should.be.an.Object;
+					argThree.should.have.a.property('name').which.eql('four');
+					finish();
+				} catch (err) {
+					finish(err);
+				}
+			}, 10, 2, '3', { name: 'four' });
+		});
 	});
 
-	it('clearTimeout', function () {
-		should(clearTimeout).be.a.Function;
+	describe('#clearTimeout', function () {
+		it('is a function', function () {
+			should(clearTimeout).be.a.Function;
+		});
+
+		it('clears timer created with #setTimeout()', function (finish) {
+			var timerId = setTimeout(function () {
+				finish(new Error('setTimeout should have never fired!'));
+			}, 10);
+			clearTimeout(timerId);
+			setTimeout(function () {
+				finish();
+			}, 20);
+		});
+
+		it('clears timer created with #setInterval()', function (finish) {
+			var timerId = setInterval(function () {
+				finish(new Error('setInterval should have never fired!'));
+			}, 10);
+			clearTimeout(timerId);
+			setTimeout(function () {
+				finish();
+			}, 20);
+		});
 	});
 
-	it('clearInterval', function () {
-		should(clearInterval).be.a.Function;
+	describe('#clearInterval', function () {
+		it('is a function', function () {
+			should(clearInterval).be.a.Function;
+		});
+
+		it('clears timer created with #setTimeout()', function (finish) {
+			var timerId = setTimeout(function () {
+				finish(new Error('setTimeout should have never fired!'));
+			}, 10);
+			clearInterval(timerId);
+			setTimeout(function () {
+				finish();
+			}, 20);
+		});
+
+		it('clears timer created with #setInterval()', function (finish) {
+			var timerId = setInterval(function () {
+				finish(new Error('setInterval should have never fired!'));
+			}, 10);
+			clearInterval(timerId);
+			setTimeout(function () {
+				finish();
+			}, 20);
+		});
 	});
 
 	it.windowsBroken('should be able to override', function () {

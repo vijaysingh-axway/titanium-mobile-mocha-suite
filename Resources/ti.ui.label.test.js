@@ -48,6 +48,33 @@ describe('Titanium.UI.Label', function () {
 		should(label.getMaxLines()).eql(1);
 	});
 
+	// Tests if "maxLines" correctly truncates strings with '\n' characters.
+	it('maxLines-newline', function (finish) {
+		this.slow(1000);
+		this.timeout(5000);
+
+		win = Ti.UI.createWindow({
+			layout: 'vertical',
+		});
+		const label1 = Ti.UI.createLabel({
+			// This label is 1 line tall.
+			text: 'Line 1',
+		});
+		win.add(label1);
+		const label2 = Ti.UI.createLabel({
+			// The label should be 1 line tall since 'maxLines' is set to 1.
+			text: 'Line 1\nLine2',
+			maxLines: 1,
+		});
+		win.add(label2);
+		win.addEventListener('postlayout', function () {
+			// Both labels are expected to be 1 line tall.
+			should(label1.size.height).eql(label2.size.height);
+			finish();
+		});
+		win.open();
+	});
+
 	it('text', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'

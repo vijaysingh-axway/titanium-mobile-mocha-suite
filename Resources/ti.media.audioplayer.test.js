@@ -98,4 +98,17 @@ describe('Titanium.Media.AudioPlayer', function () {
 			}
 		}, 1000);
 	});
+
+	it.ios('TIMOB-26533', function (finish) {
+		//	Ti.Media.Audio player without url set is crashing while registering for event listener
+		audioPlayer = null;
+		audioPlayer = Ti.Media.createAudioPlayer();
+
+		try {
+			audioPlayer.addEventListener('progress', function () {});
+			finish();
+		} catch (e) {
+			finish(e);
+		}
+	});
 });
