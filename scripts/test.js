@@ -1,24 +1,24 @@
 /**
- * Copyright (c) 2015-2018 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2015-Present by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License.
  * Please see the LICENSE included with this distribution for details.
  */
 'use strict';
 
-const path = require('path'),
-	fs = require('fs'),
-	async = require('async'),
-	wrench = require('wrench'),
-	colors = require('colors'), // eslint-disable-line no-unused-vars
-	ejs = require('ejs'),
-	StreamSplitter = require('stream-splitter'),
-	spawn = require('child_process').spawn, // eslint-disable-line security/detect-child-process
-	exec = require('child_process').exec, // eslint-disable-line security/detect-child-process
-	titanium = require.resolve('titanium'),
-	SOURCE_DIR = path.join(__dirname, '..'),
-	PROJECT_NAME = 'mocha',
-	PROJECT_DIR = path.join(__dirname, PROJECT_NAME),
-	JUNIT_TEMPLATE = path.join(__dirname, 'junit.xml.ejs');
+const path = require('path');
+const fs = require('fs');
+const async = require('async');
+const wrench = require('wrench');
+const colors = require('colors'); // eslint-disable-line no-unused-vars
+const ejs = require('ejs');
+const StreamSplitter = require('stream-splitter');
+const spawn = require('child_process').spawn; // eslint-disable-line security/detect-child-process
+const exec = require('child_process').exec; // eslint-disable-line security/detect-child-process
+const titanium = require.resolve('titanium');
+const SOURCE_DIR = path.join(__dirname, '..');
+const PROJECT_NAME = 'mocha';
+const PROJECT_DIR = path.join(__dirname, PROJECT_NAME);
+const JUNIT_TEMPLATE = path.join(__dirname, 'junit.xml.ejs');
 
 function clearPreviousApp(next) {
 	// If the project already exists, wipe it
@@ -122,7 +122,7 @@ function addTiAppProperties(platforms, next) {
 	// Not so smart but this should work...
 	tiapp_xml_string.split(/\r?\n/).forEach(function (line) {
 		// Fix ti.ui.defaultunit for Windows. We should use 'px' only when platform equals windows
-		if (platforms.length == 1 && platforms[0] == 'windows' && line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
+		if (platforms.length === 1 && platforms[0] === 'windows' && line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
 			line = '\t<property name="ti.ui.defaultunit" type="string">px</property>';
 		}
 
@@ -494,7 +494,7 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, arch
 	});
 
 	tasks.push(copyMochaAssets);
-	tasks.push(function(next) {
+	tasks.push(function (next) {
 		addTiAppProperties(platforms, next);
 	});
 
