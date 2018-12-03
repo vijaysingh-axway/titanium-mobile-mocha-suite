@@ -28,13 +28,13 @@ describe('Timers', function () {
 			});
 		});
 
-		it('accepts callback and negative interval, still fires', function (finish) {
+		it.windowsBroken('accepts callback and negative interval, still fires', function (finish) {
 			setTimeout(function () {
 				finish();
 			}, -1);
 		});
 
-		it('accepts callback, interval, and additional arguments', function (finish) {
+		it.windowsBroken('accepts callback, interval, and additional arguments', function (finish) {
 			setTimeout(function (argOne, argTwo, argThree) {
 				try {
 					argOne.should.eql(2);
@@ -67,7 +67,7 @@ describe('Timers', function () {
 			}, 10);
 		});
 
-		it('accepts callback and no specified interval', function (finish) {
+		it.windowsBroken('accepts callback and no specified interval', function (finish) {
 			var timerId,
 				finished = false;
 			timerId = setInterval(function () {
@@ -80,7 +80,7 @@ describe('Timers', function () {
 			});
 		});
 
-		it('accepts callback and negative interval, still fires', function (finish) {
+		it.windowsBroken('accepts callback and negative interval, still fires', function (finish) {
 			var timerId,
 				finished = false;
 			timerId = setInterval(function () {
@@ -93,7 +93,7 @@ describe('Timers', function () {
 			}, -1);
 		});
 
-		it('accepts callback, interval, and additional arguments', function (finish) {
+		it.windowsBroken('accepts callback, interval, and additional arguments', function (finish) {
 			var timerId,
 				finished = false;
 			timerId = setInterval(function (argOne, argTwo, argThree) {
