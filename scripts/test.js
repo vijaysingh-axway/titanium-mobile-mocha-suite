@@ -29,26 +29,33 @@ function clearPreviousApp(next) {
 }
 
 function installSDK(sdkVersion, next) {
-	const args = [ titanium, 'sdk', 'install' ];
-	if (sdkVersion.indexOf('.') === -1) { // no period, probably mean a branch
-		args.push('-b');
-	}
-	args.push(sdkVersion);
-	args.push('-d'); // make default
-	console.log('Installing SDK with args: ' + args);
-	const prc = spawn('node', args);
-	prc.stdout.on('data', function (data) {
-		console.log(data.toString());
-	});
-	prc.stderr.on('data', function (data) {
-		console.log(data.toString());
-	});
-	prc.on('exit', function (code) {
-		if (code !== 0) {
-			next('Failed to install SDK');
-		} else {
-			next();
+	sdkDir().then(sdkDir => {
+		const args = [ titanium, 'sdk', 'install' ];
+		if (sdkVersion.indexOf('.') === -1) { // no period, probably mean a branch
+			args.push('-b');
 		}
+		args.push(sdkVersion);
+		args.push('-d'); // make default
+		// Add force flag if we find that the modules dir is blown away!
+		if (!fs.existsSync(path.join(sdkDir, 'modules'))) {
+			args.push('--force'); // make default
+		}
+
+		console.log('Installing SDK with args: ' + args);
+		const prc = spawn('node', args);
+		prc.stdout.on('data', function (data) {
+			console.log(data.toString());
+		});
+		prc.stderr.on('data', function (data) {
+			console.log(data.toString());
+		});
+		prc.on('exit', function (code) {
+			if (code !== 0) {
+				next('Failed to install SDK');
+			} else {
+				next();
+			}
+		});
 	});
 }
 
@@ -391,21 +398,29 @@ function cleanNonGaSDKs(sdkPath, next) {
 	});
 }
 
-function cleanupModules(next) {
-	exec('node "' + titanium + '" config sdk.defaultInstallLocation -o json', function (error, stdout) {
-		let sdkDir = '';
-		if (error !== null) {
-			const osName = require('os').platform();
-			if (osName === 'win32') {
-				sdkDir = path.join(process.env.ProgramData, 'Titanium');
-			} else if (osName === 'darwin') {
-				sdkDir = path.join(process.env.HOME, 'Library', 'Application Support', 'Titanium');
-			} else if (osName === 'linux') {
-				sdkDir = path.join(process.env.HOME, '.titanium');
+/**
+ * @return {Promise<string>} path to Titanium SDK root dir
+ */
+function sdkDir() {
+	return new Promise((resolve) => {
+		exec('node "' + titanium + '" config sdk.defaultInstallLocation -o json', function (error, stdout) {
+			if (error) {
+				const osName = require('os').platform();
+				if (osName === 'win32') {
+					return resolve(path.join(process.env.ProgramData, 'Titanium'));
+				} else if (osName === 'darwin') {
+					return resolve(path.join(process.env.HOME, 'Library', 'Application Support', 'Titanium'));
+				} else if (osName === 'linux') {
+					return resolve(path.join(process.env.HOME, '.titanium'));
+				}
 			}
-		} else {
-			sdkDir = JSON.parse(stdout.trim());
-		}
+			return resolve(JSON.parse(stdout.trim()));
+		});
+	});
+}
+
+function cleanupModules(next) {
+	sdkDir().then(sdkDir => {
 		const moduleDir = path.join(sdkDir, 'modules');
 		const pluginDir = path.join(sdkDir, 'plugins');
 		try {
