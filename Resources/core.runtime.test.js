@@ -11,24 +11,23 @@
 'use strict';
 
 var should = require('./utilities/assertions');
+var utilities = require('./utilities/utilities');
 
-describe.only('Core', () => {
+describe('Core', () => {
 	describe('Runtime', () => {
 		describe('hasProperty', () => {
 			describe('Top-Module', () => {
 				describe('Submodules', () => {
-					// @fixme the not.have.property check throws an error on android
-					it.androidBroken('should check for sub-module', () => {
-						Ti.API.info('checking Ti has UI property');
+					// @fixme the not.have.property check throws an error on android, crashes Windows
+					it.androidAndWindowsBroken('should check for sub-module', () => {
 						Ti.should.have.property('UI');
-						Ti.API.info('checking Ti does not have Foo property');
 						Ti.should.not.have.property('Foo');
 					});
 				});
 
 				describe('Custom properties', () => {
-					// @fixme the not.have.property check throws an error on android
-					it.androidBroken('should check for custom properties', () => {
+					// @fixme the not.have.property check throws an error on android, crashes Windows
+					it.androidAndWindowsBroken('should check for custom properties', () => {
 						Ti.should.not.have.property('custom');
 						Ti.custom = {};
 						Ti.should.have.property('custom');
@@ -79,10 +78,10 @@ describe.only('Core', () => {
 
 					it('should properly handle properties with value of nil (TIMOB-26452)', () => {
 						should(Ti.Geolocation).have.property('lastGeolocation');
-						if (Ti.Platform.osname === 'android') {
-							should(Ti.Geolocation.lastGeolocation).be.equal('{}');
-						} else {
+						if (utilities.isIOS()) {
 							should.not.exist(Ti.Geolocation.lastGeolocation);
+						} else {
+							should(Ti.Geolocation.lastGeolocation).be.equal('{}');
 						}
 					});
 				});
