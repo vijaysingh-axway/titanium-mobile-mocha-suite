@@ -213,7 +213,7 @@ describe('Titanium.UI.TabGroup', function () {
 
 	// times out, presumably doesn't fire event?
 	// intermittently times out on Android
-	it.wandroidAndWindowsBroken('TabGroup focus event', function (finish) {
+	it.androidAndWindowsBroken('TabGroup focus event', function (finish) {
 		var win = Ti.UI.createWindow(),
 			tabGroup = Ti.UI.createTabGroup(),
 			tab = Ti.UI.createTab({
