@@ -8,34 +8,32 @@
 /* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
+const should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
 
-describe('Titanium.UI.TabGroup', function () {
-	var tabGroup,
-		tab;
+// skipping many test on Windows due to lack of event firing, see https://jira.appcelerator.org/browse/TIMOB-26690
+describe('Titanium.UI.TabGroup', () => {
+	let tabGroup;
+	let tab;
 
-	afterEach(function () {
-		if (tab && tabGroup) {
-			tabGroup.removeTab(tab);
+	afterEach(() => {
+		if (tabGroup) {
+			if (tab) {
+				tabGroup.removeTab(tab);
+			}
+			tabGroup.close();
+			tabGroup = null;
 		}
 		tab = null;
 	});
 
 	it.windowsBroken('add Map.View to TabGroup', function (finish) {
-		var win,
-			map,
-			mapView;
 		this.timeout(10000);
 
-		win = Ti.UI.createWindow();
-		map = require('ti.map');
-		mapView = map.createView({ top: 0, height: '80%' });
+		const map = require('ti.map');
+		const mapView = map.createView({ top: 0, height: '80%' });
+		mapView.addEventListener('complete', () => finish());
 
-		mapView.addEventListener('complete', function () {
-			tabGroup.close();
-			finish();
-		});
-
+		const win = Ti.UI.createWindow();
 		win.add(mapView);
 
 		tabGroup = Ti.UI.createTabGroup();
@@ -48,7 +46,7 @@ describe('Titanium.UI.TabGroup', function () {
 		tabGroup.open();
 	});
 
-	it.ios('tabs', function () {
+	it.ios('.tabs', () => {
 		var win = Ti.UI.createWindow();
 		tabGroup = Ti.UI.createTabGroup();
 		tab = Ti.UI.createTab({
@@ -62,7 +60,7 @@ describe('Titanium.UI.TabGroup', function () {
 		should(tabGroup.tabs.length).eql(0);
 	});
 
-	it.ios('allowUserCustomization', function () {
+	it.ios('.allowUserCustomization', () => {
 		var win = Ti.UI.createWindow();
 		tabGroup = Ti.UI.createTabGroup({
 			allowUserCustomization: true
@@ -78,7 +76,7 @@ describe('Titanium.UI.TabGroup', function () {
 		should(tabGroup.allowUserCustomization).eql(false);
 	});
 
-	it.ios('tabsTranslucent', function () {
+	it.ios('.tabsTranslucent', () => {
 		var win = Ti.UI.createWindow();
 		tabGroup = Ti.UI.createTabGroup({
 			tabsTranslucent: true
@@ -94,53 +92,58 @@ describe('Titanium.UI.TabGroup', function () {
 		should(tabGroup.tabsTranslucent).eql(false);
 	});
 
-	// FIXME Windows doesn't fire open/close events
-	it.windowsMissing('close event', function (finish) {
-		var win;
-		this.timeout(10000);
-
-		win = Ti.UI.createWindow();
+	it('#setTabs()', () => {
+		const winA = Ti.UI.createWindow(),
+			tabA = Ti.UI.createTab({
+				title: 'Tab A',
+				window: winA
+			}),
+			winB = Ti.UI.createWindow(),
+			tabB = Ti.UI.createTab({
+				title: 'Tab B',
+				window: winB
+			});
 		tabGroup = Ti.UI.createTabGroup();
 
-		tabGroup.addEventListener('open', function () {
-			tabGroup.close();
-		});
-
-		tabGroup.addEventListener('close', function () {
-			finish();
-		});
-
-		tab = Ti.UI.createTab({
-			title: 'Tab',
-			window: win
-		});
-		tabGroup.addTab(tab);
-
-		tabGroup.open();
-	});
-
-	it('Set multiple tabs', function () {
-		var winA = Ti.UI.createWindow(),
-			tabA = Ti.UI.createTab({
-				title: 'Tab A',
-				window: winA
-			}),
-			winB = Ti.UI.createWindow(),
-			tabB = Ti.UI.createTab({
-				title: 'Tab B',
-				window: winB
-			}),
-			tabGroup = Ti.UI.createTabGroup();
-
-		tabGroup.addEventListener('open', function () {
-			should(tabGroup.getTabs()).eql([ tabA, tabB ]);
-		});
-
 		tabGroup.setTabs([ tabA, tabB ]);
+		should(tabGroup.getTabs()).eql([ tabA, tabB ]);
+	});
+
+	it.windowsBroken('#setActiveTab()', finish => {
+		const winA = Ti.UI.createWindow(),
+			tabA = Ti.UI.createTab({
+				title: 'Tab A',
+				window: winA
+			}),
+			winB = Ti.UI.createWindow(),
+			tabB = Ti.UI.createTab({
+				title: 'Tab B',
+				window: winB
+			});
+		tabGroup = Ti.UI.createTabGroup();
+
+		// Does windows fire this event?
+		// Can we test this without even opening tab group?
+		tabGroup.addEventListener('open', () => {
+			try {
+				tabGroup.setActiveTab(tabB);
+				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).eql('Tab B');
+				finish();
+			} catch (err) {
+				finish(err);
+			} finally {
+				tabGroup.removeTab(tabA);
+				tabGroup.removeTab(tabB);
+			}
+		});
+
+		tabGroup.addTab(tabA);
+		tabGroup.addTab(tabB);
 		tabGroup.open();
 	});
 
-	it('Set active tab', function () {
+	it.android('#disableTabNavigation()', function (finish) {
 		var winA = Ti.UI.createWindow(),
 			tabA = Ti.UI.createTab({
 				title: 'Tab A',
@@ -150,13 +153,28 @@ describe('Titanium.UI.TabGroup', function () {
 			tabB = Ti.UI.createTab({
 				title: 'Tab B',
 				window: winB
-			}),
-			tabGroup = Ti.UI.createTabGroup();
+			});
+		this.timeout(5000);
+		tabGroup = Ti.UI.createTabGroup();
 
-		tabGroup.addEventListener('open', function () {
-			tabGroup.setActiveTab(tabB);
-			should(tabGroup.getActiveTab().title).be.a.String;
-			should(tabGroup.getActiveTab().title).eql('Tab B');
+		// does windows fire this event?
+		tabGroup.addEventListener('open', () => {
+			try {
+				tabGroup.disableTabNavigation(true);
+				tabGroup.setActiveTab(tabB);
+				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).eql('Tab A');
+				tabGroup.disableTabNavigation(false);
+				tabGroup.setActiveTab(tabB);
+				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).eql('Tab B');
+				finish();
+			} catch (err) {
+				finish(err);
+			} finally {
+				tabGroup.removeTab(tabA);
+				tabGroup.removeTab(tabB);
+			}
 		});
 
 		tabGroup.addTab(tabA);
@@ -164,88 +182,68 @@ describe('Titanium.UI.TabGroup', function () {
 		tabGroup.open();
 	});
 
-	it('Disable tab navigation', function () {
-		var winA = Ti.UI.createWindow(),
-			tabA = Ti.UI.createTab({
-				title: 'Tab A',
-				window: winA
-			}),
-			winB = Ti.UI.createWindow(),
-			tabB = Ti.UI.createTab({
-				title: 'Tab B',
-				window: winB
-			}),
-			tabGroup = Ti.UI.createTabGroup();
-
-		tabGroup.addEventListener('open', function () {
-			tabGroup.disableTabNavigation(true);
-			tabGroup.setActiveTab(tabB);
-			should(tabGroup.getActiveTab().title).be.a.String;
-			should(tabGroup.getActiveTab().title).eql('Tab A');
-			tabGroup.disableTabNavigation(false);
-			tabGroup.setActiveTab(tabB);
-			should(tabGroup.getActiveTab().title).be.a.String;
-			should(tabGroup.getActiveTab().title).eql('Tab B');
+	it('.title', () => {
+		tabGroup = Ti.UI.createTabGroup({
+			title: 'My title'
 		});
 
-		tabGroup.addTab(tabA);
-		tabGroup.addTab(tabB);
-		tabGroup.open();
+		should(tabGroup.getTitle()).be.a.String;
+		should(tabGroup.getTitle()).eql('My title');
 	});
 
-	it('TabGroup title', function () {
-		var win = Ti.UI.createWindow(),
-			tabGroup = Ti.UI.createTabGroup({
-				title: 'My title'
-			}),
+	describe('events', function () {
+		this.timeout(5000);
+
+		// FIXME Windows doesn't fire open/close events
+		it.windowsMissing('close', finish => {
+			var win = Ti.UI.createWindow();
+			tabGroup = Ti.UI.createTabGroup();
 			tab = Ti.UI.createTab({
-				window: win,
-				title: 'My Tab'
+				title: 'Tab',
+				window: win
 			});
 
-		tabGroup.addTab(tab);
-		tabGroup.addEventListener('open', function () {
-			should(tabGroup.getTitle()).be.a.String;
-			should(tabGroup.getTitle()).eql('My title');
-		});
-		tabGroup.open();
-	});
+			tabGroup.addEventListener('open', () => {
+				setTimeout(() => tabGroup.close(), 1);
+			});
+			tabGroup.addEventListener('close', () => finish());
 
-	// times out, presumably doesn't fire event?
-	// intermittently times out on Android
-	it.androidAndWindowsBroken('TabGroup focus event', function (finish) {
-		var win = Ti.UI.createWindow(),
-			tabGroup = Ti.UI.createTabGroup(),
+			tabGroup.addTab(tab);
+			tabGroup.open();
+		});
+
+		// times out, presumably doesn't fire event?
+		// intermittently times out on Android
+		it.windowsBroken('focus', finish => {
+			var win = Ti.UI.createWindow();
+			tabGroup = Ti.UI.createTabGroup();
 			tab = Ti.UI.createTab({
 				window: win,
 				title: 'Tab'
 			});
 
-		tabGroup.addTab(tab);
-		tabGroup.addEventListener('focus', function () {
-			finish();
-			tabGroup.close();
-		});
-		tabGroup.open();
-	});
+			tabGroup.addEventListener('focus', () => finish());
 
-	// times out, presumably doesn't fire event?
-	it.windowsBroken('Tab group blur event', function (finish) {
-		var winB = Ti.UI.createWindow(),
-			tabGroup = Ti.UI.createTabGroup(),
+			tabGroup.addTab(tab);
+			tabGroup.open();
+		});
+
+		// times out, presumably doesn't fire event?
+		it.windowsBroken('blur', finish => {
+			var win = Ti.UI.createWindow();
+			tabGroup = Ti.UI.createTabGroup();
 			tab = Ti.UI.createTab({
 				title: 'Tab',
-				window: winB
+				window: win
 			});
 
-		tabGroup.addEventListener('blur', function () {
-			finish();
-		});
-		tab.addEventListener('open', function () {
-			tabGroup.close();
-		});
+			tabGroup.addEventListener('blur', () => finish());
+			tab.addEventListener('open', () => {
+				setTimeout(() => tabGroup.close(), 1);
+			});
 
-		tabGroup.addTab(tab);
-		tabGroup.open();
+			tabGroup.addTab(tab);
+			tabGroup.open();
+		});
 	});
 });

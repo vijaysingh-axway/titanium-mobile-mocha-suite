@@ -20,37 +20,12 @@ describe.windowsBroken('Titanium.Geolocation', function () {
 		should(Ti.Geolocation.apiName).be.eql('Ti.Geolocation');
 	});
 
-	it('.ACCURACY_BEST', function () {
-		should(Ti.Geolocation).have.constant('ACCURACY_BEST').which.is.a.Number;
-	});
-
-	// Intentionally skip for Android, doesn't exist
-	it.androidMissing('.ACCURACY_BEST_FOR_NAVIGATION', function () {
-		should(Ti.Geolocation).have.constant('ACCURACY_BEST_FOR_NAVIGATION').which.is.a.Number;
-	});
-
 	it('.ACCURACY_HIGH', function () {
 		should(Ti.Geolocation).have.constant('ACCURACY_HIGH').which.is.a.Number;
 	});
 
-	it('.ACCURACY_HUNDRED_METERS', function () {
-		should(Ti.Geolocation).have.constant('ACCURACY_HUNDRED_METERS').which.is.a.Number;
-	});
-
-	it('.ACCURACY_KILOMETER', function () {
-		should(Ti.Geolocation).have.constant('ACCURACY_KILOMETER').which.is.a.Number;
-	});
-
 	it('.ACCURACY_LOW', function () {
 		should(Ti.Geolocation).have.constant('ACCURACY_LOW').which.is.a.Number;
-	});
-
-	it('.ACCURACY_NEAREST_TEN_METERS', function () {
-		should(Ti.Geolocation).have.constant('ACCURACY_NEAREST_TEN_METERS').which.is.a.Number;
-	});
-
-	it('.ACCURACY_THREE_KILOMETERS', function () {
-		should(Ti.Geolocation).have.constant('ACCURACY_THREE_KILOMETERS').which.is.a.Number;
 	});
 
 	it.androidMissing('.ACTIVITYTYPE_*', function () {
@@ -63,10 +38,6 @@ describe.windowsBroken('Titanium.Geolocation', function () {
 
 	it.androidMissing('.ERROR_*', function () {
 		should(Ti.Geolocation).have.enumeration('Number', [ 'ERROR_DENIED', 'ERROR_HEADING_FAILURE', 'ERROR_LOCATION_UNKNOWN', 'ERROR_NETWORK', 'ERROR_REGION_MONITORING_DELAYED', 'ERROR_REGION_MONITORING_DENIED', 'ERROR_REGION_MONITORING_FAILURE' ]);
-	});
-
-	it.iosMissing('.PROVIDER_*', function () {
-		should(Ti.Geolocation).have.enumeration('String', [ 'PROVIDER_GPS', 'PROVIDER_NETWORK', 'PROVIDER_PASSIVE' ]);
 	});
 
 	// FIXME Get working on Android
@@ -164,7 +135,7 @@ describe.windowsBroken('Titanium.Geolocation', function () {
 
 	it('#getLastGeolocation()', function () {
 		should(Ti.Geolocation).have.a.property('getLastGeolocation').which.is.a.Function;
-		const returnValue = Ti.Geolocation.getLastGeolocation();
+		// const returnValue = Ti.Geolocation.getLastGeolocation();
 		// should(returnValue).be.a.Object; // FIXME How do we test return type? Docs say String. May be null or undefined, as well!
 	});
 

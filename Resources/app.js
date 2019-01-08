@@ -63,6 +63,7 @@ require('./es6.rest.args.test');
 require('./es6.spread.args.test');
 require('./es6.string.interpolation.test');
 // node-compat core modules
+require('./os.test');
 require('./path.test');
 // Titanium APIs
 require('./core.runtime.test'); // tests on how proxies behave w/regard to hasOwnProperty
@@ -73,6 +74,7 @@ require('./ti.android.notificationmanager.test');
 require('./ti.android.service.test');
 require('./ti.api.test');
 require('./ti.app.test');
+require('./ti.app.android.test');
 require('./ti.app.ios.test');
 require('./ti.app.ios.searchquery.test');
 require('./ti.app.ios.useractivity.test');
@@ -135,6 +137,7 @@ require('./ti.ui.searchbar.test');
 require('./ti.ui.slider.test');
 require('./ti.ui.switch.test');
 require('./ti.ui.tab.test');
+require('./ti.ui.tabbedbar.test');
 require('./ti.ui.tabgroup.test');
 require('./ti.ui.tableview.test');
 require('./ti.ui.textarea.test');
@@ -142,6 +145,7 @@ require('./ti.ui.textfield.test');
 require('./ti.ui.toolbar.test');
 require('./ti.ui.view.test');
 require('./ti.ui.webview.test');
+require('./ti.ui.ios.webviewconfiguration.test');
 require('./ti.ui.window.test');
 require('./ti.ui.windows.commandbar.test');
 require('./ti.utils.test');

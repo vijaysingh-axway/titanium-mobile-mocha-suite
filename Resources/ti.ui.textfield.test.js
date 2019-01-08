@@ -325,4 +325,26 @@ describe('Titanium.UI.TextField', function () {
 		});
 		should(textField.passwordRules).equal('required: upper; required: lower; required: digit; max-consecutive: 2');
 	});
+
+	it.ios('#hasText()', function () {
+		win = Ti.UI.createWindow();
+		var textFieldA = Ti.UI.createTextField({
+			top: '60dip',
+			value: 0
+		});
+
+		win.add(textFieldA);
+
+		var textFieldB = Ti.UI.createTextField({
+			top: '120dip',
+			value: 0
+		});
+
+		win.add(textFieldB);
+
+		should(textFieldA.hasText()).be.true;
+		should(textFieldB.hasText()).be.true;
+
+		win.open();
+	});
 });
