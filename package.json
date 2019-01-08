@@ -41,7 +41,7 @@
     "danger": "^6.1.8",
     "eslint": "^5.10.0",
     "eslint-config-axway": "^4.1.1",
-    "eslint-plugin-mocha": "^5.0.0",
+    "eslint-plugin-mocha": "^5.2.1",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0"
   },
