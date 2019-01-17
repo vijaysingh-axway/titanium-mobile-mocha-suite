@@ -60,7 +60,7 @@ describe('Titanium.Analytics', function () {
 			},
 			t;
 		for (t in tests) {
-			should(Ti.Analytics.featureEvent(tests[t], payloads[t])).be.eql(tests[t]);
+			should(Ti.Analytics.featureEvent(t, payloads[t])).be.eql(tests[t]);
 		}
 	});
 
