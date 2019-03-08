@@ -204,7 +204,7 @@ describe('Titanium.UI.TextArea', function () {
 		windowA.addEventListener('open', function () {
 			var subwin, typingView, keyboardMessageView, keyboardMessage;
 
-			subwin = Ti.UI.createWindow({ backgroundColor: 'blur' });
+			subwin = Ti.UI.createWindow({ backgroundColor: 'blue' });
 
 			subwin.addEventListener('open', function () {
 				finish();
