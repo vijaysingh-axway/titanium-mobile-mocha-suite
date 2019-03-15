@@ -349,18 +349,29 @@ describe('Titanium.UI.WebView', function () {
 		});
 
 		webView.addEventListener('load', function () {
-			should(webView.zoomLevel).be.a.Number;
-			should(webView.zoomLevel).eql(1.0);
-
-			setTimeout(function () {
-				webView.zoomLevel = 3.0;
-				should(webView.zoomLevel).eql(3.0);
+			try {
+				should(webView.zoomLevel).be.a.Number;
+				should(webView.zoomLevel).eql(1.0);
 				setTimeout(function () {
-					webView.zoomLevel = 1.0;
-					should(webView.zoomLevel).eql(1.0);
-					finish();
+					try {
+						webView.zoomLevel = 3.0;
+						should(webView.zoomLevel).eql(3.0);
+						setTimeout(function () {
+							try {
+								webView.zoomLevel = 1.0;
+								should(webView.zoomLevel).eql(1.0);
+								finish();
+							} catch (e) {
+								finish(e);
+							}
+						}, 500);
+					} catch (e) {
+						finish(e);
+					}
 				}, 500);
-			}, 500);
+			} catch (e) {
+				finish(e);
+			}
 		});
 
 		win.add(webView);

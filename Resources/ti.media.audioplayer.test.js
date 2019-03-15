@@ -55,8 +55,12 @@ describe('Titanium.Media.AudioPlayer', function () {
 		audioPlayer.start();
 
 		setTimeout(function () {
-			audioPlayer.stop();
-			finish();
+			try {
+				audioPlayer.stop();
+				finish();
+			} catch (e) {
+				finish(e);
+			}
 		}, 1000);
 	});
 
@@ -66,8 +70,12 @@ describe('Titanium.Media.AudioPlayer', function () {
 		audioPlayer.start();
 
 		setTimeout(function () {
-			audioPlayer.pause();
-			finish();
+			try {
+				audioPlayer.pause();
+				finish();
+			} catch (e) {
+				finish(e);
+			}
 		}, 1000);
 	});
 
@@ -77,9 +85,13 @@ describe('Titanium.Media.AudioPlayer', function () {
 		audioPlayer.start();
 
 		setTimeout(function () {
-			audioPlayer.restart();
-			audioPlayer.stop();
-			finish();
+			try {
+				audioPlayer.restart();
+				audioPlayer.stop();
+				finish();
+			} catch (e) {
+				finish(e);
+			}
 		}, 1000);
 	});
 
