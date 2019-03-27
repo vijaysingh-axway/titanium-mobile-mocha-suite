@@ -432,11 +432,19 @@ describe('Titanium.UI.WebView', function () {
 		});
 
 		webView.addEventListener('load', function (e) {
-			if (utilities.isAndroid()) {
-				should(e.url).eql('app:///folder with spaces/comingSoon.html');
-			} else if (utilities.isIOS()) {
+			if (utilities.isIOS()) {
 				should(e.url).eql('file://' + Ti.Filesystem.resourcesDirectory + 'folder%20with%20spaces/comingSoon.html');
 			}
+			// TODO: Replace above iOS test with below once TIMOB-26848 PR is merged in.
+			// if (utilities.isAndroid() || utilities.isIOS()) {
+			// 	// Resulting WebView URL is expected to be a %-encoded "file://" URL.
+			// 	// Note: File.nativePath returns unencoded path on Android and %-encoded path on iOS.
+			// 	let expectedUrl = Ti.Filesystem.getFile(URL).nativePath;
+			// 	if (utilities.isAndroid()) {
+			// 		expectedUrl = encodeURI(expectedUrl);
+			// 	}
+			// 	should(e.url).eql(expectedUrl);
+			// }
 			finish();
 		});
 
