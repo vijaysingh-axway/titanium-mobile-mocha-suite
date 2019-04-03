@@ -24,7 +24,7 @@ describe('Titanium.Stream', function () {
 		}
 		file.write('This is my text1 This is my text2 This is my text3 This is my text4 This is my text5 This is my text6 This is my text7');
 		file = null;
-		this.sourceBlob = Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
+		this.sourceBlob = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
 		this.sourceBlobStr = this.sourceBlob.toString();
 		this.streamFuncs = [ 'read', 'write', 'isReadable', 'isWritable' ];
 	});
@@ -137,7 +137,7 @@ describe('Titanium.Stream', function () {
 		});
 		readBytes = stream.read(destBuffer, 0, 20);
 		should(readBytes).be.equal(20);
-		str = sourceBlob.toString();
+		str = sourceBlob.text;
 		for (i = 0; i < 20; i++) {
 			should(str.charCodeAt(i)).be.equal(destBuffer[i]);
 		}
@@ -163,7 +163,6 @@ describe('Titanium.Stream', function () {
 			length = 20,
 			blobStream,
 			blobStr,
-			timer,
 			finished = false;
 		this.timeout(1e4);
 		// This stuff has to be copied into each asynch test because it lives
@@ -171,7 +170,7 @@ describe('Titanium.Stream', function () {
 		sourceBuffer = Ti.createBuffer({
 			value: 'All work and no play makes Jack a dull boy all work and no play makes Jack a dull boy all work and no play makes Jack a dull boy ALL WORK AND NO PLAY MAKES JACK A DULL BOY'
 		});
-		sourceBlob = Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
+		sourceBlob = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
 		// sourceBlobStr = sourceBlob.toString();
 		// read(source,dest,callback) on BufferStream
 		bufferStream = Ti.Stream.createStream({
@@ -217,12 +216,12 @@ describe('Titanium.Stream', function () {
 		}
 		function spinWait() {
 			if (!finished) {
-				timer = setTimeout(spinWait, 200);
+				setTimeout(spinWait, 200);
 			} else {
 				Ti.Stream.read(blobStream, dest, offset, length, callback);
 			}
 		}
-		timer = setTimeout(spinWait, 200);
+		setTimeout(spinWait, 200);
 	});
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
@@ -232,8 +231,7 @@ describe('Titanium.Stream', function () {
 			bufferStream,
 			offset = 10,
 			length = 20,
-			finished = false,
-			timer = null;
+			finished = false;
 		this.timeout(1e4);
 		// This stuff has to be copied into each asynch test because it lives
 		// in a different 'this' context
@@ -276,12 +274,12 @@ describe('Titanium.Stream', function () {
 		}
 		function spinWait() {
 			if (!finished) {
-				timer = setTimeout(spinWait, 200);
+				setTimeout(spinWait, 200);
 			} else {
 				Ti.Stream.write(bufferStream, sourceBuffer, callback);
 			}
 		}
-		timer = setTimeout(spinWait, 200);
+		setTimeout(spinWait, 200);
 	});
 
 	// FIXME this test crashes ios! Fix the test or open a JIRA!
@@ -300,7 +298,7 @@ describe('Titanium.Stream', function () {
 		sourceBuffer = Ti.createBuffer({
 			value: 'All work and no play makes Jack a dull boy all work and no play makes Jack a dull boy all work and no play makes Jack a dull boy ALL WORK AND NO PLAY MAKES JACK A DULL BOY'
 		});
-		sourceBlob = Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
+		sourceBlob = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
 		sourceBlobStr = sourceBlob.toString();
 		bufferStream = Ti.Stream.createStream({
 			source: sourceBuffer,
@@ -356,7 +354,7 @@ describe('Titanium.Stream', function () {
 		sourceBuffer = Ti.createBuffer({
 			value: 'All work and no play makes Jack a dull boy all work and no play makes Jack a dull boy all work and no play makes Jack a dull boy ALL WORK AND NO PLAY MAKES JACK A DULL BOY'
 		});
-		sourceBlob = Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
+		sourceBlob = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read();
 		sourceBlobStr = sourceBlob.toString();
 		dest = Ti.createBuffer({
 			length: 100
@@ -403,7 +401,7 @@ describe('Titanium.Stream', function () {
 		var sourceBuffer = Ti.createBuffer({
 				value: 'All work and no play makes Jack a dull boy all work and no play makes Jack a dull boy all work and no play makes Jack a dull boy ALL WORK AND NO PLAY MAKES JACK A DULL BOY'
 			}),
-			sourceBlob = Titanium.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read(),
+			sourceBlob = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'streamfile.txt').read(),
 			sourceBlobStr = sourceBlob.toString(),
 			chunksize = 20,
 			totalsize = 0,
