@@ -58,7 +58,7 @@ describe('Titanium.Utils', function () {
 	it.windowsBroken('#base64decode(Ti.Blob with text data)', function () {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'txtFiles/encodedFile.txt'),
 			blob = Ti.Utils.base64decode(f.read());
-		should(blob.toString()).eql('Decoding successful!');
+		should(blob.text).eql('Decoding successful!');
 	});
 
 	it('#base64encode(String)', function () {
@@ -73,7 +73,7 @@ describe('Titanium.Utils', function () {
 	it('#base64encode(Ti.Blob#TYPE_FILE)', function () {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'txtFiles/decodedFile.txt'),
 			contents = f.read();
-		should(Ti.Utils.base64encode(contents).toString()).eql('SSBhbSBub3QgZW5jb2RlZCB5ZXQu');
+		should(Ti.Utils.base64encode(contents).text).eql('SSBhbSBub3QgZW5jb2RlZCB5ZXQu');
 	});
 
 	it('#base64encode(Ti.Blob#TYPE_DATA from Ti.UI.View.toImage() async)', function (finish) {
@@ -151,7 +151,7 @@ describe('Titanium.Utils', function () {
 		// result here is a Ti.Blob
 		should(blob).be.a.Object;
 		should(blob.apiName).eql('Ti.Blob');
-		should(blob.toString()).eql('Decoding successful!');
+		should(blob.text).eql('Decoding successful!');
 	});
 
 	// FIXME: How can I make this valid? The input needs to be valid base64...
