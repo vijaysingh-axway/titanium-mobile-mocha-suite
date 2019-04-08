@@ -351,4 +351,65 @@ describe('Titanium.Codec', function () {
 		});
 		should(str).eql('The system is down');
 	});
+
+	describe('#encodeNumber', function () {
+		it('should throw Error when "dest" not specified', function () {
+			should(function () {
+				Ti.Codec.encodeNumber({
+					source: 123,
+					type: Ti.Codec.TYPE_LONG,
+				});
+			}).throw();
+		});
+
+		it('should throw Error when "source" not specified', function () {
+			should(function () {
+				var buffer = Ti.createBuffer({
+					length: 8
+				});
+				Ti.Codec.encodeNumber({
+					dest: buffer,
+					type: Ti.Codec.TYPE_LONG,
+				});
+			}).throw();
+		});
+
+		it('should throw Error when "type" not specified', function () {
+			should(function () {
+				var buffer = Ti.createBuffer({
+					length: 8
+				});
+				Ti.Codec.encodeNumber({
+					source: 123,
+					dest: buffer
+				});
+			}).throw();
+		});
+	});
+
+	describe('#decodeNumber', function () {
+		it('should throw Error when "source" not specified', function () {
+			should(function () {
+				var buffer = Ti.createBuffer({
+					length: 8
+				});
+				Ti.Codec.decodeNumber({
+					dest: buffer,
+					type: Ti.Codec.TYPE_LONG,
+				});
+			}).throw();
+		});
+
+		it('should throw Error when "type" not specified', function () {
+			should(function () {
+				var buffer = Ti.createBuffer({
+					length: 8
+				});
+				Ti.Codec.decodeNumber({
+					source: 123,
+					dest: buffer
+				});
+			}).throw();
+		});
+	});
 });

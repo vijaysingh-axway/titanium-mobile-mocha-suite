@@ -123,4 +123,36 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 		});
 		win.open();
 	});
+
+	it('Labels update - before window.open()', finish => {
+		const tabbedBar = Ti.UI.createTabbedBar();
+		tabbedBar.labels = [ 'A', 'B', 'C' ];
+		win.add(tabbedBar);
+		win.addEventListener('open', () => {
+			try {
+				should(tabbedBar.labels[1]).be.eql('B');
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.open();
+	});
+
+	it('Index update - before window.open()', finish => {
+		var tabbedBar = Ti.UI.createTabbedBar({
+			labels: [ 'A', 'B', 'C' ]
+		});
+		tabbedBar.index = 2;
+		win.add(tabbedBar);
+		win.addEventListener('open', () => {
+			try {
+				should(tabbedBar.index).be.eql(2);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.open();
+	});
 });

@@ -41,7 +41,14 @@ describe('Error', function () {
 
 	it('Native exception surfaced', function () {
 		try {
-			Ti.Geolocation.accuracy = null; // The test assumes this will error out on the native side...
+			if (utilities.isIOS()) {
+				Ti.Codec.encodeNumber({
+					source: 123,
+					type: Ti.Codec.TYPE_LONG,
+				});
+			} else {
+				Ti.Geolocation.accuracy = null; // The test assumes this will error out on the native side...
+			}
 			should.fail('Expected to throw exception');
 		} catch (ex) {
 			// message property
@@ -68,7 +75,7 @@ describe('Error', function () {
 			if (utilities.isAndroid()) {
 				ex.nativeStack.should.containEql('org.appcelerator.titanium.util.TiConvert.toInt(TiConvert.java:'); // points to Java code in stack
 			} else if (utilities.isIOS()) {
-				ex.nativeStack.should.containEql('-[GeolocationModule setAccuracy:]');
+				ex.nativeStack.should.containEql('-[CodecModule encodeNumber:]');
 			}
 		}
 	});

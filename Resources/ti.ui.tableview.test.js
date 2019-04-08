@@ -1253,4 +1253,29 @@ describe('Titanium.UI.TableView', function () {
 		win.add(tableView);
 		win.open();
 	});
+
+	it.android('SearchView persistence', function (finish) {
+		var	tableData = [ { title: 'Apples' }, { title: 'Bananas' }, { title: 'Carrots' }, { title: 'Potatoes' } ],
+			searchView = Ti.UI.Android.createSearchView(),
+			table = Ti.UI.createTableView({
+				height: '80%',
+				search: searchView,
+				data: tableData
+			}),
+			win = Ti.UI.createWindow();
+		function removeAndAddTable() {
+			try {
+				table.removeEventListener('postlayout', removeAndAddTable);
+				win.remove(table);
+				win.add(table);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		}
+
+		table.addEventListener('postlayout', removeAndAddTable);
+		win.add(table);
+		win.open();
+	});
 });
