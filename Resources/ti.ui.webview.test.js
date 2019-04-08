@@ -212,98 +212,96 @@ describe('Titanium.UI.WebView', function () {
 		win.open();
 	});
 
-	it.windows('url (ms-appx)', function (finish) {
-		var w,
-			webview;
-
+	describe.windows('ms-appx* urls', function () {
 		this.timeout(10000);
 
-		w = Ti.UI.createWindow({
-			backgroundColor: 'blue'
-		});
-		webview = Ti.UI.createWebView();
+		it('ms-appx:', function (finish) {
+			var w,
+				webview;
 
-		webview.addEventListener('load', function () {
-			w.close();
-			finish();
-		});
-		w.addEventListener('open', function () {
-			should(function () {
-				webview.url = 'ms-appx:///ti.ui.webview.test.html';
-			}).not.throw();
-		});
+			w = Ti.UI.createWindow({
+				backgroundColor: 'blue'
+			});
+			webview = Ti.UI.createWebView();
 
-		w.add(webview);
-		w.open();
-	});
+			webview.addEventListener('load', function () {
+				w.close();
+				finish();
+			});
+			w.addEventListener('open', function () {
+				should(function () {
+					webview.url = 'ms-appx:///ti.ui.webview.test.html';
+				}).not.throw();
+			});
 
-	it.windows('url (ms-appx-web)', function (finish) {
-		var w,
-			webview;
-
-		this.timeout(10000);
-
-		w = Ti.UI.createWindow({
-			backgroundColor: 'blue'
-		});
-		webview = Ti.UI.createWebView();
-
-		webview.addEventListener('load', function () {
-			w.close();
-			finish();
-		});
-		w.addEventListener('open', function () {
-			should(function () {
-				webview.url = 'ms-appx-web:///ti.ui.webview.test.html';
-			}).not.throw();
+			w.add(webview);
+			w.open();
 		});
 
-		w.add(webview);
-		w.open();
-	});
+		it('ms-appx-web:', function (finish) {
+			var w,
+				webview;
 
-	it.windowsBroken('url (ms-appx-data)', function (finish) {
-		var w,
-			webview;
+			w = Ti.UI.createWindow({
+				backgroundColor: 'blue'
+			});
+			webview = Ti.UI.createWebView();
 
-		this.timeout(10000);
+			webview.addEventListener('load', function () {
+				w.close();
+				finish();
+			});
+			w.addEventListener('open', function () {
+				should(function () {
+					webview.url = 'ms-appx-web:///ti.ui.webview.test.html';
+				}).not.throw();
+			});
 
-		function prepare(files) {
-			var webroot = Ti.Filesystem.applicationDataDirectory + 'webroot',
-				webroot_file = Ti.Filesystem.getFile(webroot),
-				i,
-				file,
-				from,
-				to;
+			w.add(webview);
+			w.open();
+		});
 
-			if (!webroot_file.exists()) {
-				webroot_file.createDirectory();
+		it.windowsBroken('ms-appx-data:', function (finish) {
+			var w,
+				webview;
+
+			function prepare(files) {
+				var webroot = Ti.Filesystem.applicationDataDirectory + 'webroot',
+					webroot_file = Ti.Filesystem.getFile(webroot),
+					i,
+					file,
+					from,
+					to;
+
+				if (!webroot_file.exists()) {
+					webroot_file.createDirectory();
+				}
+				for (i = 0; i < files.length; i++) {
+					file = files[i];
+					from = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, file);
+					to = webroot + Ti.Filesystem.separator + file;
+					from.copy(to);
+				}
 			}
-			for (i = 0; i < files.length; i++) {
-				file = files[i];
-				from = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, file);
-				to = webroot + Ti.Filesystem.separator + file;
-				from.copy(to);
-			}
-		}
 
-		w = Ti.UI.createWindow({
-			backgroundColor: 'blue'
-		});
-		webview = Ti.UI.createWebView();
-		webview.addEventListener('load', function () {
-			w.close();
-			finish();
-		});
-		w.addEventListener('open', function () {
-			prepare([ 'ti.ui.webview.test.html' ]);
-			should(function () {
-				webview.url = 'ms-appdata:///local/webroot/ti.ui.webview.test.html';
-			}).not.throw();
-		});
+			w = Ti.UI.createWindow({
+				backgroundColor: 'blue'
+			});
+			webview = Ti.UI.createWebView();
+			webview.addEventListener('load', function () {
+				w.close();
+				finish();
+			});
+			w.addEventListener('open', function () {
+				prepare([ 'ti.ui.webview.test.html' ]);
+				should(function () {
+					webview.url = 'ms-appdata:///local/webroot/ti.ui.webview.test.html';
+				}).not.throw();
+			});
 
-		w.add(webview);
-		w.open();
+			w.add(webview);
+			w.open();
+		});
 	});
 
 	// FIXME: On Windows, this times-out. Probably need a longer timeout here?
