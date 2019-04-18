@@ -222,7 +222,11 @@ describe('Titanium.UI.TabGroup', () => {
 				title: 'Tab'
 			});
 
-			tabGroup.addEventListener('focus', () => finish());
+			function done() {
+				tabGroup.removeEventListener('focus', done);
+				finish();
+			}
+			tabGroup.addEventListener('focus', done);
 
 			tabGroup.addTab(tab);
 			tabGroup.open();
@@ -237,7 +241,12 @@ describe('Titanium.UI.TabGroup', () => {
 				window: win
 			});
 
-			tabGroup.addEventListener('blur', () => finish());
+			function done() {
+				tabGroup.removeEventListener('blur', done);
+				finish();
+			}
+
+			tabGroup.addEventListener('blur', done);
 			tabGroup.addEventListener('open', () => {
 				setTimeout(() => tabGroup.close(), 1);
 			});
