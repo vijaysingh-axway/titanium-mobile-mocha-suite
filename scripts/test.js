@@ -277,45 +277,75 @@ function runBuild(platform, target, deviceId, architecture, next) {
  */
 function handleBuild(prc, next) {
 	const results = [];
-	let output = '',
-		stderr = '',
-		splitter = prc.stdout.pipe(StreamSplitter('\n'));
+	let output = '';
+	let stderr = '';
+	let sawTestEnd = false;
+	let partialTestEnd = '';
 
+	const splitter = prc.stdout.pipe(StreamSplitter('\n'));
 	// Set encoding on the splitter Stream, so tokens come back as a String.
 	splitter.encoding = 'utf8';
 
-	splitter.on('token', function (token) {
-		console.log(token);
-
-		let str = token,
-			index = -1;
-
-		if ((index = str.indexOf('!TEST_START: ')) !== -1) {
-			// grab out the JSON and add to our result set
-			str = str.slice(index + 13).trim();
-			output = '';
-			stderr = '';
-		} else if ((index = str.indexOf('!TEST_END: ')) !== -1) {
-			str = str.slice(index + 11).trim();
-			//  grab out the JSON and add to our result set
-			let result = JSON.parse(massageJSONString(str));
+	function tryParsingTestResult(resultJSON) {
+		//  grab out the JSON and add to our result set
+		try {
+			const result = JSON.parse(massageJSONString(resultJSON));
 			result.stdout = output; // record what we saw in output during the test
 			result.stderr = stderr; // record what we saw in output during the test
 			results.push(result);
 			output = ''; // reset output
 			stderr = ''; // reset stderr
-		} else if ((index = str.indexOf('!TEST_RESULTS_STOP!')) !== -1) {
-			prc.kill();
+			partialTestEnd = ''; // reset partial test output
+			sawTestEnd = false; // reset flag indicating we saw partial test output
+			return true;
+		} catch (err) {
+			// if we fail to parse as JSON, assume we got truncated output!
+			partialTestEnd = resultJSON;
+			sawTestEnd = true;
+			return false;
+		}
+	}
+
+	splitter.on('token', function (token) {
+		console.log(token);
+
+		// we saw test end before, but failed to parse as JSON because we got partial output, so continue
+		// trying until it's happy (and resets sawTestEnd to false)
+		if (sawTestEnd) {
+			tryParsingTestResult(partialTestEnd + token);
+			return;
+		}
+
+		// check for test start
+		if (token.includes('!TEST_START: ')) {
+			// grab out the JSON and add to our result set
+			output = '';
+			stderr = '';
+			return;
+		}
+
+		// check for test end
+		const testEndIndex = token.indexOf('!TEST_END: ');
+		if (testEndIndex !== -1) {
+			tryParsingTestResult(token.slice(testEndIndex + 11).trim());
+			return;
+		}
+
+		// check for suite end
+		if (token.includes('!TEST_RESULTS_STOP!')) {
+			prc.kill(); // ok, tests finished as expected, kill the process
 			return next(null, { date: (new Date()).toISOString(), results: results });
+		}
+
 		// Handle when app crashes and we haven't finished tests yet!
-		} else if (((index = str.indexOf('-- End application log ----')) !== -1)
-				|| ((index = str.indexOf('-- End simulator log ---')) !== -1)) {
+		if (token.includes('-- End application log ----') || token.includes('-- End simulator log ---')) {
 			prc.kill(); // quit this build...
 			return next('Failed to finish test suite before app crashed and logs ended!'); // failed too many times
-		} else {
-			// append output
-			output += str + '\n';
 		}
+
+		// normal output (no test start/end, suite end/crash)
+		// append output to our string for stdout
+		output += token + '\n';
 	});
 	splitter.on('error', function (err) {
 		// Any errors that occur on a source stream will be emitted on the
@@ -325,7 +355,7 @@ function handleBuild(prc, next) {
 		next(err);
 	});
 	prc.stderr.on('data', function (data) {
-		console.log(data.toString().trim());
+		console.error(data.toString().trim());
 		stderr += data.toString().trim() + '\n';
 	});
 
