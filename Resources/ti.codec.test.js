@@ -388,6 +388,7 @@ describe('Titanium.Codec', function () {
 	});
 
 	describe.windowsBroken('#decodeNumber', function () {
+		// eslint-disable-next-line mocha/no-identical-title
 		it('should throw Error when "source" not specified', function () {
 			should(function () {
 				var buffer = Ti.createBuffer({
@@ -400,6 +401,7 @@ describe('Titanium.Codec', function () {
 			}).throw();
 		});
 
+		// eslint-disable-next-line mocha/no-identical-title
 		it('should throw Error when "type" not specified', function () {
 			should(function () {
 				var buffer = Ti.createBuffer({
