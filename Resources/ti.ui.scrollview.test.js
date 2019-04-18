@@ -193,7 +193,8 @@ describe('Titanium.UI.ScrollView', function () {
 			height: Ti.UI.SIZE
 		});
 		scrollView.add(Ti.UI.createLabel({ text: 'Test' }));
-		scrollView.addEventListener('postlayout', function () {
+		function postlayout() {
+			scrollView.removeEventListener('postlayout', postlayout);
 			try {
 				should(scrollView.size.width < (win.size.width / 2)).be.eql(true);
 				should(scrollView.size.height < (win.size.height / 2)).be.eql(true);
@@ -201,7 +202,8 @@ describe('Titanium.UI.ScrollView', function () {
 			} catch (err) {
 				finish(err);
 			}
-		});
+		}
+		scrollView.addEventListener('postlayout', postlayout);
 		win.add(scrollView);
 		win.open();
 	});

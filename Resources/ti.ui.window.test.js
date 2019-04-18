@@ -311,7 +311,8 @@ describe('Titanium.UI.Window', function () {
 		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
-		win.addEventListener('focus', function () {
+		function focus() {
+			win.removeEventListener('focus', focus);
 			win2.open();
 			setTimeout(function () {
 				win3.open();
@@ -323,7 +324,8 @@ describe('Titanium.UI.Window', function () {
 					}, 500);
 				}, 500);
 			}, 500);
-		});
+		}
+		win.addEventListener('focus', focus);
 
 		win.open();
 	});
@@ -338,7 +340,8 @@ describe('Titanium.UI.Window', function () {
 		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
-		win.addEventListener('focus', function () {
+		function focus() {
+			win.removeEventListener('focus', focus);
 			win2.open();
 			setTimeout(function () {
 				win3.open();
@@ -348,7 +351,9 @@ describe('Titanium.UI.Window', function () {
 					finish();
 				}, 500);
 			}, 500);
-		});
+		}
+
+		win.addEventListener('focus', focus);
 
 		win.open();
 	});
@@ -364,7 +369,8 @@ describe('Titanium.UI.Window', function () {
 		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
-		win.addEventListener('focus', function () {
+		function focus() {
+			win.removeEventListener('focus', focus);
 			win2.open();
 			setTimeout(function () {
 				win3.open();
@@ -376,7 +382,8 @@ describe('Titanium.UI.Window', function () {
 					}, 500);
 				}, 500);
 			}, 500);
-		});
+		}
+		win.addEventListener('focus', focus);
 
 		win.open();
 	});

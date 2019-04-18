@@ -115,7 +115,8 @@ describe('Titanium.Media.VideoPlayer', function () {
 		this.timeout(10000);
 
 		win = Ti.UI.createWindow();
-		videoPlayer.addEventListener('durationavailable', function (e) {
+		function durationavailable(e) {
+			videoPlayer.removeEventListener('durationavailable', durationavailable);
 			try {
 				e.duration.should.be.above(1000);
 				videoPlayer.duration.should.be.above(1000);
@@ -124,7 +125,8 @@ describe('Titanium.Media.VideoPlayer', function () {
 			} catch (err) {
 				finish(err);
 			}
-		});
+		}
+		videoPlayer.addEventListener('durationavailable', durationavailable);
 
 		win.add(videoPlayer);
 		win.open();

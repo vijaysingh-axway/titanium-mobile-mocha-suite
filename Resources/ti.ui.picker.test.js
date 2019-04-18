@@ -324,9 +324,11 @@ describe('Titanium.UI.Picker', function () {
 		});
 
 		win = Ti.UI.createWindow({ title: 'Form' });
-		dp.addEventListener('postlayout', function () {
+		function postlayout() {
+			dp.removeEventListener('postlayout', postlayout);
 			finish();
-		});
+		}
+		dp.addEventListener('postlayout', postlayout);
 		win.add(dp);
 		win.open();
 	});
