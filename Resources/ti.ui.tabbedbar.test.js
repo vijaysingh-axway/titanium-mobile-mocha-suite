@@ -35,7 +35,11 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 		const tabbedBar = Ti.UI.createTabbedBar({
 			labels: [ 'A', 'B', 'C' ]
 		});
-		tabbedBar.addEventListener('postlayout', () => finish());
+		function postlayout() {
+			tabbedBar.removeEventListener('postlayout', postlayout);
+			finish();
+		}
+		tabbedBar.addEventListener('postlayout', postlayout);
 		win.add(tabbedBar);
 		win.open();
 	});
@@ -48,7 +52,11 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 				{ title: 'C' }
 			]
 		});
-		tabbedBar.addEventListener('postlayout', () => finish());
+		function postlayout() {
+			tabbedBar.removeEventListener('postlayout', postlayout);
+			finish();
+		}
+		tabbedBar.addEventListener('postlayout', postlayout);
 		win.add(tabbedBar);
 		win.open();
 	});
@@ -57,7 +65,8 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 		const tabbedBar = Ti.UI.createTabbedBar({
 			labels: [ 'A', 'B', 'C' ]
 		});
-		tabbedBar.addEventListener('postlayout', () => {
+		function postlayout() {
+			tabbedBar.removeEventListener('postlayout', postlayout);
 			try {
 				tabbedBar.labels = [ 'D', 'E', 'F' ];
 				should(tabbedBar.labels[1]).be.eql('E');
@@ -65,7 +74,8 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 			} catch (err) {
 				finish(err);
 			}
-		});
+		}
+		tabbedBar.addEventListener('postlayout', postlayout);
 		win.add(tabbedBar);
 		win.open();
 	});
@@ -76,7 +86,8 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 			index: 1
 		});
 		win.add(tabbedBar);
-		tabbedBar.addEventListener('postlayout', () => {
+		function postlayout() {
+			tabbedBar.removeEventListener('postlayout', postlayout);
 			try {
 				tabbedBar.index = 2;
 				should(tabbedBar.index).be.eql(2);
@@ -84,7 +95,8 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 			} catch (err) {
 				finish(err);
 			}
-		});
+		}
+		tabbedBar.addEventListener('postlayout', postlayout);
 		win.open();
 	});
 
@@ -94,7 +106,8 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 			index: 1
 		});
 		win.add(tabbedBar);
-		tabbedBar.addEventListener('postlayout', () => {
+		function postlayout() {
+			tabbedBar.removeEventListener('postlayout', postlayout);
 			try {
 				tabbedBar.setIndex(2);
 				should(tabbedBar.index).be.eql(2);
@@ -102,7 +115,8 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 			} catch (err) {
 				finish(err);
 			}
-		});
+		}
+		tabbedBar.addEventListener('postlayout', postlayout);
 		win.open();
 	});
 
@@ -112,7 +126,8 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 			index: 1
 		});
 		win.add(tabbedBar);
-		tabbedBar.addEventListener('postlayout', () => {
+		function postlayout() {
+			tabbedBar.removeEventListener('postlayout', postlayout);
 			try {
 				tabbedBar.setIndex(2);
 				should(tabbedBar.getIndex()).be.eql(2);
@@ -120,7 +135,8 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 			} catch (err) {
 				finish(err);
 			}
-		});
+		}
+		tabbedBar.addEventListener('postlayout', postlayout);
 		win.open();
 	});
 
