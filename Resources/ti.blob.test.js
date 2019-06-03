@@ -356,4 +356,16 @@ describe('Titanium.Blob', function () {
 			should(b).not.exist;
 		});
 	});
+
+	describe('#toString()', function () {
+		it('is a Function', function () {
+			const blob = Ti.Filesystem.getFile('app.js').read();
+			should(blob.toString).be.a.Function;
+		});
+
+		it('returns text value', function () {
+			const blob = Ti.Filesystem.getFile('app.js').read();
+			should(blob.toString()).eql(blob.text);
+		});
+	});
 });
