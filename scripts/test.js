@@ -318,9 +318,9 @@ function handleBuild(prc, next) {
 	}
 
 	function getDeviceName(token) {
-		let segments = token.substring(0, token.indexOf('!')).split(']');
-		if (segments.length > 1 && segments[1].includes(':') && segments[1].includes('[')) {
-			return segments[1].split('[')[1].trim();
+		const matches = /[\s\b]+\[(.+)\]\s/g.exec(token.substring(token.indexOf(':') + 1))
+		if (matches.length === 2) {
+			return matches[1];
 		}
 		return '';
 	}
