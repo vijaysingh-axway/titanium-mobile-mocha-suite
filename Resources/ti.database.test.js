@@ -738,8 +738,8 @@ describe('Titanium.Database', function () {
 		// Try to get the db object to get GC'd while we're running queries!
 		// Note that I can't really think of any better way to try and test this scenario
 		it('does not allow DB to be GC\'d', function (finish) {
-			this.timeout(60000);
-			this.slow(20000);
+			this.timeout(120000); // 2 minutes
+			this.slow(20000); // 20 sec
 			// note that we call a fucntion that has a db instance scope to it and not referenced elsewhere,
 			// not explicitly closed, not referenced in the async callback
 			executeQueriesAsync(finish);
