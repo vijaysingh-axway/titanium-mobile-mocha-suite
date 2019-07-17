@@ -842,4 +842,17 @@ describe('Titanium.UI.Window', function () {
 			doTransitionTest({ activityEnterTransition: Ti.UI.Android.TRANSITION_NONE }, finish);
 		});
 	});
+
+	it.android('.barColor with disabled ActionBar', function (finish) {
+		win = Ti.UI.createWindow({
+			barColor: 'blue',
+			title: 'My Title',
+			theme: 'Theme.AppCompat.NoTitleBar',
+		});
+		win.add(Ti.UI.createLabel({ text: 'Window Title Test' }));
+		win.open();
+		win.addEventListener('open', function () {
+			finish();
+		});
+	});
 });

@@ -461,4 +461,45 @@ describe('Titanium.UI.TabGroup', function () {
 			should(tabGroup.title).eql('newTitle');
 		});
 	});
+
+	it('icon-only tabs - default style', (finish) => {
+		this.timeout(5000);
+		tabGroup = Ti.UI.createTabGroup({
+			tabs: [
+				Ti.UI.createTab({
+					icon: '/SmallLogo.png',
+					window: Ti.UI.createWindow({ title: 'Tab 1' })
+				}),
+				Ti.UI.createTab({
+					icon: '/SmallLogo.png',
+					window: Ti.UI.createWindow({ title: 'Tab 2' })
+				}),
+			]
+		});
+		tabGroup.addEventListener('open', () => {
+			finish();
+		});
+		tabGroup.open();
+	});
+
+	it.android('icon-only tabs - android bottom style', (finish) => {
+		this.timeout(5000);
+		tabGroup = Ti.UI.createTabGroup({
+			style: Ti.UI.Android.TABS_STYLE_BOTTOM_NAVIGATION,
+			tabs: [
+				Ti.UI.createTab({
+					icon: '/SmallLogo.png',
+					window: Ti.UI.createWindow({ title: 'Tab 1' })
+				}),
+				Ti.UI.createTab({
+					icon: '/SmallLogo.png',
+					window: Ti.UI.createWindow({ title: 'Tab 2' })
+				}),
+			]
+		});
+		tabGroup.addEventListener('open', () => {
+			finish();
+		});
+		tabGroup.open();
+	});
 });
