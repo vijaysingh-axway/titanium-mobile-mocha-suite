@@ -5,7 +5,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti, L */
+/* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions'),
@@ -161,7 +161,7 @@ describe('Titanium.Map', function () {
 		should(Map).have.constant('TERRAIN_TYPE').which.is.a.Number;
 	});
 
-	it.windowsBroken('#createAnnotation()', function () {
+	it('#createAnnotation()', function () {
 		should(Map.createAnnotation).be.a.Function;
 
 		win = Ti.UI.createWindow();
