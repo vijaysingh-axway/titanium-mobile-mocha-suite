@@ -23,7 +23,7 @@ describe.ios('Titanium.UI.iOS', function () {
 			contentHeight: 300
 		});
 
-		if(Ti.UI.iOS.forceTouchSupported) {
+		if (Ti.UI.iOS.forceTouchSupported) {
 			should(previewContext.preview).be.an.Object;
 			should(previewContext.contentHeight).be.eql(300);
 		}
