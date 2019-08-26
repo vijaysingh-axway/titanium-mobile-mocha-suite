@@ -280,9 +280,6 @@ function $Reporter(runner) {
 	runner.on('fail', function (test, err) {
 		test.err = err;
 		failed = true;
-
-		const fixedNames = suiteAndTitle(suites, test.title);
-		Ti.API.error(`!TEST_FAIL: ${fixedNames.suite} - ${fixedNames.title} -> ${safeStringify(err)}`);
 	});
 
 	runner.on('test end', function (test) {
