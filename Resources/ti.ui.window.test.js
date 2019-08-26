@@ -716,7 +716,7 @@ describe('Titanium.UI.Window', function () {
 				var padding = window.safeAreaPadding;
 				should(padding).be.a.Object;
 				should(padding.left).be.aboveOrEqual(0);
-				should(padding.top).be.aboveOrEqual(0);
+				should(padding.top).be.eql(0);
 				should(padding.right).be.aboveOrEqual(0);
 				should(padding.bottom).be.aboveOrEqual(0);
 				finish();
