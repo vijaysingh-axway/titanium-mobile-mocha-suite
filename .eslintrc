@@ -1,5 +1,5 @@
 {
-  "extends": [ "axway/env-titanium", "axway/+mocha"],
+  "extends": [ "axway/env-node", "axway/env-titanium", "axway/+mocha"],
   "parserOptions": {
     "ecmaVersion": 2015,
     "sourceType": "script"
