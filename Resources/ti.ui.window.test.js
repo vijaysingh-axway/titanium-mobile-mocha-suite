@@ -649,7 +649,7 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it.android('.safeAreaPadding with extendSafeArea false', function (finish) {
+	it('.safeAreaPadding with extendSafeArea false', function (finish) {
 		this.slow(5000);
 
 		win = Ti.UI.createWindow({
@@ -701,6 +701,35 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
+	function hasPhysicalHomeButton() {
+		const model = Ti.Platform.model;
+		const trimmed = model.replace(' (Simulator)', '').trim();
+		const matches = trimmed.match(/(iPhone|iPad)(\d+),(\d+)/);
+		const iPhoneOriPad = matches[1];
+		const majorVersion = parseInt(matches[2], 10);
+		if (iPhoneOriPad === 'iPhone') {
+			const minorVersion = parseInt(matches[3], 10);
+			// iPhones after iPhone X have no home button
+			if (majorVersion > 10) {
+				return false;
+			}
+			// iPhones before iPhone X have home button
+			if (majorVersion < 10) {
+				return true;
+			}
+			// iPhone X has no home button (but iPhone 8 does!)
+			if (minorVersion === 3 || minorVersion === 6) {
+				return false;
+			}
+			return true; // iPhone 8 models
+
+		} else if (iPhoneOriPad === 'iPad') {
+			// iPads version 8+ have no home button, before do
+			return majorVersion < 8;
+		}
+		return true;
+	}
+
 	it.ios('.safeAreaPadding for window inside navigation window with extendSafeArea true', function (finish) {
 		var window = Ti.UI.createWindow({
 			extendSafeArea: true,
@@ -714,10 +743,16 @@ describe('Titanium.UI.Window', function () {
 			try {
 				var padding = window.safeAreaPadding;
 				should(padding).be.a.Object;
-				should(padding.left).be.eql(0);
+				// top padding should always be 0 when inside a navigation window, notch or not
 				should(padding.top).be.eql(0);
+				should(padding.left).be.eql(0);
 				should(padding.right).be.eql(0);
-				should(padding.bottom).be.eql(0);
+
+				if (hasPhysicalHomeButton()) {
+					should(padding.bottom).be.eql(0);
+				} else {
+					should(padding.bottom).be.eql(34); // 34 on xr
+				}
 				finish();
 			} catch (err) {
 				finish(err);
