@@ -4,8 +4,7 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-/* eslint-env mocha */
-/* global Ti */
+/* eslint-env titanium, mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions');
@@ -16,23 +15,23 @@ describe('Ti.Proxy', function () {
 			var label = Ti.UI.createLabel({
 				text: 'Hello World!'
 			});
-			should(label.hasOwnProperty('madeup')).eql(false);
+			should(label).not.have.ownProperty('madeup');
 		});
 
 		it('should report true for ownProperty set in create* function', function () {
 			var label = Ti.UI.createLabel({
 				text: 'Hello World!'
 			});
-			should(label.hasOwnProperty('text')).eql(true);
+			should(label).have.ownProperty('text');
 		});
 
 		it('should report true for custom property set after construction', function () {
 			var label = Ti.UI.createLabel({
 				text: 'Hello World!'
 			});
-			should(label.hasOwnProperty('madeup')).eql(false);
+			should(label).not.have.ownProperty('madeup');
 			label.madeup = 123;
-			should(label.hasOwnProperty('madeup')).eql(true);
+			should(label).have.ownProperty('madeup');
 		});
 	});
 

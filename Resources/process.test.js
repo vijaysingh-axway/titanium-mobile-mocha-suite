@@ -4,9 +4,9 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-/* eslint-env mocha */
-/* global Ti, process, setImmediate */
+/* eslint-env node, titanium, mocha */
 /* eslint no-unused-expressions: "off" */
+/* eslint node/no-unsupported-features/node-builtins: "off" */
 'use strict';
 const should = require('./utilities/assertions');
 

@@ -5,8 +5,9 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti */
 /* eslint no-unused-expressions: "off" */
+/* eslint node/no-deprecated-api: "off"  */
+/* eslint node/no-unsupported-features/node-builtins: "off" */
 'use strict';
 const should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
 let assert;

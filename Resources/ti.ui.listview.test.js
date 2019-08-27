@@ -5,7 +5,6 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions');
@@ -610,29 +609,29 @@ describe('Titanium.UI.ListView', function () {
 		properties = item.properties;
 
 		// Validate item template
-		should(item.hasOwnProperty('template')).be.true;
+		should(item).have.ownProperty('template');
 		should(template).not.be.undefined;
 		should(template).be.a.Number;
 		should(template).eql(Ti.UI.LIST_ITEM_TEMPLATE_CONTACTS);
 
 		// Validate item properties
-		should(item.hasOwnProperty('properties')).be.true;
+		should(item).have.ownProperty('properties');
 		should(properties).not.be.undefined;
 		should(properties).be.an.Object;
 
 		// Validate properties subtitleColor and selectedSubtitleColor
-		should(properties.hasOwnProperty('subtitleColor')).be.true;
+		should(properties).have.ownProperty('subtitleColor');
 		should(properties.subtitleColor).be.a.String;
 		should(properties.subtitleColor).be.eql('red');
-		should(properties.hasOwnProperty('selectedSubtitleColor')).be.true;
+		should(properties).have.ownProperty('selectedSubtitleColor');
 		should(properties.selectedSubtitleColor).be.a.String;
 		should(properties.selectedSubtitleColor).be.eql('green');
 
 		// Validate properties title & subtitle
-		should(properties.hasOwnProperty('title')).be.true;
+		should(properties).have.ownProperty('title');
 		should(properties.title).be.a.String;
 		should(properties.title).be.eql('My Title');
-		should(properties.hasOwnProperty('subtitle')).be.true;
+		should(properties).have.ownProperty('subtitle');
 		should(properties.subtitle).be.a.String;
 		should(properties.subtitle).be.eql('My Subtitle');
 	});

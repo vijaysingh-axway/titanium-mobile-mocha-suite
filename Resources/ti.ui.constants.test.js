@@ -5,7 +5,6 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions'),
@@ -222,7 +221,7 @@ describe('Titanium.UI', function () {
 		constantsVary;
 
 	for (name in constants) {
-		if (constants.hasOwnProperty(name)) {
+		if (Object.prototype.hasOwnProperty.call(constants, name)) {
 			// Don't test if the constant isn't for this platform!
 			if (constants[name].platforms.indexOf(platform) === -1) {
 				continue;

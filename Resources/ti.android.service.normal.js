@@ -4,8 +4,7 @@
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
-/* eslint-env mocha */
-/* global Ti */
+/* eslint-env titanium */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 

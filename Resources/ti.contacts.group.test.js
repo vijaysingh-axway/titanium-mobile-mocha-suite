@@ -6,7 +6,6 @@
  */
 
 /* eslint-env mocha */
-/* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions'),

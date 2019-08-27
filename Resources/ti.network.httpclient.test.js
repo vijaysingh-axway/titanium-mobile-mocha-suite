@@ -5,7 +5,6 @@
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
-/* global Ti */
 /* eslint no-unused-expressions: "off" */
 'use strict';
 var should = require('./utilities/assertions');
@@ -343,8 +342,8 @@ describe('Titanium.Network.HTTPClient', function () {
 				var resp2;
 				Ti.API.info('Clear Cookie');
 				resp2 = JSON.parse(this.responseText);
-				should(resp2.cookies.hasOwnProperty('v1')).be.false;
-				should(resp2.cookies.hasOwnProperty('v2')).be.false;
+				should(resp2.cookies).not.have.ownProperty('v1');
+				should(resp2.cookies).not.have.ownProperty('v2');
 				finish();
 			};
 			xhr2.onerror = function (e) {
