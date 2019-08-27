@@ -66,6 +66,7 @@ function loadTests() {
 	require('./es6.string.interpolation.test');
 	// node-compat core modules
 	require('./assert.test');
+	require('./buffer.test');
 	require('./os.test');
 	require('./path.test');
 	require('./util.test');
@@ -120,6 +121,7 @@ function loadTests() {
 	require('./ti.ui.activityindicator.test');
 	require('./ti.ui.alertdialog.test');
 	require('./ti.ui.android.drawerlayout.test');
+	require('./ti.ui.android.progressindicator.test');
 	require('./ti.ui.attributedstring.test');
 	require('./ti.ui.button.test');
 	require('./ti.ui.constants.test');
@@ -129,6 +131,7 @@ function loadTests() {
 	require('./ti.ui.ios.navigationwindow.test');
 	require('./ti.ui.ios.previewcontext.test');
 	require('./ti.ui.ios.splitwindow.test');
+	require('./ti.ui.ios.statusbar.test');
 	require('./ti.ui.ios.webviewconfiguration.test');
 	require('./ti.ui.label.test');
 	require('./ti.ui.layout.test');

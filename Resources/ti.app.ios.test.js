@@ -192,6 +192,10 @@ describe.ios('Titanium.App.iOS', function () {
 		should(Ti.App.iOS.EVENT_ACCESSIBILITY_LAYOUT_CHANGED).be.a.String;
 		should(Ti.App.iOS.EVENT_ACCESSIBILITY_SCREEN_CHANGED).be.a.String;
 
+		should(Ti.App.iOS.USER_INTERFACE_STYLE_UNSPECIFIED).be.a.Number;
+		should(Ti.App.iOS.USER_INTERFACE_STYLE_LIGHT).be.a.Number;
+		should(Ti.App.iOS.USER_INTERFACE_STYLE_DARK).be.a.Number;
+
 		should(Ti.App.iOS.USER_NOTIFICATION_ACTIVATION_MODE_BACKGROUND).be.a.Number;
 		should(Ti.App.iOS.USER_NOTIFICATION_ACTIVATION_MODE_FOREGROUND).be.a.Number;
 
@@ -252,5 +256,17 @@ describe.ios('Titanium.App.iOS', function () {
 		should(Ti.App.iOS.UTTYPE_VIDEO).be.a.String;
 		should(Ti.App.iOS.UTTYPE_WEB_ARCHIVE).be.a.String;
 		should(Ti.App.iOS.UTTYPE_XML).be.a.String;
+	});
+
+	it.ios('.userInterfaceStyle', function () {
+		const isiOS13 = parseInt(Ti.Platform.version.split('.')[0]) >= 13;
+		if (!isiOS13) {
+			this.skip();
+			return;
+		}
+
+		// We only check for the type, since the value (light, dark, unspecified)
+		// can vary between device configs
+		should(Ti.App.iOS.userInterfaceStyle).be.a.Number;
 	});
 });
