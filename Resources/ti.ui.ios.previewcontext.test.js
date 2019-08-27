@@ -7,22 +7,22 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
-describe.ios('Titanium.UI.iOS', function () {
+describe.ios('Titanium.UI.iOS',  () => {
 	// TIMOB-23542 test previewContext
-	it('#createPreviewContext()', function () {
-		var previewContext;
-		should(Ti.UI.iOS.createPreviewContext).not.be.undefined;
+	it('#createPreviewContext()', () => {
 		should(Ti.UI.iOS.createPreviewContext).be.a.Function;
-		previewContext = Ti.UI.iOS.createPreviewContext({
+		const previewContext = Ti.UI.iOS.createPreviewContext({
 			preview: Ti.UI.createView({
 				backgroundColor: 'red'
 			}),
 			contentHeight: 300
 		});
-		should(previewContext.preview).be.an.Object;
-		should(previewContext.contentHeight).be.eql(300);
+		if (Ti.UI.iOS.forceTouchSupported) {
+			should(previewContext.preview).be.an.Object;
+			should(previewContext.contentHeight).be.eql(300);
+		}
 	});
 });
 
