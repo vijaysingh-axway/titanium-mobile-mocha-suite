@@ -925,4 +925,40 @@ describe('Titanium.UI.View', function () {
 		});
 		win.open();
 	});
+
+	it.ios('.accessibility* Properties', function (finish) {
+		win = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+		var label = Ti.UI.createLabel({
+			text: 'Label for Test',
+			accessibilityLabel: 'Text',
+			accessibilityValue: 'Value',
+			accessibilityHint: 'Hint',
+			accessibilityHidden: true
+		});
+		win.add(label);
+		win.addEventListener('focus', function () {
+			try {
+				should(label.accessibilityLabel).eql('Text');
+				should(label.accessibilityValue).eql('Value');
+				should(label.accessibilityHint).eql('Hint');
+				should(label.accessibilityHidden).eql(true);
+
+				label.setAccessibilityLabel('New Text');
+				label.accessibilityValue = 'New Value';
+				label.accessibilityHint = 'New Hint';
+				label.accessibilityHidden = false;
+
+				should(label.accessibilityLabel).eql('New Text');
+				should(label.accessibilityValue).eql('New Value');
+				should(label.accessibilityHint).eql('New Hint');
+				should(label.accessibilityHidden).eql(false);
+				finish();
+			} catch (err) {
+				finish(err);
+			}
+		});
+		win.open();
+	});
 });

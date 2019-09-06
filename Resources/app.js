@@ -131,6 +131,7 @@ function loadTests() {
 	require('./ti.ui.ios.previewcontext.test');
 	require('./ti.ui.ios.splitwindow.test');
 	require('./ti.ui.ios.statusbar.test');
+	require('./ti.ui.ios.tableviewstyle.test');
 	require('./ti.ui.ios.webviewconfiguration.test');
 	require('./ti.ui.label.test');
 	require('./ti.ui.layout.test');
@@ -158,6 +159,7 @@ function loadTests() {
 	require('./ti.ui.window.test');
 	require('./ti.ui.windows.commandbar.test');
 	require('./ti.utils.test');
+	require('./ti.watchsession.test');
 	require('./ti.xml.test');
 
 	// Load in any of the files added to the test/Resources folder of the SDK repos

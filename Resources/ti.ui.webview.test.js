@@ -599,4 +599,28 @@ describe('Titanium.UI.WebView', function () {
 		}));
 		win.open();
 	});
+
+	it.ios('beforeload', (finish) => {
+		let webView;
+		const url = 'https://www.appcelerator.com/';
+		var beforeLoaded = false;
+
+		win = Ti.UI.createWindow();
+		webView = Ti.UI.createWebView({
+			url: url
+		});
+
+		webView.addEventListener('beforeload', (e) => {
+			if (beforeLoaded === true) {
+				if (e.url !== url) {
+					webView.stopLoading();
+					finish();
+				}
+			}
+			beforeLoaded = true;
+		});
+
+		win.add(webView);
+		win.open();
+	});
 });

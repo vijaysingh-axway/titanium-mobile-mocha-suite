@@ -7,11 +7,10 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI', function () {
-	var win;
+	let win;
 
 	this.timeout(5000);
 
@@ -41,7 +40,7 @@ describe('Titanium.UI', function () {
 		}
 	});
 
-	(utilities.isWindows() ? describe.skip : describe)('#convertUnits()', function () {
+	it.windowsBroken('#convertUnits()', function () {
 		// This should use the default unit to do the conversion! For our test app, that is 'dp' (or dip)
 		// FIXME iOS has some funky code here, setting assumed units to "dpi", which is not a real unit and then assuming it's dip without consulting the default unit property
 		it('converts 100 unspecified units to px', function () {
@@ -199,6 +198,32 @@ describe('Titanium.UI', function () {
 	});
 
 	// Constants are tested in ti.ui.constants.test.js
+
+	it('.SEMANTIC_COLOR_TYPE_DARK', function () {
+		should(Ti.UI).have.a.constant('SEMANTIC_COLOR_TYPE_DARK').which.is.a.string;
+	});
+
+	it('.SEMANTIC_COLOR_TYPE_LIGHT', function () {
+		should(Ti.UI).have.a.constant('SEMANTIC_COLOR_TYPE_LIGHT').which.is.a.string;
+	});
+
+	it('.semanticColorType defaults to SEMANTIC_COLOR_TYPE_LIGHT', function () {
+		should(Ti.UI.semanticColorType).eql(Ti.UI.SEMANTIC_COLOR_TYPE_LIGHT);
+	});
+
+	it('#fetchSemanticColor()', function () {
+		var isiOS13 = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') && (parseInt(Ti.Platform.version.split('.')[0]) >= 13);
+		const semanticColors = require('./semantic.colors.json');
+
+		if (isiOS13) {
+			should(Ti.UI.fetchSemanticColor('textColor')).be.an.string;
+		} else {
+			should(Ti.UI.fetchSemanticColor('textColor')).equal(semanticColors.textColor.light);
+			Ti.UI.semanticColorType = Ti.UI.SEMANTIC_COLOR_TYPE_DARK;
+			should(Ti.UI.fetchSemanticColor('textColor')).equal(semanticColors.textColor.dark);
+
+		}
+	});
 
 	// TODO Write tests for Ti.UI.global properties below!
 	it('backgroundColor');
