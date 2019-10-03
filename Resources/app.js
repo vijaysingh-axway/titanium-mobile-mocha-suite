@@ -71,6 +71,7 @@ function loadTests() {
 	require('./buffer.test');
 	require('./os.test');
 	require('./path.test');
+	require('./string_decoder.test');
 	require('./util.test');
 	// Titanium APIs
 	require('./core.runtime.test'); // tests on how proxies behave w/regard to hasOwnProperty
