@@ -6,45 +6,13 @@
  */
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
-'use strict';
+/* eslint no-array-constructor: "off" */
+/* eslint no-new-wrappers: "off" */
 
-const should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
+const should = require('./utilities/assertions');
 const utilities = require('./utilities/utilities');
 
 let util;
-
-/**
- * Compares two version strings and returns true if the actual version is
- * greater than or equal to the expected version
- * @param {string} version actual version we're checking
- * @param {string} expected version to match against
- * @returns {boolean}
- */
-function greaterOrEqualTo(version, expected) {
-	const expectedParts = expected.split('.');
-	const actualParts = version.split('.');
-	// Pad shorter array with 0s
-	while (expectedParts.length > actualParts.length) {
-		actualParts.push(0);
-	}
-	while (actualParts.length > expectedParts.length) {
-		expectedParts.push(0);
-	}
-	// shoudl be the same length now
-	const length = expectedParts.length;
-	for (let i = 0; i < length; i++) {
-		const actualNum = Number.parseInt(actualParts[i]);
-		const expectedNum = Number.parseInt(expectedParts[i]);
-		if (actualNum > expectedNum) {
-			return true;
-		}
-		if (actualNum < expectedNum) {
-			return false;
-		}
-		// else, continue to next segment
-	}
-	return true; // everything matched
-}
 
 describe('util', () => {
 	it('should be required as core module', () => {
@@ -201,7 +169,7 @@ describe('util', () => {
 			it('with floats', () => {
 				util.format('%i', 42.0).should.eql('42');
 				util.format('%i', 1.5).should.eql('1');
-				util.format('%i', -0.5).should.eql('0');
+				util.format('%i', -0.5).should.eql('-0');
 			});
 
 			it('with string holding int value', () => {
@@ -396,63 +364,156 @@ describe('util', () => {
 				};
 				util.format('%o', obj).should.eql('{ foo: \'bar\' }');
 			});
-			// TODO: don't do deeper objects like this until we support the breakLength crap?
 
-			it.skip('with object', () => {
+			// FIXME: JSC/iOS seems to have inconsistent ordering of properties
+			// First time around, it tends to go: arguments, caller, length, name, prototype.
+			// Android/V8 is consistent
+			// The property order is not consistent on iOS, which is kind of expected
+			// since internally Object.getOwnPropertyNames is used, which does not
+			// guarantee a specific order of returned property names.
+			// On Android the order seems to be consistent
+			it('with object', () => {
 				const obj = {
 					foo: 'bar',
 					foobar: 1,
 					func: function () {}
 				};
-				util.format('%o', obj).should.eql(
-					'{ foo: \'bar\',\n'
-					+ '  foobar: 1,\n'
-					+ '  func:\n'
-					+ '   { [Function: func]\n'
-					+ '     [length]: 0,\n'
-					+ '     [name]: \'func\',\n'
-					+ '     [prototype]: func { [constructor]: [Circular] } } }');
+				const result = util.format('%o', obj);
+				if (utilities.isAndroid()) { // Android/V8
+					result.should.eql(
+						'{\n'
+						+ '  foo: \'bar\',\n'
+						+ '  foobar: 1,\n'
+						+ '  func: <ref *1> [Function: func] {\n'
+						+ '    [length]: 0,\n'
+						+ '    [name]: \'func\',\n'
+						+ '    [arguments]: null,\n'
+						+ '    [caller]: null,\n'
+						+ '    [prototype]: func { [constructor]: [Circular *1] }\n'
+						+ '  }\n'
+						+ '}'
+					);
+				} else { // iOS/JSC
+					result.should.eql(
+						'{\n'
+						+ '  foo: \'bar\',\n'
+						+ '  foobar: 1,\n'
+						+ '  func: <ref *1> [Function: func] {\n'
+						+ '    [arguments]: null,\n'
+						+ '    [caller]: null,\n'
+						+ '    [length]: 0,\n'
+						+ '    [name]: \'func\',\n'
+						+ '    [prototype]: func { [constructor]: [Circular *1] }\n'
+						+ '  }\n'
+						+ '}'
+					);
+				}
 			});
 
-			it.skip('with nested object', () => {
+			it('with nested object', () => {
 				const nestedObj2 = {
 					foo: 'bar',
 					foobar: 1,
 					func: [ { a: function () {} } ]
 				};
-				util.format('%o', nestedObj2).should.eql(
-					'{ foo: \'bar\',\n'
-					+ '  foobar: 1,\n'
-					+ '  func:\n'
-					+ '   [ { a:\n'
-					+ '        { [Function: a]\n'
-					+ '          [length]: 0,\n'
-					+ '          [name]: \'a\',\n'
-					+ '          [prototype]: a { [constructor]: [Circular] } } },\n'
-					+ '     [length]: 1 ] }');
+				const result = util.format('%o', nestedObj2);
+				if (utilities.isAndroid()) { // Android/V8
+					result.should.eql(
+						'{\n'
+						+ '  foo: \'bar\',\n'
+						+ '  foobar: 1,\n'
+						+ '  func: [\n'
+						+ '    {\n'
+						+ '      a: <ref *1> [Function: a] {\n'
+						+ '        [length]: 0,\n'
+						+ '        [name]: \'a\',\n'
+						+ '        [arguments]: null,\n'
+						+ '        [caller]: null,\n'
+						+ '        [prototype]: a { [constructor]: [Circular *1] }\n'
+						+ '      }\n'
+						+ '    },\n'
+						+ '    [length]: 1\n'
+						+ '  ]\n'
+						+ '}'
+					);
+				} else { // iOS/JSC
+					result.should.eql(
+						'{\n'
+						+ '  foo: \'bar\',\n'
+						+ '  foobar: 1,\n'
+						+ '  func: [\n'
+						+ '    {\n'
+						+ '      a: <ref *1> [Function: a] {\n'
+						+ '        [arguments]: null,\n'
+						+ '        [caller]: null,\n'
+						+ '        [length]: 0,\n'
+						+ '        [name]: \'a\',\n'
+						+ '        [prototype]: a { [constructor]: [Circular *1] }\n'
+						+ '      }\n'
+						+ '    },\n'
+						+ '    [length]: 1\n'
+						+ '  ]\n'
+						+ '}'
+					);
+				}
 			});
 
-			it.skip('with same object twice', () => {
+			it('with same object twice', () => {
 				const obj = {
 					foo: 'bar',
 					foobar: 1,
 					func: function () {}
 				};
-				util.format('%o %o', obj, obj).should.eql(
-					'{ foo: \'bar\',\n'
-					+ '  foobar: 1,\n'
-					+ '  func:\n'
-					+ '   { [Function: func]\n'
-					+ '     [length]: 0,\n'
-					+ '     [name]: \'func\',\n'
-					+ '     [prototype]: func { [constructor]: [Circular] } } }'
-					+ ' { foo: \'bar\',\n'
-					+ '  foobar: 1,\n'
-					+ '  func:\n'
-					+ '   { [Function: func]\n'
-					+ '     [length]: 0,\n'
-					+ '     [name]: \'func\',\n'
-					+ '     [prototype]: func { [constructor]: [Circular] } } }');
+				const result = util.format('%o %o', obj, obj);
+				if (utilities.isAndroid()) { // Android/V8
+					result.should.eql(
+						'{\n'
+						+ '  foo: \'bar\',\n'
+						+ '  foobar: 1,\n'
+						+ '  func: <ref *1> [Function: func] {\n'
+						+ '    [length]: 0,\n'
+						+ '    [name]: \'func\',\n'
+						+ '    [arguments]: null,\n'
+						+ '    [caller]: null,\n'
+						+ '    [prototype]: func { [constructor]: [Circular *1] }\n'
+						+ '  }\n'
+						+ '} {\n'
+						+ '  foo: \'bar\',\n'
+						+ '  foobar: 1,\n'
+						+ '  func: <ref *1> [Function: func] {\n'
+						+ '    [length]: 0,\n'
+						+ '    [name]: \'func\',\n'
+						+ '    [arguments]: null,\n'
+						+ '    [caller]: null,\n'
+						+ '    [prototype]: func { [constructor]: [Circular *1] }\n'
+						+ '  }\n'
+						+ '}'
+					);
+				} else { // iOS/JSC
+					result.should.eql(
+						'{\n'
+						+ '  foo: \'bar\',\n'
+						+ '  foobar: 1,\n'
+						+ '  func: <ref *1> [Function: func] {\n'
+						+ '    [arguments]: null,\n'
+						+ '    [caller]: null,\n'
+						+ '    [length]: 0,\n'
+						+ '    [name]: \'func\',\n'
+						+ '    [prototype]: func { [constructor]: [Circular *1] }\n'
+						+ '  }\n'
+						+ '} {\n'
+						+ '  foo: \'bar\',\n'
+						+ '  foobar: 1,\n'
+						+ '  func: <ref *1> [Function: func] {\n'
+						+ '    [arguments]: null,\n'
+						+ '    [caller]: null,\n'
+						+ '    [prototype]: func { [constructor]: [Circular *1] },\n'
+						+ '    [name]: \'func\',\n'
+						+ '    [length]: 0\n'
+						+ '  }\n'
+						+ '}'
+					);
+				}
 			});
 		});
 	});
@@ -555,8 +616,13 @@ describe('util', () => {
 		});
 
 		it('handles object with custom type tag', () => {
-			const baz = Object.create(null, { [Symbol.toStringTag]: { value: 'foo' } });
-			util.inspect(baz).should.eql('[foo] {}');
+			const baz = Object.create({}, { [Symbol.toStringTag]: { value: 'foo' } });
+			util.inspect(baz).should.eql('Object [foo] {}');
+		});
+
+		it('handles object with null prototype', () => {
+			const baz = Object.create(null, {});
+			util.inspect(baz).should.eql('[Object: null prototype] {}');
 		});
 
 		it('handles class instance', () => {
@@ -574,7 +640,7 @@ describe('util', () => {
 		});
 
 		it('handles empty function', () => {
-			util.inspect(function () {}).should.eql('[Function]');
+			util.inspect(function () {}).should.eql('[Function (anonymous)]');
 		});
 
 		it('handles named function', () => {
@@ -582,13 +648,13 @@ describe('util', () => {
 		});
 
 		it('handles arrow function', () => {
-			util.inspect(() => {}).should.eql('[Function]');
+			util.inspect(() => {}).should.eql('[Function (anonymous)]');
 		});
 
 		it('handles function with custom property', () => {
 			const myFunc = () => {};
 			myFunc.a = 1;
-			util.inspect(myFunc).should.eql('{ [Function: myFunc] a: 1 }');
+			util.inspect(myFunc).should.eql('[Function: myFunc] { a: 1 }');
 		});
 
 		it('handles object with getter property', () => {
@@ -636,15 +702,13 @@ describe('util', () => {
 				func: function () {}
 			};
 			// In Node 10+, we can sort the properties to ensure order to match, otherwise JSC/V8 return arguments/caller in different order on Functions
-			let expected = [
-				'{ foo: \'bar\', foobar: 1, func: { [Function: func] [arguments]: null, [caller]: null, [length]: 0, [name]: \'func\', [prototype]: func { [constructor]: [Circular] } } }',
-
-				// FIXME: On V8/Android we are not getting 'arguments' and 'caller' properties!
-				// This may be because in newer specs/strict mode they shouldn't be accessible?
-				'{ foo: \'bar\', foobar: 1, func: { [Function: func] [length]: 0, [name]: \'func\', [prototype]: func { [constructor]: [Circular] } } }'
-			];
-
-			util.inspect(obj, { showHidden: true, breakLength: Infinity }).should.be.oneOf(expected);
+			util.inspect(obj, {
+				showHidden: true,
+				breakLength: Infinity,
+				sorted: true
+			}).should.eql(
+				'{ foo: \'bar\', foobar: 1, func: <ref *1> [Function: func] { [arguments]: null, [caller]: null, [length]: 0, [name]: \'func\', [prototype]: func { [constructor]: [Circular *1] } } }'
+			);
 		});
 
 		it('with nested object and infinite depth', () => {
@@ -655,25 +719,29 @@ describe('util', () => {
 			};
 
 			// In Node 10+, we can sort the properties to ensure order to match, otheerwise JSC/V8 return arguments/caller in different order on Functions
-			let expected = [
-				'{ foo: \'bar\', foobar: 1, func: [ { a: { [Function: a] [arguments]: null, [caller]: null, [length]: 0, [name]: \'a\', [prototype]: a { [constructor]: [Circular] } } }, [length]: 1 ] }',
-
-				// FIXME: On V8/Android we are not getting 'arguments' and 'caller' properties!
-				// This may be because in newer specs/strict mode they shouldn't be accessible?
-				'{ foo: \'bar\', foobar: 1, func: [ { a: { [Function: a] [length]: 0, [name]: \'a\', [prototype]: a { [constructor]: [Circular] } } }, [length]: 1 ] }'
-			];
-
-			util.inspect(nestedObj2, { showHidden: true, breakLength: Infinity, depth: Infinity, sorted: true }).should.be.oneOf(expected);
+			util.inspect(nestedObj2, {
+				showHidden: true,
+				breakLength: Infinity,
+				depth: Infinity,
+				sorted: true
+			}).should.eql(
+				'{\n'
+				+ '  foo: \'bar\',\n'
+				+ '  foobar: 1,\n'
+				+ '  func: [\n'
+				+ '    { a: <ref *1> [Function: a] { [arguments]: null, [caller]: null, [length]: 0, [name]: \'a\', [prototype]: a { [constructor]: [Circular *1] } } },\n'
+				+ '    [length]: 1\n'
+				+ '  ]\n'
+				+ '}'
+			);
 		});
 
-		it.skip('with nested object and default depth', () => {
+		it('with nested object and default depth', () => {
 			const nestedObj2 = {
 				foo: 'bar',
 				foobar: 1,
 				func: [ { a: function () {} } ]
 			};
-			// FIXME: There's a weird edge case we fail here: when function is at cutoff depth and showHidden is true, we report '[Function: a]', while node reports '[Function]'
-			// I don't know why.
 			util.inspect(nestedObj2, { showHidden: true, breakLength: Infinity }).should.eql(
 				'{ foo: \'bar\', foobar: 1, func: [ { a: [Function] }, [length]: 1 ] }');
 		});
@@ -684,14 +752,17 @@ describe('util', () => {
 				foobar: 1,
 				func: {
 					other: true,
-					yeah: 'man',
-					whatever: '123456789'
-				}
+					yeah: 'man'
+				},
+				something: 'else'
 			};
 			util.inspect(nestedObj2).should.eql(
-				'{ foo: \'bar\',\n'
+				'{\n'
+				+ '  foo: \'bar\',\n'
 				+ '  foobar: 1,\n'
-				+ '  func: { other: true, yeah: \'man\', whatever: \'123456789\' } }');
+				+ '  func: { other: true, yeah: \'man\' },\n'
+				+ '  something: \'else\'\n'
+				+ '}');
 		});
 
 		it('with toplevel and nested objects that break', () => {
@@ -706,13 +777,17 @@ describe('util', () => {
 				}
 			};
 			util.inspect(nestedObj2).should.eql(
-				'{ foo: \'bar\',\n'
+				'{\n'
+				+ '  foo: \'bar\',\n'
 				+ '  foobar: 1,\n'
-				+ '  func:\n'
-				+ '   { other: true,\n'
-				+ '     yeah: \'man\',\n'
-				+ '     whatever: \'123456789\',\n'
-				+ '     whatever2: \'123456789\' } }');
+				+ '  func: {\n'
+				+ '    other: true,\n'
+				+ '    yeah: \'man\',\n'
+				+ '    whatever: \'123456789\',\n'
+				+ '    whatever2: \'123456789\'\n'
+				+ '  }\n'
+				+ '}'
+			);
 		});
 
 		it('with nested object and empty options', () => {
@@ -729,11 +804,12 @@ describe('util', () => {
 			const obj = {
 				foo: '',
 				foobar: 1,
-				something: '12',
+				something: '1',
 				whatever: '',
-				whatever2: ''
+				whatever2: '',
+				whatever3: ''
 			};
-			util.inspect(obj).should.eql('{ foo: \'\',\n  foobar: 1,\n  something: \'12\',\n  whatever: \'\',\n  whatever2: \'\' }');
+			util.inspect(obj).should.eql('{\n  foo: \'\',\n  foobar: 1,\n  something: \'1\',\n  whatever: \'\',\n  whatever2: \'\',\n  whatever3: \'\'\n}');
 		});
 
 		it('with default breakLength just below break point', () => {
@@ -828,6 +904,96 @@ describe('util', () => {
 		});
 	});
 
+	describe('#isArray', () => {
+		it('should return true only if the given object is an Array', () => {
+			should.strictEqual(util.isArray([]), true);
+			should.strictEqual(util.isArray(Array()), true);
+			should.strictEqual(util.isArray(new Array()), true);
+			should.strictEqual(util.isArray(new Array(5)), true);
+			should.strictEqual(util.isArray(new Array('with', 'some', 'entries')), true);
+			should.strictEqual(util.isArray({}), false);
+			should.strictEqual(util.isArray({ push: function () {} }), false);
+			should.strictEqual(util.isArray(/regexp/), false);
+			should.strictEqual(util.isArray(new Error()), false);
+			should.strictEqual(util.isArray(Object.create(Array.prototype)), false);
+		});
+	});
+
+	describe('#isRegExp', () => {
+		it('should return true only if the given object is a RegExp', () => {
+			should.strictEqual(util.isRegExp(/regexp/), true);
+			should.strictEqual(util.isRegExp(RegExp(), 'foo'), true);
+			should.strictEqual(util.isRegExp(new RegExp()), true);
+			should.strictEqual(util.isRegExp({}), false);
+			should.strictEqual(util.isRegExp([]), false);
+			should.strictEqual(util.isRegExp(new Date()), false);
+			should.strictEqual(util.isRegExp(Object.create(RegExp.prototype)), false);
+		});
+	});
+
+	describe('#isDate', () => {
+		it('should return true only if the given object is a Date', () => {
+			should.strictEqual(util.isDate(new Date()), true);
+			should.strictEqual(util.isDate(new Date(0), 'foo'), true);
+			should.strictEqual(util.isDate(Date()), false);
+			should.strictEqual(util.isDate({}), false);
+			should.strictEqual(util.isDate([]), false);
+			should.strictEqual(util.isDate(new Error()), false);
+			should.strictEqual(util.isDate(Object.create(Date.prototype)), false);
+		});
+	});
+
+	describe('#isError', () => {
+		it('should return true only if the given object is an Error', () => {
+			should.strictEqual(util.isError(new Error()), true);
+			should.strictEqual(util.isError(new TypeError()), true);
+			should.strictEqual(util.isError(new SyntaxError()), true);
+			should.strictEqual(util.isError({}), false);
+			should.strictEqual(util.isError({ name: 'Error', message: '' }), false);
+			should.strictEqual(util.isError([]), false);
+			should.strictEqual(util.isError(Object.create(Error.prototype)), true);
+		});
+	});
+
+	describe('#isObject', () => {
+		it('should return true only if the given object is an Object', () => {
+			should.strictEqual(util.isObject({}), true);
+			should.strictEqual(util.isObject([]), true);
+			should.strictEqual(util.isObject(new Number(3)), true);
+			should.strictEqual(util.isObject(Number(4)), false);
+			should.strictEqual(util.isObject(1), false);
+		});
+	});
+
+	describe('#isPrimitive', () => {
+		it('should return true only if the given object is a primitve', () => {
+			should.strictEqual(util.isPrimitive({}), false);
+			should.strictEqual(util.isPrimitive(new Error()), false);
+			should.strictEqual(util.isPrimitive(new Date()), false);
+			should.strictEqual(util.isPrimitive([]), false);
+			should.strictEqual(util.isPrimitive(/regexp/), false);
+			should.strictEqual(util.isPrimitive(function () {}), false);
+			should.strictEqual(util.isPrimitive(new Number(1)), false);
+			should.strictEqual(util.isPrimitive(new String('bla')), false);
+			should.strictEqual(util.isPrimitive(new Boolean(true)), false);
+			should.strictEqual(util.isPrimitive(1), true);
+			should.strictEqual(util.isPrimitive('bla'), true);
+			should.strictEqual(util.isPrimitive(true), true);
+			should.strictEqual(util.isPrimitive(undefined), true);
+			should.strictEqual(util.isPrimitive(null), true);
+			should.strictEqual(util.isPrimitive(Infinity), true);
+			should.strictEqual(util.isPrimitive(NaN), true);
+			should.strictEqual(util.isPrimitive(Symbol('symbol')), true);
+		});
+	});
+
+	describe('#isBuffer', () => {
+		it('should return true only if the given object is a Buffer', () => {
+			should.strictEqual(util.isBuffer('foo'), false);
+			should.strictEqual(util.isBuffer(Buffer.from('foo')), true);
+		});
+	});
+
 	describe('#promisify()', () => {
 		it('is a function', () => {
 			util.promisify.should.be.a.Function;
@@ -911,7 +1077,7 @@ describe('util', () => {
 				return Promise.reject(null);
 			}
 			const callbackified = util.callbackify(original);
-			callbackified((err, result) => {
+			callbackified((err, _result) => {
 				try {
 					should(err).be.ok;
 					should(err instanceof Error).eql(true);
@@ -1048,6 +1214,57 @@ describe('util', () => {
 	});
 
 	describe('.types', () => {
+		describe('#isAnyArrayBuffer()', () => {
+			it('should return true for built-in ArrayBuffer', () => {
+				const ab = new ArrayBuffer();
+				util.types.isAnyArrayBuffer(ab).should.be.true;
+			});
+
+			it.skip('should return true for built-in SharedArrayBuffer', () => {
+				// SharedArrayBuffer is disabled in all major JS engines due to Spectre & Meltrdown vulnerabilities
+			});
+
+			it('should return false for other values', () => {
+				util.types.isAnyArrayBuffer({}).should.be.false;
+				util.types.isAnyArrayBuffer(new Float32Array()).should.be.false;
+			});
+		});
+
+		describe('#isArgumentsObject()', () => {
+			it('should return true for function arguments object', () => {
+				(function () {
+					util.types.isArgumentsObject(arguments).should.be.true;
+				}());
+			});
+
+			it('should return false for other values', () => {
+				util.types.isArgumentsObject([]).should.be.false;
+				util.types.isArgumentsObject({ [Symbol.toStringTag]: 'Arguments' }).should.be.false;
+			});
+		});
+
+		describe('#isArrayBuffer()', () => {
+			it('should return true for built-in ArrayBuffer instance', () => {
+				const ab = new ArrayBuffer();
+				util.types.isArrayBuffer(ab).should.be.true;
+			});
+
+			it('should return false for other values', () => {
+				util.types.isArrayBuffer([]).should.be.false;
+				util.types.isArrayBuffer(new Float32Array()).should.be.false;
+			});
+		});
+
+		describe('#isAsyncFunction()', () => {
+			it('should return true for async functions', () => {
+				util.types.isAsyncFunction(async () => {}).should.be.true;
+			});
+
+			it('should return false for normal functions', () => {
+				util.types.isAsyncFunction(() => {}).should.be.true;
+			});
+		});
+
 		describe('#isNativeError()', () => {
 			it('is a function', () => {
 				util.types.isNativeError.should.be.a.Function;
@@ -1206,6 +1423,21 @@ describe('util', () => {
 			});
 		});
 
+		describe('#isSetIterator()', () => {
+			it('should return true if the value is an iterator returned for a built-in Set instance', () => {
+				const set = new Set();
+				util.types.isSetIterator(set.keys()).should.be.true;
+				util.types.isSetIterator(set.values()).should.be.true;
+				util.types.isSetIterator(set.entries()).should.be.true;
+				util.types.isSetIterator(set[Symbol.iterator]()).should.be.true;
+			});
+
+			it('should return false for other iterators', () => {
+				const map = new Map();
+				util.types.isSetIterator(map.values()).should.be.false;
+			});
+		});
+
 		describe('#isMap()', () => {
 			it('is a function', () => {
 				util.types.isMap.should.be.a.Function;
@@ -1216,27 +1448,173 @@ describe('util', () => {
 			});
 		});
 
+		describe('#isMapIterator()', () => {
+			it('should return true if the value is an iterator retunred for a built-in Map instance', () => {
+				const map = new Map();
+				util.types.isMapIterator(map.keys()).should.be.true;
+				util.types.isMapIterator(map.values()).should.be.true;
+				util.types.isMapIterator(map.entries()).should.be.true;
+				util.types.isMapIterator(map[Symbol.iterator]()).should.be.true;
+			});
+
+			it('should return false for other iterators', () => {
+				const set = new Set();
+				util.types.isMapIterator(set.values()).should.be.false;
+			});
+		});
+
+		describe('#isDataView()', () => {
+			const ab = new ArrayBuffer(20);
+
+			it('should return true for built-in DataView instance', () => {
+				util.types.isDataView(new DataView(ab)).should.be.true;
+			});
+
+			it('should return false for typed array instance', () => {
+				util.types.isDataView(new Float64Array()).should.be.false;
+			});
+		});
+
 		describe('#isDate()', () => {
 			it('is a function', () => {
 				util.types.isDate.should.be.a.Function;
 			});
 
-			it('returns true for Date instance', () => {
+			it('returns true for built-in Date instance', () => {
 				util.types.isDate(new Date()).should.eql(true);
 			});
 		});
 
-		describe('#isRegexp()', () => {
+		describe('#isPromise()', () => {
+			it('should return true for built-in Promise', () => {
+				util.types.isPromise(Promise.resolve(42)).should.be.true;
+			});
+
+			it('should return false for Promise like objects', () => {
+				util.types.isPromise({ then: () => {}, catch: () => {} }).should.be.false;
+			});
+		});
+
+		describe('#isRegExp()', () => {
 			it('is a function', () => {
-				util.types.isRegexp.should.be.a.Function;
+				util.types.isRegExp.should.be.a.Function;
 			});
 
-			it('returns true for Regexp instance', () => {
-				util.types.isRegexp(/abc/).should.eql(true);
+			it('returns true for RegExp instance', () => {
+				util.types.isRegExp(/abc/).should.eql(true);
 			});
 
-			it('returns true for Regexp primitive', () => {
-				util.types.isRegexp(new RegExp('abc')).should.eql(true);
+			it('returns true for RegExp primitive', () => {
+				util.types.isRegExp(new RegExp('abc')).should.eql(true);
+			});
+		});
+
+		describe('#isGeneratorFunction()', () => {
+			it('should return true for generator function', () => {
+				util.types.isGeneratorFunction(function *foo() {}).should.be.true;
+			});
+
+			it('should return false for normal function', () => {
+				util.types.isGeneratorFunction(function foo() {}).should.be.false;
+			});
+		});
+
+		describe('#isGeneratorObject()', () => {
+			it('should return true for generator object', () => {
+				function *foo() {}
+				const generator = foo();
+				util.types.isGeneratorObject(generator).should.be.true;
+			});
+
+			it('should return false for any other object', () => {
+				util.types.isGeneratorObject({}).should.be.false;
+			});
+		});
+
+		describe('#isWeakMap()', () => {
+			it('should return true for built-in WeakMap', () => {
+				const map = new WeakMap();
+				util.types.isWeakMap(map).should.be.true;
+			});
+
+			it('should return false for other values', () => {
+				util.types.isWeakMap({}).should.be.false;
+				util.types.isWeakMap(new Map()).should.be.false;
+			});
+		});
+
+		describe('#isWeakSet()', () => {
+			it('should return true for built-in WeakSet', () => {
+				const map = new WeakSet();
+				util.types.isWeakSet(map).should.be.true;
+			});
+
+			it('should return false for other values', () => {
+				util.types.isWeakSet({}).should.be.false;
+				util.types.isWeakSet(new Set()).should.be.false;
+			});
+		});
+
+		describe('#isTypedArray()', () => {
+			it('should return true for built-in typed arrays', () => {
+				should(util.types.isTypedArray(new Uint8Array())).be.true;
+				should(util.types.isTypedArray(new Uint8ClampedArray())).be.true;
+				should(util.types.isTypedArray(new Uint16Array())).be.true;
+				should(util.types.isTypedArray(new Uint32Array())).be.true;
+				should(util.types.isTypedArray(new Int8Array())).be.true;
+				should(util.types.isTypedArray(new Int16Array())).be.true;
+				should(util.types.isTypedArray(new Int32Array())).be.true;
+				should(util.types.isTypedArray(new Float32Array())).be.true;
+				should(util.types.isTypedArray(new Float64Array())).be.true;
+			});
+
+			it('should return true for our own Buffer', () => {
+				should(util.types.isTypedArray(Buffer.alloc())).be.true;
+			});
+
+			it('should return false for other values', () => {
+				util.types.isTypedArray({}).should.be.false;
+				util.types.isTypedArray([]).should.be.false;
+			});
+		});
+
+		describe('Typed Arrays', () => {
+			it('should correctly check typed arrays', () => {
+				should(!util.types.isUint8Array({ [Symbol.toStringTag]: 'Uint8Array' })).be.true;
+				should(util.types.isUint8Array(new Uint8Array())).be.true;
+
+				should(!util.types.isUint8ClampedArray({ [Symbol.toStringTag]: 'Uint8ClampedArray' })).be.true;
+				should(util.types.isUint8ClampedArray(new Uint8ClampedArray())).be.true;
+
+				should(!util.types.isUint16Array({ [Symbol.toStringTag]: 'Uint16Array' })).be.true;
+				should(util.types.isUint16Array(new Uint16Array())).be.true;
+
+				should(!util.types.isUint32Array({ [Symbol.toStringTag]: 'Uint32Array' })).be.true;
+				should(util.types.isUint32Array(new Uint32Array())).be.true;
+
+				should(!util.types.isInt8Array({ [Symbol.toStringTag]: 'Int8Array' })).be.true;
+				should(util.types.isInt8Array(new Int8Array())).be.true;
+
+				should(!util.types.isInt16Array({ [Symbol.toStringTag]: 'Int16Array' })).be.true;
+				should(util.types.isInt16Array(new Int16Array())).be.true;
+
+				should(!util.types.isInt32Array({ [Symbol.toStringTag]: 'Int32Array' })).be.true;
+				should(util.types.isInt32Array(new Int32Array())).be.true;
+
+				should(!util.types.isFloat32Array({ [Symbol.toStringTag]: 'Float32Array' })).be.true;
+				should(util.types.isFloat32Array(new Float32Array())).be.true;
+
+				should(!util.types.isFloat64Array({ [Symbol.toStringTag]: 'Float64Array' })).be.true;
+				should(util.types.isFloat64Array(new Float64Array())).be.true;
+
+				/*
+				@todo enable when we have BigInt64 support
+				should(!util.types.isBigInt64Array({ [Symbol.toStringTag]: 'BigInt64Array' })).be.true;
+				should(util.types.isBigInt64Array(new BigInt64Array)).be.true;
+
+				should(!util.types.isBigUint64Array({ [Symbol.toStringTag]: 'BigUint64Array' })).be.true;
+				should(util.types.isBigUint64Array(new BigUint64Array)).be.true;
+				*/
 			});
 		});
 	});

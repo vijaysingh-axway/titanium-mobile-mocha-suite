@@ -23,10 +23,14 @@
       }
     },
     {
-      "files": [ "Resources/es6.*.js" ],
+      "files": [ "Resources/es6.*.js", "Resources/util.test.js" ],
       "parserOptions": {
         "ecmaVersion": 2017,
         "sourceType": "module"
+      },
+      "rules": {
+        "node/no-deprecated-api": "off",
+        "node/no-unsupported-features/node-builtins": ["warn", { "version": "10.11.0" }]
       }
     },
     {
