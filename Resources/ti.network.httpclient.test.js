@@ -650,4 +650,25 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.file = downloadedImageFile;
 		xhr.send();
 	});
+
+	it.android('TLSv3 support', function (finish) {
+		// Only supported on Android 10+
+		if (parseInt(Ti.Platform.version.split('.')[0]) < 10) {
+			return finish();
+		}
+
+		const client = Ti.Network.createHTTPClient({
+			onload: e => {
+				const html = e.source.responseText;
+				if (html.includes('protocol_tls1_3">Yes')) {
+					finish();
+				}
+			},
+			onerror:
+          e => { finish(new Error('Could not determine TLSv3 support.')); },
+			timeout: 8000
+		});
+		client.open('GET', 'https://ssllabs.com/ssltest/viewMyClient.html');
+		client.send();
+	});
 });
