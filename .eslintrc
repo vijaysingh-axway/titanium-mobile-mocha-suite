@@ -23,6 +23,13 @@
       }
     },
     {
+      "files": [ "Resources/ti.ui.webview.script.tag.js" ],
+      "parserOptions": {
+        "ecmaVersion": 3,
+        "sourceType": "script"
+      }
+    },
+    {
       "files": [ "Resources/es6.*.js", "Resources/util.test.js" ],
       "parserOptions": {
         "ecmaVersion": 2017,

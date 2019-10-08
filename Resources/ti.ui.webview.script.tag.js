@@ -10,7 +10,7 @@
 
 // eslint-disable-next-line no-unused-vars
 function onPageLoaded() {
-	setTimeout(_ => {
+	setTimeout(function () {
 		Ti.App.fireEvent('ti.ui.webview.script.tag:onPageLoaded', {});
 	}, 1000);
 }
