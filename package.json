@@ -32,7 +32,7 @@
     "ejs": "~2.6.1",
     "fs-extra": "^8.0.1",
     "stream-splitter": "~0.3.2",
-    "titanium": "^5.2.1"
+    "titanium": "^5.2.2"
   },
   "devDependencies": {
     "@seadub/danger-plugin-dependencies": "0.1.0",
