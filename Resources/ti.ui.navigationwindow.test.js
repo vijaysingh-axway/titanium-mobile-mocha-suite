@@ -167,6 +167,41 @@ describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
 
 		nav.open();
 	});
+
+	function createTab(title) {
+		var windowForTab = Ti.UI.createWindow({ title: title });
+		var tab = Ti.UI.createTab({
+			title: title,
+			window: windowForTab
+		});
+		return tab;
+	}
+
+	it('have TabGroup as a root window', function () {
+		var tabGroup = Ti.UI.createTabGroup({ title: 'TabGroup',
+			tabs: [ createTab('Tab 1'),
+				createTab('Tab 2'),
+				createTab('Tab 3') ]
+		});
+		var navigationWindow = Ti.UI.createNavigationWindow({
+			window: tabGroup,
+		});
+		navigationWindow.open();
+	});
+
+	it('have a TabGroup child in stack', function () {
+		var rootWin = Ti.UI.createWindow(),
+			navigationWindow = Ti.UI.createNavigationWindow({
+				window: rootWin
+			}),
+			tabGroup = Ti.UI.createTabGroup({ title: 'TabGroup',
+				tabs: [ createTab('Tab 1'),
+					createTab('Tab 2'),
+					createTab('Tab 3') ]
+			});
+		navigationWindow.open();
+		navigationWindow.openWindow(tabGroup);
+	});
 });
 
 describe('Titanium.UI.Window', function () {
