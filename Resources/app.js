@@ -69,6 +69,7 @@ function loadTests() {
 	// node-compat core modules
 	require('./assert.test');
 	require('./buffer.test');
+	require('./fs.test');
 	require('./os.test');
 	require('./path.test');
 	require('./string_decoder.test');
