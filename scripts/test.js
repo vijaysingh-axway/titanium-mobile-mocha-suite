@@ -247,10 +247,11 @@ function killiOSSimulator(next) {
  * @param {string} [target] 'emulator' || 'simulator' || 'device' || 'wp-emulator'
  * @param {string} [deviceId] uuid of device/simulator to launch
  * @param {string} [architecture] only for 'windows' platform
- * @param {string} [deploType] 'development' || 'test'
+ * @param {string} [deployType=undefined] 'development' || 'test'
+ * @param {string} [deviceFamily=undefined] 'ipad' || 'iphone' || undefined
  * @param {Function} next async callback
  */
-function runBuild(platform, target, deviceId, architecture, deployType, next) {
+function runBuild(platform, target, deviceId, architecture, deployType, deviceFamily, next) {
 
 	if (target === undefined) {
 		switch (platform) {
@@ -279,23 +280,30 @@ function runBuild(platform, target, deviceId, architecture, deployType, next) {
 		args.push(deployType);
 	}
 
-	if (platform === 'ios') {
-		args.push('--hide-error-controller');
-		killiOSSimulator();
-	}
-
 	if (deviceId) {
 		args.push('--C');
 		args.push(deviceId);
 	}
 
-	if (platform === 'windows' && target !== 'wp-emulator') {
-		args.push('--forceUnInstall');
+	if (platform === 'ios') {
+		args.push('--hide-error-controller');
+		killiOSSimulator();
+
+		if (deviceFamily) {
+			args.push('--device-family');
+			args.push(deviceFamily);
+		}
 	}
 
-	if (platform === 'windows' && architecture) {
-		args.push('--architecture');
-		args.push(architecture);
+	if (platform === 'windows') {
+		if (target !== 'wp-emulator') {
+			args.push('--forceUnInstall');
+		}
+
+		if (architecture) {
+			args.push('--architecture');
+			args.push(architecture);
+		}
 	}
 
 	args.push('--no-prompt');
@@ -571,17 +579,18 @@ function cleanupModules(next) {
  * app for each platform with our mocha test suite. Outputs the results in a JUnit
  * test report, and holds onto the results in memory as a JSON object.
  *
- * @param	{String}   			branch    	branch/zip/url of SDK to install. If null/undefined, no SDK will be installed
- * @param	{(String|String[])}	platforms 	[description]
- * @param	{String}   			target		Titanium target value to run the tests on
- * @param	{String}			deviceId	Titanium device id target to run the tests on
+ * @param	{String}   	branch    	branch/zip/url of SDK to install. If null/undefined, no SDK will be installed
+ * @param	{String|String[]}	platforms 	   [description]
+ * @param	{String}   			target		    Titanium target value to run the tests on
+ * @param	{String}			deviceId	    Titanium device id target to run the tests on
  * @param	{Boolean}			skipSdkInstall	Don't try to install an SDK from `branch`
- * @param	{Boolean}			cleanup	Delete all the non-GA SDKs when done? Defaults to true if we installed an SDK
+ * @param	{Boolean}			cleanup	        Delete all the non-GA SDKs when done? Defaults to true if we installed an SDK
  * @param	{String}			architecture	Target architecture to build. Only valid on Windows
- * @param   {string}            [deployType] deploy type to build
- * @param	{Function} 			callback  	async callback
+ * @param   {string}            [deployType]    deployType
+ * @param   {string}            [deviceFamily]  'ipad' || 'iphone'
+ * @param	{Function} 			callback  	    async callback
  */
-function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, deployType, callback) {
+function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, deployType, deviceFamily, callback) {
 	let sdkPath;
 	// if we're not skipping sdk install and haven't specific whether to clean up or not, default to cleaning up non-GA SDKs
 	if (!skipSdkInstall && cleanup === undefined) {
@@ -591,6 +600,11 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, arch
 	if (typeof deployType === 'function') {
 		callback = deployType;
 		deployType = undefined;
+	}
+	// if they didn't specify a deviceFamily, set callback correctly
+	if (typeof deviceFamily === 'function') {
+		callback = deviceFamily;
+		deviceFamily = undefined;
 	}
 
 	const tasks = [];
@@ -643,15 +657,16 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, arch
 	const results = {};
 	platforms.forEach(function (platform) {
 		tasks.push(function (next) {
-			runBuild(platform, target, deviceId, architecture, deployType, function (err, result) {
+			runBuild(platform, target, deviceId, architecture, deployType, deviceFamily, function (err, result) {
 				if (err) {
 					return next(err);
 				}
-				let prefix;
+				let prefix = platform;
 				if (target) {
-					prefix = platform + '.' + target;
-				} else {
-					prefix = platform;
+					prefix += '.' + target;
+				}
+				if (deviceFamily) {
+					prefix += '.' + deviceFamily;
 				}
 				results[prefix] = result;
 				outputJUnitXML(result, prefix, next);
@@ -748,7 +763,6 @@ if (module.id === '.') {
 
 		program
 			.version(packageJson.version)
-			// TODO Allow choosing a URL or zipfile as SDK to install!
 			.option('-b, --branch [branchName]', 'Install a specific branch of the SDK to test with', 'master')
 			.option('-p, --platforms <platform1,platform2>', 'Run unit tests on the given platforms', /^(android(,ios|,windows)?)|(ios(,android)?)|(windows(,android)?)$/, 'android,ios')
 			.option('-T, --target [target]', 'Titanium platform target to run the unit tests on. Only valid when there is a single platform provided')
@@ -757,6 +771,7 @@ if (module.id === '.') {
 			.option('-c, --cleanup', 'Cleanup non-GA SDKs. Default is true if we install an SDK')
 			.option('-a, --architecture [architecture]', 'Target architecture to build. Only valid on Windows')
 			.option('-D, --deploy-type <type>', 'the type of deployment', /^(test|development)$/)
+			.option('-F, --device-family <value>', 'the device family to build for ', /^(iphone|ipad)$/)
 			.parse(process.argv);
 
 		const platforms = program.platforms.split(',');
@@ -771,34 +786,37 @@ if (module.id === '.') {
 			process.exit(1);
 		}
 
-		test(program.branch, platforms, program.target, program.deviceId, program.skipSdkInstall, program.cleanup, program.architecture, program.deployType, function (err, results) {
-			if (err) {
-				console.error(err.toString());
-				process.exit(1);
-				return;
-			}
-
-			async.eachSeries(platforms, function (platform, next) {
-				let prefix;
-				if (program.target) {
-					prefix = platform + '.' + program.target;
-				} else {
-					prefix = platform;
-				}
-				console.log();
-				console.log('=====================================');
-				console.log(prefix.toUpperCase());
-				console.log('-------------------------------------');
-				outputResults(results[prefix].results, next);
-			}, function (err) {
+		test(
+			program.branch, platforms, program.target, program.deviceId, program.skipSdkInstall,
+			program.cleanup, program.architecture, program.deployType, program.deviceFamily, function (err, results) {
 				if (err) {
 					console.error(err.toString());
 					process.exit(1);
 					return;
 				}
 
-				process.exit(0);
-			});
-		});
+				async.eachSeries(platforms, function (platform, next) {
+					let prefix;
+					if (program.target) {
+						prefix = platform + '.' + program.target;
+					} else {
+						prefix = platform;
+					}
+					console.log();
+					console.log('=====================================');
+					console.log(prefix.toUpperCase());
+					console.log('-------------------------------------');
+					outputResults(results[prefix].results, next);
+				}, function (err) {
+					if (err) {
+						console.error(err.toString());
+						process.exit(1);
+						return;
+					}
+
+					process.exit(0);
+				});
+			}
+		);
 	}());
 }
