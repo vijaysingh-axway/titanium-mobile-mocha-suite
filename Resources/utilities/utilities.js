@@ -52,6 +52,12 @@ filters = {
 	ios: function () {
 		return Utility.isIOS();
 	},
+	ipad: function () {
+		return Utility.isIPad();
+	},
+	iphone: function () {
+		return Utility.isIPhone();
+	},
 	windows: function () {
 		return Utility.isWindows();
 	},
