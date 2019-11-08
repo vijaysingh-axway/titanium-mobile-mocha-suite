@@ -671,4 +671,34 @@ describe('Titanium.Network.HTTPClient', function () {
 		client.open('GET', 'https://ssllabs.com/ssltest/viewMyClient.html');
 		client.send();
 	});
+
+	it('progress event', finish => {
+		let attempts = 3;
+		let progressVar = -1;
+		const xhr = Ti.Network.createHTTPClient();
+		xhr.setTimeout(5000);
+		xhr.onsendstream = e => {
+			try {
+				should(e.progress).be.above(0);
+				should(e.progress).be.aboveOrEqual(progressVar);
+				progressVar = e.progress;
+			} catch (error) {
+				finish(error);
+			}
+		};
+		xhr.onload = e => {
+			finish();
+		};
+		xhr.onerror = e => {
+			if (attempts-- > 0) {
+				Ti.API.warn('failed, attempting to retry request...');
+				xhr.send();
+			} else {
+				Ti.API.debug(JSON.stringify(e, null, 2));
+				finish(new Error('failed to retrieve large image: ' + e));
+			}
+		};
+		xhr.open('POST', 'https://httpbin.org/post');
+		xhr.send(Ti.Utils.base64encode(Ti.Filesystem.getFile('SplashScreen.png')).toString());
+	});
 });
