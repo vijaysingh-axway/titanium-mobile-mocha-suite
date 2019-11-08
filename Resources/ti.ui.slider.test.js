@@ -37,4 +37,13 @@ describe('Titanium.UI.Slider', function () {
 		slider.value = 25;
 		should(slider.value).be.eql(25);
 	});
+
+	it.windowsMissing('tintColor/trackTintColor', () => {
+		const slider = Ti.UI.createSlider({
+			tintColor: 'red',
+			trackTintColor: 'green'
+		});
+		should(slider.tintColor).be.eql('red');
+		should(slider.trackTintColor).be.eql('green');
+	});
 });
