@@ -8,7 +8,11 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 const path = require('path');
+
+const IS_IOS = utilities.isIOS();
+const IS_ENCRYPTED = Ti.App.deployType === 'test';
 
 /**
  * Just using __filename fails at least on iOS, I don't think we support assumption of resources dir by default for absolute paths!
@@ -442,7 +446,11 @@ describe('fs', function () {
 				try {
 					should(files).be.an.Array;
 					should(files.length).be.greaterThan(1); // it should have some files, man
-					should(files).containEql('app.js');
+					if (IS_IOS && IS_ENCRYPTED) {
+						should(files).containEql('Info.plist');
+					} else {
+						should(files).containEql('app.js');
+					}
 
 					finished();
 				} catch (e) {
@@ -456,7 +464,11 @@ describe('fs', function () {
 				try {
 					should(files).be.an.Array;
 					should(files.length).be.greaterThan(1); // it should have some files, man
-					should(files).containEql(Buffer.from('app.js'));
+					if (IS_IOS && IS_ENCRYPTED) {
+						should(files).containEql(Buffer.from('Info.plist'));
+					} else {
+						should(files).containEql(Buffer.from('app.js'));
+					}
 
 					finished();
 				} catch (e) {
@@ -503,14 +515,24 @@ describe('fs', function () {
 			const files = fs.readdirSync(Ti.Filesystem.resourcesDirectory);
 			should(files).be.an.Array;
 			should(files.length).be.greaterThan(1); // it should have some files, man
-			should(files).containEql('app.js');
+
+			if (IS_IOS && IS_ENCRYPTED) {
+				should(files).containEql('Info.plist');
+			} else {
+				should(files).containEql('app.js');
+			}
 		});
 
 		it('returns Buffers for listing for this directory if encoding === "buffer"', () => {
 			const files = fs.readdirSync(Ti.Filesystem.resourcesDirectory, { encoding: 'buffer' });
 			should(files).be.an.Array;
 			should(files.length).be.greaterThan(1); // it should have some files, man
-			should(files).containEql(Buffer.from('app.js'));
+
+			if (IS_IOS && IS_ENCRYPTED) {
+				should(files).containEql(Buffer.from('Info.plist'));
+			} else {
+				should(files).containEql(Buffer.from('app.js'));
+			}
 		});
 
 		it('returns Error for non-existent path', () => {
