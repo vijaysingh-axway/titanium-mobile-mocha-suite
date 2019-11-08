@@ -7,7 +7,8 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.Window', function () {
 	var win;
@@ -751,7 +752,20 @@ describe('Titanium.UI.Window', function () {
 				if (hasPhysicalHomeButton()) {
 					should(padding.bottom).be.eql(0);
 				} else {
-					should(padding.bottom).be.eql(34); // 34 on xr
+					let bottom;
+					if (utilities.isIPad()) {
+						// https://useyourloaf.com/blog/supporting-new-ipad-pro-models/
+						// Top: 24 pts, bottom: 20 pts in Portrait *and* landscape
+						bottom = 20;
+						// https://stackoverflow.com/questions/46376860/what-is-the-safe-region-for-iphone-x-in-pixels-that-factors-the-top-notch-an/49174154
+					} else if (Ti.Gesture.landscape) {
+						// Bottom: 21 pt, left/right: 44 pt for iPhones in Landscape
+						bottom = 21;
+					} else {
+						// Top: 44 pt, bottom: 34 pt for iPhones in Portrait
+						bottom = 34;
+					}
+					should(padding.bottom).be.eql(bottom);
 				}
 				finish();
 			} catch (err) {
