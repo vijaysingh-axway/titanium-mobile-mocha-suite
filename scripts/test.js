@@ -465,6 +465,17 @@ function massageJSONString(testResults) {
 		.replace(/[\u0000-\u0019]+/g, ''); // eslint-disable-line no-control-regex
 }
 
+function generateJUnitPrefix(platform, target, deviceFamily) {
+	let prefix = platform;
+	if (target) {
+		prefix += '.' + target;
+	}
+	if (deviceFamily) {
+		prefix += '.' + deviceFamily;
+	}
+	return prefix;
+}
+
 /**
  * Converts JSON results of unit tests into a JUnit test result XML formatted file.
  *
@@ -661,13 +672,7 @@ function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, arch
 				if (err) {
 					return next(err);
 				}
-				let prefix = platform;
-				if (target) {
-					prefix += '.' + target;
-				}
-				if (deviceFamily) {
-					prefix += '.' + deviceFamily;
-				}
+				const prefix = generateJUnitPrefix(platform, target, deviceFamily);
 				results[prefix] = result;
 				outputJUnitXML(result, prefix, next);
 			});
@@ -796,12 +801,7 @@ if (module.id === '.') {
 				}
 
 				async.eachSeries(platforms, function (platform, next) {
-					let prefix;
-					if (program.target) {
-						prefix = platform + '.' + program.target;
-					} else {
-						prefix = platform;
-					}
+					const prefix = generateJUnitPrefix(platform, program.target, program.deviceFamily);
 					console.log();
 					console.log('=====================================');
 					console.log(prefix.toUpperCase());
