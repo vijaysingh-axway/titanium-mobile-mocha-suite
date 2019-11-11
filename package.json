@@ -50,6 +50,9 @@
   },
   "scripts": {
     "integration": "node scripts/test.js -p android,ios -b master",
+    "integration:android": "node scripts/test.js -p android -s",
+    "integration:ios": "node scripts/test.js -p ios -s",
+    "integration:ipad": "node scripts/test.js -p ios -F ipad -s",
     "lint": "eslint .",
     "test": "npm run lint"
   },
