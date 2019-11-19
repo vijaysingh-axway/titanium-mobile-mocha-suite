@@ -281,12 +281,11 @@ describe.windowsBroken('Titanium.Geolocation', function () {
 				should(data).have.property('places').which.is.an.Array;
 
 				should(data.places[0].postalCode).be.eql('94043');
-				should(data.places[0].zipcode).be.eql('94043');
 				should(data.places[0]).have.property('latitude').which.is.a.Number;
 				should(data.places[0]).have.property('longitude').which.is.a.Number;
 				should(data.places[0].country).be.eql('USA');
 				should(data.places[0].state).be.eql('California');
-				should(data.places[0].country_code).be.eql('US');
+				should(data.places[0].countryCode).be.eql('US');
 				should(data.places[0]).have.property('city').which.is.a.String;
 				should(data.places[0]).have.property('address').which.is.a.String;
 
