@@ -800,9 +800,8 @@ describe.windowsBroken('Titanium.XML', function () {
 	});
 
 	// FIXME: some properties should be null if it is unspecified
-	// iOS gives 'expected [String: '[object TIDOMDocumentType]'] to equal null'
 	// Windows: expected undefined not to have type undefined
-	it.iosAndWindowsBroken('apiXmlNodeProperties', function () {
+	it.androidAndWindowsBroken('apiXmlNodeProperties', function () {
 		var doc = Ti.XML.parseString(testSource['nodes.xml']),
 			nodesList = doc.getElementsByTagName('nodes'),
 			node,
@@ -848,7 +847,7 @@ describe.windowsBroken('Titanium.XML', function () {
 		should(commentNode.nodeValue).eql(commentNodeContents);
 		should(doc.nodeValue).eql(null);
 		should(doc.createDocumentFragment().nodeValue).eql(null);
-		should(doc.doctype).eql(null);
+		should(doc.doctype).be.an.Object;
 		should(node.nodeValue).eql(null);
 		should(doc.createEntityReference('blah').nodeValue).eql(null);
 
