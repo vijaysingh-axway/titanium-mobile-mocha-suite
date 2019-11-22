@@ -183,24 +183,24 @@ describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
 				createTab('Tab 2'),
 				createTab('Tab 3') ]
 		});
-		var navigationWindow = Ti.UI.createNavigationWindow({
+		nav = Ti.UI.createNavigationWindow({
 			window: tabGroup,
 		});
-		navigationWindow.open();
+		nav.open();
 	});
 
 	it('have a TabGroup child in stack', function () {
 		var rootWin = Ti.UI.createWindow(),
-			navigationWindow = Ti.UI.createNavigationWindow({
-				window: rootWin
-			}),
 			tabGroup = Ti.UI.createTabGroup({ title: 'TabGroup',
 				tabs: [ createTab('Tab 1'),
 					createTab('Tab 2'),
 					createTab('Tab 3') ]
 			});
-		navigationWindow.open();
-		navigationWindow.openWindow(tabGroup);
+		nav = Ti.UI.createNavigationWindow({
+			window: rootWin
+		});
+		nav.open();
+		nav.openWindow(tabGroup);
 	});
 });
 
