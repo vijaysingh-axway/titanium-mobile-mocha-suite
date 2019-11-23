@@ -28,6 +28,8 @@ suites.forEach(function(currentSuite)
 				title += ` - ${test.os_version}`;
 			}
 			title += ')';
+		} else if (test.os_version) {
+			title += ` (${test.os_version})`;
 		}
 -%>
 		<testcase
