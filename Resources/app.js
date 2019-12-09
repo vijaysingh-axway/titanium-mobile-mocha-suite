@@ -110,6 +110,8 @@ function loadTests() {
 	require('./ti.media.sound.test');
 	require('./ti.media.videoplayer.test');
 	require('./ti.network.test');
+	require('./ti.network.bonjourbrowser.test');
+	require('./ti.network.bonjourservice.test');
 	require('./ti.network.cookie.test');
 	require('./ti.network.httpclient.test');
 	require('./ti.network.socket.tcp.test');

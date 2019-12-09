@@ -91,4 +91,8 @@ describe('Titanium.Network', function () {
 	it('createHTTPClient()', function () {
 		should(Ti.Network.createHTTPClient).be.a.Function;
 	});
+
+	it('#createTCPSocket() should be removed', () => {
+		should(Ti.Network.createTCPSocket).not.exist;
+	});
 });
