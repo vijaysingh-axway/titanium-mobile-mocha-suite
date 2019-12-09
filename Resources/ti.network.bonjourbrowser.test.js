@@ -14,7 +14,7 @@ describe.ios('Titanium.Network.BonjourBrowser', () => {
 
 	it('.apiName', () => {
 		should(browser).have.a.readOnlyProperty('apiName').which.is.a.String;
-		should(browser.apiName).be.eql('Titanium.Network.BonjourBrowser');
+		should(browser.apiName).be.eql('Ti.Network.BonjourBrowser');
 	});
 
 	describe('.domain', () => {
@@ -44,11 +44,11 @@ describe.ios('Titanium.Network.BonjourBrowser', () => {
 		});
 
 		// eslint-disable-next-line mocha/no-identical-title
-		it('defaults to null', () => {
+		it('defaults to undefined', () => {
 			// TODO: Typically this would be something like '_http._tcp' or '._tcp'
 			// see https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/domainnames.html#//apple_ref/doc/uid/TP40002460-SW1
 			// https://jonathanmumm.com/tech-it/mdns-bonjour-bible-common-service-strings-for-various-vendors/
-			should(browser.serviceType).eql(null);
+			should(browser.serviceType).eql(undefined);
 		});
 	});
 

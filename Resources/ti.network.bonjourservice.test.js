@@ -23,8 +23,7 @@ describe.ios('Ti.Network.BonjourService', () => {
 		});
 
 		it('defaults to null', () => {
-			// FIXME: This will silently default to "local." when publishing. Why not set that in constructor/docs?
-			should(service.domain).eql(null);
+			should(service.domain).eql('local.');
 		});
 	});
 
@@ -45,8 +44,8 @@ describe.ios('Ti.Network.BonjourService', () => {
 		});
 
 		// eslint-disable-next-line mocha/no-identical-title
-		it('defaults to null', () => {
-			should(service.name).eql(null);
+		it('defaults to undefined', () => {
+			should(service.name).eql(undefined);
 		});
 	});
 
@@ -56,8 +55,8 @@ describe.ios('Ti.Network.BonjourService', () => {
 		});
 
 		// eslint-disable-next-line mocha/no-identical-title
-		it('defaults to null', () => {
-			should(service.socket).eql(null);
+		it('defaults to undefined', () => {
+			should(service.socket).eql(undefined);
 		});
 	});
 
@@ -68,11 +67,11 @@ describe.ios('Ti.Network.BonjourService', () => {
 		});
 
 		// eslint-disable-next-line mocha/no-identical-title
-		it('defaults to null', () => {
+		it('defaults to undefined', () => {
 			// TODO: Typically this would be something like '_http._tcp' or '._tcp'
 			// see https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/NetServices/Articles/domainnames.html#//apple_ref/doc/uid/TP40002460-SW1
 			// https://jonathanmumm.com/tech-it/mdns-bonjour-bible-common-service-strings-for-various-vendors/
-			should(service.type).eql(null);
+			should(service.type).eql(undefined);
 		});
 	});
 
