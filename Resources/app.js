@@ -173,18 +173,27 @@ function loadTests() {
 	loadAddonTestFiles(Ti.Filesystem.resourcesDirectory);
 }
 
+/**
+ * @param {string} name directory or filepath to look for addon tests
+ */
 function loadAddonTestFiles(name) {
 	const info = Ti.Filesystem.getFile(name);
 	if (!info) {
 		console.warn(`could not load addon test files: ${name}`);
 		return;
 	}
+
 	if (info.isDirectory()) {
+		// ios has a trailing / in Ti.Filesystem.resourcesDirectory so we get too many slashes here!
+		if (name.endsWith('/')) {
+			name = name.slice(0, name.length - 1);
+		}
 		info.getDirectoryListing().forEach(listing => loadAddonTestFiles(`${name}/${listing}`));
 	} else if (/\w+.addontest\.js$/i.test(info.name)) { // Only load the test files
 		try {
 			// convert app:/// to just '/' on Android
 			const absolutePathWithoutExtension = name.replace(/.js$/, '').replace(Ti.Filesystem.resourcesDirectory, '/');
+			console.log(`Loading addon test: ${absolutePathWithoutExtension}`);
 			require(absolutePathWithoutExtension); // eslint-disable-line security/detect-non-literal-require
 		} catch (e) {
 			console.log(e);
