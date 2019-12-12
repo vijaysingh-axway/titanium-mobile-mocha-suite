@@ -1,3 +1,3 @@
 module.exports = {
-	name: 'ti.touchid/example.js'
+	name: 'ti.identity/example.js'
 };
