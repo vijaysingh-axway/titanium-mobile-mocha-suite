@@ -76,13 +76,11 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 					// Kill the emulators!
 					// pipeline-library?
 					if ('android'.equals(os)) {
-						sh 'adb shell am force-stop com.appcelerator.testApp.testing'
-						sh 'adb uninstall com.appcelerator.testApp.testing'
+						sh returnStatus: true, script: 'adb shell am force-stop com.appcelerator.testApp.testing'
+						sh returnStatus: true, script: 'adb uninstall com.appcelerator.testApp.testing'
 						killAndroidEmulators()
 					} else if ('ws-local'.equals(target)) {
 						bat 'taskkill /IM mocha.exe /F 2> nul'
-					} else if ('wp-emulator'.equals(target)) {
-						bat 'taskkill /IM xde.exe /F 2> nul'
 					}
 					// if
 				} // finally
@@ -130,11 +128,6 @@ timestamps {
 					node('msbuild-14 && vs2015 && windows-sdk-10 && cmake') {
 						unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'ws-local')
 					}
-				},
-				'Windows emulator': {
-					node('msbuild-14 && vs2015 && hyper-v && windows-sdk-10 && cmake') {
-						unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'wp-emulator')
-					}
 				}
 			)
 		} // stage('Test')
@@ -150,7 +143,7 @@ timestamps {
 						timeout(5) {
 							sh 'npm ci'
 						}
-						['ios-', 'android-', 'windows-ws-local', 'windows-wp-emulator'].each { combo ->
+						['ios-', 'android-', 'windows-ws-local'].each { combo ->
 							try {
 								unstash "test-report-${combo}"
 							} catch (e) {}
