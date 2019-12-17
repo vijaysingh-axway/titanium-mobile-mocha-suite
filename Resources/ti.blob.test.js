@@ -380,5 +380,20 @@ describe('Titanium.Blob', function () {
 			const blob = Ti.Filesystem.getFile('app.js').read();
 			should(blob.toString()).eql(blob.text);
 		});
+
+		it('returns "[object TiBlob] for binary content', function () {
+			const blob = Ti.Filesystem.getFile('SmallLogo.png').read();
+			should(blob.toString()).eql('[object TiBlob]');
+		});
+
+		it('returns empty string for buffer with empty string', function () {
+			const blob = Ti.createBuffer({ value: '' }).toBlob();
+			should(blob.toString()).eql('');
+		});
+
+		it('returns ascii text content for buffer with ascii text content', function () {
+			const blob = Ti.createBuffer({ value: 'test toString()' }).toBlob();
+			should(blob.toString()).eql('test toString()');
+		});
 	});
 });

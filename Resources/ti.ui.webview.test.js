@@ -7,11 +7,11 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.WebView', function () {
-	var win;
+	let win;
 	this.slow(3000);
 	this.timeout(30000);
 
@@ -648,6 +648,25 @@ describe('Titanium.UI.WebView', function () {
 			win.close();
 			done();
 		});
+		win.add(webView);
+		win.open();
+	});
+
+	it('requestHeaders with redirecting url should work properly', function (finish) {
+		win = Ti.UI.createWindow();
+		const webView = Ti.UI.createWebView({
+			url: 'https://jira.appcelerator.org/',
+			requestHeaders: { 'Custom-field1': 'value1' }
+		});
+
+		webView.addEventListener('load', function () {
+			finish();
+		});
+
+		webView.addEventListener('error', function (e) {
+			finish(e);
+		});
+
 		win.add(webView);
 		win.open();
 	});
