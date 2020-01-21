@@ -95,7 +95,7 @@ describe('Titanium.UI.Window', function () {
 			doOrientationModeTest(Ti.UI.PORTRAIT, finish);
 		});
 
-		it('LANDSCAPE_LEFT', function (finish) {
+		it.androidBroken('LANDSCAPE_LEFT', function (finish) {
 			doOrientationModeTest(Ti.UI.LANDSCAPE_LEFT, finish);
 		});
 
