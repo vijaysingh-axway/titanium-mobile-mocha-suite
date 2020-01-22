@@ -22,20 +22,10 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 			command('npm ci')
 			dir('scripts') {
 				try {
-					if ('ws-local'.equals(target)) {
-						timeout(30) {
-							bat "node test.js -p ${os} -b ${testSuiteBranch} -T ${target}"
-						}
-					} else if ('wp-emulator'.equals(target)) {
-						timeout(30) {
-							bat "node test.js -p ${os} -b ${testSuiteBranch} -T ${target} -C 10-0-1"
-						}
-					} else {
-						timeout(20) {
-							// We know we wont need to use the target here for iOS/Android
-							sh "node test.js -p ${os} -b ${testSuiteBranch}"
-						} // timeout
-					}
+					timeout(20) {
+						// We know we wont need to use the target here for iOS/Android
+						sh "node test.js -p ${os} -b ${testSuiteBranch}"
+					} // timeout
 				} catch (e) {
 					// Move crash collection to pipeline library?
 					if ('ios'.equals(os)) {
@@ -71,8 +61,6 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 						sh returnStatus: true, script: 'adb shell am force-stop com.appcelerator.testApp.testing'
 						sh returnStatus: true, script: 'adb uninstall com.appcelerator.testApp.testing'
 						killAndroidEmulators()
-					} else if ('ws-local'.equals(target)) {
-						bat 'taskkill /IM mocha.exe /F 2> nul'
 					}
 					// if
 				} // finally
