@@ -54,22 +54,14 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 						sh 'rm -f mocha_*.crash'
 					} else if ('android'.equals(os)) {
 						// gather crash reports/tombstones for Android
-						sh 'adb pull /data/tombstones'
-						archiveArtifacts 'tombstones/'
+						sh label: 'gather crash reports/tombstones for Android', returnStatus: true, script: './adb-all.sh pull /data/tombstones'
+						archiveArtifacts allowEmptyArchive: true, artifacts: 'tombstones/'
 						sh 'rm -f tombstones/'
+						sh returnStatus: true, script: 'rm -rf tombstones/'
 						// wipe tombstones and re-build dir with proper permissions/ownership on emulator
-						sh 'adb shell rm -rf /data/tombstones'
-						sh 'adb shell mkdir -m 771 /data/tombstones'
-						sh 'adb shell chown system:system /data/tombstones'
-					} else if ('windows'.equals(os)) {
-						bat 'mkdir crash_reports'
-						dir ('crash_reports') {
-							// move command doesn't grok wildcards, so we hack it: https://serverfault.com/questions/374997/move-directory-in-dos-batch-file-without-knowing-full-directory-name
-							bat "FOR /d %i IN (C:\\ProgramData\\Microsoft\\Windows\\WER\\ReportArchive\\AppCrash_com.appcelerator_*) DO move %i ."
-						}
-						archiveArtifacts 'crash_reports/**/*'
-						bat 'rmdir crash_reports /Q /S'
-						throw e
+						sh returnStatus: true, script: './adb-all.sh shell rm -rf /data/tombstones'
+						sh returnStatus: true, script: './adb-all.sh shell mkdir -m 771 /data/tombstones'
+						sh returnStatus: true, script: './adb-all.sh shell chown system:system /data/tombstones'
 					}
 					throw e
 				} finally {
@@ -123,11 +115,6 @@ timestamps {
 					node('osx && xcode-10') {
 						unitTests('ios', scm, nodeVersion, npmVersion, targetBranch)
 					}
-				},
-				'ws-local': {
-					node('msbuild-14 && vs2015 && windows-sdk-10 && cmake') {
-						unitTests('windows', scm, nodeVersion, npmVersion, targetBranch, 'ws-local')
-					}
 				}
 			)
 		} // stage('Test')
@@ -143,7 +130,7 @@ timestamps {
 						timeout(5) {
 							sh 'npm ci'
 						}
-						['ios-', 'android-', 'windows-ws-local'].each { combo ->
+						['ios-', 'android-'].each { combo ->
 							try {
 								unstash "test-report-${combo}"
 							} catch (e) {}
