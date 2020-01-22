@@ -22,7 +22,7 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 			command('npm ci')
 			dir('scripts') {
 				try {
-					timeout(20) {
+					timeout(30) {
 						// We know we wont need to use the target here for iOS/Android
 						sh "node test.js -p ${os} -b ${testSuiteBranch}"
 					} // timeout
@@ -43,6 +43,10 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 						archiveArtifacts 'mocha_*.crash'
 						sh 'rm -f mocha_*.crash'
 					} else if ('android'.equals(os)) {
+						// FIXME: We often get forced restarts due to module updates int he emulators!
+						// i.e. ChimeraModuleLdr: Module config changed, forcing restart due to module com.google.android.gms.maps_dynamite
+						// Do we build logic into node script that runs the process to start over?
+						// or at least report it here by scanning the logs?
 						// gather crash reports/tombstones for Android
 						sh label: 'gather crash reports/tombstones for Android', returnStatus: true, script: './adb-all.sh pull /data/tombstones'
 						archiveArtifacts allowEmptyArchive: true, artifacts: 'tombstones/'
