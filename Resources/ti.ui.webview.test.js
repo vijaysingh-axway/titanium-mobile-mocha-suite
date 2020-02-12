@@ -670,4 +670,45 @@ describe('Titanium.UI.WebView', function () {
 		win.add(webView);
 		win.open();
 	});
+
+	it.ios('#assetsDirectory', function (finish) {
+		win = Ti.UI.createWindow();
+		var loadCount = 0;
+		function createDirectory(f) {
+			if (f && !f.exists()) {
+				f.createDirectory();
+			}
+			return f;
+		}
+
+		// Copy from Resources to cache folder
+		var cacheDir = createDirectory(Ti.Filesystem.getFile(Ti.Filesystem.applicationCacheDirectory));
+		createDirectory(Ti.Filesystem.getFile(cacheDir.nativePath, 'html'));
+		createDirectory(Ti.Filesystem.getFile(cacheDir.nativePath, 'folder with spaces'));
+
+		var htmlFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'html', 'example.html');
+		var nextHtmlFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'folder with spaces', 'comingSoon.html');
+
+		var htmlInCache = Ti.Filesystem.getFile(cacheDir.nativePath, 'html', 'example.html');
+		var nextHtmlInCache = Ti.Filesystem.getFile(cacheDir.nativePath, 'folder with spaces', 'comingSoon.html');
+
+		htmlFile.copy(htmlInCache.nativePath);
+		nextHtmlFile.copy(nextHtmlInCache.nativePath);
+
+		var webView = Ti.UI.createWebView({
+			width: Ti.UI.FILL,
+			height: Ti.UI.FILL,
+			url: htmlInCache.nativePath,
+			assetsDirectory: cacheDir.nativePath
+		});
+
+		webView.addEventListener('load', function () {
+			loadCount++;
+			if (loadCount > 1) {
+				finish();
+			}
+		});
+		win.add(webView);
+		win.open();
+	});
 });

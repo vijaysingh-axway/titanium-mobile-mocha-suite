@@ -444,4 +444,24 @@ describe('Titanium.UI.ImageView', function () {
 
 		imageView.images = [ '/Logo.png' ];
 	});
+
+	it('Load Image from folder', function (finish) {
+		this.timeout(10000);
+
+		var loadCount = 0;
+		win = Ti.UI.createWindow();
+		let imageView = Ti.UI.createImageView({
+			image: 'Logo.png'
+		});
+		imageView.addEventListener('load', function () {
+			loadCount++;
+			if (loadCount > 1) {
+				finish();
+			} else {
+				imageView.image = '/image folder/Logo.png';
+			}
+		});
+		win.add(imageView);
+		win.open();
+	});
 });

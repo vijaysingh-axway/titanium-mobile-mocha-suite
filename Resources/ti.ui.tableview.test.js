@@ -1365,4 +1365,35 @@ describe('Titanium.UI.TableView', function () {
 		});
 		win.open();
 	});
+
+	it.iosBroken('resize row with Ti.UI.SIZE on content height change', function (finish) {
+		var heights = [ 100, 200, 50 ];
+		var tableView = Ti.UI.createTableView({});
+		var row = Ti.UI.createTableViewRow({
+			height: Ti.UI.SIZE,
+			width: Ti.UI.FILL
+		});
+		var view = Ti.UI.createView({
+			height: heights.pop(),
+			backgroundColor: 'red'
+		});
+		row.add(view);
+		tableView.setData([ row ]);
+		tableView.addEventListener('postlayout', function onPostLayout() {
+			console.error('postlayout', row.rect.height, view.rect.height);
+			should(row.rect.height).be.eql(view.rect.height);
+			if (!heights.length) {
+				tableView.removeEventListener('postlayout', onPostLayout);
+				finish();
+			}
+			view.height = heights.pop();
+		});
+
+		win = Ti.UI.createWindow({
+			backgroundColor: 'blue'
+		});
+
+		win.add(tableView);
+		win.open();
+	});
 });
