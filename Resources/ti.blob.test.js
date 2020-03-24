@@ -396,4 +396,31 @@ describe('Titanium.Blob', function () {
 			should(blob.toString()).eql('test toString()');
 		});
 	});
+
+	it('resize very large image', function (finish) {
+		win = Ti.UI.createWindow({ backgroundColor: 'gray' });
+		const img = Ti.UI.createImageView();
+
+		// Obtain large image blob. (8000px, 8000px)
+		let blob = Ti.Filesystem.getFile('large.jpg').read();
+		should(blob).be.an.Object;
+
+		win.addEventListener('open', () => {
+			// Keep re-sizing the image down by 10%
+			for (let i = 0; i < 10; i++) {
+
+				// De-reference original blob so it can be freed.
+				blob = blob.imageAsResized(blob.width / 1.1, blob.height / 1.1);
+				should(blob).be.an.Object;
+			}
+
+			// Display re-sized image.
+			img.image = blob;
+
+			finish();
+		});
+
+		win.add(img);
+		win.open();
+	});
 });

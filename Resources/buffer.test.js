@@ -313,15 +313,12 @@ describe('Buffer', () => {
 		const buf = Buffer.alloc(4);
 		should(buf.length).eql(4);
 		should(buf).eql(Buffer.from([ 0, 0, 0, 0 ]));
-		buf[0] = 1;
-		should(buf[0]).eql(1);
-		buf[1] = 2;
-		should(buf[1]).eql(2);
-		buf[2] = 3;
-		should(buf[2]).eql(3);
-		buf[3] = 4;
-		should(buf[3]).eql(4);
-		should(buf).eql(Buffer.from([ 1, 2, 3, 4 ]));
+		const values = [ 0, 1, 2, 3 ];
+		for (let i = 0; i < values.length; i++) {
+			buf[i] = values[i];
+			should(buf[i]).eql(values[i]);
+		}
+		should(buf).eql(Buffer.from(values));
 	});
 
 	it('.poolSize', () => {
