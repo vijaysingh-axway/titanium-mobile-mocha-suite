@@ -363,12 +363,14 @@ async function handleBuild(prc) {
 				console.log('Launching application using ios-deploy');
 				const deploy = spawn('ios-deploy', [ '-L', '-b', path.join(__dirname, 'mocha/build/iphone/build/Products/Debug-iphoneos/mocha.app') ]);
 				let result = '';
-				deploy.stdout.on('data', data => {
-					result += data;
-				});
-				deploy.on('close', _e => {
-					console.log(result);
-				});
+				deploy.stdout.on('data', data => result += data);
+				deploy.on('close', _e => console.log(result));
+			}
+
+			// Fail immediately if android emulator is forcing restart
+			if (token.includes('Module config changed, forcing restart due')) {
+				prc.kill(); // quit this build...
+				return reject(new Error(`Failed to finish test suite before Android emulator killed ap due to updated module: ${token}`));
 			}
 
 			// we saw test end before, but failed to parse as JSON because we got partial output, so continue
