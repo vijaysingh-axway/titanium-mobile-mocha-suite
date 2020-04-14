@@ -7,119 +7,107 @@
 
 const path = require('path');
 const fs = require('fs-extra');
-const async = require('async');
 const colors = require('colors'); // eslint-disable-line no-unused-vars
 const ejs = require('ejs');
 const StreamSplitter = require('stream-splitter');
 const spawn = require('child_process').spawn; // eslint-disable-line security/detect-child-process
-const exec = require('child_process').exec; // eslint-disable-line security/detect-child-process
 const titanium = require.resolve('titanium');
+const { callbackify, promisify } = require('util');
+const exec = promisify(require('child_process').exec); // eslint-disable-line security/detect-child-process
 const SOURCE_DIR = path.join(__dirname, '..');
 const PROJECT_NAME = 'mocha';
 const PROJECT_DIR = path.join(__dirname, PROJECT_NAME);
 const JUNIT_TEMPLATE = path.join(__dirname, 'junit.xml.ejs');
 
-function clearPreviousApp(next) {
+async function clearPreviousApp() {
 	// If the project already exists, wipe it
-	if (fs.existsSync(PROJECT_DIR)) {
-		fs.removeSync(PROJECT_DIR);
+	if (await fs.exists(PROJECT_DIR)) {
+		return fs.remove(PROJECT_DIR);
 	}
-	next();
 }
 
-function installSDK(sdkVersion, next) {
-	sdkDir().then(sdkDir => {
-		const args = [ titanium, 'sdk', 'install' ];
-		if (sdkVersion.indexOf('.') === -1) { // no period, probably mean a branch
-			args.push('-b');
-		}
-		args.push(sdkVersion);
-		args.push('-d'); // make default
-		// Add force flag if we find that the modules dir is blown away!
-		// eslint-disable-next-line promise/always-return
-		if (!fs.existsSync(path.join(sdkDir, 'modules'))) {
-			args.push('--force'); // make default
-		}
+/**
+ * @param {string} sdkDir filepath to sdk install directory
+ * @param {string} sdkVersion version to install
+ * @returns {Promise<void>}
+ */
+async function installSDK(sdkDir, sdkVersion) {
+	const args = [ titanium, 'sdk', 'install' ];
+	if (sdkVersion.indexOf('.') === -1) { // no period, probably mean a branch
+		args.push('-b');
+	}
+	args.push(sdkVersion);
+	args.push('-d'); // make default
+	// Add force flag if we find that the modules dir is blown away!
+	// eslint-disable-next-line promise/always-return
+	if (!(await fs.exists(path.join(sdkDir, 'modules')))) {
+		args.push('--force'); // make default
+	}
 
-		console.log('Installing SDK with args: ' + args);
+	console.log('Installing SDK with args: ' + args);
+	return new Promise((resolve, reject) => {
 		const prc = spawn('node', args);
-		prc.stdout.on('data', function (data) {
-			console.log(data.toString());
-		});
-		prc.stderr.on('data', function (data) {
-			console.log(data.toString());
-		});
-		prc.on('exit', function (code) {
+		prc.stdout.on('data', data => console.log(data.toString()));
+		prc.stderr.on('data', data => console.log(data.toString()));
+		prc.on('exit', code => {
 			if (code !== 0) {
-				// eslint-disable-next-line promise/no-callback-in-promise
-				next('Failed to install SDK');
-			} else {
-				// eslint-disable-next-line promise/no-callback-in-promise
-				next();
+				return reject(new Error('Failed to install SDK'));
 			}
+			resolve();
 		});
-	// eslint-disable-next-line promise/no-callback-in-promise
-	}).catch(err => next(err));
+	});
 }
 
 /**
  * Look up the full path to the SDK we just installed (the SDK we'll be hacking
  * to add our locally built Windows SDK into).
  *
- * @param {Function} next callback function
+ * @returns {string}
  **/
-function getSDKInstallDir(next) {
-	// TODO Use fork since we're spawning off another node process
-	exec('node "' + titanium + '" info -o json -t titanium', function (error, stdout) {
-		if (error !== null) {
-			return next('Failed to get SDK install dir: ' + error);
-		}
-
-		const out = JSON.parse(stdout);
-		const selectedSDK = out.titaniumCLI.selectedSDK; // may be null!
-		if (selectedSDK) {
-			next(null, out.titanium[selectedSDK].path);
-		} else {
-			// Hope first sdk listed is the one we want
-			next(null, out.titanium[Object.keys(out.titanium)[0]].path);
-		}
-	});
+async function getSDKInstallDir() {
+	// TODO: Use fork since we're spawning off another node process
+	const { stdout, _stderr } = await exec(`node "${titanium}" info -o json -t titanium`);
+	const out = JSON.parse(stdout);
+	const selectedSDK = out.titaniumCLI.selectedSDK; // may be null!
+	if (selectedSDK) {
+		return out.titanium[selectedSDK].path;
+	}
+	// Hope first sdk listed is the one we want
+	return out.titanium[Object.keys(out.titanium)[0]].path;
 }
 
 /**
  * Runs `titanium create` to generate a project for the specific platforms.
  * @param  {string[]} platforms array of platform ids to create a project targeted for
- * @param  {Function} next  callback function
  */
-function generateProject(platforms, next) {
-	// TODO Use fork since we're spawning off another node process
-	const prc = spawn('node', [ titanium, 'create', '--force',
-		'--type', 'app',
-		'--platforms', platforms.join(','),
-		'--name', PROJECT_NAME,
-		'--id', 'com.appcelerator.testApp.testing',
-		'--url', 'http://www.appcelerator.com',
-		'--workspace-dir', __dirname,
-		'--no-prompt' ]);
-	prc.stdout.on('data', function (data) {
-		console.log(data.toString());
-	});
-	prc.stderr.on('data', function (data) {
-		console.log(data.toString());
-	});
-	prc.on('exit', function (code) {
-		if (code !== 0) {
-			next('Failed to create project');
-		} else {
-			next();
-		}
+async function generateProject(platforms) {
+	return new Promise((resolve, reject) => {
+		// NOTE: Cannot use fork, because the titanium CLI does not call process.exit()!
+		const prc = spawn(process.execPath, [ titanium, 'create', '--force',
+			'--type', 'app',
+			'--platforms', platforms.join(','),
+			'--name', PROJECT_NAME,
+			'--id', 'com.appcelerator.testApp.testing',
+			'--url', 'http://www.appcelerator.com',
+			'--workspace-dir', __dirname,
+			'--no-prompt' ], { stdio: 'inherit' });
+		prc.on('error', reject);
+		prc.on('exit', code => {
+			if (code !== 0) {
+				return reject(new Error('Failed to create project'));
+			}
+			resolve();
+		});
 	});
 }
 
-// Add required properties for our unit tests!
-function addTiAppProperties(platforms, next) {
+/**
+ * Add required properties for our unit tests!
+ * @returns {Promise<void>}
+ */
+async function addTiAppProperties() {
 	const tiapp_xml = path.join(PROJECT_DIR, 'tiapp.xml');
-	const tiapp_xml_string = fs.readFileSync(tiapp_xml).toString();
+	const tiapp_xml_string = await fs.readFile(tiapp_xml, 'utf8');
 	const content = [];
 	const insertManifest = () => {
 		content.push('\t\t\t<application>');
@@ -129,15 +117,8 @@ function addTiAppProperties(platforms, next) {
 		content.push('\t\t\t<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>');
 	};
 
-	const isWindows = (platforms.length === 1 && platforms[0] === 'windows');
-
 	// Not so smart but this should work...
-	tiapp_xml_string.split(/\r?\n/).forEach(function (line) {
-		// Fix ti.ui.defaultunit for Windows. We should use 'px' only when platform equals windows
-		if (isWindows && line.indexOf('<property name="ti.ui.defaultunit"') >= 0) {
-			line = '\t<property name="ti.ui.defaultunit" type="string">px</property>';
-		}
-
+	tiapp_xml_string.split(/\r?\n/).forEach(line => {
 		// replace generated guid with appc analytics app guid
 		if (line.indexOf('\t<guid>') >= 0) {
 			line = '\t<guid>1c4b748c-7c16-4df1-bd5c-4ffe6240286e</guid>';
@@ -150,12 +131,6 @@ function addTiAppProperties(platforms, next) {
 			// force minimum ios sdk version of 12.0
 			content.push('\t\t<min-ios-ver>12.0</min-ios-ver>');
 		// app thinning breaks tests which expect image files to exist on filesystem normally!
-		} else if (line.indexOf('</ios>') >= 0 && isWindows) {
-			// Force specific Windows SDK version because Windows Update messes default value
-			content.push('\t<windows>');
-			content.push('\t\t<TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>');
-			content.push('\t\t<TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>');
-			content.push('\t</windows>');
 		} else if (line.indexOf('<use-app-thinning>') >= 0) {
 			content.pop();
 			content.push('\t\t<use-app-thinning>false</use-app-thinning>');
@@ -202,47 +177,59 @@ function addTiAppProperties(platforms, next) {
 			insertManifest();
 		}
 	});
-	fs.writeFileSync(tiapp_xml, content.join('\n'));
-
-	next();
+	return fs.writeFile(tiapp_xml, content.join('\n'));
 }
 
-function npmInstall(dir, next) {
-	exec('npm install --production', { cwd: dir }, next);
-}
-
-function copyMochaAssets(next) {
-	async.parallel([
-		function (cb) { // Resources
-			const resourcesDir = path.join(PROJECT_DIR, 'Resources');
-			fs.copy(path.join(SOURCE_DIR, 'Resources'), resourcesDir, function (err) {
-				if (err) {
-					return cb(err);
+/**
+ * @param {string} dir filepath to dir to run npm install within
+ * @returns {Promise<{ stdout, stderr }>}
+ */
+async function npmInstall(dir) {
+	// If package-lock.json exists, try to run npm ci --production!
+	let args;
+	if (await fs.exists(path.join(dir, 'package-lock.json'))) {
+		args = [ 'ci', '--production' ];
+	} else {
+		args = [ 'install', '--production' ];
+	}
+	return new Promise((resolve, reject) => {
+		spawn('npm', args, { cwd: dir, stdio: 'inherit' })
+			.on('exit', code => {
+				if (code !== 0) {
+					return reject(new Error(`Failed with exit code: ${code}`));
 				}
-				if (fs.pathExistsSync(path.join(resourcesDir, 'package.json'))) {
-					npmInstall(resourcesDir, cb);
-				} else {
-					cb();
-				}
-			});
-		},
-		function (cb) { // modules
-			fs.copy(path.join(SOURCE_DIR, 'modules'), path.join(PROJECT_DIR, 'modules'), cb);
-		},
-		function (cb) { // plugins
-			fs.copy(path.join(SOURCE_DIR, 'plugins'), path.join(PROJECT_DIR, 'plugins'), cb);
-		},
-		function (cb) { // i18n
-			fs.copy(path.join(SOURCE_DIR, 'i18n'), path.join(PROJECT_DIR, 'i18n'), cb);
-		}
-	], next);
+				resolve();
+			}).on('error', reject);
+	});
 }
 
-function killiOSSimulator(next) {
-	spawn('killall', [ 'Simulator' ]).on('exit', function () {
-		if (next) {
-			next();
-		}
+/**
+ * @returns {Promise<void>}
+ */
+async function copyMochaAssets() {
+	console.log('Copying resources to project...');
+	// TODO: Support root-level package.json!
+	const resourcesDir = path.join(PROJECT_DIR, 'Resources');
+	return Promise.all([
+		// Resources
+		(async () => {
+			await fs.copy(path.join(SOURCE_DIR, 'Resources'), resourcesDir);
+			if (await fs.pathExists(path.join(resourcesDir, 'package.json'))) {
+				return npmInstall(resourcesDir);
+			}
+		})(),
+		// modules
+		fs.copy(path.join(SOURCE_DIR, 'modules'), path.join(PROJECT_DIR, 'modules')),
+		// plugins
+		fs.copy(path.join(SOURCE_DIR, 'plugins'), path.join(PROJECT_DIR, 'plugins')),
+		// i18n
+		fs.copy(path.join(SOURCE_DIR, 'i18n'), path.join(PROJECT_DIR, 'i18n')),
+	]);
+}
+
+async function killiOSSimulator() {
+	return new Promise((resolve, reject) => {
+		spawn('killall', [ 'Simulator' ]).on('exit', resolve).on('error', reject);
 	});
 }
 
@@ -253,9 +240,8 @@ function killiOSSimulator(next) {
  * @param {string} [architecture] only for 'windows' platform
  * @param {string} [deployType=undefined] 'development' || 'test'
  * @param {string} [deviceFamily=undefined] 'ipad' || 'iphone' || undefined
- * @param {Function} next async callback
  */
-function runBuild(platform, target, deviceId, architecture, deployType, deviceFamily, next) {
+async function runBuild(platform, target, deviceId, architecture, deployType, deviceFamily) {
 
 	if (target === undefined) {
 		switch (platform) {
@@ -264,9 +250,6 @@ function runBuild(platform, target, deviceId, architecture, deployType, deviceFa
 				break;
 			case 'ios':
 				target = 'simulator';
-				break;
-			case 'windows':
-				target = 'wp-emulator';
 				break;
 		}
 	}
@@ -318,160 +301,161 @@ function runBuild(platform, target, deviceId, architecture, deployType, deviceFa
 	}
 
 	args.push('--no-prompt');
-	args.push('--no-colors');
+	args.push('--color');
 	// TODO Use fork since we're spawning off another node process
 	const prc = spawn('node', args);
-	handleBuild(prc, next);
+	return handleBuild(prc);
 }
 
 /**
  * Once a build has been spawned off this handles grabbing the test results from the output.
  * @param  {child_process}   prc  Handle of the running process from spawn
- * @param  {Function} next [description]
  */
-function handleBuild(prc, next) {
-	const results = [];
-	let output = '';
-	let stderr = '';
-	let sawTestEnd = false;
-	let partialTestEnd = '';
-	let devices = {};
+async function handleBuild(prc) {
+	return new Promise((resolve, reject) => {
+		const results = [];
+		let output = '';
+		let stderr = '';
+		let sawTestEnd = false;
+		let partialTestEnd = '';
+		let devices = {};
 
-	const splitter = prc.stdout.pipe(StreamSplitter('\n'));
-	// Set encoding on the splitter Stream, so tokens come back as a String.
-	splitter.encoding = 'utf8';
+		const splitter = prc.stdout.pipe(StreamSplitter('\n'));
+		// Set encoding on the splitter Stream, so tokens come back as a String.
+		splitter.encoding = 'utf8';
 
-	function tryParsingTestResult(resultJSON, device, os_version) {
-		//  grab out the JSON and add to our result set
-		try {
-			const result = JSON.parse(massageJSONString(resultJSON));
-			result.stdout = output; // record what we saw in output during the test
-			result.stderr = stderr; // record what we saw in output during the test
-			result.device = device && device.length ? device : undefined; // specify device if available
-			result.os_version = os_version; // specify os version if available
-			results.push(result);
-			output = ''; // reset output
-			stderr = ''; // reset stderr
-			partialTestEnd = ''; // reset partial test output
-			sawTestEnd = false; // reset flag indicating we saw partial test output
-			return true;
-		} catch (err) {
-			// if we fail to parse as JSON, assume we got truncated output!
-			partialTestEnd = resultJSON;
-			sawTestEnd = true;
-			return false;
-		}
-	}
-
-	function getDeviceName(token) {
-		const matches = /^[\s\b]+\[([^\]]+)\]\s/g.exec(token.substring(token.indexOf(':') + 1));
-		if (matches && matches.length === 2) {
-			return matches[1];
-		}
-		return '';
-	}
-
-	splitter.on('token', function (token) {
-		console.log(token);
-
-		// Workaround to launch iOS application on device.
-		if (token.includes('Please manually launch the application')) {
-			console.log('Launching application using ios-deploy');
-			const deploy = spawn('ios-deploy', [ '-L', '-b', path.join(__dirname, 'mocha/build/iphone/build/Products/Debug-iphoneos/mocha.app') ]);
-			let result = '';
-			deploy.stdout.on('data', data => {
-				result += data;
-			});
-			deploy.on('close', _e => {
-				console.log(result);
-			});
-		}
-
-		// we saw test end before, but failed to parse as JSON because we got partial output, so continue
-		// trying until it's happy (and resets sawTestEnd to false)
-		if (sawTestEnd) {
-			let modifiedToken = token;
-			// strip off leading log level prefix!
-			if (modifiedToken.startsWith('[INFO]')) {
-				modifiedToken = modifiedToken.substring(8);
+		function tryParsingTestResult(resultJSON, device, os_version) {
+			//  grab out the JSON and add to our result set
+			try {
+				const result = JSON.parse(massageJSONString(resultJSON));
+				result.stdout = output; // record what we saw in output during the test
+				result.stderr = stderr; // record what we saw in output during the test
+				result.device = device && device.length ? device : undefined; // specify device if available
+				result.os_version = os_version; // specify os version if available
+				results.push(result);
+				output = ''; // reset output
+				stderr = ''; // reset stderr
+				partialTestEnd = ''; // reset partial test output
+				sawTestEnd = false; // reset flag indicating we saw partial test output
+				return true;
+			} catch (err) {
+				// if we fail to parse as JSON, assume we got truncated output!
+				partialTestEnd = resultJSON;
+				sawTestEnd = true;
+				return false;
 			}
-			tryParsingTestResult(partialTestEnd + modifiedToken);
-			return;
 		}
 
-		// check for test start
-		if (token.includes('!TEST_START: ')) {
-			// grab out the JSON and add to our result set
-			output = '';
-			stderr = '';
-			return;
+		function getDeviceName(token) {
+			const matches = /^[\s\b]+\[([^\]]+)\]\s/g.exec(token.substring(token.indexOf(':') + 1));
+			if (matches && matches.length === 2) {
+				return matches[1];
+			}
+			return '';
 		}
+		// pipe along the output as we go, retaining ANSI colors
+		splitter.on('data', data => process.stdout.write(data));
+		// handle the newline split output
+		splitter.on('token', function (token) {
 
-		// obtain os version
-		if (token.includes('OS_VERSION')) {
-			const device = getDeviceName(token);
-			devices[device] = {
-				version: token.slice(token.indexOf('OS_VERSION') + 12).trim(),
-				completed: false
-			};
-			return;
-		}
+			// Workaround to launch iOS application on device.
+			if (token.includes('Please manually launch the application')) {
+				console.log('Launching application using ios-deploy');
+				const deploy = spawn('ios-deploy', [ '-L', '-b', path.join(__dirname, 'mocha/build/iphone/build/Products/Debug-iphoneos/mocha.app') ]);
+				let result = '';
+				deploy.stdout.on('data', data => {
+					result += data;
+				});
+				deploy.on('close', _e => {
+					console.log(result);
+				});
+			}
 
-		// check for test end
-		const testEndIndex = token.indexOf('!TEST_END: ');
-		if (testEndIndex !== -1) {
-			const device = getDeviceName(token);
-			tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, devices[device].version);
-			return;
-		}
-
-		// check for suite end
-		if (token.includes('!TEST_RESULTS_STOP!')) {
-
-			// device completed tests
-			const device = getDeviceName(token);
-			devices[device].completed = true;
-
-			// check if all devices have completed tests
-			for (const d in devices) {
-
-				// not all devices have completed tests
-				// continue without processing results
-				if (!devices[d].completed) {
-					return;
+			// we saw test end before, but failed to parse as JSON because we got partial output, so continue
+			// trying until it's happy (and resets sawTestEnd to false)
+			if (sawTestEnd) {
+				let modifiedToken = token;
+				// strip off leading log level prefix!
+				if (modifiedToken.startsWith('[INFO]')) {
+					modifiedToken = modifiedToken.substring(8);
 				}
+				tryParsingTestResult(partialTestEnd + modifiedToken);
+				return;
 			}
 
-			prc.kill(); // ok, tests finished as expected, kill the process
-			return next(null, { date: (new Date()).toISOString(), results: results });
-		}
+			// check for test start
+			if (token.includes('!TEST_START: ')) {
+				// grab out the JSON and add to our result set
+				output = '';
+				stderr = '';
+				return;
+			}
 
-		// Handle when app crashes and we haven't finished tests yet!
-		if (token.includes('-- End application log ----') || token.includes('-- End simulator log ---')) {
-			prc.kill(); // quit this build...
-			return next('Failed to finish test suite before app crashed and logs ended!'); // failed too many times
-		}
+			// obtain os version
+			if (token.includes('OS_VERSION')) {
+				const device = getDeviceName(token);
+				devices[device] = {
+					version: token.slice(token.indexOf('OS_VERSION') + 12).trim(),
+					completed: false
+				};
+				return;
+			}
 
-		// normal output (no test start/end, suite end/crash)
-		// append output to our string for stdout
-		output += token + '\n';
-	});
-	splitter.on('error', function (err) {
+			// check for test end
+			const testEndIndex = token.indexOf('!TEST_END: ');
+			if (testEndIndex !== -1) {
+				const device = getDeviceName(token);
+				tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, devices[device].version);
+				return;
+			}
+
+			// check for suite end
+			if (token.includes('!TEST_RESULTS_STOP!')) {
+
+				// device completed tests
+				const device = getDeviceName(token);
+				devices[device].completed = true;
+
+				// check if all devices have completed tests
+				for (const d in devices) {
+
+					// not all devices have completed tests
+					// continue without processing results
+					if (!devices[d].completed) {
+						return;
+					}
+				}
+
+				prc.kill(); // ok, tests finished as expected, kill the process
+				return resolve({ date: (new Date()).toISOString(), results: results });
+			}
+
+			// Handle when app crashes and we haven't finished tests yet!
+			if (token.includes('-- End application log ----') || token.includes('-- End simulator log ---')) {
+				prc.kill(); // quit this build...
+				return reject(new Error('Failed to finish test suite before app crashed and logs ended!')); // failed too many times
+			}
+
+			// normal output (no test start/end, suite end/crash)
+			// append output to our string for stdout
+			output += token + '\n';
+		});
 		// Any errors that occur on a source stream will be emitted on the
 		// splitter Stream, if the source stream is piped into the splitter
 		// Stream, and if the source stream doesn't have any other error
 		// handlers registered.
-		next(err);
-	});
-	prc.stderr.on('data', function (data) {
-		console.error(data.toString().trim());
-		stderr += data.toString().trim() + '\n';
-	});
+		splitter.on('error', reject);
 
-	prc.on('close', (code) => {
-		if (code) {
-			return next(code);
-		}
+		prc.stderr.on('data', data => {
+			process.stderr.write(data); // pipe along the stderr as we go, retaining ANSI colors
+			stderr += data.toString().trim() + '\n'; // store the color-stripped version?
+		});
+
+		prc.on('close', code => {
+			if (code !== 0) {
+				return reject(new Error(`Exited unexpectedly with exit code: ${code}`));
+			}
+		});
 	});
 }
 
@@ -505,12 +489,11 @@ function generateJUnitPrefix(platform, target, deviceFamily) {
  *
  * @param {Object} jsonResults JSON containing results of the unit test output
  * @param {String} prefix prefix for test names to identify them uniquely
- * @param {Function} next callback function
  */
-function outputJUnitXML(jsonResults, prefix, next) {
+async function outputJUnitXML(jsonResults, prefix) {
 	// We need to go through the results and separate them out into suites!
 	const suites = {};
-	jsonResults.results.forEach(function (item) {
+	jsonResults.results.forEach(item => {
 		const s = suites[item.suite] || { tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start: '' }; // suite name to group by
 		s.tests.unshift(item);
 		s.duration += item.duration;
@@ -522,94 +505,73 @@ function outputJUnitXML(jsonResults, prefix, next) {
 		suites[item.suite] = s;
 	});
 	const keys = Object.keys(suites);
-	const values = keys.map(function (v) { return suites[v]; }); // eslint-disable-line max-statements-per-line
-	const r = ejs.render('' + fs.readFileSync(JUNIT_TEMPLATE),  { suites: values, prefix: prefix });
+	const values = keys.map(v => suites[v]);
+	const template = await fs.readFile(JUNIT_TEMPLATE, 'utf8');
+	const r = ejs.render(template,  { suites: values, prefix: prefix });
 
 	// Write the JUnit XML to a file
-	fs.writeFileSync(path.join(__dirname, 'junit.' + prefix + '.xml'), r);
-	next();
+	return fs.writeFile(path.join(__dirname, 'junit.' + prefix + '.xml'), r);
 }
 
 /**
  * Remove all CI SDKs installed. Skip GA releases, and skip the passed in SDK path we just installed.
  * @param  {String} sdkPath The SDK we just installed for testing. Keep this one in case next run can use it.
- * @param {Function} next callback function
+ * @returns {Promise<void>}
  */
-function cleanNonGaSDKs(sdkPath, next) {
+async function cleanNonGaSDKs(sdkPath) {
 	// FIXME Use fork since we're spawning off another node process!
-	exec(`node "${titanium}" sdk list -o json`, function (error, stdout) {
-		if (error !== null) {
-			return next(`Failed to get list of SDKs: ${error}`);
+	const { stdout, _stderr } = await exec(`node "${titanium}" sdk list -o json`);
+	const out = JSON.parse(stdout);
+	const installedSDKs = out.installed;
+	// Loop over the SDKs and remove any where the key doesn't end in GA, or the value isn't sdkPath
+	return Promise.all(Object.keys(installedSDKs).map(async item => {
+		const thisSDKPath = installedSDKs[item];
+		if (item.slice(-2) === 'GA') { // skip GA releases
+			return;
 		}
-
-		const out = JSON.parse(stdout);
-		const installedSDKs = out.installed;
-		// Loop over the SDKs and remove any where the key doesn't end in GA, or the value isn't sdkPath
-		async.each(Object.keys(installedSDKs), function (item, callback) {
-			const thisSDKPath = installedSDKs[item];
-			if (item.slice(-2) === 'GA') { // skip GA releases
-				return callback(null);
-			}
-			if (thisSDKPath === sdkPath) { // skip SDK we just installed
-				return callback(null);
-			}
-			console.log(`Removing ${thisSDKPath}`);
-			fs.remove(thisSDKPath, callback);
-		}, function (err) {
-			next(err);
-		});
-	});
+		if (thisSDKPath === sdkPath) { // skip SDK we just installed
+			return;
+		}
+		console.log(`Removing ${thisSDKPath}`);
+		return fs.remove(thisSDKPath);
+	}));
 }
 
 /**
  * @return {Promise<string>} path to Titanium SDK root dir
  */
-function sdkDir() {
-	return new Promise((resolve) => {
-		exec(`node "${titanium}" config sdk.defaultInstallLocation -o json`, function (error, stdout) {
-			if (error) {
-				const osName = require('os').platform();
-				if (osName === 'win32') {
-					return resolve(path.join(process.env.ProgramData, 'Titanium'));
-				} else if (osName === 'darwin') {
-					return resolve(path.join(process.env.HOME, 'Library', 'Application Support', 'Titanium'));
-				} else if (osName === 'linux') {
-					return resolve(path.join(process.env.HOME, '.titanium'));
-				}
-			}
-			return resolve(JSON.parse(stdout.trim()));
-		});
-	});
+async function sdkDir() {
+	try {
+		const { stdout, _stderr } = await exec(`node "${titanium}" config sdk.defaultInstallLocation -o json`);
+		return JSON.parse(stdout.trim());
+	} catch (error) {
+		const osName = require('os').platform();
+		if (osName === 'win32') {
+			return path.join(process.env.ProgramData, 'Titanium');
+		} else if (osName === 'darwin') {
+			return path.join(process.env.HOME, 'Library', 'Application Support', 'Titanium');
+		} else if (osName === 'linux') {
+			return path.join(process.env.HOME, '.titanium');
+		}
+	}
 }
 
-function cleanupModules(next) {
-	sdkDir().then(sdkDir => {
-		const moduleDir = path.join(sdkDir, 'modules');
-		const pluginDir = path.join(sdkDir, 'plugins');
-		try {
-			if (fs.existsSync(moduleDir)) {
-				console.log(`Removing ${moduleDir}`);
-				fs.removeSync(moduleDir);
-			} else {
-				console.log(`${moduleDir} doesnt exist`);
-			}
+/**
+ * @param {string} sdkDir filepath to sdk install directory
+ * @returns {Promise<void>}
+ */
+async function cleanupModules(sdkDir) {
+	const moduleDir = path.join(sdkDir, 'modules');
+	const pluginDir = path.join(sdkDir, 'plugins');
 
-			if (fs.existsSync(pluginDir)) {
-				console.log(`Removing ${pluginDir}`);
-				fs.removeSync(pluginDir);
-			} else {
-				console.log(`${pluginDir} doesnt exist`);
-			}
-
-			// eslint-disable-next-line promise/no-callback-in-promise
-			return next();
-		} catch (e) {
-			console.log(e);
-			// eslint-disable-next-line promise/no-callback-in-promise
-			return next(e);
+	return Promise.all([ moduleDir, pluginDir ].map(async dir => {
+		if (await fs.exists(dir)) {
+			console.log(`Removing ${dir}`);
+			await fs.remove(dir);
+		} else {
+			console.log(`${dir} doesnt exist`);
 		}
-	// eslint-disable-next-line promise/no-callback-in-promise
-	}).catch(err => next(err));
+	}));
 }
 
 /**
@@ -626,113 +588,75 @@ function cleanupModules(next) {
  * @param	{String}			architecture	Target architecture to build. Only valid on Windows
  * @param   {string}            [deployType]    deployType
  * @param   {string}            [deviceFamily]  'ipad' || 'iphone'
- * @param	{Function} 			callback  	    async callback
  */
-function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, deployType, deviceFamily, callback) {
-	let sdkPath;
+async function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, deployType, deviceFamily) {
 	// if we're not skipping sdk install and haven't specific whether to clean up or not, default to cleaning up non-GA SDKs
 	if (!skipSdkInstall && cleanup === undefined) {
 		cleanup = true;
 	}
-	// if they didn't specify a deploy type, set callback correctly
-	if (typeof deployType === 'function') {
-		callback = deployType;
-		deployType = undefined;
-	}
-	// if they didn't specify a deviceFamily, set callback correctly
-	if (typeof deviceFamily === 'function') {
-		callback = deviceFamily;
-		deviceFamily = undefined;
-	}
 
-	const tasks = [];
+	const dir = await sdkDir();
 
 	// Only ever do this in CI so unless someone changes this code,
 	// or for some reason these are set on your machine it will never
 	// remove when running locally. That way no way can be angry at me
 	if (process.env.JENKINS || process.env.JENKINS_URL) {
-		tasks.push(function (next) {
-			cleanupModules(next);
-		});
+		await cleanupModules(dir);
 	}
 
-	tasks.push(function (next) {
-		// install new SDK and delete old test app in parallel
-		async.parallel([
-			function (cb) {
-				if (!skipSdkInstall && branch) {
-					console.log('Installing SDK');
-					installSDK(branch, cb);
-				} else {
-					cb();
-				}
-			},
-			clearPreviousApp
-		], next);
-	});
-	// Record the SDK we just installed so we retain it when we clean up at end
-	tasks.push(function (next) {
-		getSDKInstallDir(function (err, installPath) {
-			if (err) {
-				return next(err);
+	// install new SDK and delete old test app in parallel
+	await Promise.all([
+		(async () => {
+			if (!skipSdkInstall && branch) {
+				console.log('Installing SDK');
+				return installSDK(dir, branch);
 			}
-			sdkPath = installPath;
-			next();
-		});
-	});
+		})(),
+		clearPreviousApp(),
+	]);
 
-	tasks.push(function (next) {
-		console.log('Generating project');
-		generateProject(platforms, next);
-	});
+	// Record the SDK we just installed so we retain it when we clean up at end
+	const sdkPath = await getSDKInstallDir();
 
-	tasks.push(copyMochaAssets);
-	tasks.push(function (next) {
-		addTiAppProperties(platforms, next);
-	});
+	console.log('Generating project');
+	await generateProject(platforms);
+
+	await copyMochaAssets();
+	await addTiAppProperties();
 
 	// run build for each platform, and spit out JUnit report
 	const results = {};
-	platforms.forEach(function (platform) {
-		tasks.push(function (next) {
-			runBuild(platform, target, deviceId, architecture, deployType, deviceFamily, function (err, result) {
-				if (err) {
-					return next(err);
-				}
-				const prefix = generateJUnitPrefix(platform, target, deviceFamily);
-				results[prefix] = result;
-				outputJUnitXML(result, prefix, next);
-			});
-		});
-	});
+	for (const platform of platforms) {
+		const result = await runBuild(platform, target, deviceId, architecture, deployType, deviceFamily);
+		const prefix = generateJUnitPrefix(platform, target, deviceFamily);
+		results[prefix] = result;
+		outputJUnitXML(result, prefix);
+	}
 
 	if (cleanup) {
-		tasks.push(function (next) {
-			cleanNonGaSDKs(sdkPath, next);
-		});
+		await cleanNonGaSDKs(sdkPath);
 	}
 
 	// Only ever do this in CI so unless someone changes this code,
 	// or for some reason these are set on your machine it will never
 	// remove when running locally. That way no way can be angry at me
 	if (process.env.JENKINS || process.env.JENKINS_URL) {
-		tasks.push(function (next) {
-			cleanupModules(next);
-		});
+		await cleanupModules(dir);
 	}
 
-	async.series(tasks, function (err) {
-		callback(err, results);
-	});
+	return results;
 }
 
-function outputResults(results, next) {
+/**
+ * @param {object[]} results test results
+ */
+async function outputResults(results) {
 	const suites = {};
 
 	// start
 	console.log();
 
-	results.forEach(function (item) {
+	results.forEach(item => {
 		const s = suites[item.suite] || { tests: [], suite: item.suite, duration: 0, passes: 0, failures: 0, start: '' }; // suite name to group by
 		s.tests.unshift(item);
 		s.duration += item.duration;
@@ -753,11 +677,11 @@ function outputResults(results, next) {
 		return Array(indents).join('  ');
 	}
 	const keys = Object.keys(suites);
-	keys.forEach(function (v) {
+	keys.forEach(v => {
 		++indents;
 		console.log('%s%s', indent(), v);
 		// now loop through the tests
-		suites[v].tests.forEach(function (test) {
+		suites[v].tests.forEach(test => {
 			if (test.state === 'skipped') {
 				skipped++;
 				console.log(indent() + '  - %s'.cyan, test.title);
@@ -779,19 +703,19 @@ function outputResults(results, next) {
 	});
 
 	// Spit out overall stats: test count, failure count, pending count, pass count.
-	console.log('%d Total Tests: %d passed, %d failed, %d skipped.', (skipped + failures + passes), passes, failures, skipped);
-	next();
+	const total = skipped + failures + passes;
+	console.log('%d Total Tests: %d passed, %d failed, %d skipped.', total, passes, failures, skipped);
 }
 
 // public API
-exports.test = test;
-exports.outputResults = outputResults;
+exports.test = callbackify(test);
+exports.outputResults = callbackify(outputResults);
 
 // When run as single script.
 if (module.id === '.') {
-	(function () {
-		const program = require('commander'),
-			packageJson = require('../package');
+	async function main(...args) {
+		const program = require('commander');
+		const packageJson = require('../package');
 
 		program
 			.version(packageJson.version)
@@ -804,44 +728,35 @@ if (module.id === '.') {
 			.option('-a, --architecture [architecture]', 'Target architecture to build. Only valid on Windows')
 			.option('-D, --deploy-type <type>', 'the type of deployment', /^(test|development)$/)
 			.option('-F, --device-family <value>', 'the device family to build for ', /^(iphone|ipad)$/)
-			.parse(process.argv);
+			.parse(args);
 
 		const platforms = program.platforms.split(',');
 
 		if (platforms.length > 1 && program.target !== undefined) {
-			console.error('--target can only be used when there is a single platform provided');
-			process.exit(1);
+			throw new Error('--target can only be used when there is a single platform provided');
 		}
 
 		if (program.deviceId && !program.target) {
-			console.error('--device-id can only be used when there is a target provided');
-			process.exit(1);
+			throw new Error('--device-id can only be used when there is a target provided');
 		}
 
-		test(
+		const results = await test(
 			program.branch, platforms, program.target, program.deviceId, program.skipSdkInstall,
-			program.cleanup, program.architecture, program.deployType, program.deviceFamily, function (err, results) {
-				if (err) {
-					console.error(err.toString());
-					process.exit(1);
-				}
+			program.cleanup, program.architecture, program.deployType, program.deviceFamily);
 
-				async.eachSeries(platforms, function (platform, next) {
-					const prefix = generateJUnitPrefix(platform, program.target, program.deviceFamily);
-					console.log();
-					console.log('=====================================');
-					console.log(prefix.toUpperCase());
-					console.log('-------------------------------------');
-					outputResults(results[prefix].results, next);
-				}, function (err) {
-					if (err) {
-						console.error(err.toString());
-						process.exit(1);
-					}
-
-					process.exit(0);
-				});
-			}
-		);
-	}());
+		for (const platform of platforms) {
+			const prefix = generateJUnitPrefix(platform, program.target, program.deviceFamily);
+			console.log();
+			console.log('=====================================');
+			console.log(prefix.toUpperCase());
+			console.log('-------------------------------------');
+			outputResults(results[prefix].results);
+		}
+	}
+	main(...process.argv)
+		.then(() => process.exit(0))
+		.catch(err => {
+			console.error(err);
+			process.exit(1);
+		});
 }
