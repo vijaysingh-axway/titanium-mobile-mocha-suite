@@ -264,4 +264,27 @@ describe('Titanium.Media.VideoPlayer', function () {
 		videoWindow.add(videoPlayer);
 		win.open();
 	});
+
+	it.ios('App should not crash when setting video player url to null (TIMOB-27799)', function (finish) {
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		const videoPlayer = Ti.Media.createVideoPlayer({
+			height: '72%',
+			url: '/movie.mp4'
+		});
+		win.add(videoPlayer);
+		win.addEventListener('open', function () {
+			videoPlayer.play();
+
+			setTimeout(function () {
+				videoPlayer.stop();
+				videoPlayer.url = null;
+			}, 2000);
+		});
+
+		videoPlayer.addEventListener('playing', () => finish());
+
+		win.open();
+	});
 });
