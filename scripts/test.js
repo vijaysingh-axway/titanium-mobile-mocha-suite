@@ -44,11 +44,9 @@ async function installSDK(sdkDir, sdkVersion) {
 		args.push('--force'); // make default
 	}
 
-	console.log('Installing SDK with args: ' + args);
+	console.log(`Installing SDK with args: ${args}`);
 	return new Promise((resolve, reject) => {
-		const prc = spawn('node', args);
-		prc.stdout.on('data', data => console.log(data.toString()));
-		prc.stderr.on('data', data => console.log(data.toString()));
+		const prc = spawn('node', args, { stdio: 'inherit' });
 		prc.on('exit', code => {
 			if (code !== 0) {
 				return reject(new Error('Failed to install SDK'));
@@ -380,7 +378,14 @@ async function handleBuild(prc) {
 				// strip off leading log level prefix!
 				if (modifiedToken.startsWith('[INFO]')) {
 					modifiedToken = modifiedToken.substring(8);
+					// colored output?
+				} else if (modifiedToken.startsWith('\u001b[32m[INFO] \u001b[39m')) {
+					// technically we get these characters on a colored [INFO] log prefix:
+					// <Buffer 1b 5b 33 32 6d 5b 49 4e 46 4f 5d 20 1b 5b 33 39 6d 3a 20 08 08 20 08 20>
+					//     \u001b [  3  2  m  [  I  N  F  O  ]  <space>\u001b[39m :  <space><backspace><backspace><space><backspace><space>
+					modifiedToken = modifiedToken.substring(24);
 				}
+				// FIXME: IF we see another !TEST_START or !TEST_RESULTS_STOP, can we fail this test and move on?
 				tryParsingTestResult(partialTestEnd + modifiedToken);
 				return;
 			}
