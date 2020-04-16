@@ -32,7 +32,7 @@ async function clearPreviousApp() {
  * @returns {Promise<void>}
  */
 async function installSDK(sdkDir, sdkVersion) {
-	const args = [ titanium, 'sdk', 'install' ];
+	const args = [ titanium, 'sdk', 'install', '--no-banner', '--no-prompt' ];
 	if (sdkVersion.indexOf('.') === -1) { // no period, probably mean a branch
 		args.push('-b');
 	}
@@ -43,8 +43,11 @@ async function installSDK(sdkDir, sdkVersion) {
 	if (!(await fs.exists(path.join(sdkDir, 'modules')))) {
 		args.push('--force'); // make default
 	}
+	if (process.env.JENKINS || process.env.JENKINS_URL) {
+		args.push('--no-progress-bars');
+	}
 
-	console.log(`Installing SDK with args: ${args}`);
+	console.log(`Installing SDK with args: ${args.join(' ')}`);
 	return new Promise((resolve, reject) => {
 		const prc = spawn('node', args, { stdio: 'inherit' });
 		prc.on('exit', code => {
@@ -88,6 +91,7 @@ async function generateProject(platforms) {
 			'--id', 'com.appcelerator.testApp.testing',
 			'--url', 'http://www.appcelerator.com',
 			'--workspace-dir', __dirname,
+			'--no-banner',
 			'--no-prompt' ], { stdio: 'inherit' });
 		prc.on('error', reject);
 		prc.on('exit', code => {
@@ -615,7 +619,6 @@ async function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup
 	await Promise.all([
 		(async () => {
 			if (!skipSdkInstall && branch) {
-				console.log('Installing SDK');
 				return installSDK(dir, branch);
 			}
 		})(),
