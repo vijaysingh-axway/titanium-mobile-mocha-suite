@@ -7,8 +7,8 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 describe('Titanium.UI', function () {
 
@@ -32,6 +32,40 @@ describe('Titanium.UI', function () {
 		should(Ti.UI.TEXT_STYLE_TITLE2).be.a.String();
 		should(Ti.UI.TEXT_STYLE_TITLE3).be.a.String();
 		should(Ti.UI.TEXT_STYLE_LARGE_TITLE).be.a.String();
+	});
+
+	it.ios('.BLEND_MODE_* constants', () => {
+		// Used in MaskedImage.mode
+		// While these are defined for both platforms, only a subset are actually supported on Android
+		// when passed to MaskedImage.mode
+		should(Ti.UI.BLEND_MODE_CLEAR).be.a.Number();
+		should(Ti.UI.BLEND_MODE_COLOR).be.a.Number();
+		should(Ti.UI.BLEND_MODE_COLOR_BURN).be.a.Number();
+		should(Ti.UI.BLEND_MODE_COLOR_DODGE).be.a.Number();
+		should(Ti.UI.BLEND_MODE_COPY).be.a.Number();
+		should(Ti.UI.BLEND_MODE_DARKEN).be.a.Number();
+		should(Ti.UI.BLEND_MODE_DESTINATION_ATOP).be.a.Number();
+		should(Ti.UI.BLEND_MODE_DESTINATION_IN).be.a.Number();
+		should(Ti.UI.BLEND_MODE_DESTINATION_OUT).be.a.Number();
+		should(Ti.UI.BLEND_MODE_DESTINATION_OVER).be.a.Number();
+		should(Ti.UI.BLEND_MODE_DIFFERENCE).be.a.Number();
+		should(Ti.UI.BLEND_MODE_EXCLUSION).be.a.Number();
+		should(Ti.UI.BLEND_MODE_HARD_LIGHT).be.a.Number();
+		should(Ti.UI.BLEND_MODE_HUE).be.a.Number();
+		should(Ti.UI.BLEND_MODE_LIGHTEN).be.a.Number();
+		should(Ti.UI.BLEND_MODE_LUMINOSITY).be.a.Number();
+		should(Ti.UI.BLEND_MODE_MULTIPLY).be.a.Number();
+		should(Ti.UI.BLEND_MODE_NORMAL).be.a.Number();
+		should(Ti.UI.BLEND_MODE_OVERLAY).be.a.Number();
+		should(Ti.UI.BLEND_MODE_PLUS_DARKER).be.a.Number();
+		should(Ti.UI.BLEND_MODE_PLUS_LIGHTER).be.a.Number();
+		should(Ti.UI.BLEND_MODE_SATURATION).be.a.Number();
+		should(Ti.UI.BLEND_MODE_SCREEN).be.a.Number();
+		should(Ti.UI.BLEND_MODE_SOFT_LIGHT).be.a.Number();
+		should(Ti.UI.BLEND_MODE_SOURCE_ATOP).be.a.Number();
+		should(Ti.UI.BLEND_MODE_SOURCE_IN).be.a.Number();
+		should(Ti.UI.BLEND_MODE_SOURCE_OUT).be.a.Number();
+		should(Ti.UI.BLEND_MODE_XOR).be.a.Number();
 	});
 
 	// TODO Use the JSCA file to generate tests!

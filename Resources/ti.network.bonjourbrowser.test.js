@@ -39,9 +39,10 @@ describe.ios('Titanium.Network.BonjourBrowser', () => {
 
 	describe('.serviceType', () => {
 		// eslint-disable-next-line mocha/no-identical-title
-		it('is a String', () => {
-			should(browser).have.a.property('serviceType').which.is.a.String();
-		});
+		// it('is a String', () => {
+		// 	// FIXME: it defaults to undefined, so we can't assert this!
+		// 	should(browser).have.a.property('serviceType').which.is.a.String();
+		// });
 
 		// eslint-disable-next-line mocha/no-identical-title
 		it('defaults to undefined', () => {

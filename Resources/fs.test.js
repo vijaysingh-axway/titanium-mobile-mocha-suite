@@ -1498,15 +1498,11 @@ describe('fs', function () {
 	});
 
 	describe('#chown()', () => {
-		it('is a function', () => {
-			should(fs.chown).be.a.Function();
-		});
+		it('is a function', () => should(fs.chown).be.a.Function());
 	});
 
 	describe('#chownSync()', () => {
-		it('is a function', () => {
-			should(fs.chownSync).be.a.Function();
-		});
+		it.allBroken('is a function', () => should(fs.chownSync).be.a.Function());
 	});
 
 	describe('#fdatasync()', () => {

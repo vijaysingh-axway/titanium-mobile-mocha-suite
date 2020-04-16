@@ -38,10 +38,11 @@ describe.ios('Ti.Network.BonjourService', () => {
 	});
 
 	describe('.name', () => {
+		// FIXME: Defaults to undefined so can't assert type
 		// eslint-disable-next-line mocha/no-identical-title
-		it('is a String', () => {
-			should(service).have.a.property('name').which.is.a.String();
-		});
+		// it('is a String', () => {
+		// 	should(service).have.a.property('name').which.is.a.String();
+		// });
 
 		// eslint-disable-next-line mocha/no-identical-title
 		it('defaults to undefined', () => {
@@ -50,9 +51,10 @@ describe.ios('Ti.Network.BonjourService', () => {
 	});
 
 	describe('.socket', () => {
-		it('is an Object', () => {
-			should(service).have.a.property('socket').which.is.an.Object();
-		});
+		// FIXME: Defaults to undefined so can't assert type
+		// it('is an Object', () => {
+		// 	should(service).have.a.property('socket').which.is.an.Object();
+		// });
 
 		// eslint-disable-next-line mocha/no-identical-title
 		it('defaults to undefined', () => {
@@ -61,10 +63,11 @@ describe.ios('Ti.Network.BonjourService', () => {
 	});
 
 	describe('.type', () => {
+		// FIXME: defaults to undefined, so we can't assert this
 		// eslint-disable-next-line mocha/no-identical-title
-		it('is a String', () => {
-			should(service).have.a.property('type').which.is.a.String();
-		});
+		// it('is a String', () => {
+		// 	should(service).have.a.property('type').which.is.a.String();
+		// });
 
 		// eslint-disable-next-line mocha/no-identical-title
 		it('defaults to undefined', () => {

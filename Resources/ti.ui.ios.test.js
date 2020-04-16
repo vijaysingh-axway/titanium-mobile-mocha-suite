@@ -49,36 +49,6 @@ describe.ios('Titanium.UI.iOS', function () {
 	it('#createTransitionAnimation(Object)');
 
 	it('#constants', function () {
-		// Used in MaskedImage.mode
-		should(Ti.UI.iOS.BLEND_MODE_CLEAR).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_COLOR).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_COLOR_BURN).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_COLOR_DODGE).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_COPY).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_DARKEN).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_DESTINATION_ATOP).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_DESTINATION_IN).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_DESTINATION_OUT).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_DESTINATION_OVER).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_DIFFERENCE).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_EXCLUSION).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_HARD_LIGHT).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_HUE).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_LIGHTEN).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_LUMINOSITY).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_MULTIPLY).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_NORMAL).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_OVERLAY).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_PLUS_DARKER).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_PLUS_LIGHTER).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_SATURATION).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_SCREEN).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_SOFT_LIGHT).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_SOURCE_ATOP).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_SOURCE_IN).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_SOURCE_OUT).be.a.Number();
-		should(Ti.UI.iOS.BLEND_MODE_XOR).be.a.Number();
-
 		// Used in BlurView.effect
 		should(Ti.UI.iOS.BLUR_EFFECT_STYLE_DARK).be.a.Number();
 		should(Ti.UI.iOS.BLUR_EFFECT_STYLE_EXTRA_LIGHT).be.a.Number();

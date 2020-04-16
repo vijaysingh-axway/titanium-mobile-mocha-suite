@@ -118,7 +118,7 @@ describe('string_decoder', () => {
 		const decoder2 = {};
 		StringDecoder.call(decoder2);
 		should(decoder2.encoding).eql('utf8');
-		should(decoder2.write).be.a.Function();
+		should(decoder2.write).be.a.Function(); // FIXME: Fails!
 		should(decoder2.end).be.a.Function();
 	});
 

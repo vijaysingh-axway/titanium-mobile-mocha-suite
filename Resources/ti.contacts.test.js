@@ -153,25 +153,18 @@ describe('Titanium.Contacts', function () {
 
 	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says "Contacts permissions missing"
-	it.allBroken('getPeopleWithName()', function () {
-		var smiths;
+	it.allBroken('#getPeopleWithName()', function () {
 		should(Ti.Contacts.getPeopleWithName).be.a.Function();
-		smiths = Ti.Contacts.getPeopleWithName('smith');
+		const smiths = Ti.Contacts.getPeopleWithName('smith');
 		should(smiths).be.an.Array();
-	});
-
-	it('getPersonByID()', function () {
-		should(Ti.Contacts.getPersonByID).be.a.Function();
-		// deprecated, do no more for now
 	});
 
 	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
 	// FIXME Android says property is undefined, not a function
-	it.allBroken('getPersonByIdentifier()', function () {
-		var noPerson;
+	it.allBroken('#getPersonByIdentifier()', function () {
 		should(Ti.Contacts.getPersonByIdentifier).be.a.Function();
 		// check for a person by bad identifier
-		noPerson = Ti.Contacts.getPersonByIdentifier('doesntexist');
+		const noPerson = Ti.Contacts.getPersonByIdentifier('doesntexist');
 		should(noPerson).be.null;
 	});
 
