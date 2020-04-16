@@ -13,7 +13,7 @@ var should = require('./utilities/assertions'),
 describe('Titanium.Analytics', function () {
 
 	it('apiName', function () {
-		should(Ti.Analytics).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Analytics).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(Ti.Analytics.apiName).be.eql('Ti.Analytics');
 	});
 
@@ -22,31 +22,31 @@ describe('Titanium.Analytics', function () {
 		should(Ti.Analytics.lastEvent).not.be.undefined;
 		// FIXME: iOS and Android return a JSON string value here, while Windows has an Object!
 		if (utilities.isWindows()) {
-			should(Ti.Analytics.lastEvent).be.a.Object;
+			should(Ti.Analytics.lastEvent).be.a.Object();
 		} else {
-			should(Ti.Analytics.lastEvent).be.a.String;
+			should(Ti.Analytics.lastEvent).be.a.String();
 		}
 	});
 
 	it('#getLastEvent()', function () {
 		should(Ti.Analytics.getLastEvent).not.be.undefined;
-		should(Ti.Analytics.getLastEvent).be.a.Function;
+		should(Ti.Analytics.getLastEvent).be.a.Function();
 	});
 
 	it('#featureEvent()', function () {
 		should(Ti.Analytics.featureEvent).not.be.undefined;
-		should(Ti.Analytics.featureEvent).be.a.Function;
+		should(Ti.Analytics.featureEvent).be.a.Function();
 	});
 
 	// TODO: implement Titanium.Analytics.filterEvents on Windows?
 	it.windowsMissing('#filterEvents()', function () {
 		should(Ti.Analytics.filterEvents).not.be.undefined;
-		should(Ti.Analytics.filterEvents).be.a.Function;
+		should(Ti.Analytics.filterEvents).be.a.Function();
 	});
 
 	it('#navEvent()', function () {
 		should(Ti.Analytics.navEvent).not.be.undefined;
-		should(Ti.Analytics.navEvent).be.a.Function;
+		should(Ti.Analytics.navEvent).be.a.Function();
 	});
 
 	it('#featureEvent() validate limitations', function () {
@@ -64,9 +64,9 @@ describe('Titanium.Analytics', function () {
 	});
 
 	it.androidMissing('.optedOut', function () {
-		should(Ti.Analytics.optedOut).be.a.Boolean;
-		should(Ti.Analytics.setOptedOut).be.a.Function;
-		should(Ti.Analytics.getOptedOut).be.a.Function;
+		should(Ti.Analytics.optedOut).be.a.Boolean();
+		should(Ti.Analytics.setOptedOut).be.a.Function();
+		should(Ti.Analytics.getOptedOut).be.a.Function();
 
 		should(Ti.Analytics.optedOut).eql(false);
 		should(Ti.Analytics.getOptedOut()).eql(false);

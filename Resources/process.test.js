@@ -32,7 +32,7 @@ describe('process', () => {
 
 	describe('#abort()', () => {
 		it('is a function', () => {
-			should(process.abort).be.a.Function;
+			should(process.abort).be.a.Function();
 		});
 	});
 
@@ -40,19 +40,19 @@ describe('process', () => {
 
 	describe('.arch', () => {
 		it('is a string', () => {
-			should(process.arch).be.a.String;
+			should(process.arch).be.a.String();
 		});
 	});
 
 	describe('.argv', () => {
 		it('is a string[]', () => {
-			should(process.argv).be.an.Array;
+			should(process.argv).be.an.Array();
 		});
 	});
 
 	describe('.argv0', () => {
 		it('is a string', () => {
-			should(process.argv0).be.a.String;
+			should(process.argv0).be.a.String();
 		});
 	});
 
@@ -64,7 +64,7 @@ describe('process', () => {
 
 	describe('.config', () => {
 		it('is an object', () => {
-			should(process.config).be.an.Object;
+			should(process.config).be.an.Object();
 		});
 	});
 
@@ -76,7 +76,7 @@ describe('process', () => {
 
 	describe('.debugPort', () => {
 		it('is a Number', () => {
-			should(process.debugPort).be.a.Number;
+			should(process.debugPort).be.a.Number();
 		});
 
 		it('matches expected default', () => {
@@ -90,19 +90,19 @@ describe('process', () => {
 
 	describe('.env', () => {
 		it('is an object', () => {
-			should(process.env).be.an.Object;
+			should(process.env).be.an.Object();
 		});
 	});
 
 	describe('.execArgv', () => {
 		it('is an Array', () => {
-			should(process.env).be.an.Array;
+			should(process.env).be.an.Array();
 		});
 	});
 
 	describe('.execPath', () => {
 		it('is a string', () => {
-			should(process.execPath).be.a.String;
+			should(process.execPath).be.a.String();
 		});
 	});
 
@@ -139,7 +139,7 @@ describe('process', () => {
 
 	describe('.stderr', () => {
 		it('is an Object', () => {
-			should(process.stderr).be.an.Object;
+			should(process.stderr).be.an.Object();
 		});
 
 		it('is not a TTY', () => {
@@ -152,14 +152,14 @@ describe('process', () => {
 
 		describe('#write()', () => {
 			it('is a Function', () => {
-				should(process.stderr.write).be.a.Function;
+				should(process.stderr.write).be.a.Function();
 			});
 		});
 	});
 
 	describe('.stdout', () => {
 		it('is an Object', () => {
-			should(process.stdout).be.an.Object;
+			should(process.stdout).be.an.Object();
 		});
 
 		it('is not a TTY', () => {
@@ -172,7 +172,7 @@ describe('process', () => {
 
 		describe('#write()', () => {
 			it('is a Function', () => {
-				should(process.stdout.write).be.a.Function;
+				should(process.stdout.write).be.a.Function();
 			});
 		});
 	});
@@ -204,13 +204,13 @@ describe('process', () => {
 
 	describe('.versions', () => {
 		it('is an object', () => {
-			should(process.versions).be.an.Object;
+			should(process.versions).be.an.Object();
 		});
 	});
 
 	describe('#nextTick()', () => {
 		it('is a function', () => {
-			should(process.nextTick).be.a.Function;
+			should(process.nextTick).be.a.Function();
 		});
 
 		it('drains all ticks before timeout called', finish => {

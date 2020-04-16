@@ -31,17 +31,17 @@ describe.ios('Titanium.App.iOS.UserActivity', function () {
 	});
 
 	it('constructor', function () {
-		should(userActivity).be.an.Object;
-		should(userActivity).have.readOnlyProperty('apiName').which.is.a.String;
+		should(userActivity).be.an.Object();
+		should(userActivity).have.readOnlyProperty('apiName').which.is.a.String();
 		should(userActivity.apiName).be.eql('Ti.App.iOS.UserActivity');
 	});
 
 	it('#deleteSavedUserActivitiesForPersistentIdentifiers()', function () {
-		should(userActivity.deleteSavedUserActivitiesForPersistentIdentifiers).be.a.Function;
+		should(userActivity.deleteSavedUserActivitiesForPersistentIdentifiers).be.a.Function();
 	});
 
 	it('#deleteAllSavedUserActivities()', function () {
-		should(userActivity.deleteAllSavedUserActivities).be.a.Function;
+		should(userActivity.deleteAllSavedUserActivities).be.a.Function();
 	});
 
 });

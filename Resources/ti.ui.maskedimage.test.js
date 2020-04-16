@@ -45,8 +45,8 @@ describe.windowsMissing('Titanium.UI.MaskedImage', function () {
 
 	it('apiName', function () {
 		var view = Ti.UI.createMaskedImage();
-		should(view).be.a.Object;
-		should(view).have.readOnlyProperty('apiName').which.is.a.String;
+		should(view).be.a.Object();
+		should(view).have.readOnlyProperty('apiName').which.is.a.String();
 		should(view.apiName).be.eql('Ti.UI.MaskedImage');
 	});
 

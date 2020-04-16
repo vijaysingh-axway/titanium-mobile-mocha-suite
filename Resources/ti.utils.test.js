@@ -43,20 +43,20 @@ describe('Titanium.Utils', function () {
 
 	it('exists', function () {
 		should(Ti.Utils).not.be.undefined;
-		should(Ti.Utils).be.an.Object;
+		should(Ti.Utils).be.an.Object();
 	});
 
 	it('apiName', function () {
-		should(Ti.Utils).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Utils).have.readOnlyProperty('apiName').which.is.a.String();
 		should(Ti.Utils.apiName).be.eql('Ti.Utils');
 	});
 
 	it('#base64decode(String)', function () {
 		var test;
 		// Basic tests
-		should(Ti.Utils.base64decode).be.a.Function;
+		should(Ti.Utils.base64decode).be.a.Function();
 		test = Ti.Utils.base64decode('dGVzdA==');
-		should(test).be.a.Object;
+		should(test).be.a.Object();
 		should(test.apiName).eql('Ti.Blob');
 		should(test.getText()).be.eql('test');
 
@@ -81,9 +81,9 @@ describe('Titanium.Utils', function () {
 
 	it('#base64encode(String)', function () {
 		var test;
-		should(Ti.Utils.base64encode).be.a.Function;
+		should(Ti.Utils.base64encode).be.a.Function();
 		test = Ti.Utils.base64encode('test');
-		should(test).be.a.Object;
+		should(test).be.a.Object();
 		should(test.apiName).eql('Ti.Blob');
 		should(test.getText()).be.eql('dGVzdA==');
 	});
@@ -112,7 +112,7 @@ describe('Titanium.Utils', function () {
 					}
 					result = Ti.Utils.base64encode(blob);
 					// result here is a Ti.Blob
-					should(result).be.a.Object; // Fails here
+					should(result).be.a.Object(); // Fails here
 					should(result.apiName).eql('Ti.Blob');
 					// should(blob.text).eql('aGVsbG8gd29ybGQ='); // FIXME What sanity check can we do here?
 					finish();
@@ -129,7 +129,7 @@ describe('Titanium.Utils', function () {
 			buffer = Ti.createBuffer({ value: 'hello world' }); // Easiest way to get a TYPE_DATA Blob is from Ti.Buffer.toBlob()
 		blob = Ti.Utils.base64encode(buffer.toBlob());
 		// result here is a Ti.Blob
-		should(blob).be.a.Object;
+		should(blob).be.a.Object();
 		should(blob.apiName).eql('Ti.Blob');
 		should(blob.text).eql('aGVsbG8gd29ybGQ=');
 	});
@@ -138,7 +138,7 @@ describe('Titanium.Utils', function () {
 		// Only way to get a blob of type string is the result of base64encode(String) on Android!
 		var blob,
 			test = Ti.Utils.base64encode('test');
-		should(test).be.a.Object;
+		should(test).be.a.Object();
 		should(test.apiName).eql('Ti.Blob');
 		if (utilities.isAndroid()) {
 			should(test.type).eql(3); // Android-specific property, value of 3 indicates TYPE_STRING
@@ -147,7 +147,7 @@ describe('Titanium.Utils', function () {
 
 		blob = Ti.Utils.base64encode(test);
 		// result here is a Ti.Blob
-		should(blob).be.a.Object;
+		should(blob).be.a.Object();
 		should(blob.apiName).eql('Ti.Blob');
 		should(blob.text).eql('ZEdWemRBPT0=');
 	});
@@ -157,7 +157,7 @@ describe('Titanium.Utils', function () {
 		var blob = Ti.Utils.base64encode(f);
 
 		// result here is a Ti.Blob
-		should(blob).be.a.Object;
+		should(blob).be.a.Object();
 		should(blob.apiName).eql('Ti.Blob');
 		should(blob.text).eql('SSBhbSBub3QgZW5jb2RlZCB5ZXQu');
 	});
@@ -167,7 +167,7 @@ describe('Titanium.Utils', function () {
 		var blob = Ti.Utils.base64decode(f);
 
 		// result here is a Ti.Blob
-		should(blob).be.a.Object;
+		should(blob).be.a.Object();
 		should(blob.apiName).eql('Ti.Blob');
 		should(blob.text).eql('Decoding successful!');
 	});
@@ -179,16 +179,16 @@ describe('Titanium.Utils', function () {
 	// 		blob = Ti.Utils.base64decode(binaryFile);
 	//
 	// 	// result here is a Ti.Blob
-	// 	should(blob).be.a.Object;
+	// 	should(blob).be.a.Object();
 	// 	should(blob.apiName).eql('Ti.Blob');
 	// 	// ignore the actual decoded value...
 	// });
 
 	it('#md5HexDigest(String)', function () {
 		var test;
-		should(Ti.Utils.md5HexDigest).be.a.Function;
+		should(Ti.Utils.md5HexDigest).be.a.Function();
 		test = Ti.Utils.md5HexDigest('test');
-		should(test).be.a.String;
+		should(test).be.a.String();
 		should(test).be.eql('098f6bcd4621d373cade4e832627b4f6');
 	});
 
@@ -196,9 +196,9 @@ describe('Titanium.Utils', function () {
 		var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'txtFiles/file.txt'),
 			contents = f.read(),
 			test;
-		should(Ti.Utils.md5HexDigest).be.a.Function;
+		should(Ti.Utils.md5HexDigest).be.a.Function();
 		test = Ti.Utils.md5HexDigest(contents);
-		should(test).be.a.String;
+		should(test).be.a.String();
 		should(test).be.eql('4fe8a693c64f93f65c5faf42dc49ab23'); // Windows Desktop gives: 'ab1600f840b927f80a3dc000c510d1d3'
 	});
 
@@ -206,17 +206,17 @@ describe('Titanium.Utils', function () {
 		var binaryFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'Logo.png'),
 			blob = binaryFile.read(),
 			result;
-		should(Ti.Utils.md5HexDigest).be.a.Function;
+		should(Ti.Utils.md5HexDigest).be.a.Function();
 		result = Ti.Utils.md5HexDigest(blob);
-		should(result).be.a.String;
+		should(result).be.a.String();
 		should(result).be.eql('803fd0b8dd9a3ca5238390732db54062');
 	});
 
 	it('#sha1(String)', function () {
 		var test;
-		should(Ti.Utils.sha1).be.a.Function;
+		should(Ti.Utils.sha1).be.a.Function();
 		test = Ti.Utils.sha1('test');
-		should(test).be.a.String;
+		should(test).be.a.String();
 		should(test).be.eql('a94a8fe5ccb19ba61c4c0873d391e987982fbbd3');
 	});
 
@@ -234,9 +234,9 @@ describe('Titanium.Utils', function () {
 
 	it('#sha256(String)', function () {
 		var test;
-		should(Ti.Utils.sha256).be.a.Function;
+		should(Ti.Utils.sha256).be.a.Function();
 		test = Ti.Utils.sha256('test');
-		should(test).be.a.String;
+		should(test).be.a.String();
 		should(test).be.eql('9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08');
 	});
 

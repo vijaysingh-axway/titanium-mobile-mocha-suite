@@ -33,7 +33,7 @@ describe('global', function () {
 describe('__dirname', function () {
 	it.windowsMissing('should be available as \'__dirname\'', function () {
 		should(__dirname).be.ok;
-		should(__dirname).be.a.String;
+		should(__dirname).be.a.String();
 		should(__dirname).be.eql('/');
 	});
 });
@@ -42,7 +42,7 @@ describe('__dirname', function () {
 describe('__filename', function () {
 	it.windowsMissing('should be available as \'__filename\'', function () {
 		should(__filename).be.ok;
-		should(__filename).be.a.String;
+		should(__filename).be.a.String();
 		should(__filename).be.eql('/app.js');
 	});
 });

@@ -14,20 +14,20 @@ var path;
 describe('path', function () {
 	it('should be required as core module', function () {
 		path = require('path');
-		path.should.be.an.Object;
+		path.should.be.an.Object();
 	});
 
 	it('.posix provides access to posix specific variant', function () {
-		path.posix.should.be.an.Object;
+		path.posix.should.be.an.Object();
 	});
 
 	it('.win32 provides access to windows specific variant', function () {
-		path.win32.should.be.an.Object;
+		path.win32.should.be.an.Object();
 	});
 
 	describe('#basename()', function () {
 		it('is a function', function () {
-			path.basename.should.be.a.Function;
+			path.basename.should.be.a.Function();
 		});
 
 		it('ignores win32 separators on posix', function () {
@@ -101,7 +101,7 @@ describe('path', function () {
 
 	describe('.delimiter', function () {
 		it('is a String', function () {
-			path.delimiter.should.be.a.String;
+			path.delimiter.should.be.a.String();
 		});
 
 		it('is ; on windows', function () {
@@ -115,7 +115,7 @@ describe('path', function () {
 
 	describe('#join()', function () {
 		it('is a function', function () {
-			path.join.should.be.a.Function;
+			path.join.should.be.a.Function();
 		});
 
 		it('returns "." if path ends up empty string', function () {
@@ -141,7 +141,7 @@ describe('path', function () {
 
 	describe('#extname()', function () {
 		it('is a function', function () {
-			path.extname.should.be.a.Function;
+			path.extname.should.be.a.Function();
 		});
 
 		it('return extension when one period', function () {
@@ -175,7 +175,7 @@ describe('path', function () {
 
 	describe('#normalize()', function () {
 		it('is a function', function () {
-			path.normalize.should.be.a.Function;
+			path.normalize.should.be.a.Function();
 		});
 
 		it('handles posix separators', function () {
@@ -207,7 +207,7 @@ describe('path', function () {
 
 	describe('#dirname()', function () {
 		it('is a function', function () {
-			path.dirname.should.be.a.Function;
+			path.dirname.should.be.a.Function();
 		});
 
 		it('handles typical posix path', function () {
@@ -264,7 +264,7 @@ describe('path', function () {
 
 	describe('#isAbsolute()', function () {
 		it('is a function', function () {
-			path.isAbsolute.should.be.a.Function;
+			path.isAbsolute.should.be.a.Function();
 		});
 
 		it('returns false for empty string', function () {
@@ -330,7 +330,7 @@ describe('path', function () {
 
 	describe('#relative()', function () {
 		it('is a function', function () {
-			path.relative.should.be.a.Function;
+			path.relative.should.be.a.Function();
 		});
 
 		// POSIX
@@ -362,7 +362,7 @@ describe('path', function () {
 
 	describe('#resolve()', function () {
 		it('is a function', function () {
-			path.resolve.should.be.a.Function;
+			path.resolve.should.be.a.Function();
 		});
 
 		it('resolves relative path on top of absolute with posix file separator', function () {
@@ -412,7 +412,7 @@ describe('path', function () {
 
 	describe('#parse()', function () {
 		it('is a function', function () {
-			path.parse.should.be.a.Function;
+			path.parse.should.be.a.Function();
 		});
 
 		it('parses typical posix filepath', function () {
@@ -535,7 +535,7 @@ describe('path', function () {
 
 	describe('#format()', function () {
 		it('is a function', function () {
-			path.format.should.be.a.Function;
+			path.format.should.be.a.Function();
 		});
 
 		it('parses typical posix filepath', function () {
@@ -663,7 +663,7 @@ describe('path', function () {
 
 	describe('#toNamespacedPath()', function () {
 		it('is a function', function () {
-			path.toNamespacedPath.should.be.a.Function;
+			path.toNamespacedPath.should.be.a.Function();
 		});
 
 		it('returns path unmodified on posix', function () {

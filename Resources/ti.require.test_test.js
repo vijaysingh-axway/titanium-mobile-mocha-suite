@@ -33,9 +33,9 @@ exports.testNullVar = null;
 // Without it you could do:
 // it('require global as this binding', function () {
 // var object = require('ti.require.test_test');
-// should(object).be.an.Object;
-// should(globalFunctionFromModule).be.a.Function;
-// should(globalStrVarFromModule).be.a.String;
+// should(object).be.an.Object();
+// should(globalFunctionFromModule).be.a.Function();
+// should(globalStrVarFromModule).be.a.String();
 // });
 // this.globalFunctionFromModule = function () {
 // 	return "globalFunctionFromModule";

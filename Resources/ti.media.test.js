@@ -13,45 +13,45 @@ describe('Titanium.Media', function () {
 
 	it('apiName', function () {
 		var media = Ti.Media;
-		should(media).have.readOnlyProperty('apiName').which.is.a.String;
+		should(media).have.readOnlyProperty('apiName').which.is.a.String();
 		should(media.apiName).be.eql('Ti.Media');
 	});
 
 	// constants
 	it.windowsMissing('AUDIO_STATE_BUFFERING', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_BUFFERING').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_BUFFERING').which.is.a.Number();
 	});
 
 	it.windowsMissing('AUDIO_STATE_INITIALIZED', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_INITIALIZED').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_INITIALIZED').which.is.a.Number();
 	});
 
 	it.windowsMissing('AUDIO_STATE_PAUSED', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_PAUSED').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_PAUSED').which.is.a.Number();
 	});
 
 	it.windowsMissing('AUDIO_STATE_PLAYING', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_PLAYING').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_PLAYING').which.is.a.Number();
 	});
 
 	it.windowsMissing('AUDIO_STATE_STARTING', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_STARTING').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_STARTING').which.is.a.Number();
 	});
 
 	it.windowsMissing('AUDIO_STATE_STOPPED', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_STOPPED').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_STOPPED').which.is.a.Number();
 	});
 
 	it.windowsMissing('AUDIO_STATE_STOPPING', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_STOPPING').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_STOPPING').which.is.a.Number();
 	});
 
 	it.windowsMissing('AUDIO_STATE_WAITING_FOR_DATA', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_WAITING_FOR_DATA').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_WAITING_FOR_DATA').which.is.a.Number();
 	});
 
 	it.windowsMissing('AUDIO_STATE_WAITING_FOR_QUEUE', function () {
-		should(Ti.Media).have.constant('AUDIO_STATE_WAITING_FOR_QUEUE').which.is.a.Number;
+		should(Ti.Media).have.constant('AUDIO_STATE_WAITING_FOR_QUEUE').which.is.a.Number();
 	});
 
 	// video recording quality constants tests
@@ -81,7 +81,7 @@ describe('Titanium.Media', function () {
 
 	it.windowsMissing('takeScreenshot', function (finish) {
 		should(Ti.Media.takeScreenshot).not.be.undefined;
-		should(Ti.Media.takeScreenshot).be.a.Function;
+		should(Ti.Media.takeScreenshot).be.a.Function();
 
 		// take a screenshot
 		Ti.Media.takeScreenshot(function (image) {
@@ -95,7 +95,7 @@ describe('Titanium.Media', function () {
 
 	it.android('previewImage', function () {
 		should(Ti.Media.previewImage).not.be.undefined;
-		should(Ti.Media.previewImage).be.a.Function;
+		should(Ti.Media.previewImage).be.a.Function();
 	});
 
 	// FIXME: java.lang.ClassCastException: byte[] cannot be cast to org.appcelerator.titanium.io.TiBaseFile
@@ -153,6 +153,6 @@ describe('Titanium.Media', function () {
 
 	it('openPhotoGallery', function () {
 		should(Ti.Media.openPhotoGallery).not.be.undefined;
-		should(Ti.Media.openPhotoGallery).be.a.Function;
+		should(Ti.Media.openPhotoGallery).be.a.Function();
 	});
 });

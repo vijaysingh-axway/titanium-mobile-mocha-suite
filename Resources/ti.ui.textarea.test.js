@@ -42,7 +42,7 @@ describe('Titanium.UI.TextArea', function () {
 		var textArea = Ti.UI.createTextArea({
 			value: 'this is some text'
 		});
-		should(textArea).have.readOnlyProperty('apiName').which.is.a.String;
+		should(textArea).have.readOnlyProperty('apiName').which.is.a.String();
 		should(textArea.apiName).be.eql('Ti.UI.TextArea');
 	});
 
@@ -50,8 +50,8 @@ describe('Titanium.UI.TextArea', function () {
 		var textArea = Ti.UI.createTextArea({
 			value: 'this is some text'
 		});
-		should(textArea.value).be.a.String;
-		should(textArea.getValue).be.a.Function;
+		should(textArea.value).be.a.String();
+		should(textArea.getValue).be.a.Function();
 		should(textArea.value).eql('this is some text');
 		should(textArea.getValue()).eql('this is some text');
 		textArea.value = 'other text';
@@ -61,7 +61,7 @@ describe('Titanium.UI.TextArea', function () {
 
 	it('editable', function () {
 		var textArea = Ti.UI.createTextArea();
-		should(textArea.editable).be.a.Boolean;
+		should(textArea.editable).be.a.Boolean();
 		should(textArea.editable).be.true;
 		textArea.setEditable(false);
 		should(textArea.editable).be.false;
@@ -69,7 +69,7 @@ describe('Titanium.UI.TextArea', function () {
 
 	it.ios('scrollsToTop', function () {
 		var textArea = Ti.UI.createTextArea();
-		should(textArea.scrollsToTop).be.a.Boolean;
+		should(textArea.scrollsToTop).be.a.Boolean();
 		should(textArea.scrollsToTop).be.true;
 		textArea.setScrollsToTop(false);
 		should(textArea.scrollsToTop).be.false;
@@ -77,7 +77,7 @@ describe('Titanium.UI.TextArea', function () {
 
 	it('backgroundColor', function () {
 		var textArea = Ti.UI.createTextArea({ backgroundColor: 'red' });
-		should(textArea.backgroundColor).be.a.String;
+		should(textArea.backgroundColor).be.a.String();
 		should(textArea.backgroundColor).eql('red');
 		textArea.setBackgroundColor('white');
 		should(textArea.backgroundColor).eql('white');
@@ -91,9 +91,9 @@ describe('Titanium.UI.TextArea', function () {
 				right: 20
 			}
 		});
-		should(textArea.padding).be.a.Object;
-		should(textArea.getPadding).be.a.Function;
-		should(textArea.setPadding).be.a.Function;
+		should(textArea.padding).be.a.Object();
+		should(textArea.getPadding).be.a.Function();
+		should(textArea.setPadding).be.a.Function();
 
 		should(textArea.padding.left).eql(20);
 		should(textArea.padding.right).eql(20);
@@ -156,8 +156,8 @@ describe('Titanium.UI.TextArea', function () {
 			value: 'this is some text',
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
 		});
-		should(textArea.textAlign).be.a.Number;
-		should(textArea.getTextAlign).be.a.Function;
+		should(textArea.textAlign).be.a.Number();
+		should(textArea.getTextAlign).be.a.Function();
 		should(textArea.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
 		should(textArea.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
 		textArea.textAlign = Titanium.UI.TEXT_ALIGNMENT_RIGHT;
@@ -170,8 +170,8 @@ describe('Titanium.UI.TextArea', function () {
 			value: 'this is some text',
 			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
 		});
-		should(textArea.verticalAlign).be.a.Number;
-		should(textArea.getVerticalAlign).be.a.Function;
+		should(textArea.verticalAlign).be.a.Number();
+		should(textArea.getVerticalAlign).be.a.Function();
 		should(textArea.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
 		should(textArea.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
 		textArea.verticalAlign = Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP;
@@ -184,10 +184,10 @@ describe('Titanium.UI.TextArea', function () {
 			lines: 1,
 			maxLines: 5
 		});
-		should(textArea.lines).be.a.Number;
-		should(textArea.getLines).be.a.Function;
-		should(textArea.maxLines).be.a.Number;
-		should(textArea.getMaxLines).be.a.Function;
+		should(textArea.lines).be.a.Number();
+		should(textArea.getLines).be.a.Function();
+		should(textArea.maxLines).be.a.Number();
+		should(textArea.getMaxLines).be.a.Function();
 		should(textArea.getLines()).eql(1);
 		should(textArea.maxLines).eql(5);
 		textArea.lines = 2;

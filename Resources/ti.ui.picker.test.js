@@ -98,7 +98,7 @@ describe('Titanium.UI.Picker', function () {
 		win.add(picker);
 		win.addEventListener('open', function () {
 			try {
-				should(picker).be.an.Object;
+				should(picker).be.an.Object();
 				picker.getValue();
 				finish();
 			} catch (err) {
@@ -133,8 +133,8 @@ describe('Titanium.UI.Picker', function () {
 				picker.add(column);
 
 				should(picker.columns.length).be.eql(1);
-				should(picker.columns[0]).be.an.Object;
-				should(picker.columns[0].rows).be.an.Array;
+				should(picker.columns[0]).be.an.Object();
+				should(picker.columns[0].rows).be.an.Array();
 				should(picker.columns[0].rows.length).be.eql(fruit.length);
 
 				finish();
@@ -180,12 +180,12 @@ describe('Titanium.UI.Picker', function () {
 				picker.add([ column1, column2 ]);
 
 				should(picker.columns.length).be.eql(2);
-				should(picker.columns[0]).be.an.Object;
-				should(picker.columns[0].rows).be.an.Array;
+				should(picker.columns[0]).be.an.Object();
+				should(picker.columns[0].rows).be.an.Array();
 				should(picker.columns[0].rows.length).be.eql(fruit.length);
 
-				should(picker.columns[1]).be.an.Object;
-				should(picker.columns[1].rows).be.an.Array;
+				should(picker.columns[1]).be.an.Object();
+				should(picker.columns[1].rows).be.an.Array();
 				should(picker.columns[1].rows.length).be.eql(color.length);
 
 				finish();
@@ -251,15 +251,15 @@ describe('Titanium.UI.Picker', function () {
 		win.addEventListener('open', function () {
 			try {
 				should(picker.columns.length).be.eql(1);
-				should(picker.columns[0]).be.an.Object;
-				should(picker.columns[0].rows).be.an.Array;
+				should(picker.columns[0]).be.an.Object();
+				should(picker.columns[0].rows).be.an.Array();
 				should(picker.columns[0].rows.length).be.eql(fruit.length);
 
 				picker.columns[0].removeRow(picker.columns[0].rows[0]);
 
 				should(picker.columns.length).be.eql(1);
-				should(picker.columns[0]).be.an.Object;
-				should(picker.columns[0].rows).be.an.Array;
+				should(picker.columns[0]).be.an.Object();
+				should(picker.columns[0].rows).be.an.Array();
 				should(picker.columns[0].rows.length).be.eql(fruit.length - 1);
 
 				finish();

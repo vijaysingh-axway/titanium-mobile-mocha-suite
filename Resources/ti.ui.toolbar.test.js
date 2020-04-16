@@ -25,9 +25,9 @@ describe('Titanium.UI.Toolbar', function () {
 				bottom: 0
 			});
 
-		should(toolbar).have.readOnlyProperty('apiName').which.is.a.String;
+		should(toolbar).have.readOnlyProperty('apiName').which.is.a.String();
 		should(toolbar.apiName).be.eql('Ti.UI.Toolbar');
-		should(toolbar.items).be.an.Array;
+		should(toolbar.items).be.an.Array();
 		should(toolbar.items.length).eql(2);
 	});
 
@@ -43,9 +43,9 @@ describe('Titanium.UI.Toolbar', function () {
 				bottom: 0
 			});
 
-		should(toolbar).have.readOnlyProperty('apiName').which.is.a.String;
+		should(toolbar).have.readOnlyProperty('apiName').which.is.a.String();
 		should(toolbar.apiName).be.eql('Ti.UI.iOS.Toolbar');
-		should(toolbar.items).be.an.Array;
+		should(toolbar.items).be.an.Array();
 		should(toolbar.items.length).eql(2);
 	});
 });

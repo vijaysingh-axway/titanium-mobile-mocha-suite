@@ -55,12 +55,12 @@ describe('Titanium.UI.WebView', function () {
 			url: 'https://www.google.com'
 		});
 
-		should(webView.loading).be.a.Boolean;
+		should(webView.loading).be.a.Boolean();
 		should(webView.loading).be.eql(false); // Windows Desktop gives true here
 
 		webView.addEventListener('beforeload', function () {
 			if (beforeLoaded === false) {
-				should(webView.loading).be.a.Boolean;
+				should(webView.loading).be.a.Boolean();
 				should(webView.loading).be.eql(false);
 
 				// Use this flag for our test, because "beforeload" also fires for resources
@@ -71,7 +71,7 @@ describe('Titanium.UI.WebView', function () {
 		});
 
 		webView.addEventListener('load', function () {
-			should(webView.loading).be.a.Boolean;
+			should(webView.loading).be.a.Boolean();
 			should(webView.loading).be.eql(false);
 
 			finish();
@@ -112,15 +112,15 @@ describe('Titanium.UI.WebView', function () {
 			try {
 				webView.keyboardDisplayRequiresUserAction = true;
 
-				should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
-				should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
+				should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean();
+				should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean();
 				should(webView.keyboardDisplayRequiresUserAction).be.eql(true);
 				should(webView.getKeyboardDisplayRequiresUserAction()).be.eql(true);
 
 				webView.setKeyboardDisplayRequiresUserAction(false);
 
-				should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean;
-				should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean;
+				should(webView.keyboardDisplayRequiresUserAction).be.a.Boolean();
+				should(webView.getKeyboardDisplayRequiresUserAction()).be.a.Boolean();
 				should(webView.keyboardDisplayRequiresUserAction).be.eql(false);
 				should(webView.getKeyboardDisplayRequiresUserAction()).be.eql(false);
 
@@ -364,7 +364,7 @@ describe('Titanium.UI.WebView', function () {
 
 		webView.addEventListener('load', function () {
 			try {
-				should(webView.zoomLevel).be.a.Number;
+				should(webView.zoomLevel).be.a.Number();
 				should(webView.zoomLevel).eql(1.0);
 				setTimeout(function () {
 					try {

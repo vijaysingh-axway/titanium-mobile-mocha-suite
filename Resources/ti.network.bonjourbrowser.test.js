@@ -13,13 +13,13 @@ describe.ios('Titanium.Network.BonjourBrowser', () => {
 	const browser = Titanium.Network.createBonjourBrowser();
 
 	it('.apiName', () => {
-		should(browser).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(browser).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(browser.apiName).be.eql('Ti.Network.BonjourBrowser');
 	});
 
 	describe('.domain', () => {
 		it('is a String', () => {
-			should(browser).have.a.property('domain').which.is.a.String;
+			should(browser).have.a.property('domain').which.is.a.String();
 		});
 
 		it('defaults to \'local.\'', () => {
@@ -29,7 +29,7 @@ describe.ios('Titanium.Network.BonjourBrowser', () => {
 
 	describe('.isSearching', () => {
 		it('is a Boolean', () => {
-			should(browser).have.a.property('isSearching').which.is.a.Boolean;
+			should(browser).have.a.property('isSearching').which.is.a.Boolean();
 		});
 
 		it('defaults to false', () => {
@@ -40,7 +40,7 @@ describe.ios('Titanium.Network.BonjourBrowser', () => {
 	describe('.serviceType', () => {
 		// eslint-disable-next-line mocha/no-identical-title
 		it('is a String', () => {
-			should(browser).have.a.property('serviceType').which.is.a.String;
+			should(browser).have.a.property('serviceType').which.is.a.String();
 		});
 
 		// eslint-disable-next-line mocha/no-identical-title
@@ -54,7 +54,7 @@ describe.ios('Titanium.Network.BonjourBrowser', () => {
 
 	describe('#search()', () => {
 		it('is a Function', () => {
-			should(browser).have.a.property('search').which.is.a.Function;
+			should(browser).have.a.property('search').which.is.a.Function();
 		});
 
 		it('throws if not given serviceType', () => {
@@ -66,7 +66,7 @@ describe.ios('Titanium.Network.BonjourBrowser', () => {
 	describe('#stopSearch()', () => {
 		// eslint-disable-next-line mocha/no-identical-title
 		it('is a Function', () => {
-			should(browser).have.a.property('stopSearch').which.is.a.Function;
+			should(browser).have.a.property('stopSearch').which.is.a.Function();
 		});
 	});
 });

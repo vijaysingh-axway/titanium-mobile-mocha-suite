@@ -46,7 +46,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 	it('apiName', function (finish) {
 		var resourceFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
 		try {
-			should(resourceFileStream).have.a.readOnlyProperty('apiName').which.is.a.String;
+			should(resourceFileStream).have.a.readOnlyProperty('apiName').which.is.a.String();
 			should(resourceFileStream.apiName).be.eql('Ti.Filesystem.FileStream');
 			finish();
 		} catch (err) {
@@ -57,20 +57,20 @@ describe('Titanium.Filesystem.FileStream', function () {
 	});
 
 	it('fileStreamBasicTest', function () {
-		should(Ti.createBuffer).be.a.Function;
-		should(Ti.Filesystem.openStream).be.a.Function;
+		should(Ti.createBuffer).be.a.Function();
+		should(Ti.Filesystem.openStream).be.a.Function();
 		var resourceFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
-		should(resourceFileStream).be.an.Object;
-		should(resourceFileStream.read).be.a.Function;
-		should(resourceFileStream.write).be.a.Function;
+		should(resourceFileStream).be.an.Object();
+		should(resourceFileStream.read).be.a.Function();
+		should(resourceFileStream.write).be.a.Function();
 		should(resourceFileStream.apiName).be.eql('Ti.Filesystem.FileStream');
 		var inBuffer = Ti.createBuffer();
-		should(inBuffer).be.an.Object;
+		should(inBuffer).be.an.Object();
 		var tempBufferLength = 50;
 		var tempBuffer = Ti.createBuffer({
 			length: tempBufferLength
 		});
-		should(tempBuffer).be.an.Object;
+		should(tempBuffer).be.an.Object();
 		should(tempBuffer.length).eql(tempBufferLength);
 		var bytesRead = resourceFileStream.read(tempBuffer);
 		for (;bytesRead > -1;) {
@@ -167,8 +167,8 @@ describe('Titanium.Filesystem.FileStream', function () {
 	it('fileStreamPumpTest', function (finish) {
 		this.timeout(5000);
 		var pumpInputFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
-		should(pumpInputFile).be.an.Object;
-		should(pumpInputFile.open).be.a.Function;
+		should(pumpInputFile).be.an.Object();
+		should(pumpInputFile.open).be.a.Function();
 		should(pumpInputFile.exists()).be.true;
 		var step = 10;
 		var pumpTotal = 0;
@@ -186,7 +186,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 			}
 		}
 		var pumpStream = pumpInputFile.open(Ti.Filesystem.MODE_READ);
-		should(pumpStream).be.an.Object;
+		should(pumpStream).be.an.Object();
 		Ti.Stream.pump(pumpStream, pumpCallback, step);
 		pumpStream.close();
 	});
@@ -199,7 +199,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 			outFileStream,
 			bytesWritten;
 
-		should(inBuffer).be.an.Object;
+		should(inBuffer).be.an.Object();
 
 		inStream = Ti.Stream.createStream({
 			source: inBuffer,
@@ -208,7 +208,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 		should(inStream).not.be.null;
 
 		outFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_WRITE, Ti.Filesystem.applicationDataDirectory, 'stream_test_out.txt');
-		should(outFileStream).be.an.Object;
+		should(outFileStream).be.an.Object();
 
 		// writes all data from inBufferStream to outFileStream in chunks of 30
 		bytesWritten = Ti.Stream.writeStream(inStream, outFileStream, 30);
@@ -229,7 +229,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 			inFileStream,
 			truncateBuffer;
 
-		should(inBuffer).be.an.Object;
+		should(inBuffer).be.an.Object();
 
 		inStream = Ti.Stream.createStream({
 			source: inBuffer,
@@ -238,7 +238,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 		should(inStream).not.be.null;
 
 		outFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_WRITE, Ti.Filesystem.applicationDataDirectory, 'stream_test_truncate.txt');
-		should(outFileStream).be.an.Object;
+		should(outFileStream).be.an.Object();
 
 		// writes all data from inBufferStream to outFileStream in chunks of 30
 		bytesWritten = Ti.Stream.writeStream(inStream, outFileStream, 30);
@@ -248,11 +248,11 @@ describe('Titanium.Filesystem.FileStream', function () {
 		outFileStream.close();
 
 		outFileStream2 = Ti.Filesystem.openStream(Ti.Filesystem.MODE_WRITE, Ti.Filesystem.applicationDataDirectory, 'stream_test_truncate.txt');
-		should(outFileStream2).be.an.Object;
+		should(outFileStream2).be.an.Object();
 		outFileStream2.close();
 
 		inFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, Ti.Filesystem.applicationDataDirectory, 'stream_test_truncate.txt');
-		should(inFileStream).be.an.Object;
+		should(inFileStream).be.an.Object();
 		truncateBuffer = Ti.Stream.readAll(inFileStream);
 		should(truncateBuffer.length).be.equal(0);
 		inFileStream.close();

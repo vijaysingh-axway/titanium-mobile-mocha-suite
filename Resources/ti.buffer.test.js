@@ -12,16 +12,16 @@ var should = require('./utilities/assertions');
 describe('Titanium', function () {
 	it('#createBuffer()', function () {
 		var buffer;
-		should(Ti.createBuffer).be.a.Function;
+		should(Ti.createBuffer).be.a.Function();
 		buffer = Ti.createBuffer();
-		should(buffer).be.an.Object;
+		should(buffer).be.an.Object();
 	});
 });
 
 describe('Titanium.Buffer', function () {
 	it('.apiName', function () {
 		var buffer = Ti.createBuffer();
-		should(buffer).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(buffer).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(buffer.apiName).be.eql('Ti.Buffer');
 	});
 
@@ -49,7 +49,7 @@ describe('Titanium.Buffer', function () {
 	describe('#append()', function () {
 		it('is a Function', function () {
 			var buffer = Ti.createBuffer();
-			should(buffer.append).be.a.Function;
+			should(buffer.append).be.a.Function();
 		});
 
 		it('throws Error unless we get at least 1 argument', function () {
@@ -138,7 +138,7 @@ describe('Titanium.Buffer', function () {
 	describe('#insert()', function () {
 		it('is a Function', function () {
 			var buffer = Ti.createBuffer();
-			should(buffer.insert).be.a.Function;
+			should(buffer.insert).be.a.Function();
 		});
 
 		it('throws Error unless we get at least 2 arguments', function () {
@@ -256,7 +256,7 @@ describe('Titanium.Buffer', function () {
 	describe('#copy()', function () {
 		it('is a Function', function () {
 			var buffer = Ti.createBuffer();
-			should(buffer.copy).be.a.Function;
+			should(buffer.copy).be.a.Function();
 		});
 
 		it('throws Error unless we get at least 1 argument', function () {
@@ -374,7 +374,7 @@ describe('Titanium.Buffer', function () {
 	describe('#clone()', function () {
 		it('is a Function', function () {
 			var buffer = Ti.createBuffer();
-			should(buffer.clone).be.a.Function;
+			should(buffer.clone).be.a.Function();
 		});
 
 		it('throws Error if offset argument extends beyond length', function () {
@@ -454,7 +454,7 @@ describe('Titanium.Buffer', function () {
 	describe('#fill()', function () {
 		it('is a Function', function () {
 			var buffer = Ti.createBuffer();
-			should(buffer.fill).be.a.Function;
+			should(buffer.fill).be.a.Function();
 		});
 
 		// FIXME Get working for iOS - doesn't throw exception when we expect
@@ -524,7 +524,7 @@ describe('Titanium.Buffer', function () {
 	describe('#clear()', function () {
 		it('is a Function', function () {
 			var buffer = Ti.createBuffer();
-			should(buffer.clear).be.a.Function;
+			should(buffer.clear).be.a.Function();
 		});
 
 		it('retains length but fills with 0', function () {
@@ -551,7 +551,7 @@ describe('Titanium.Buffer', function () {
 	describe('#release()', function () {
 		it('is a Function', function () {
 			var buffer = Ti.createBuffer();
-			should(buffer.release).be.a.Function;
+			should(buffer.release).be.a.Function();
 		});
 
 		it('sets length back to 0', function () {

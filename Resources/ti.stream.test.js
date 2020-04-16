@@ -52,7 +52,7 @@ describe('Titanium.Stream', function () {
 		should(rstream.apiName).be.eql('Ti.BufferStream'); // iOS is returning Ti.IOStream
 		for (i = 0; i < this.streamFuncs.length; i++) {
 			func = rstream[this.streamFuncs[i]];
-			should(func).be.a.Function;
+			should(func).be.a.Function();
 		}
 		should(rstream.isReadable()).be.true;
 		should(rstream.isWritable()).be.false;
@@ -66,7 +66,7 @@ describe('Titanium.Stream', function () {
 		should(wstream).not.be.null;
 		for (i = 0; i < this.streamFuncs.length; i++) {
 			func = wstream[this.streamFuncs[i]];
-			should(func).be.a.Function;
+			should(func).be.a.Function();
 		}
 		should(wstream.isReadable()).be.false;
 		should(wstream.isWritable()).be.true;
@@ -80,7 +80,7 @@ describe('Titanium.Stream', function () {
 		should(astream).not.be.null;
 		for (i = 0; i < this.streamFuncs.length; i++) {
 			func = astream[this.streamFuncs[i]];
-			should(func).be.a.Function;
+			should(func).be.a.Function();
 		}
 		should(astream.isReadable()).be.false;
 		should(astream.isWritable()).be.true;
@@ -127,7 +127,7 @@ describe('Titanium.Stream', function () {
 		should(stream).not.be.null;
 		for (i = 0; i < this.streamFuncs.length; i++) {
 			func = stream[this.streamFuncs[i]];
-			should(func).be.a.Function;
+			should(func).be.a.Function();
 		}
 		should(stream.isReadable()).be.true;
 		should(stream.isWritable()).be.false;
@@ -184,8 +184,8 @@ describe('Titanium.Stream', function () {
 		// Perform read(source,dest,callback)
 		Ti.Stream.read(bufferStream, dest, function (e) {
 			var i;
-			should(e.code).be.a.Number;
-			should(e.success).be.a.Boolean;
+			should(e.code).be.a.Number();
+			should(e.success).be.a.Boolean();
 			should(e.bytesProcessed).be.equal(dest.length);
 			for (i = 0; i < dest.length; i++) {
 				should(dest[i]).be.equal(sourceBuffer[i]);
@@ -205,8 +205,8 @@ describe('Titanium.Stream', function () {
 		// have to busywait until the FIRST async call is done.
 		function callback(e) {
 			var i;
-			should(e.code).be.a.Number;
-			should(e.success).be.a.Boolean;
+			should(e.code).be.a.Number();
+			should(e.success).be.a.Boolean();
 			should(e.bytesProcessed).be.equal(length);
 			for (i = 0; length > i; i++) {
 				should(dest[i + offset]).be.equal(blobStr.charCodeAt(i));
@@ -251,8 +251,8 @@ describe('Titanium.Stream', function () {
 		// Need to perform offset/length write first so that the destination buffer doesn't fill
 		Ti.Stream.write(bufferStream, sourceBuffer, offset, length, function (e) {
 			var i;
-			should(e.code).be.a.Number;
-			should(e.success).be.a.Boolean;
+			should(e.code).be.a.Number();
+			should(e.success).be.a.Boolean();
 			should(e.bytesProcessed).be.equal(length);
 			for (i = 0; length > i; i++) {
 				should(dest[i]).be.equal(sourceBuffer[i + offset]);
@@ -263,8 +263,8 @@ describe('Titanium.Stream', function () {
 		// have to busywait until the FIRST async call is done.
 		function callback(e) {
 			var i;
-			should(e.code).be.a.Number;
-			should(e.success).be.a.Boolean;
+			should(e.code).be.a.Number();
+			should(e.success).be.a.Boolean();
 			should(e.bytesProcessed).be.equal(sourceBuffer.length);
 			for (i = 0; i < dest.length - length; i++) {
 				should(dest[i + length]).be.equal(sourceBuffer[i]);
@@ -326,8 +326,8 @@ describe('Titanium.Stream', function () {
 		should(dest).not.be.null;
 		Ti.Stream.readAll(blobStream, dest, function (e) {
 			var x;
-			should(e.code).be.a.Number;
-			should(e.success).be.a.Boolean;
+			should(e.code).be.a.Number();
+			should(e.success).be.a.Boolean();
 			should(e.bytesProcessed).be.equal(sourceBlobStr.length);
 			for (x = 0; x < dest.length; x++) {
 				should(dest[x]).be.equal(sourceBlobStr.charCodeAt(x));
@@ -384,8 +384,8 @@ describe('Titanium.Stream', function () {
 		should(bufferStream).not.be.null;
 		Ti.Stream.writeStream(bufferStream, destStream2, 20, function (e) {
 			var x;
-			should(e.code).be.a.Number;
-			should(e.success).be.a.Boolean;
+			should(e.code).be.a.Number();
+			should(e.success).be.a.Boolean();
 			should(e.bytesProcessed).be.equal(dest.length);
 			for (x = 0; x < dest.length; x++) {
 				should(sourceBuffer[x]).be.equal(dest[x]);
@@ -416,8 +416,8 @@ describe('Titanium.Stream', function () {
 		function handler(e) {
 			var i;
 			try {
-				should(e.code).be.a.Number;
-				should(e.success).be.a.Boolean;
+				should(e.code).be.a.Number();
+				should(e.success).be.a.Boolean();
 				should(e.bytesProcessed).be.within(0, chunksize);
 				should(e.buffer).not.be.null;
 				for (i = 0; i < e.buffer.length; i++) {

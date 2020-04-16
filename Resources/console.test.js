@@ -13,57 +13,57 @@ let Console;
 
 describe('console', function () {
 	it('exists as an object in global namespace', () => {
-		should(global.console).be.an.Object;
-		should(console).be.an.Object;
+		should(global.console).be.an.Object();
+		should(console).be.an.Object();
 	});
 
 	it('can be required, exposes global console', () => {
 		// eslint-disable-next-line node/prefer-global/console
 		const requiredConsole = require('console');
-		should(requiredConsole).be.an.Object;
+		should(requiredConsole).be.an.Object();
 		should(requiredConsole).eql(global.console);
 	});
 
 	it('exposes constructor as property off global console', () => {
 		// eslint-disable-next-line node/prefer-global/console
 		const requiredConsole = require('console');
-		should(global.console.Console).be.a.Function;
-		should(requiredConsole.Console).be.a.Function;
+		should(global.console.Console).be.a.Function();
+		should(requiredConsole.Console).be.a.Function();
 		should(requiredConsole.Console).eql(global.console.Console);
 		Console = global.console.Console;
 	});
 
 	it('#log', () => {
-		should(console.log).be.a.Function;
+		should(console.log).be.a.Function();
 	});
 
 	it('#info', () => {
-		should(console.info).be.a.Function;
+		should(console.info).be.a.Function();
 	});
 
 	it('#error', () => {
-		should(console.error).be.a.Function;
+		should(console.error).be.a.Function();
 	});
 
 	it('#warn', () => {
-		should(console.warn).be.a.Function;
+		should(console.warn).be.a.Function();
 	});
 
 	it('#trace', () => {
-		should(console.trace).be.a.Function;
+		should(console.trace).be.a.Function();
 	});
 
 	it('#time', () => {
-		should(console.time).be.a.Function;
+		should(console.time).be.a.Function();
 	});
 
 	it('#timeEnd', () => {
-		should(console.timeEnd).be.a.Function;
+		should(console.timeEnd).be.a.Function();
 	});
 
 	describe('#timeLog', () => {
 		it('is a function', () => {
-			should(console.timeLog).be.a.Function;
+			should(console.timeLog).be.a.Function();
 		});
 
 		it('prefixes logs with label: and ends with millisecond timing', function () {
@@ -113,13 +113,13 @@ describe('console', function () {
 
 	describe('#clear', () => {
 		it('is a function', () => {
-			should(console.clear).be.a.Function;
+			should(console.clear).be.a.Function();
 		});
 	});
 
 	describe('#count', () => {
 		it('is a function', () => {
-			should(console.count).be.a.Function;
+			should(console.count).be.a.Function();
 		});
 
 		it('outputs counter with label', () => {
@@ -152,13 +152,13 @@ describe('console', function () {
 
 	describe('#countReset', () => {
 		it('is a function', () => {
-			should(console.countReset).be.a.Function;
+			should(console.countReset).be.a.Function();
 		});
 	});
 
 	describe('#group', () => {
 		it('is a function', () => {
-			should(console.group).be.a.Function;
+			should(console.group).be.a.Function();
 		});
 
 		it('increases indent by 2 spaces', () => {
@@ -206,20 +206,20 @@ describe('console', function () {
 
 	describe('#groupEnd', () => {
 		it('is a function', () => {
-			should(console.groupEnd).be.a.Function;
+			should(console.groupEnd).be.a.Function();
 		});
 		// functionality is tested above in pairs with #group()
 	});
 
 	describe('#groupCollapsed', () => {
 		it('is a function', () => {
-			should(console.groupCollapsed).be.a.Function;
+			should(console.groupCollapsed).be.a.Function();
 		});
 	});
 
 	describe('#dirxml', () => {
 		it('is a function', () => {
-			should(console.dirxml).be.a.Function;
+			should(console.dirxml).be.a.Function();
 		});
 	});
 
@@ -242,7 +242,7 @@ describe('console', function () {
 		});
 
 		it('is a function', () => {
-			should(console.dir).be.a.Function;
+			should(console.dir).be.a.Function();
 		});
 
 		it('outputs number as-is', () => {
@@ -278,13 +278,13 @@ describe('console', function () {
 
 	describe('#assert', () => {
 		it('is a function', () => {
-			should(console.assert).be.a.Function;
+			should(console.assert).be.a.Function();
 		});
 	});
 
 	describe('#table', () => {
 		it('is a function', () => {
-			should(console.table).be.a.Function;
+			should(console.table).be.a.Function();
 		});
 	});
 

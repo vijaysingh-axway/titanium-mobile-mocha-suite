@@ -24,7 +24,7 @@ describe('string_decoder', () => {
 	describe('#end()', () => {
 		it('is a Function', () => {
 			const decoder = new StringDecoder();
-			should(decoder.end).be.a.Function;
+			should(decoder.end).be.a.Function();
 		});
 
 		it('handles base64 with single byte', () => {
@@ -103,7 +103,7 @@ describe('string_decoder', () => {
 	describe('#write()', () => {
 		it('is a Function', () => {
 			const decoder = new StringDecoder();
-			should(decoder.write).be.a.Function;
+			should(decoder.write).be.a.Function();
 		});
 
 		it('holds multi-byte utf-8 characters until end is reached', () => {
@@ -118,8 +118,8 @@ describe('string_decoder', () => {
 		const decoder2 = {};
 		StringDecoder.call(decoder2);
 		should(decoder2.encoding).eql('utf8');
-		should(decoder2.write).be.a.Function;
-		should(decoder2.end).be.a.Function;
+		should(decoder2.write).be.a.Function();
+		should(decoder2.end).be.a.Function();
 	});
 
 	it('handles standard utf-8 buffers', () => {

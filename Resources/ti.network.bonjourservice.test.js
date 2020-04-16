@@ -13,13 +13,13 @@ describe.ios('Ti.Network.BonjourService', () => {
 	const service = Ti.Network.createBonjourService();
 
 	it('.apiName', () => {
-		should(service).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(service).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(service.apiName).be.eql('Ti.Network.BonjourService');
 	});
 
 	describe('.domain', () => {
 		it('is a String', () => {
-			should(service).have.a.property('domain').which.is.a.String;
+			should(service).have.a.property('domain').which.is.a.String();
 		});
 
 		it('defaults to null', () => {
@@ -29,7 +29,7 @@ describe.ios('Ti.Network.BonjourService', () => {
 
 	describe('.isLocal', () => {
 		it('is a Boolean', () => {
-			should(service).have.a.property('isLocal').which.is.a.Boolean;
+			should(service).have.a.property('isLocal').which.is.a.Boolean();
 		});
 
 		it('defaults to true', () => {
@@ -40,7 +40,7 @@ describe.ios('Ti.Network.BonjourService', () => {
 	describe('.name', () => {
 		// eslint-disable-next-line mocha/no-identical-title
 		it('is a String', () => {
-			should(service).have.a.property('name').which.is.a.String;
+			should(service).have.a.property('name').which.is.a.String();
 		});
 
 		// eslint-disable-next-line mocha/no-identical-title
@@ -51,7 +51,7 @@ describe.ios('Ti.Network.BonjourService', () => {
 
 	describe('.socket', () => {
 		it('is an Object', () => {
-			should(service).have.a.property('socket').which.is.an.Object;
+			should(service).have.a.property('socket').which.is.an.Object();
 		});
 
 		// eslint-disable-next-line mocha/no-identical-title
@@ -63,7 +63,7 @@ describe.ios('Ti.Network.BonjourService', () => {
 	describe('.type', () => {
 		// eslint-disable-next-line mocha/no-identical-title
 		it('is a String', () => {
-			should(service).have.a.property('type').which.is.a.String;
+			should(service).have.a.property('type').which.is.a.String();
 		});
 
 		// eslint-disable-next-line mocha/no-identical-title
@@ -77,7 +77,7 @@ describe.ios('Ti.Network.BonjourService', () => {
 
 	describe('#publish()', () => {
 		it('is a Function', () => {
-			should(service).have.a.property('publish').which.is.a.Function;
+			should(service).have.a.property('publish').which.is.a.Function();
 		});
 
 		it('throws if not given TCP Socket argument', () => {
@@ -99,7 +99,7 @@ describe.ios('Ti.Network.BonjourService', () => {
 	describe('#resolve()', () => {
 		// eslint-disable-next-line mocha/no-identical-title
 		it('is a Function', () => {
-			should(service).have.a.property('resolve').which.is.a.Function;
+			should(service).have.a.property('resolve').which.is.a.Function();
 		});
 
 		// TODO: Test when already published
@@ -120,7 +120,7 @@ describe.ios('Ti.Network.BonjourService', () => {
 	describe('#stop()', () => {
 		// eslint-disable-next-line mocha/no-identical-title
 		it('is a Function', () => {
-			should(service).have.a.property('stop').which.is.a.Function;
+			should(service).have.a.property('stop').which.is.a.Function();
 		});
 	});
 });

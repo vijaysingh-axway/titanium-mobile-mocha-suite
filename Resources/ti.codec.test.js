@@ -11,15 +11,15 @@ var should = require('./utilities/assertions');
 
 describe('Titanium.Codec', function () {
 	it('apiName', function () {
-		should(Ti.Codec).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Codec).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(Ti.Codec.apiName).be.eql('Ti.Codec');
 	});
 
 	it('testAPI', function () {
-		should(Ti.Codec).be.an.Object;
+		should(Ti.Codec).be.an.Object();
 		var functions = [ 'encodeNumber', 'decodeNumber', 'encodeString', 'decodeString', 'getNativeByteOrder' ];
 		for (var i = 0; i < functions.length; i++) {
-			should(Ti.Codec[functions[i]]).be.a.Function;
+			should(Ti.Codec[functions[i]]).be.a.Function();
 		}
 		should(Ti.Codec.CHARSET_ASCII).eql('ascii');
 		should(Ti.Codec.CHARSET_UTF8).eql('utf8');
@@ -32,8 +32,8 @@ describe('Titanium.Codec', function () {
 		should(Ti.Codec.TYPE_LONG).eql('long');
 		should(Ti.Codec.TYPE_FLOAT).eql('float');
 		should(Ti.Codec.TYPE_DOUBLE).eql('double');
-		should(Ti.Codec.BIG_ENDIAN).be.a.Number;
-		should(Ti.Codec.LITTLE_ENDIAN).be.a.Number;
+		should(Ti.Codec.BIG_ENDIAN).be.a.Number();
+		should(Ti.Codec.LITTLE_ENDIAN).be.a.Number();
 		console.info(Ti.Codec.getNativeByteOrder());
 		console.info(Ti.Codec.BIG_ENDIAN, Ti.Codec.LITTLE_ENDIAN);
 		should([ Ti.Codec.BIG_ENDIAN, Ti.Codec.LITTLE_ENDIAN ]).containEql(Ti.Codec.getNativeByteOrder());

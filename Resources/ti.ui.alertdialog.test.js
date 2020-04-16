@@ -12,7 +12,7 @@ var should = require('./utilities/assertions');
 describe('Titanium.UI.AlertDialog', function () {
 	it('apiName', function () {
 		var dialog = Ti.UI.createAlertDialog();
-		should(dialog).have.readOnlyProperty('apiName').which.is.a.String;
+		should(dialog).have.readOnlyProperty('apiName').which.is.a.String();
 		should(dialog.apiName).be.eql('Ti.UI.AlertDialog');
 	});
 
@@ -20,8 +20,8 @@ describe('Titanium.UI.AlertDialog', function () {
 		var bar = Ti.UI.createAlertDialog({
 			title: 'this is some text'
 		});
-		should(bar.title).be.a.String;
-		should(bar.getTitle).be.a.Function;
+		should(bar.title).be.a.String();
+		should(bar.getTitle).be.a.Function();
 		should(bar.title).eql('this is some text');
 		should(bar.getTitle()).eql('this is some text');
 		bar.title = 'other text';
@@ -34,8 +34,8 @@ describe('Titanium.UI.AlertDialog', function () {
 		var bar = Ti.UI.createAlertDialog({
 			titleid: 'this_is_my_key'
 		});
-		should(bar.titleid).be.a.String;
-		should(bar.getTitleid).be.a.Function;
+		should(bar.titleid).be.a.String();
+		should(bar.getTitleid).be.a.Function();
 		should(bar.titleid).eql('this_is_my_key');
 		should(bar.getTitleid()).eql('this_is_my_key');
 		should(bar.title).eql('this is my value'); // fails on iOS, gives undefined
@@ -49,8 +49,8 @@ describe('Titanium.UI.AlertDialog', function () {
 		var bar = Ti.UI.createAlertDialog({
 			message: 'this is some text'
 		});
-		should(bar.message).be.a.String;
-		should(bar.getMessage).be.a.Function;
+		should(bar.message).be.a.String();
+		should(bar.getMessage).be.a.Function();
 		should(bar.message).eql('this is some text');
 		should(bar.getMessage()).eql('this is some text');
 		bar.message = 'other text';
@@ -62,8 +62,8 @@ describe('Titanium.UI.AlertDialog', function () {
 	// FIXME Get working on Android - defaults to undefined, should be ['OK']
 	it.androidAndIosBroken('buttonNames', function () {
 		var bar = Ti.UI.createAlertDialog({});
-		should(bar.buttonNames).be.an.Array; // undefined on iOS and Android
-		should(bar.getButtonNames).be.a.Function;
+		should(bar.buttonNames).be.an.Array(); // undefined on iOS and Android
+		should(bar.getButtonNames).be.a.Function();
 		should(bar.buttonNames).be.empty;
 		should(bar.getButtonNames()).be.empty;
 		bar.buttonNames = [ 'this', 'other' ];
@@ -75,8 +75,8 @@ describe('Titanium.UI.AlertDialog', function () {
 	// FIXME Get working on Android - defaults to undefined, should be -1
 	it.androidAndIosBroken('cancel', function () {
 		var bar = Ti.UI.createAlertDialog({});
-		should(bar.cancel).be.a.Number; // undefined on iOS and Android
-		should(bar.getCancel).be.a.Function;
+		should(bar.cancel).be.a.Number(); // undefined on iOS and Android
+		should(bar.getCancel).be.a.Function();
 		bar.cancel = 1;
 		should(bar.cancel).eql(1);
 		should(bar.getCancel()).eql(1);
@@ -88,8 +88,8 @@ describe('Titanium.UI.AlertDialog', function () {
 		});
 
 		// Check getter
-		should(bar.tintColor).be.a.String;
-		should(bar.getTintColor).be.a.Function;
+		should(bar.tintColor).be.a.String();
+		should(bar.getTintColor).be.a.Function();
 		should(bar.tintColor).eql('red');
 		should(bar.getTintColor()).eql('red');
 
@@ -101,7 +101,7 @@ describe('Titanium.UI.AlertDialog', function () {
 		should(bar.getTintColor()).eql('#f00');
 
 		// Check setter
-		should(bar.setTintColor).be.a.Function;
+		should(bar.setTintColor).be.a.Function();
 		bar.setTintColor('#0f0');
 		should(bar.tintColor).eql('#0f0');
 	});

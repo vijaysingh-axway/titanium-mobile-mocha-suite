@@ -11,13 +11,13 @@ var should = require('./utilities/assertions');
 
 describe('Titanium.Accelerometer', function () {
 	it('apiName', function () {
-		should(Ti.Accelerometer).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Accelerometer).have.readOnlyProperty('apiName').which.is.a.String();
 		should(Ti.Accelerometer.apiName).be.eql('Ti.Accelerometer');
 	});
 
 	it('exists', function () {
 		should(Ti.Accelerometer).exist;
-		should(Ti.Accelerometer.addEventListener).be.a.Function;
-		should(Ti.Accelerometer.removeEventListener).be.a.Function;
+		should(Ti.Accelerometer.addEventListener).be.a.Function();
+		should(Ti.Accelerometer.removeEventListener).be.a.Function();
 	});
 });

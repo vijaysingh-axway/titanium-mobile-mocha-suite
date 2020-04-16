@@ -14,7 +14,7 @@ var should = require('./utilities/assertions'),
 describe('Titanium.UI.ActivityIndicator', function () {
 	it('apiName', function () {
 		var activityIndicator = Ti.UI.createActivityIndicator();
-		should(activityIndicator).have.readOnlyProperty('apiName').which.is.a.String;
+		should(activityIndicator).have.readOnlyProperty('apiName').which.is.a.String();
 		should(activityIndicator.apiName).be.eql('Ti.UI.ActivityIndicator');
 	});
 
@@ -22,8 +22,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		var activityIndicator = Ti.UI.createActivityIndicator({
 			color: '#fff'
 		});
-		should(activityIndicator.color).be.a.String;
-		should(activityIndicator.getColor).be.a.Function;
+		should(activityIndicator.color).be.a.String();
+		should(activityIndicator.getColor).be.a.Function();
 		should(activityIndicator.color).eql('#fff');
 		should(activityIndicator.getColor()).eql('#fff');
 		activityIndicator.color = '#000';
@@ -38,8 +38,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 				fontFamily: 'Segoe UI'
 			}
 		});
-		should(activityIndicator.font).be.a.Object;
-		should(activityIndicator.getFont).be.a.Function;
+		should(activityIndicator.font).be.a.Object();
+		should(activityIndicator.getFont).be.a.Function();
 		should(activityIndicator.font.fontSize).eql(24);
 		should(activityIndicator.getFont().fontFamily).eql('Segoe UI');
 		activityIndicator.font = {
@@ -54,8 +54,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		var activityIndicator = Ti.UI.createActivityIndicator({
 			message: 'this is some text'
 		});
-		should(activityIndicator.message).be.a.String;
-		should(activityIndicator.getMessage).be.a.Function;
+		should(activityIndicator.message).be.a.String();
+		should(activityIndicator.getMessage).be.a.Function();
 		should(activityIndicator.message).eql('this is some text');
 		should(activityIndicator.getMessage()).eql('this is some text');
 		activityIndicator.message = 'other text';
@@ -67,8 +67,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		var activityIndicator = Ti.UI.createActivityIndicator({
 			style: Ti.UI.ActivityIndicatorStyle.BIG
 		});
-		should(activityIndicator.style).be.a.Number;
-		should(activityIndicator.getStyle).be.a.Function;
+		should(activityIndicator.style).be.a.Number();
+		should(activityIndicator.getStyle).be.a.Function();
 		should(activityIndicator.style).eql(Ti.UI.ActivityIndicatorStyle.BIG);
 		should(activityIndicator.getStyle()).eql(Ti.UI.ActivityIndicatorStyle.BIG);
 		activityIndicator.style = Ti.UI.ActivityIndicatorStyle.DARK;
@@ -81,8 +81,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		var activityIndicator = Ti.UI.createActivityIndicator({
 			indicatorColor: '#fff'
 		});
-		should(activityIndicator.indicatorColor).be.a.String;
-		should(activityIndicator.getIndicatorColor).be.a.Function;
+		should(activityIndicator.indicatorColor).be.a.String();
+		should(activityIndicator.getIndicatorColor).be.a.Function();
 		should(activityIndicator.indicatorColor).eql('#fff');
 		should(activityIndicator.getIndicatorColor()).eql('#fff');
 		activityIndicator.indicatorColor = '#000';
@@ -95,8 +95,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		var activityIndicator = Ti.UI.createActivityIndicator({
 			indicatorDiameter: '36'
 		});
-		should(activityIndicator.indicatorDiameter).be.a.String;
-		should(activityIndicator.getIndicatorDiameter).be.a.Function;
+		should(activityIndicator.indicatorDiameter).be.a.String();
+		should(activityIndicator.getIndicatorDiameter).be.a.Function();
 		should(activityIndicator.indicatorDiameter).eql('36');
 		should(activityIndicator.getIndicatorDiameter()).eql('36');
 		activityIndicator.indicatorDiameter = '12';

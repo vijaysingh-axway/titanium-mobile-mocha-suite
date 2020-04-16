@@ -33,7 +33,7 @@ describe('fs', function () {
 
 	describe('.constants', () => {
 		it('is an object', () => {
-			should(fs.constants).be.an.Object;
+			should(fs.constants).be.an.Object();
 		});
 
 		it('.F_OK equals 0', () => {
@@ -55,7 +55,7 @@ describe('fs', function () {
 
 	describe('#access()', () => {
 		it('is a function', () => {
-			should(fs.access).be.a.Function;
+			should(fs.access).be.a.Function();
 		});
 
 		it('checks that this file exists properly', finished => {
@@ -115,7 +115,7 @@ describe('fs', function () {
 
 	describe('#accessSync()', () => {
 		it('is a function', () => {
-			should(fs.accessSync).be.a.Function;
+			should(fs.accessSync).be.a.Function();
 		});
 
 		it('checks that this file exists properly', () => {
@@ -159,7 +159,7 @@ describe('fs', function () {
 
 	describe('#appendFileSync()', () => {
 		it('is a function', () => {
-			should(fs.appendFileSync).be.a.Function;
+			should(fs.appendFileSync).be.a.Function();
 		});
 	});
 
@@ -167,7 +167,7 @@ describe('fs', function () {
 
 	describe('#closeSync()', () => {
 		it('is a function', () => {
-			should(fs.closeSync).be.a.Function;
+			should(fs.closeSync).be.a.Function();
 		});
 
 		it('returns undefined', () => {
@@ -179,7 +179,7 @@ describe('fs', function () {
 
 	describe('#copyFile()', () => {
 		it('is a function', () => {
-			should(fs.copyFile).be.a.Function;
+			should(fs.copyFile).be.a.Function();
 		});
 
 		it('copies file asynchronously to destination', function (finished) {
@@ -209,7 +209,7 @@ describe('fs', function () {
 
 	describe('#copyFileSync()', () => {
 		it('is a function', () => {
-			should(fs.copyFileSync).be.a.Function;
+			should(fs.copyFileSync).be.a.Function();
 		});
 
 		it('copies file synchronously to destination', () => {
@@ -232,7 +232,7 @@ describe('fs', function () {
 
 	describe('#exists()', () => {
 		it('is a function', () => {
-			should(fs.exists).be.a.Function;
+			should(fs.exists).be.a.Function();
 		});
 
 		it('checks that this file exists properly', finished => {
@@ -260,7 +260,7 @@ describe('fs', function () {
 
 	describe('#existsSync()', () => {
 		it('is a function', () => {
-			should(fs.existsSync).be.a.Function;
+			should(fs.existsSync).be.a.Function();
 		});
 
 		it('checks that this file exists properly', () => {
@@ -274,7 +274,7 @@ describe('fs', function () {
 
 	describe('#mkdir()', () => {
 		it('is a function', () => {
-			should(fs.mkdir).be.a.Function;
+			should(fs.mkdir).be.a.Function();
 		});
 
 		it('creates directory of depth 0', finished => {
@@ -334,7 +334,7 @@ describe('fs', function () {
 
 	describe('#mkdirSync()', () => {
 		it('is a function', () => {
-			should(fs.mkdirSync).be.a.Function;
+			should(fs.mkdirSync).be.a.Function();
 		});
 
 		it('creates directory of depth 0', () => {
@@ -402,7 +402,7 @@ describe('fs', function () {
 
 	describe('#mkdtempSync()', () => {
 		it('is a function', () => {
-			should(fs.mkdtempSync).be.a.Function;
+			should(fs.mkdtempSync).be.a.Function();
 		});
 
 		it('creates directory of depth 0', () => {
@@ -421,13 +421,13 @@ describe('fs', function () {
 
 	describe('#openSync()', () => {
 		it('is a function', () => {
-			should(fs.openSync).be.a.Function;
+			should(fs.openSync).be.a.Function();
 		});
 
 		it('returns integer representing file descriptor', () => {
 			const fd = fs.openSync(thisFilePath);
 			try {
-				should(fd).be.a.Number;
+				should(fd).be.a.Number();
 				should(fd).be.above(2); // 0, 1, 2 are typical stdin/stdout/stderr numbers
 			} finally {
 				fs.closeSync(fd);
@@ -440,13 +440,13 @@ describe('fs', function () {
 
 	describe('#readdir()', () => {
 		it('is a function', () => {
-			should(fs.readdir).be.a.Function;
+			should(fs.readdir).be.a.Function();
 		});
 
 		it('returns listing for this directory', finished => {
 			fs.readdir(Ti.Filesystem.resourcesDirectory, (err, files) => {
 				try {
-					should(files).be.an.Array;
+					should(files).be.an.Array();
 					should(files.length).be.greaterThan(1); // it should have some files, man
 					if (IS_IOS && IS_ENCRYPTED) {
 						should(files).containEql('Info.plist');
@@ -464,7 +464,7 @@ describe('fs', function () {
 		it('returns Buffers for listing for this directory if encoding === "buffer"', finished => {
 			fs.readdir(Ti.Filesystem.resourcesDirectory, { encoding: 'buffer' }, (err, files) => {
 				try {
-					should(files).be.an.Array;
+					should(files).be.an.Array();
 					should(files.length).be.greaterThan(1); // it should have some files, man
 					if (IS_IOS && IS_ENCRYPTED) {
 						should(files).containEql(Buffer.from('Info.plist'));
@@ -510,12 +510,12 @@ describe('fs', function () {
 
 	describe('#readdirSync()', () => {
 		it('is a function', () => {
-			should(fs.readdirSync).be.a.Function;
+			should(fs.readdirSync).be.a.Function();
 		});
 
 		it('returns listing for this directory', () => {
 			const files = fs.readdirSync(Ti.Filesystem.resourcesDirectory);
-			should(files).be.an.Array;
+			should(files).be.an.Array();
 			should(files.length).be.greaterThan(1); // it should have some files, man
 
 			if (IS_IOS && IS_ENCRYPTED) {
@@ -527,7 +527,7 @@ describe('fs', function () {
 
 		it('returns Buffers for listing for this directory if encoding === "buffer"', () => {
 			const files = fs.readdirSync(Ti.Filesystem.resourcesDirectory, { encoding: 'buffer' });
-			should(files).be.an.Array;
+			should(files).be.an.Array();
 			should(files.length).be.greaterThan(1); // it should have some files, man
 
 			if (IS_IOS && IS_ENCRYPTED) {
@@ -560,13 +560,13 @@ describe('fs', function () {
 
 	describe('#readFile()', () => {
 		it('is a function', () => {
-			should(fs.readFile).be.a.Function;
+			should(fs.readFile).be.a.Function();
 		});
 
 		it('returns Buffer when no encoding set', finished => {
 			fs.readFile(thisFilePath, (err, result) => {
 				should(err).not.exist;
-				should(result).not.be.a.String;
+				should(result).not.be.a.String();
 				finished();
 			});
 		});
@@ -574,7 +574,7 @@ describe('fs', function () {
 		it('returns String when utf-8 encoding set via second argument', finished => {
 			fs.readFile(thisFilePath, 'utf-8', (err, result) => {
 				should(err).not.exist;
-				should(result).be.a.String;
+				should(result).be.a.String();
 				finished();
 			});
 		});
@@ -582,7 +582,7 @@ describe('fs', function () {
 		it('returns String when utf-8 encoding set via options object argument', finished => {
 			fs.readFile(thisFilePath, { encoding: 'utf-8' }, (err, result) => {
 				should(err).not.exist;
-				should(result).be.a.String;
+				should(result).be.a.String();
 				finished();
 			});
 		});
@@ -590,28 +590,28 @@ describe('fs', function () {
 
 	describe('#readFileSync()', () => {
 		it('is a function', () => {
-			should(fs.readFileSync).be.a.Function;
+			should(fs.readFileSync).be.a.Function();
 		});
 
 		it('returns Buffer when no encoding set', () => {
 			const result = fs.readFileSync(thisFilePath);
-			should(result).not.be.a.String;
+			should(result).not.be.a.String();
 		});
 
 		it('returns String when utf-8 encoding set via second argument', () => {
 			const result = fs.readFileSync(thisFilePath, 'utf-8');
-			should(result).be.a.String;
+			should(result).be.a.String();
 		});
 
 		it('returns String when utf-8 encoding set via options object argument', () => {
 			const result = fs.readFileSync(thisFilePath, { encoding: 'utf-8' });
-			should(result).be.a.String;
+			should(result).be.a.String();
 		});
 	});
 
 	describe('#read()', () => {
 		it('is a function', () => {
-			should(fs.read).be.a.Function;
+			should(fs.read).be.a.Function();
 		});
 
 		it('reads 10 bytes of this file', finished => {
@@ -633,7 +633,7 @@ describe('fs', function () {
 
 	describe('#readSync()', () => {
 		it('is a function', () => {
-			should(fs.readSync).be.a.Function;
+			should(fs.readSync).be.a.Function();
 		});
 
 		it('reads 10 bytes of this file', finished => {
@@ -653,7 +653,7 @@ describe('fs', function () {
 
 	describe('#realpath()', () => {
 		it('is a function', () => {
-			should(fs.realpath).be.a.Function;
+			should(fs.realpath).be.a.Function();
 		});
 
 		it('normalizes .', finished => {
@@ -703,7 +703,7 @@ describe('fs', function () {
 
 	describe('#realpathSync()', () => {
 		it('is a function', () => {
-			should(fs.realpath).be.a.Function;
+			should(fs.realpath).be.a.Function();
 		});
 
 		it('normalizes .', () => {
@@ -735,7 +735,7 @@ describe('fs', function () {
 
 	describe('#rename()', () => {
 		it('is a function', () => {
-			should(fs.rename).be.a.Function;
+			should(fs.rename).be.a.Function();
 		});
 		// TODO: Try renaming to existing file/dir
 		// TODO: What other error conditions can we test? rename into path we don't have permissions?
@@ -743,7 +743,7 @@ describe('fs', function () {
 
 	describe('#renameSync()', () => {
 		it('is a function', () => {
-			should(fs.renameSync).be.a.Function;
+			should(fs.renameSync).be.a.Function();
 		});
 
 		it('renames a file', () => {
@@ -838,7 +838,7 @@ describe('fs', function () {
 
 	describe('#rmdir()', () => {
 		it('is a function', () => {
-			should(fs.rmdir).be.a.Function;
+			should(fs.rmdir).be.a.Function();
 		});
 
 		it('deletes directory that is empty', finished => {
@@ -921,7 +921,7 @@ describe('fs', function () {
 
 	describe('#rmdirSync()', () => {
 		it('is a function', () => {
-			should(fs.rmdirSync).be.a.Function;
+			should(fs.rmdirSync).be.a.Function();
 		});
 
 		it('deletes directory that is empty', () => {
@@ -988,14 +988,14 @@ describe('fs', function () {
 
 	describe('#stat()', () => {
 		it('is a function', () => {
-			should(fs.stat).be.a.Function;
+			should(fs.stat).be.a.Function();
 		});
 
 		it('returns stats for this file', finished => {
 			fs.stat(thisFilePath, (err, stats) => {
 				try {
 					should(stats).be.ok;
-					should(stats).be.an.Object;
+					should(stats).be.an.Object();
 
 					// TODO: Verify some of the values?
 					finished();
@@ -1008,13 +1008,13 @@ describe('fs', function () {
 
 	describe('#statSync()', () => {
 		it('is a function', () => {
-			should(fs.statSync).be.a.Function;
+			should(fs.statSync).be.a.Function();
 		});
 
 		it('returns stats for this file', () => {
 			const stats = fs.statSync(thisFilePath);
 			should(stats).be.ok;
-			should(stats).be.an.Object;
+			should(stats).be.an.Object();
 
 			stats.size.should.be.above(0);
 			stats.blocks.should.be.above(0);
@@ -1031,7 +1031,7 @@ describe('fs', function () {
 
 	describe('#truncate()', () => {
 		it('is a function', () => {
-			should(fs.truncate).be.a.Function;
+			should(fs.truncate).be.a.Function();
 		});
 
 		it.windowsDesktopBroken('truncates to 0 bytes by default', finished => {
@@ -1067,7 +1067,7 @@ describe('fs', function () {
 
 	describe('#truncateSync()', () => {
 		it('is a function', () => {
-			should(fs.truncateSync).be.a.Function;
+			should(fs.truncateSync).be.a.Function();
 		});
 
 		it.windowsDesktopBroken('truncates to 0 bytes by default', () => {
@@ -1089,7 +1089,7 @@ describe('fs', function () {
 
 	describe('#unlink()', () => {
 		it('is a function', () => {
-			should(fs.unlink).be.a.Function;
+			should(fs.unlink).be.a.Function();
 		});
 
 		it('deletes a file', finished => {
@@ -1159,7 +1159,7 @@ describe('fs', function () {
 
 	describe('#unlinkSync()', () => {
 		it('is a function', () => {
-			should(fs.unlinkSync).be.a.Function;
+			should(fs.unlinkSync).be.a.Function();
 		});
 
 		it.windowsDesktopBroken('deletes a file', () => {
@@ -1218,7 +1218,7 @@ describe('fs', function () {
 
 	describe('#write()', () => {
 		it('is a function', () => {
-			should(fs.write).be.a.Function;
+			should(fs.write).be.a.Function();
 		});
 
 		it.windowsDesktopBroken('writes a string to a file descriptor', finish => {
@@ -1270,7 +1270,7 @@ describe('fs', function () {
 
 	describe('#writeSync()', () => {
 		it('is a function', () => {
-			should(fs.writeSync).be.a.Function;
+			should(fs.writeSync).be.a.Function();
 		});
 
 		it.windowsDesktopBroken('writes a string to a file descriptor', () => {
@@ -1315,7 +1315,7 @@ describe('fs', function () {
 
 	describe('#writeFile()', () => {
 		it('is a function', () => {
-			should(fs.writeFile).be.a.Function;
+			should(fs.writeFile).be.a.Function();
 		});
 
 		it.windowsDesktopBroken('writes a string to a non-existent file', finish => {
@@ -1405,7 +1405,7 @@ describe('fs', function () {
 
 	describe('#writeFileSync()', () => {
 		it('is a function', () => {
-			should(fs.writeFileSync).be.a.Function;
+			should(fs.writeFileSync).be.a.Function();
 		});
 
 		it.windowsDesktopBroken('writes a string to a non-existent file', () => {
@@ -1487,49 +1487,49 @@ describe('fs', function () {
 
 	describe('#chmod()', () => {
 		it('is a function', () => {
-			should(fs.chmod).be.a.Function;
+			should(fs.chmod).be.a.Function();
 		});
 	});
 
 	describe('#chmodSync()', () => {
 		it('is a function', () => {
-			should(fs.chmodSync).be.a.Function;
+			should(fs.chmodSync).be.a.Function();
 		});
 	});
 
 	describe('#chown()', () => {
 		it('is a function', () => {
-			should(fs.chown).be.a.Function;
+			should(fs.chown).be.a.Function();
 		});
 	});
 
 	describe('#chownSync()', () => {
 		it('is a function', () => {
-			should(fs.chownSync).be.a.Function;
+			should(fs.chownSync).be.a.Function();
 		});
 	});
 
 	describe('#fdatasync()', () => {
 		it('is a function', () => {
-			should(fs.fdatasync).be.a.Function;
+			should(fs.fdatasync).be.a.Function();
 		});
 	});
 
 	describe('#fdatasyncSync()', () => {
 		it('is a function', () => {
-			should(fs.fdatasyncSync).be.a.Function;
+			should(fs.fdatasyncSync).be.a.Function();
 		});
 	});
 
 	describe('#unwatchFile()', () => {
 		it('is a function', () => {
-			should(fs.unwatchFile).be.a.Function;
+			should(fs.unwatchFile).be.a.Function();
 		});
 	});
 
 	describe('#watchFile()', () => {
 		it('is a function', () => {
-			should(fs.watchFile).be.a.Function;
+			should(fs.watchFile).be.a.Function();
 		});
 	});
 });

@@ -25,23 +25,23 @@ describe.ios('Titanium.App.iOS.SearchQuery', function () {
 	});
 
 	it('constructor', function () {
-		should(searchQuery).have.readOnlyProperty('apiName').which.is.a.String;
+		should(searchQuery).have.readOnlyProperty('apiName').which.is.a.String();
 		should(searchQuery.apiName).be.eql('Ti.App.iOS.SearchQuery');
-		should(searchQuery.attributes).be.an.Array;
+		should(searchQuery.attributes).be.an.Array();
 		should(searchQuery.attributes.length).be.eql(4);
 		should(searchQuery.queryString).be.eql('title == "Titanium*"');
 	});
 
 	it('#start()', function () {
-		should(searchQuery.start).be.a.Function;
+		should(searchQuery.start).be.a.Function();
 	});
 
 	it('#cancel()', function () {
-		should(searchQuery.cancel).be.a.Function;
+		should(searchQuery.cancel).be.a.Function();
 	});
 
 	it('#isCancelled()', function () {
-		should(searchQuery.isCancelled).be.a.Function;
-		should(searchQuery.isCancelled()).be.a.Boolean;
+		should(searchQuery.isCancelled).be.a.Function();
+		should(searchQuery.isCancelled()).be.a.Boolean();
 	});
 });

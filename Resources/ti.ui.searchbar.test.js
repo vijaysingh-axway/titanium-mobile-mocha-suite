@@ -42,7 +42,7 @@ describe('Titanium.UI.SearchBar', function () {
 		var searchBar = Ti.UI.createSearchBar({
 			showBookmark: true
 		});
-		should(searchBar.getShowBookmark).be.a.Function;
+		should(searchBar.getShowBookmark).be.a.Function();
 		should(searchBar.showBookmark).be.true;
 		should(searchBar.getShowBookmark()).be.true;
 		searchBar.showBookmark = false;
@@ -54,7 +54,7 @@ describe('Titanium.UI.SearchBar', function () {
 		var searchBar = Ti.UI.createSearchBar({
 			keyboardType: Ti.UI.KEYBOARD_TYPE_NUMBER_PAD
 		});
-		should(searchBar.getKeyboardType).be.a.Function;
+		should(searchBar.getKeyboardType).be.a.Function();
 		should(searchBar.keyboardType).eql(Ti.UI.KEYBOARD_TYPE_NUMBER_PAD);
 		should(searchBar.getKeyboardType()).eql(Ti.UI.KEYBOARD_TYPE_NUMBER_PAD);
 		searchBar.keyboardType = Ti.UI.KEYBOARD_TYPE_EMAIL;
@@ -66,7 +66,7 @@ describe('Titanium.UI.SearchBar', function () {
 		var searchBar = Ti.UI.createSearchBar({
 			autocorrect: true
 		});
-		should(searchBar.getAutocorrect).be.a.Function;
+		should(searchBar.getAutocorrect).be.a.Function();
 		should(searchBar.autocorrect).be.true;
 		should(searchBar.getAutocorrect()).be.true;
 		searchBar.autocorrect = false;
@@ -78,7 +78,7 @@ describe('Titanium.UI.SearchBar', function () {
 		var searchBar = Ti.UI.createSearchBar({
 			autocapitalization: Ti.UI.TEXT_AUTOCAPITALIZATION_ALL
 		});
-		should(searchBar.getAutocapitalization).be.a.Function;
+		should(searchBar.getAutocapitalization).be.a.Function();
 		should(searchBar.autocapitalization).eql(Ti.UI.TEXT_AUTOCAPITALIZATION_ALL);
 		should(searchBar.getAutocapitalization()).eql(Ti.UI.TEXT_AUTOCAPITALIZATION_ALL);
 		searchBar.autocapitalization = Ti.UI.TEXT_AUTOCAPITALIZATION_SENTENCES;
@@ -90,7 +90,7 @@ describe('Titanium.UI.SearchBar', function () {
 		var searchBar = Ti.UI.createSearchBar({
 			keyboardAppearance: Ti.UI.KEYBOARD_APPEARANCE_LIGHT
 		});
-		should(searchBar.getKeyboardAppearance).be.a.Function;
+		should(searchBar.getKeyboardAppearance).be.a.Function();
 		should(searchBar.keyboardAppearance).eql(Ti.UI.KEYBOARD_APPEARANCE_LIGHT);
 		should(searchBar.getKeyboardAppearance()).eql(Ti.UI.KEYBOARD_APPEARANCE_LIGHT);
 		searchBar.keyboardAppearance = Ti.UI.KEYBOARD_APPEARANCE_DARK;
@@ -102,7 +102,7 @@ describe('Titanium.UI.SearchBar', function () {
 		var searchBar = Ti.UI.createSearchBar({
 			style: Ti.UI.iOS.SEARCH_BAR_STYLE_PROMINENT
 		});
-		should(searchBar.getStyle).be.a.Function;
+		should(searchBar.getStyle).be.a.Function();
 		should(searchBar.style).eql(Ti.UI.iOS.SEARCH_BAR_STYLE_PROMINENT);
 		should(searchBar.getStyle()).eql(Ti.UI.iOS.SEARCH_BAR_STYLE_PROMINENT);
 		searchBar.style = Ti.UI.iOS.SEARCH_BAR_STYLE_MINIMAL;
@@ -114,7 +114,7 @@ describe('Titanium.UI.SearchBar', function () {
 		var searchBar = Ti.UI.createSearchBar({
 			prompt: 'value'
 		});
-		should(searchBar.getStyle).be.a.Function;
+		should(searchBar.getStyle).be.a.Function();
 		should(searchBar.prompt).eql('value');
 		should(searchBar.getPrompt()).eql('value');
 		searchBar.prompt = 'another value';
@@ -129,7 +129,7 @@ describe('Titanium.UI.SearchBar', function () {
 			hintText: 'Enter E-Mail ...',
 			hintTextColor: 'red'
 		});
-		should(searchBar.getHintTextColor).be.a.Function;
+		should(searchBar.getHintTextColor).be.a.Function();
 		should(searchBar.hintTextColor).eql('red');
 		should(searchBar.getHintTextColor()).eql('red');
 		searchBar.hintTextColor = 'blue';
@@ -142,7 +142,7 @@ describe('Titanium.UI.SearchBar', function () {
 		var searchBar = Ti.UI.createSearchBar({
 			color: 'red'
 		});
-		should(searchBar.getColor).be.a.Function;
+		should(searchBar.getColor).be.a.Function();
 		should(searchBar.color).eql('red');
 		should(searchBar.getColor()).eql('red');
 		searchBar.color = 'blue';

@@ -15,7 +15,7 @@ describe('Titanium.UI.ProgressBar', function () {
 		var progressBar = Ti.UI.createProgressBar({
 			message: 'this is some text'
 		});
-		should(progressBar).have.readOnlyProperty('apiName').which.is.a.String;
+		should(progressBar).have.readOnlyProperty('apiName').which.is.a.String();
 		should(progressBar.apiName).be.eql('Ti.UI.ProgressBar');
 	});
 
@@ -23,8 +23,8 @@ describe('Titanium.UI.ProgressBar', function () {
 		var bar = Ti.UI.createProgressBar({
 			message: 'this is some text'
 		});
-		should(bar.message).be.a.String;
-		should(bar.getMessage).be.a.Function;
+		should(bar.message).be.a.String();
+		should(bar.getMessage).be.a.Function();
 		should(bar.message).eql('this is some text');
 		should(bar.getMessage()).eql('this is some text');
 		bar.message = 'other text';
@@ -36,8 +36,8 @@ describe('Titanium.UI.ProgressBar', function () {
 		var bar = Ti.UI.createProgressBar({
 			min: 0
 		});
-		should(bar.min).be.a.Number;
-		should(bar.getMin).be.a.Function;
+		should(bar.min).be.a.Number();
+		should(bar.getMin).be.a.Function();
 		should(bar.min).eql(0);
 		should(bar.getMin()).eql(0);
 		bar.min = 100;
@@ -49,8 +49,8 @@ describe('Titanium.UI.ProgressBar', function () {
 		var bar = Ti.UI.createProgressBar({
 			max: 0
 		});
-		should(bar.max).be.a.Number;
-		should(bar.getMax).be.a.Function;
+		should(bar.max).be.a.Number();
+		should(bar.getMax).be.a.Function();
 		should(bar.max).eql(0);
 		should(bar.getMax()).eql(0);
 		bar.max = 100;
@@ -62,8 +62,8 @@ describe('Titanium.UI.ProgressBar', function () {
 		var bar = Ti.UI.createProgressBar({
 			value: 0
 		});
-		should(bar.value).be.a.Number;
-		should(bar.getValue).be.a.Function;
+		should(bar.value).be.a.Number();
+		should(bar.getValue).be.a.Function();
 		should(bar.value).eql(0);
 		should(bar.getValue()).eql(0);
 		bar.value = 100;

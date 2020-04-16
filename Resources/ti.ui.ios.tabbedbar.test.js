@@ -12,7 +12,7 @@ var should = require('./utilities/assertions');
 describe.ios('Titanium.UI.iOS', function () {
 	it('#createTabbedBar()', function () {
 		should(Ti.UI.iOS.createTabbedBar).not.be.undefined;
-		should(Ti.UI.iOS.createTabbedBar).be.a.Function;
+		should(Ti.UI.iOS.createTabbedBar).be.a.Function();
 	});
 });
 
@@ -22,8 +22,8 @@ describe.ios('Titanium.UI.iOS.TabbedBar', function () {
 		var tabbedBar = Ti.UI.iOS.createTabbedBar({
 			labels: [ 'One', 'Two', 'Three' ],
 		});
-		should(tabbedBar.labels).be.an.Array;
-		should(tabbedBar.getLabels).be.a.Function;
+		should(tabbedBar.labels).be.an.Array();
+		should(tabbedBar.getLabels).be.a.Function();
 		should(tabbedBar.labels.length).be.eql(3);
 		should(tabbedBar.getLabels().length).eql(3);
 		tabbedBar.labels = [ 'Four', 'Five' ];
@@ -35,8 +35,8 @@ describe.ios('Titanium.UI.iOS.TabbedBar', function () {
 			labels: [ 'One', 'Two', 'Three' ],
 			index: 1
 		});
-		should(tabbedBar.index).be.a.Number;
-		should(tabbedBar.getIndex).be.a.Function;
+		should(tabbedBar.index).be.a.Number();
+		should(tabbedBar.getIndex).be.a.Function();
 		should(tabbedBar.getIndex()).be.eql(1);
 		should(tabbedBar.index).eql(1);
 		tabbedBar.index = 2;

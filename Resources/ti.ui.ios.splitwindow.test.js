@@ -13,7 +13,7 @@ describe.ios('Titanium.UI.iOS', function () {
 	it('#createSplitWindow()', function () {
 		var splitWindow;
 		should(Ti.UI.iOS.createSplitWindow).not.be.undefined;
-		should(Ti.UI.iOS.createSplitWindow).be.a.Function;
+		should(Ti.UI.iOS.createSplitWindow).be.a.Function();
 		splitWindow = Ti.UI.iOS.createSplitWindow({
 			masterView: Ti.UI.createWindow({
 				backgroundColor: 'red'
@@ -22,8 +22,8 @@ describe.ios('Titanium.UI.iOS', function () {
 				backgroundColor: 'yellow'
 			})
 		});
-		should(splitWindow.masterView).be.an.Object;
-		should(splitWindow.detailView).be.an.Object;
+		should(splitWindow.masterView).be.an.Object();
+		should(splitWindow.detailView).be.an.Object();
 	});
 });
 

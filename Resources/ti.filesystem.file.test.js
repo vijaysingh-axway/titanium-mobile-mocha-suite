@@ -15,21 +15,21 @@ const isIOS = utilities.isIOS();
 describe('Titanium.Filesystem.File', function () {
 	it('.apiName', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.readOnlyProperty('apiName').which.is.a.String;
+		should(file).have.readOnlyProperty('apiName').which.is.a.String();
 		should(file.apiName).be.eql('Ti.Filesystem.File');
 	});
 
 	// Check if name exists and returns string
 	it('.name', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.a.readOnlyProperty('name').which.is.a.String;
+		should(file).have.a.readOnlyProperty('name').which.is.a.String();
 		should(file.name).be.eql('app.js');
 	});
 
 	// Check if nativePath exists and returns string
 	it('.nativePath', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.a.readOnlyProperty('nativePath').which.is.a.String;
+		should(file).have.a.readOnlyProperty('nativePath').which.is.a.String();
 	});
 
 	// Check if resolve exists and returns string
@@ -37,10 +37,10 @@ describe('Titanium.Filesystem.File', function () {
 		var value;
 		var file = Ti.Filesystem.getFile('app.js');
 		should(file.resolve).not.be.undefined;
-		should(file.resolve).be.a.Function;
+		should(file.resolve).be.a.Function();
 		value = file.resolve();
 		should(value).not.be.undefined;
-		should(value).be.a.String;
+		should(value).be.a.String();
 		// On Windows, it returns native path
 		if (utilities.isWindows()) {
 			should(value).be.eql(file.nativePath);
@@ -50,31 +50,31 @@ describe('Titanium.Filesystem.File', function () {
 	// Check if executable exists and returns boolean
 	it('.executable', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.a.readOnlyProperty('executable').which.is.a.Boolean;
+		should(file).have.a.readOnlyProperty('executable').which.is.a.Boolean();
 	});
 
 	// Check if hidden exists and returns boolean
 	it('.hidden', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.a.readOnlyProperty('hidden').which.is.a.Boolean;
+		should(file).have.a.readOnlyProperty('hidden').which.is.a.Boolean();
 	});
 
 	// Check if readonly exists and returns boolean
 	it('.readonly', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.a.readOnlyProperty('readonly').which.is.a.Boolean;
+		should(file).have.a.readOnlyProperty('readonly').which.is.a.Boolean();
 	});
 
 	// Check if writable exists and returns boolean
 	it('.writable', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.a.readOnlyProperty('writable').which.is.a.Boolean;
+		should(file).have.a.readOnlyProperty('writable').which.is.a.Boolean();
 	});
 
 	// Check if symbolicLink exists and returns boolean
 	it('.symbolicLink', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.a.readOnlyProperty('symbolicLink').which.is.a.Boolean;
+		should(file).have.a.readOnlyProperty('symbolicLink').which.is.a.Boolean();
 	});
 
 	// Check if parent exists and returns File
@@ -89,14 +89,14 @@ describe('Titanium.Filesystem.File', function () {
 	// Check if size exists and returns number
 	it('.size', function () {
 		var file = Ti.Filesystem.getFile('app.js');
-		should(file).have.readOnlyProperty('size').which.is.a.Number;
+		should(file).have.readOnlyProperty('size').which.is.a.Number();
 		should(file.size).be.above(0);
 	});
 
 	describe('#exists()', function () {
 		it('is a Function', function () {
 			var file = Ti.Filesystem.getFile('app.js');
-			should(file.exists).be.a.Function;
+			should(file.exists).be.a.Function();
 		});
 
 		// exists should return true if file exists
@@ -115,7 +115,7 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#isFile()', function () {
 		it('is a Function', function () {
 			var file = Ti.Filesystem.getFile('app.js');
-			should(file.isFile).be.a.Function;
+			should(file.isFile).be.a.Function();
 		});
 
 		it('returns true for an existing file', function () {
@@ -139,7 +139,7 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#isDirectory()', function () {
 		it('is a Function', function () {
 			var file = Ti.Filesystem.getFile('app.js');
-			should(file.isDirectory).be.a.Function;
+			should(file.isDirectory).be.a.Function();
 		});
 
 		it('returns true for directory that exists', function () {
@@ -163,14 +163,14 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#createTimestamp()', function () {
 		it('is a Function', function () {
 			var file = Ti.Filesystem.getFile('app.js');
-			should(file.createTimestamp).be.a.Function;
+			should(file.createTimestamp).be.a.Function();
 		});
 
 		// iOS returns a Date
 		it.iosBroken('returns a Number', function () {
 			var file = Ti.Filesystem.getFile('app.js');
 			var create_date = file.createTimestamp();
-			should(create_date).be.a.Number; // iOS returns a Date (or maybe a string in iso date format?) Docs say Number
+			should(create_date).be.a.Number(); // iOS returns a Date (or maybe a string in iso date format?) Docs say Number
 			if (utilities.isAndroid()) { // Android returns 0 for createTimestamp on files under Resources dir
 				should(create_date).eql(0);
 			} else {
@@ -182,13 +182,13 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#createdAt()', function () {
 		it('is a Function', function () {
 			var file = Ti.Filesystem.getFile('app.js');
-			should(file.createdAt).be.a.Function;
+			should(file.createdAt).be.a.Function();
 		});
 
 		it('returns a Date', function () {
 			var file = Ti.Filesystem.getFile('app.js');
 			var create_date = file.createdAt();
-			should(create_date).be.a.Date;
+			should(create_date).be.a.Date();
 			// Android returns 0 for timestamp on files under Resources dir
 			// we also can't get real modification/create times for encrypted files
 			if (utilities.isAndroid() || Ti.App.deployType === 'test') {
@@ -201,7 +201,7 @@ describe('Titanium.Filesystem.File', function () {
 		it.android('returns a non-zero Date timestamp for files outside app', function () {
 			var file = Ti.Filesystem.createTempFile();
 			var create_date = file.createdAt();
-			should(create_date).be.a.Date;
+			should(create_date).be.a.Date();
 			should(create_date.getTime()).be.above(0);
 		});
 	});
@@ -211,13 +211,13 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#modificationTimestamp()', function () {
 		it('is a Function', function () {
 			var file = Ti.Filesystem.getFile('app.js');
-			should(file.modificationTimestamp).be.a.Function;
+			should(file.modificationTimestamp).be.a.Function();
 		});
 
 		it.iosBroken('returns a Number', function () {
 			var file = Ti.Filesystem.getFile('app.js');
 			var mod_date = file.modificationTimestamp();
-			should(mod_date).be.a.Number; // iOS returns a Date (or maybe a string in iso date format?) Docs say Number
+			should(mod_date).be.a.Number(); // iOS returns a Date (or maybe a string in iso date format?) Docs say Number
 			if (utilities.isAndroid()) { // Android returns 0 for modificationTimestamp on files under Resources dir
 				should(mod_date).eql(0);
 			} else {
@@ -229,13 +229,13 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#modifiedAt()', function () {
 		it('is a Function', function () {
 			var file = Ti.Filesystem.getFile('app.js');
-			should(file.modifiedAt).be.a.Function;
+			should(file.modifiedAt).be.a.Function();
 		});
 
 		it('returns a Date', function () {
 			var file = Ti.Filesystem.getFile('app.js');
 			var mod_date = file.modifiedAt();
-			should(mod_date).be.a.Date;
+			should(mod_date).be.a.Date();
 			// Android returns 0 for modificationTimestamp on files under Resources dir
 			// we also can't get real modification/create times for encrypted files
 			if (utilities.isAndroid() || Ti.App.deployType === 'test') {
@@ -542,7 +542,7 @@ describe('Titanium.Filesystem.File', function () {
 			space;
 		should(file.exists()).be.true;
 		space = file.spaceAvailable();
-		should(space).be.a.Number;
+		should(space).be.a.Number();
 		if (utilities.isAndroid()) {
 			should(space).be.eql(0); // reports 0 for Resources dir/file
 		} else {
@@ -553,7 +553,7 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#copy()', function () {
 		it('is a function', function () {
 			var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
-			should(file.copy).be.a.Function;
+			should(file.copy).be.a.Function();
 		});
 
 		it('copies File successfully to new path', function () {
@@ -573,7 +573,7 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#move()', function () {
 		it('is a function', function () {
 			var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
-			should(file.move).be.a.Function;
+			should(file.move).be.a.Function();
 		});
 
 		it('moves file within same directory', function () {
@@ -636,7 +636,7 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#rename()', function () {
 		it('is a function', function () {
 			var file = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'app.js');
-			should(file.rename).be.a.Function;
+			should(file.rename).be.a.Function();
 		});
 
 		it('renames file within same directory', function () {
@@ -697,16 +697,16 @@ describe('Titanium.Filesystem.File', function () {
 	describe('#getDirectoryListing()', function () {
 		it('is a Function', function () {
 			var dir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory);
-			should(dir.getDirectoryListing).be.a.Function;
+			should(dir.getDirectoryListing).be.a.Function();
 		});
 
 		it('returns Array of filenames for directory contents', function () {
 			var dir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory),
 				files = dir.getDirectoryListing();
 			should(dir.exists()).be.true;
-			files.should.be.an.Array;
+			files.should.be.an.Array();
 			files.length.should.be.above(0);
-			files[0].should.be.a.String;
+			files[0].should.be.a.String();
 		});
 
 		it('returns empty Array for empty directory', function () {
@@ -724,7 +724,7 @@ describe('Titanium.Filesystem.File', function () {
 			should(emptyDir.isDirectory()).eql(true);
 
 			result = emptyDir.getDirectoryListing();
-			result.should.be.an.Array;
+			result.should.be.an.Array();
 			result.length.should.eql(0);
 		});
 
@@ -750,8 +750,8 @@ describe('Titanium.Filesystem.File', function () {
 				rootPath,
 				filesFound = {};
 			should(rootDir.exists()).be.true;
-			should(rootDir.getDirectoryListing).be.a.Function;
-			should(rootDir.getDirectoryListing()).be.an.Array;
+			should(rootDir.getDirectoryListing).be.a.Function();
+			should(rootDir.getDirectoryListing()).be.an.Array();
 
 			// Traverse entire Resources directory tree looking for files/directories in "filesFound".
 			rootPath = rootDir.nativePath;

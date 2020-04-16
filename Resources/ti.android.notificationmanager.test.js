@@ -12,7 +12,7 @@ var should = require('./utilities/assertions');
 describe('Titanium.Android.NotificationManager', function () {
 	it.android('Notifications enabled by default', function () {
 		var notificationEnabled = Ti.Android.NotificationManager.areNotificationsEnabled();
-		should(notificationEnabled).be.a.Boolean;
+		should(notificationEnabled).be.a.Boolean();
 		should(notificationEnabled).eql(true);
 	});
 });

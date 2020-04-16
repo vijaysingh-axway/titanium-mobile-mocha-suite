@@ -27,28 +27,28 @@ describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
 
 	it('apiName', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view).have.readOnlyProperty('apiName').which.is.a.String;
+		should(view).have.readOnlyProperty('apiName').which.is.a.String();
 		should(view.apiName).be.eql('Ti.UI.NavigationWindow');
 	});
 
 	it('#open', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view.open).be.a.Function;
+		should(view.open).be.a.Function();
 	});
 
 	it('#openWindow', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view.openWindow).be.a.Function;
+		should(view.openWindow).be.a.Function();
 	});
 
 	it('#close', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view.close).be.a.Function;
+		should(view.close).be.a.Function();
 	});
 
 	it('#closeWindow', function () {
 		var view = Ti.UI.createNavigationWindow();
-		should(view.closeWindow).be.a.Function;
+		should(view.closeWindow).be.a.Function();
 	});
 
 	it('open/close should open/close the window', function (finish) {

@@ -12,17 +12,17 @@ var should = require('./utilities/assertions');
 describe.android('Titanium.Android.Service', function () {
 	it('#startService()', function () {
 		should(Ti.Android.startService).not.be.undefined;
-		should(Ti.Android.startService).be.a.Function;
+		should(Ti.Android.startService).be.a.Function();
 	});
 
 	it('#stopService()', function () {
 		should(Ti.Android.stopService).not.be.undefined;
-		should(Ti.Android.stopService).be.a.Function;
+		should(Ti.Android.stopService).be.a.Function();
 	});
 
 	it('#createService()', function () {
 		should(Ti.Android.createService).not.be.undefined;
-		should(Ti.Android.createService).be.a.Function;
+		should(Ti.Android.createService).be.a.Function();
 	});
 
 	it('startService-background-normal', function (finish) {

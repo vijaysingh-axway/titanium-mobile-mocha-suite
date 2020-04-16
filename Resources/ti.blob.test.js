@@ -41,13 +41,13 @@ describe('Titanium.Blob', function () {
 	it('.apiName', () => {
 		// FIXME Should be able to do Ti.Blob.apiName
 		const blob = Ti.Filesystem.getFile('app.js').read();
-		should(blob).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(blob).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(blob.apiName).be.eql('Ti.Blob');
 	});
 
 	it('constructed from File.read()', () => {
 		const blob = Ti.Filesystem.getFile('app.js').read();
-		should(blob).be.an.Object;
+		should(blob).be.an.Object();
 		// should(blob).be.an.instanceof(Ti.Blob); // Crashes Windows, throws uncaught error on iOS & Android
 	});
 
@@ -62,21 +62,21 @@ describe('Titanium.Blob', function () {
 		win.add(label);
 		win.addEventListener('open', function () {
 			label.toImage(function (blob) {
-				should(blob).be.an.Object;
+				should(blob).be.an.Object();
 				// should(blob).be.an.instanceof(Ti.Blob); // FIXME Crashes Windows, throws uncaught error on iOS & Android
 				// should(blob.getText()).equal(null); // FIXME 'blob.getText is not a function' on iOS
 				// should(blob.text).equal(null); // FIXME this is undefined on iOS, docs say it should be null
 				should(blob.text).not.exist;
 
-				should(blob.width).be.a.Number; // FIXME Undefined on iOS
+				should(blob.width).be.a.Number(); // FIXME Undefined on iOS
 				should(blob.width).be.above(0); // 0 on Windows
 
-				should(blob.height).be.a.Number;
+				should(blob.height).be.a.Number();
 				should(blob.height).be.above(0);
 
-				should(blob.length).be.a.Number;
+				should(blob.length).be.a.Number();
 
-				should(blob.size).be.a.Number;
+				should(blob.size).be.a.Number();
 				should(blob.size).equal(blob.width * blob.height);
 
 				finish();
@@ -87,7 +87,7 @@ describe('Titanium.Blob', function () {
 
 	it('.text', () => {
 		const blob = Ti.Filesystem.getFile('app.js').read();
-		should(blob.text).be.a.String;
+		should(blob.text).be.a.String();
 		should(blob.text.length).be.above(0);
 		should(blob.text).equal(blob.toString());
 		// TODO Test that it's read-only
@@ -96,7 +96,7 @@ describe('Titanium.Blob', function () {
 	describe('#append()', function () {
 		it('is a Function', () => {
 			const blob = Ti.Filesystem.getFile('app.js').read();
-			should(blob.append).be.a.Function;
+			should(blob.append).be.a.Function();
 		});
 
 		it('appends two files together', () => {
@@ -120,7 +120,7 @@ describe('Titanium.Blob', function () {
 
 	it('.nativePath', () => {
 		const blob = Ti.Filesystem.getFile('app.js').read();
-		should(blob.nativePath).be.a.String;
+		should(blob.nativePath).be.a.String();
 		should(blob.nativePath.length).be.above(0);
 		// TODO Test that it's read-only
 	});
@@ -128,7 +128,7 @@ describe('Titanium.Blob', function () {
 	describe('.mimeType', function () {
 		it.windowsDesktopBroken('javascript file', () => {
 			const blob = Ti.Filesystem.getFile('app.js').read();
-			should(blob.mimeType).be.a.String;
+			should(blob.mimeType).be.a.String();
 			should(blob.mimeType.length).be.above(0); // Windows desktop returns 0 here
 			// Android is reporting 'application/javascript' now on Android 29+
 			// iOS/older Android report 'text/javascript'
@@ -137,7 +137,7 @@ describe('Titanium.Blob', function () {
 
 		it('image/png', () => {
 			const blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.mimeType).be.a.String;
+			should(blob.mimeType).be.a.String();
 			should(blob.mimeType.length).be.above(0);
 			should(blob.mimeType).be.eql('image/png');
 			// TODO Test that it's read-only
@@ -146,7 +146,7 @@ describe('Titanium.Blob', function () {
 
 	it('.length', () => {
 		const blob = Ti.Filesystem.getFile('app.js').read();
-		should(blob.length).be.a.Number;
+		should(blob.length).be.a.Number();
 		should(blob.length).be.above(0);
 		// TODO Test that it's read-only
 	});
@@ -155,7 +155,7 @@ describe('Titanium.Blob', function () {
 	describe('.size', function () {
 		it('returns byte count of non-image (JS file)', () => {
 			const blob = Ti.Filesystem.getFile('app.js').read();
-			should(blob.size).be.a.Number;
+			should(blob.size).be.a.Number();
 			should(blob.size).be.above(0);
 			should(blob.size).be.eql(blob.length); // size and length should be the same for non-images
 			// TODO Test that it's read-only
@@ -164,7 +164,7 @@ describe('Titanium.Blob', function () {
 		// FIXME Returns 801 on Windows
 		it.windowsBroken('returns pixel count for image (PNG)', () => {
 			const blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.size).be.a.Number;
+			should(blob.size).be.a.Number();
 			should(blob.size).equal(blob.width * blob.height);
 			// TODO Test that it's read-only
 		});
@@ -173,14 +173,14 @@ describe('Titanium.Blob', function () {
 	describe('.width', function () {
 		it('returns pixel count for PNG', () => {
 			const blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.width).be.a.Number;
+			should(blob.width).be.a.Number();
 			should(blob.width).be.eql(150);
 			// TODO Test that it's read-only
 		});
 
 		it('returns 0 for non-image (JS file)', function () {
 			var blob = Ti.Filesystem.getFile('app.js').read();
-			should(blob.width).be.a.Number;
+			should(blob.width).be.a.Number();
 			should(blob.width).be.eql(0);
 			// TODO Test that it's read-only
 		});
@@ -189,14 +189,14 @@ describe('Titanium.Blob', function () {
 	describe('.height', function () {
 		it('returns pixel count for PNG', () => {
 			const blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.height).be.a.Number;
+			should(blob.height).be.a.Number();
 			should(blob.height).be.eql(150);
 			// TODO Test that it's read-only
 		});
 
 		it('returns 0 for non-image (JS file)', () => {
 			const blob = Ti.Filesystem.getFile('app.js').read();
-			should(blob.height).be.a.Number;
+			should(blob.height).be.a.Number();
 			should(blob.height).be.eql(0);
 			// TODO Test that it's read-only
 		});
@@ -205,7 +205,7 @@ describe('Titanium.Blob', function () {
 	it('.file', function () {
 		var blob = Ti.Filesystem.getFile('app.js').read();
 		var file = blob.file;
-		should(file.toString()).be.a.String;
+		should(file.toString()).be.a.String();
 		should(file.nativePath).be.eql(blob.nativePath);
 		// TODO Test that it's read-only
 	});
@@ -215,13 +215,13 @@ describe('Titanium.Blob', function () {
 	describe.windowsMissing('#imageAsCompressed()', function () {
 		it('is a Function', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.imageAsCompressed).be.a.Function;
+			should(blob.imageAsCompressed).be.a.Function();
 		});
 
 		it('with PNG', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
 			var b = blob.imageAsCompressed(0.5);
-			should(b).be.an.Object;
+			should(b).be.an.Object();
 			// width and height should remain the same
 			should(b.width).be.eql(blob.width);
 			should(b.height).be.eql(blob.height);
@@ -241,13 +241,13 @@ describe('Titanium.Blob', function () {
 	describe('#imageAsCropped()', function () {
 		it('is a Function', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.imageAsCropped).be.a.Function;
+			should(blob.imageAsCropped).be.a.Function();
 		});
 
 		it('with PNG', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
 			var b = blob.imageAsCropped({ width: 50, height: 60, x: 0, y: 0 });
-			should(b).be.an.Object;
+			should(b).be.an.Object();
 			should(b.width).be.eql(50);
 			should(b.height).be.eql(60);
 		});
@@ -262,13 +262,13 @@ describe('Titanium.Blob', function () {
 	describe('#imageAsResized()', function () {
 		it('is a Function', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.imageAsResized).be.a.Function;
+			should(blob.imageAsResized).be.a.Function();
 		});
 
 		it('with PNG', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
 			var b = blob.imageAsResized(50, 60);
-			should(b).be.an.Object;
+			should(b).be.an.Object();
 			should(b.width).be.eql(50);
 			should(b.height).be.eql(60);
 		});
@@ -283,7 +283,7 @@ describe('Titanium.Blob', function () {
 	describe('#imageAsThumbnail()', function () {
 		it('is a Function', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.imageAsThumbnail).be.a.Function;
+			should(blob.imageAsThumbnail).be.a.Function();
 		});
 
 		it.windowsBroken('with PNG generates an image with desired size plus a default 1px border around that', function () {
@@ -291,7 +291,7 @@ describe('Titanium.Blob', function () {
 			var thumbnailSize = 50;
 			var b = blob.imageAsThumbnail(thumbnailSize);
 			var borderSize = 1; // defaults to a border of 1 when unspecified
-			should(b).be.an.Object;
+			should(b).be.an.Object();
 			// iOS and Android apply border around the image, so full size is thumbnailSize + 2*border
 			should(b.width).be.eql(thumbnailSize + (2 * borderSize));
 			should(b.height).be.eql(thumbnailSize + (2 * borderSize));
@@ -307,14 +307,14 @@ describe('Titanium.Blob', function () {
 	describe('#imageWithAlpha()', function () {
 		it('is a Function', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.imageWithAlpha).be.a.Function;
+			should(blob.imageWithAlpha).be.a.Function();
 		});
 
 		it.windowsBroken('with PNG', function () {
 			var blob = Ti.Filesystem.getFile('Logo.png').read();
 			var b = blob.imageWithAlpha();
 			// just adds an alpha channel. Not sure how this is useful!
-			should(b).be.an.Object;
+			should(b).be.an.Object();
 			should(b.width).be.eql(blob.width);
 			should(b.height).be.eql(blob.height);
 		});
@@ -329,7 +329,7 @@ describe('Titanium.Blob', function () {
 	describe('#imageWithRoundedCorner()', () => {
 		it('is a Function', () => {
 			const blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.imageWithRoundedCorner).be.a.Function;
+			should(blob.imageWithRoundedCorner).be.a.Function();
 		});
 
 		it.windowsBroken('with PNG generates rounded corner image with an additional default border of 1', function () {
@@ -337,7 +337,7 @@ describe('Titanium.Blob', function () {
 			const cornerSize = 4;
 			const borderSize = 1; // defaults to 1 when unspecified
 			const b = blob.imageWithRoundedCorner(cornerSize);
-			should(b).be.an.Object;
+			should(b).be.an.Object();
 			should(b.width).be.eql(blob.width + (2 * borderSize));
 			should(b.height).be.eql(blob.height + (2 * borderSize));
 		});
@@ -352,14 +352,14 @@ describe('Titanium.Blob', function () {
 	describe('#imageWithTransparentBorder()', () => {
 		it('is a Function', () => {
 			const blob = Ti.Filesystem.getFile('Logo.png').read();
-			should(blob.imageWithTransparentBorder).be.a.Function;
+			should(blob.imageWithTransparentBorder).be.a.Function();
 		});
 
 		it.windowsBroken('with PNG adds border around original image', () => {
 			const blob = Ti.Filesystem.getFile('Logo.png').read();
 			const borderSize = 5;
 			const b = blob.imageWithTransparentBorder(borderSize);
-			should(b).be.an.Object;
+			should(b).be.an.Object();
 			should(b.width).be.eql(blob.width + (2 * borderSize)); // border on each side
 			should(b.height).be.eql(blob.height + (2 * borderSize)); // border on top+bottom
 		});
@@ -374,7 +374,7 @@ describe('Titanium.Blob', function () {
 	describe('#toString()', () => {
 		it('is a Function', () => {
 			const blob = Ti.Filesystem.getFile('app.js').read();
-			should(blob.toString).be.a.Function;
+			should(blob.toString).be.a.Function();
 		});
 
 		it('returns text value', () => {
@@ -407,7 +407,7 @@ describe('Titanium.Blob', function () {
 
 		// Obtain large image blob. (8000px, 8000px)
 		let blob = Ti.Filesystem.getFile('large.jpg').read();
-		should(blob).be.an.Object;
+		should(blob).be.an.Object();
 
 		win.addEventListener('open', () => {
 			// Keep re-sizing the image down by 10%
@@ -415,7 +415,7 @@ describe('Titanium.Blob', function () {
 
 				// De-reference original blob so it can be freed.
 				blob = blob.imageAsResized(blob.width / 1.1, blob.height / 1.1);
-				should(blob).be.an.Object;
+				should(blob).be.an.Object();
 			}
 
 			// Display re-sized image.

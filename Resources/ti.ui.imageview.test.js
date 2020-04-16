@@ -41,7 +41,7 @@ describe('Titanium.UI.ImageView', function () {
 
 	it('apiName', function () {
 		var imageView = Ti.UI.createImageView();
-		should(imageView).have.readOnlyProperty('apiName').which.is.a.String;
+		should(imageView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(imageView.apiName).be.eql('Ti.UI.ImageView');
 	});
 
@@ -49,8 +49,8 @@ describe('Titanium.UI.ImageView', function () {
 		var imageView = Ti.UI.createImageView({
 			image: 'https://www.google.com/images/srpr/logo11w.png'
 		});
-		should(imageView.image).be.a.String;
-		should(imageView.getImage).be.a.Function;
+		should(imageView.image).be.a.String();
+		should(imageView.getImage).be.a.Function();
 		should(imageView.image).eql('https://www.google.com/images/srpr/logo11w.png');
 		should(imageView.getImage()).eql('https://www.google.com/images/srpr/logo11w.png');
 		imageView.image = 'path/to/logo.png';
@@ -63,7 +63,7 @@ describe('Titanium.UI.ImageView', function () {
 		var imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.image).be.a.String;
+				should(imageView.image).be.a.String();
 				should(imageView.image).eql(Ti.Filesystem.resourcesDirectory + 'Logo.png');
 				finish();
 			} catch (err) {
@@ -78,7 +78,7 @@ describe('Titanium.UI.ImageView', function () {
 		var imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.image).be.a.String;
+				should(imageView.image).be.a.String();
 				should(imageView.image).eql(Ti.Filesystem.resourcesDirectory + Ti.Filesystem.separator + 'Logo.png');
 				finish();
 			} catch (err) {
@@ -95,7 +95,7 @@ describe('Titanium.UI.ImageView', function () {
 		var imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.image).be.a.String;
+				should(imageView.image).be.a.String();
 				should(imageView.image).eql(Ti.Filesystem.resourcesDirectory + '/Logo.png');
 				finish();
 			} catch (err) {
@@ -113,7 +113,7 @@ describe('Titanium.UI.ImageView', function () {
 		var imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.image).be.a.String;
+				should(imageView.image).be.a.String();
 				should(imageView.image).eql(Ti.Filesystem.resourcesDirectory + 'Logo.png');
 				finish();
 			} catch (err) {
@@ -127,7 +127,7 @@ describe('Titanium.UI.ImageView', function () {
 		var imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.image).be.a.String;
+				should(imageView.image).be.a.String();
 				should(imageView.image).eql('ms-appx:///Logo.png');
 				finish();
 			} catch (err) {
@@ -146,7 +146,7 @@ describe('Titanium.UI.ImageView', function () {
 		imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.image).be.a.String;
+				should(imageView.image).be.a.String();
 				should(imageView.image).eql('ms-appdata:///local/TIMOB-20609.png');
 				finish();
 			} catch (err) {
@@ -167,7 +167,7 @@ describe('Titanium.UI.ImageView', function () {
 		var imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.image).be.an.Object;
+				should(imageView.image).be.an.Object();
 				should(imageView.image).eql(fromFile);
 				finish();
 			} catch (err) {
@@ -186,7 +186,7 @@ describe('Titanium.UI.ImageView', function () {
 		var imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.image).be.an.Object;
+				should(imageView.image).be.an.Object();
 				should(imageView.toBlob()).eql(blob);
 				finish();
 			} catch (err) {

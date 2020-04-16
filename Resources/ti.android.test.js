@@ -12,14 +12,14 @@ var should = require('./utilities/assertions');
 describe.android('Titanium.Android', function () {
 	it('currentActivity', function () {
 		should(Ti.Android.currentActivity).not.be.undefined;
-		should(Ti.Android.currentActivity).be.a.Object;
+		should(Ti.Android.currentActivity).be.a.Object();
 	});
 
 	it('rootActivity', function () {
 		should(Ti.Android.rootActivity).not.be.undefined;
-		should(Ti.Android.rootActivity).be.a.Object;
+		should(Ti.Android.rootActivity).be.a.Object();
 		should(Ti.Android.rootActivity.intent).not.be.undefined;
-		should(Ti.Android.rootActivity.intent).be.a.Object;
+		should(Ti.Android.rootActivity.intent).be.a.Object();
 	});
 
 	it('newintent', function (finish) {
@@ -37,7 +37,7 @@ describe.android('Titanium.Android', function () {
 		Ti.Android.rootActivity.addEventListener('newintent', function (e) {
 			try {
 				function validateIntent(intent) {
-					should(intent).be.a.Object;
+					should(intent).be.a.Object();
 					should(intent.action).eql(newIntent.action);
 					should(intent.data).eql(newIntent.data);
 					should(intent.packageName).eql(newIntent.packageName);

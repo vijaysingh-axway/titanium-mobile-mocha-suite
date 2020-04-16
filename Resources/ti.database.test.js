@@ -12,29 +12,29 @@ const should = require('./utilities/assertions');
 describe('Titanium.Database', function () {
 	it('apiName', function () {
 		should(Ti.Database.apiName).be.eql('Ti.Database');
-		should(Ti.Database).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Database).have.readOnlyProperty('apiName').which.is.a.String();
 	});
 
 	it('FIELD_TYPE_DOUBLE', function () {
-		should(Ti.Database).have.constant('FIELD_TYPE_DOUBLE').which.is.a.Number;
+		should(Ti.Database).have.constant('FIELD_TYPE_DOUBLE').which.is.a.Number();
 	});
 
 	it('FIELD_TYPE_FLOAT', function () {
-		should(Ti.Database).have.constant('FIELD_TYPE_FLOAT').which.is.a.Number;
+		should(Ti.Database).have.constant('FIELD_TYPE_FLOAT').which.is.a.Number();
 	});
 
 	it('FIELD_TYPE_INT', function () {
-		should(Ti.Database).have.constant('FIELD_TYPE_INT').which.is.a.Number;
+		should(Ti.Database).have.constant('FIELD_TYPE_INT').which.is.a.Number();
 	});
 
 	it('FIELD_TYPE_STRING', function () {
-		should(Ti.Database).have.constant('FIELD_TYPE_STRING').which.is.a.Number;
+		should(Ti.Database).have.constant('FIELD_TYPE_STRING').which.is.a.Number();
 	});
 
 	describe('.install()', () => {
 		it('is a function', () => {
 			should(Ti.Database.install).not.be.undefined;
-			should(Ti.Database.install).be.a.Function;
+			should(Ti.Database.install).be.a.Function();
 		});
 
 		// FIXME Get working for iOS - gets back John Smith\\u0000'
@@ -48,21 +48,21 @@ describe('Titanium.Database', function () {
 			var db = Ti.Database.install('testDbResource.db', dbName);
 
 			// Confirm 'db' is an object
-			should(db).be.a.Object;
+			should(db).be.a.Object();
 
 			// Confirm 'db.file' property is a valid object
-			should(db.file).be.a.Object;
+			should(db.file).be.a.Object();
 
 			// Validate the 'db.lastInsertRowId' property
-			should(db.lastInsertRowId).be.a.Number;
+			should(db.lastInsertRowId).be.a.Number();
 			should(db.lastInsertRowId).be.eql(0);
 
 			// Confirm 'db.name' is a string
-			should(db.name).be.a.String;
+			should(db.name).be.a.String();
 			should(db.name).be.eql(dbName);
 
 			// Validate the 'db.rowsAffected' property
-			should(db.rowsAffected).be.a.Number;
+			should(db.rowsAffected).be.a.Number();
 			should(db.rowsAffected).be.eql(0);
 
 			// Define test data
@@ -74,7 +74,7 @@ describe('Titanium.Database', function () {
 			var rows = db.execute('SELECT rowid, text, number FROM testTable');
 
 			// Validate the returned 'rows' object
-			should(rows).be.a.Object;
+			should(rows).be.a.Object();
 			should(rows.rowCount).be.eql(2);
 			should(rows.fieldCount).be.eql(3);
 			// Validate field names
@@ -88,25 +88,25 @@ describe('Titanium.Database', function () {
 
 				// Validate the rowid field
 				var rowid = rows.fieldByName('rowid');
-				should(rowid).be.a.Number;
+				should(rowid).be.a.Number();
 				should(rowid).be.eql(index);
 
 				// Case insensitive search
 				rowid = rows.fieldByName('ROWID');
-				should(rowid).be.a.Number;
+				should(rowid).be.a.Number();
 				should(rowid).be.eql(index);
 
 				// Validate the text field
 				var text = rows.field(1);
-				should(text).be.a.String;
+				should(text).be.a.String();
 
 				// Validate the number field
 				var number = rows.fieldByName('number');
-				should(number).be.a.Number;
+				should(number).be.a.Number();
 
 				// Case insensitive search
 				number = rows.fieldByName('NUMBER');
-				should(number).be.a.Number;
+				should(number).be.a.Number();
 
 				// Validate the test data
 				if (index === 1) {
@@ -129,7 +129,7 @@ describe('Titanium.Database', function () {
 			var aliased = db.execute('SELECT rowid, text AS something FROM testTable');
 
 			// Validate the returned 'rows' object
-			should(aliased).be.a.Object;
+			should(aliased).be.a.Object();
 			should(aliased.rowCount).be.eql(2);
 			should(aliased.fieldCount).be.eql(2);
 			// Validate field names
@@ -159,7 +159,7 @@ describe('Titanium.Database', function () {
 		// FIXME Get working on Android, either lastInsertRowId or rowsAffected is starting as 1, not 0
 		it.androidBroken('opens or creates database', function () {
 			should(Ti.Database.open).not.be.undefined;
-			should(Ti.Database.open).be.a.Function;
+			should(Ti.Database.open).be.a.Function();
 
 			// Database name
 			var dbName = 'testDbOpen';
@@ -169,21 +169,21 @@ describe('Titanium.Database', function () {
 			var db = Ti.Database.open(dbName);
 
 			// Confirm 'db' is an object
-			should(db).be.a.Object;
+			should(db).be.a.Object();
 
 			// Confirm 'db.file' property is a valid object
-			should(db.file).be.a.Object;
+			should(db.file).be.a.Object();
 
 			// Validate the 'db.lastInsertRowId' property
-			should(db.lastInsertRowId).be.a.Number;
+			should(db.lastInsertRowId).be.a.Number();
 			should(db.lastInsertRowId).be.eql(0);
 
 			// Confirm 'db.name' is a string
-			should(db.name).be.a.String;
+			should(db.name).be.a.String();
 			should(db.name).be.eql(dbName);
 
 			// Validate the 'db.rowsAffected' property
-			should(db.rowsAffected).be.a.Number;
+			should(db.rowsAffected).be.a.Number();
 			should(db.rowsAffected).be.eql(0);
 
 			// Execute a query to create a test table
@@ -215,7 +215,7 @@ describe('Titanium.Database', function () {
 			var rows = db.execute('SELECT rowid, text, number FROM testTable');
 
 			// Validate the returned 'rows' object
-			should(rows).be.a.Object;
+			should(rows).be.a.Object();
 			should(rows.rowCount).be.eql(2);
 			should(rows.fieldCount).be.eql(3);
 			should(rows.validRow).be.true;
@@ -227,16 +227,16 @@ describe('Titanium.Database', function () {
 
 				// Validate the rowid field
 				var rowid = rows.fieldByName('rowid');
-				should(rowid).be.a.Number;
+				should(rowid).be.a.Number();
 				should(rowid).be.eql(index);
 
 				// Validate the text field
 				var text = rows.field(1);
-				should(text).be.a.String;
+				should(text).be.a.String();
 
 				// Validate the number field
 				var number = rows.fieldByName('number');
-				should(number).be.a.Number;
+				should(number).be.a.Number();
 
 				// Validate the test data
 				if (index === 1) {
@@ -302,7 +302,7 @@ describe('Titanium.Database', function () {
 		var rows = db.execute('SELECT rowid, text, number FROM testTable');
 
 		// Validate the returned 'rows' object
-		should(rows).be.a.Object;
+		should(rows).be.a.Object();
 		should(rows.rowCount).be.eql(2);
 		should(rows.fieldCount).be.eql(3);
 		should(rows.validRow).be.true;
@@ -343,7 +343,7 @@ describe('Titanium.Database', function () {
 		it('is a function', () => {
 			const db = Ti.Database.open('execute.db');
 			try {
-				should(db.execute).be.a.Function;
+				should(db.execute).be.a.Function();
 			} finally {
 				db.close();
 			}
@@ -358,7 +358,7 @@ describe('Titanium.Database', function () {
 
 			try {
 				// Confirm 'db' is an object
-				should(db).be.a.Object;
+				should(db).be.a.Object();
 				const rows = db.execute('pragma table_info(\'category\');');
 				should(rows).be.null;
 			} finally {
@@ -424,7 +424,7 @@ describe('Titanium.Database', function () {
 		it('is a function', () => {
 			const db = Ti.Database.open('execute_async.db');
 			try {
-				should(db.executeAsync).be.a.Function;
+				should(db.executeAsync).be.a.Function();
 			} finally {
 				db.close();
 			}
@@ -456,7 +456,7 @@ describe('Titanium.Database', function () {
 							try {
 								should(err).not.exist;
 								// Validate the returned 'rows' object
-								should(rows).be.a.Object;
+								should(rows).be.a.Object();
 								should(rows.rowCount).be.eql(1);
 								should(rows.fieldCount).be.eql(3);
 								should(rows.validRow).be.true;
@@ -494,7 +494,7 @@ describe('Titanium.Database', function () {
 		it('is a function', () => { // eslint-disable-line mocha/no-identical-title
 			const db = Ti.Database.open('execute_all.db');
 			try {
-				should(db.executeAll).be.a.Function;
+				should(db.executeAll).be.a.Function();
 			} finally {
 				db.close();
 			}
@@ -527,7 +527,7 @@ describe('Titanium.Database', function () {
 				// all the non-null result sets returned?!
 
 				// Validate the returned 'rows' object
-				should(rows).be.a.Object;
+				should(rows).be.a.Object();
 				should(rows.rowCount).be.eql(1);
 				should(rows.fieldCount).be.eql(3);
 				should(rows.validRow).be.true;
@@ -570,7 +570,7 @@ describe('Titanium.Database', function () {
 		it('is a function', () => { // eslint-disable-line mocha/no-identical-title
 			const db = Ti.Database.open('execute_all_async.db');
 			try {
-				should(db.executeAllAsync).be.a.Function;
+				should(db.executeAllAsync).be.a.Function();
 			} finally {
 				db.close();
 			}
@@ -601,7 +601,7 @@ describe('Titanium.Database', function () {
 
 						rows = results[3];
 						// Validate the returned 'rows' object
-						should(rows).be.a.Object;
+						should(rows).be.a.Object();
 						should(rows.rowCount).be.eql(1);
 						should(rows.fieldCount).be.eql(3);
 						should(rows.validRow).be.true;
@@ -645,11 +645,11 @@ describe('Titanium.Database', function () {
 					try {
 						should(err).exist;
 						should(err.index).eql(4);
-						should(results).be.an.Array;
+						should(results).be.an.Array();
 
 						// validate our partial results
 						rows = results[3];
-						should(rows).be.a.Object;
+						should(rows).be.a.Object();
 						should(rows.rowCount).be.eql(1);
 						should(rows.fieldCount).be.eql(3);
 						should(rows.validRow).be.true;
@@ -691,8 +691,8 @@ describe('Titanium.Database', function () {
 				try {
 					should(err).exist;
 					// We should be giving custom properties so user can see what index we failed on, get partial results
-					should(err.index).be.a.Number;
-					should(results).be.an.Array;
+					should(err.index).be.a.Number();
+					should(results).be.an.Array();
 					finish();
 				} catch (e) {
 					finish(e);

@@ -13,17 +13,17 @@ describe.ios('Titanium.UI.iOS.StatusBar', function () {
 
 	it('#constants', function () {
 
-		should(Ti.UI.iOS.StatusBar.ANIMATION_STYLE_NONE).be.a.Number;
-		should(Ti.UI.iOS.StatusBar.ANIMATION_STYLE_SLIDE).be.a.Number;
-		should(Ti.UI.iOS.StatusBar.ANIMATION_STYLE_FADE).be.a.Number;
+		should(Ti.UI.iOS.StatusBar.ANIMATION_STYLE_NONE).be.a.Number();
+		should(Ti.UI.iOS.StatusBar.ANIMATION_STYLE_SLIDE).be.a.Number();
+		should(Ti.UI.iOS.StatusBar.ANIMATION_STYLE_FADE).be.a.Number();
 
-		should(Ti.UI.iOS.StatusBar.DEFAULT).be.a.Number;
-		should(Ti.UI.iOS.StatusBar.GRAY).be.a.Number;
-		should(Ti.UI.iOS.StatusBar.GREY).be.a.Number;
-		should(Ti.UI.iOS.StatusBar.LIGHT_CONTENT).be.a.Number;
+		should(Ti.UI.iOS.StatusBar.DEFAULT).be.a.Number();
+		should(Ti.UI.iOS.StatusBar.GRAY).be.a.Number();
+		should(Ti.UI.iOS.StatusBar.GREY).be.a.Number();
+		should(Ti.UI.iOS.StatusBar.LIGHT_CONTENT).be.a.Number();
 		var isiOS13 =  (parseInt(Ti.Platform.version.split('.')[0]) >= 13);
 		if (isiOS13) {
-			should(Ti.UI.iOS.StatusBar.DARK_CONTENT).be.a.Number;
+			should(Ti.UI.iOS.StatusBar.DARK_CONTENT).be.a.Number();
 		}
 	});
 });

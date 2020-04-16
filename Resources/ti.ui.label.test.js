@@ -43,7 +43,7 @@ describe('Titanium.UI.Label', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
-		should(label).have.readOnlyProperty('apiName').which.is.a.String;
+		should(label).have.readOnlyProperty('apiName').which.is.a.String();
 		should(label.apiName).be.eql('Ti.UI.Label');
 	});
 
@@ -52,8 +52,8 @@ describe('Titanium.UI.Label', function () {
 			text: 'This is a label with propably more than three lines of text. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.',
 			maxLines: 2
 		});
-		should(label.maxLines).be.a.Number;
-		should(label.getMaxLines).be.a.Function; // Windows gives undefined
+		should(label.maxLines).be.a.Number();
+		should(label.getMaxLines).be.a.Function(); // Windows gives undefined
 		should(label.maxLines).eql(2);
 		should(label.getMaxLines()).eql(2);
 		label.maxLines = 1;
@@ -94,8 +94,8 @@ describe('Titanium.UI.Label', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
-		should(label.text).be.a.String;
-		should(label.getText).be.a.Function;
+		should(label.text).be.a.String();
+		should(label.getText).be.a.Function();
 		should(label.text).eql('this is some text');
 		should(label.getText()).eql('this is some text');
 		label.text = 'other text';
@@ -107,8 +107,8 @@ describe('Titanium.UI.Label', function () {
 		var label = Ti.UI.createLabel({
 			textid: 'this_is_my_key'
 		});
-		should(label.textid).be.a.String;
-		should(label.getTextid).be.a.Function;
+		should(label.textid).be.a.String();
+		should(label.getTextid).be.a.Function();
 		should(label.textid).eql('this_is_my_key');
 		should(label.getTextid()).eql('this_is_my_key');
 		should(label.text).eql('this is my value');
@@ -124,11 +124,11 @@ describe('Titanium.UI.Label', function () {
 			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
 		});
 		if (utilities.isAndroid()) {
-			should(label.textAlign).be.a.String;
+			should(label.textAlign).be.a.String();
 		} else {
-			should(label.textAlign).be.a.Number;
+			should(label.textAlign).be.a.Number();
 		}
-		should(label.getTextAlign).be.a.Function;
+		should(label.getTextAlign).be.a.Function();
 		should(label.textAlign).eql(Ti.UI.TEXT_ALIGNMENT_CENTER);
 		should(label.getTextAlign()).eql(Ti.UI.TEXT_ALIGNMENT_CENTER);
 		label.textAlign = Ti.UI.TEXT_ALIGNMENT_RIGHT;
@@ -149,11 +149,11 @@ describe('Titanium.UI.Label', function () {
 			verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
 		});
 		if (utilities.isAndroid()) {
-			should(label.verticalAlign).be.a.String;
+			should(label.verticalAlign).be.a.String();
 		} else {
-			should(label.verticalAlign).be.a.Number;
+			should(label.verticalAlign).be.a.Number();
 		}
-		should(label.getVerticalAlign).be.a.Function;
+		should(label.getVerticalAlign).be.a.Function();
 		should(label.verticalAlign).eql(Ti.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
 		should(label.getVerticalAlign()).eql(Ti.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
 		label.verticalAlign = Ti.UI.TEXT_VERTICAL_ALIGNMENT_TOP;
@@ -167,8 +167,8 @@ describe('Titanium.UI.Label', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
-		should(label.ellipsize).be.a.Number; // Windows gives false!
-		should(label.getEllipsize).be.a.Function;
+		should(label.ellipsize).be.a.Number(); // Windows gives false!
+		should(label.getEllipsize).be.a.Function();
 		should(label.ellipsize).eql(Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_END);
 		should(label.getEllipsize()).eql(Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_END);
 		label.ellipsize = Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_MIDDLE;
@@ -183,8 +183,8 @@ describe('Titanium.UI.Label', function () {
 		var label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
-		should(label.wordWrap).be.a.Boolean;
-		should(label.getWordWrap).be.a.Function;
+		should(label.wordWrap).be.a.Boolean();
+		should(label.getWordWrap).be.a.Function();
 		should(label.wordWrap).eql(true);
 		should(label.getWordWrap()).eql(true);
 		label.wordWrap = false;
@@ -294,8 +294,8 @@ describe('Titanium.UI.Label', function () {
 			minimumFontSize: 28,
 			height: 50
 		});
-		should(label.minimumFontSize).be.a.Number;
-		should(label.getMinimumFontSize).be.a.Function;
+		should(label.minimumFontSize).be.a.Number();
+		should(label.getMinimumFontSize).be.a.Function();
 		should(label.minimumFontSize).eql(28);
 		should(label.getMinimumFontSize()).eql(28);
 		label.minimumFontSize = 22;

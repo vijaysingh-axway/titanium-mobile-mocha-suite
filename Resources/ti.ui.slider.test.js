@@ -16,19 +16,19 @@ describe('Titanium.UI.Slider', function () {
 
 	it('apiName', function () {
 		var slider = Ti.UI.createSlider();
-		should(slider).have.readOnlyProperty('apiName').which.is.a.String;
+		should(slider).have.readOnlyProperty('apiName').which.is.a.String();
 		should(slider.apiName).be.eql('Ti.UI.Slider');
 	});
 
 	it('createSlider', function () {
 		var slider;
 		should(Ti.UI.createSlider).not.be.undefined;
-		should(Ti.UI.createSlider).be.a.Function;
+		should(Ti.UI.createSlider).be.a.Function();
 
 		// Create slider
 		slider = Ti.UI.createSlider({ min: 0, max: 100, value: 50 });
-		should(slider).be.a.Object;
-		should(slider.apiName).be.a.String;
+		should(slider).be.a.Object();
+		should(slider.apiName).be.a.String();
 		should(slider.apiName).be.eql('Ti.UI.Slider');
 
 		// Validate slider value

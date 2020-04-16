@@ -64,8 +64,8 @@ describe('Titanium.UI.View', function () {
 		try {
 			view.backgroundColor = 'white';
 			view.backgroundImage = 'Logo.png';
-			should(view.backgroundColor).be.a.String;
-			should(view.backgroundImage).be.a.String;
+			should(view.backgroundColor).be.a.String();
+			should(view.backgroundImage).be.a.String();
 			should(view.backgroundColor).be.eql('white');
 			should(view.backgroundImage).be.eql('Logo.png');
 
@@ -83,8 +83,8 @@ describe('Titanium.UI.View', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.backgroundFocusedColor).be.a.String; // undefined on iOS and Android
-				should(view.backgroundFocusedImage).be.a.String;
+				should(view.backgroundFocusedColor).be.a.String(); // undefined on iOS and Android
+				should(view.backgroundFocusedImage).be.a.String();
 				view.backgroundFocusedColor = 'white';
 				view.backgroundFocusedImage = 'Logo.png';
 				should(view.backgroundFocusedColor).be.eql('white');
@@ -106,8 +106,8 @@ describe('Titanium.UI.View', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.backgroundSelectedColor).be.a.String; // undefined on iOS and Android
-				should(view.backgroundSelectedImage).be.a.String;
+				should(view.backgroundSelectedColor).be.a.String(); // undefined on iOS and Android
+				should(view.backgroundSelectedImage).be.a.String();
 				view.backgroundSelectedColor = 'white';
 				view.backgroundSelectedImage = 'Logo.png';
 				should(view.backgroundSelectedColor).be.eql('white');
@@ -129,8 +129,8 @@ describe('Titanium.UI.View', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.backgroundDisabledColor).be.a.String; // undefined on iOS and Android
-				should(view.backgroundDisabledImage).be.a.String;
+				should(view.backgroundDisabledColor).be.a.String(); // undefined on iOS and Android
+				should(view.backgroundDisabledImage).be.a.String();
 				view.backgroundDisabledColor = 'white';
 				view.backgroundDisabledImage = 'Logo.png';
 				should(view.backgroundDisabledColor).be.eql('white');
@@ -183,21 +183,21 @@ describe('Titanium.UI.View', function () {
 
 		win.addEventListener('open', function () {
 			// general API
-			should(radialGradient.backgroundGradient).be.an.Object;
+			should(radialGradient.backgroundGradient).be.an.Object();
 
 			// type
-			should(radialGradient.backgroundGradient.type).be.a.String;
+			should(radialGradient.backgroundGradient.type).be.a.String();
 			should(radialGradient.backgroundGradient.type).eql('radial');
 
 			// startPoint
-			should(radialGradient.backgroundGradient.startPoint).be.an.Object;
-			should(radialGradient.backgroundGradient.startPoint.x).be.a.Number;
-			should(radialGradient.backgroundGradient.startPoint.y).be.a.Number;
+			should(radialGradient.backgroundGradient.startPoint).be.an.Object();
+			should(radialGradient.backgroundGradient.startPoint.x).be.a.Number();
+			should(radialGradient.backgroundGradient.startPoint.y).be.a.Number();
 			should(radialGradient.backgroundGradient.startPoint.x).eql(50);
 			should(radialGradient.backgroundGradient.startPoint.y).eql(50);
 
 			// colors
-			should(radialGradient.backgroundGradient.colors).be.an.Array;
+			should(radialGradient.backgroundGradient.colors).be.an.Array();
 			should(radialGradient.backgroundGradient.colors[0]).eql('red');
 			should(radialGradient.backgroundGradient.colors[1]).eql('blue');
 
@@ -210,18 +210,18 @@ describe('Titanium.UI.View', function () {
 			// TODO: Expose those on Android as well
 			if (!utilities.isAndroid()) {
 				// endPoint
-				should(radialGradient.backgroundGradient.endPoint).be.an.Object;
-				should(radialGradient.backgroundGradient.endPoint.x).be.a.Number;
-				should(radialGradient.backgroundGradient.endPoint.y).be.a.Number;
+				should(radialGradient.backgroundGradient.endPoint).be.an.Object();
+				should(radialGradient.backgroundGradient.endPoint.x).be.a.Number();
+				should(radialGradient.backgroundGradient.endPoint.y).be.a.Number();
 				should(radialGradient.backgroundGradient.endPoint.x).eql(50);
 				should(radialGradient.backgroundGradient.endPoint.y).eql(50);
 
 				// backfillStart
-				should(radialGradient.backgroundGradient.backfillStart).be.a.Boolean;
+				should(radialGradient.backgroundGradient.backfillStart).be.a.Boolean();
 				should(radialGradient.backgroundGradient.backfillStart).eql(true);
 
 				// backfillEnd
-				should(radialGradient.backgroundGradient.backfillEnd).be.a.Boolean;
+				should(radialGradient.backgroundGradient.backfillEnd).be.a.Boolean();
 				should(radialGradient.backgroundGradient.backfillEnd).eql(true);
 			}
 
@@ -270,32 +270,32 @@ describe('Titanium.UI.View', function () {
 
 		win.addEventListener('open', function () {
 			// general API
-			should(linearGradient.backgroundGradient).be.an.Object;
+			should(linearGradient.backgroundGradient).be.an.Object();
 
 			// type
-			should(linearGradient.backgroundGradient.type).be.a.String;
+			should(linearGradient.backgroundGradient.type).be.a.String();
 			should(linearGradient.backgroundGradient.type).eql('linear');
 
 			// startPoint
-			should(linearGradient.backgroundGradient.startPoint).be.an.Object;
-			should(linearGradient.backgroundGradient.startPoint.x).be.a.String;
-			should(linearGradient.backgroundGradient.startPoint.y).be.a.String;
+			should(linearGradient.backgroundGradient.startPoint).be.an.Object();
+			should(linearGradient.backgroundGradient.startPoint.x).be.a.String();
+			should(linearGradient.backgroundGradient.startPoint.y).be.a.String();
 			should(linearGradient.backgroundGradient.startPoint.x).eql('0%');
 			should(linearGradient.backgroundGradient.startPoint.y).eql('50%');
 
 			// endPoint
-			should(linearGradient.backgroundGradient.endPoint).be.an.Object;
-			should(linearGradient.backgroundGradient.endPoint.x).be.a.String;
-			should(linearGradient.backgroundGradient.endPoint.y).be.a.String;
+			should(linearGradient.backgroundGradient.endPoint).be.an.Object();
+			should(linearGradient.backgroundGradient.endPoint.x).be.a.String();
+			should(linearGradient.backgroundGradient.endPoint.y).be.a.String();
 			should(linearGradient.backgroundGradient.endPoint.x).eql('100%');
 			should(linearGradient.backgroundGradient.endPoint.y).eql('100%');
 
 			// colors
-			should(linearGradient.backgroundGradient.colors).be.an.Array;
+			should(linearGradient.backgroundGradient.colors).be.an.Array();
 			linearGradient.backgroundGradient.colors.forEach(function (colorObject) {
-				should(colorObject).be.an.Object;
-				should(colorObject.color).be.a.String;
-				should(colorObject.offset).be.a.Number;
+				should(colorObject).be.an.Object();
+				should(colorObject.color).be.a.String();
+				should(colorObject.offset).be.a.Number();
 			});
 
 			finish();
@@ -313,8 +313,8 @@ describe('Titanium.UI.View', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.borderColor).be.a.String; // undefined on iOS and Android
-				should(view.borderWidth).be.a.Number; // Windows gives: expected '0' to be a number
+				should(view.borderColor).be.a.String(); // undefined on iOS and Android
+				should(view.borderWidth).be.a.Number(); // Windows gives: expected '0' to be a number
 				view.borderColor = 'blue';
 				view.borderWidth = 2;
 				should(view.borderColor).be.eql('blue');
@@ -343,11 +343,11 @@ describe('Titanium.UI.View', function () {
 				Ti.API.info('Got postlayout event');
 				Ti.API.info(JSON.stringify(view.rect));
 				Ti.API.info(JSON.stringify(view.size));
-				should(view.rect).be.an.Object;
+				should(view.rect).be.an.Object();
 				should(view.rect.width).be.above(0);
 				should(view.rect.height).be.above(0);
-				should(view.rect.x).be.a.Number;
-				should(view.rect.y).be.a.Number;
+				should(view.rect.x).be.a.Number();
+				should(view.rect.y).be.a.Number();
 				should(view.size.width).be.above(0);
 				should(view.size.height).be.above(0);
 
@@ -677,9 +677,9 @@ describe('Titanium.UI.View', function () {
 			try {
 				Ti.API.info('Got postlayout event');
 				let result = b.convertPointToView({ x: 123, y: 23 }, a);
-				should(result).be.an.Object;
-				should(result.x).be.a.Number; // Windows: expected '123.000000' to be a number
-				should(result.y).be.a.Number;
+				should(result).be.an.Object();
+				should(result.x).be.a.Number(); // Windows: expected '123.000000' to be a number
+				should(result.y).be.a.Number();
 				should(result.x).eql(123);
 				should(result.y).eql(123);
 
@@ -700,10 +700,10 @@ describe('Titanium.UI.View', function () {
 
 		win.addEventListener('open', function () {
 			try {
-				should(view.parent).be.an.Object;
+				should(view.parent).be.an.Object();
 				should(view.parent).eql(win);
-				should(view.getParent).be.a.Function;
-				should(view.setParent).be.a.Function;
+				should(view.getParent).be.a.Function();
+				should(view.setParent).be.a.Function();
 				should(view.getParent()).eql(win);
 
 				// parent is not read-only
@@ -739,8 +739,8 @@ describe('Titanium.UI.View', function () {
 		win = Ti.UI.createWindow({ backgroundColor: 'blue' });
 		win.addEventListener('focus', function (e) {
 			try {
-				should(e.source).be.a.Object;
-				should(e.bubbles).be.a.Boolean;
+				should(e.source).be.a.Object();
+				should(e.bubbles).be.a.Boolean();
 
 				finish();
 			} catch (err) {
@@ -796,14 +796,14 @@ describe('Titanium.UI.View', function () {
 
 		win.addEventListener('open', function () {
 			// horizontalMotionEffect
-			should(view.horizontalMotionEffect).be.an.Object;
-			should(view.horizontalMotionEffect.min).be.a.Number;
-			should(view.horizontalMotionEffect.max).be.a.Number;
+			should(view.horizontalMotionEffect).be.an.Object();
+			should(view.horizontalMotionEffect.min).be.a.Number();
+			should(view.horizontalMotionEffect.max).be.a.Number();
 
 			// verticalMotionEffect
-			should(view.verticalMotionEffect).be.an.Object;
-			should(view.verticalMotionEffect.min).be.a.Number;
-			should(view.verticalMotionEffect.max).be.a.Number;
+			should(view.verticalMotionEffect).be.an.Object();
+			should(view.verticalMotionEffect.min).be.a.Number();
+			should(view.verticalMotionEffect.max).be.a.Number();
 
 			finish();
 		});

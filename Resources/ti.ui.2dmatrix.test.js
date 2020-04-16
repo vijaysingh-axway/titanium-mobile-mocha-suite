@@ -15,7 +15,7 @@ var should = require('./utilities/assertions'),
 describe('Titanium.UI.2DMatrix', function () {
 	it('apiName', function () {
 		var matrix = Ti.UI.create2DMatrix();
-		should(matrix).have.readOnlyProperty('apiName').which.is.a.String;
+		should(matrix).have.readOnlyProperty('apiName').which.is.a.String();
 		if (utilities.isWindows()) {
 			should(matrix.apiName).be.eql('Ti.UI.Matrix2D');
 		} else {
@@ -26,22 +26,22 @@ describe('Titanium.UI.2DMatrix', function () {
 	it('#invert()', function () {
 		var matrix1 = Ti.UI.create2DMatrix();
 		var matrix2 = Ti.UI.create2DMatrix();
-		should(matrix1.invert()).be.an.Object;
+		should(matrix1.invert()).be.an.Object();
 		matrix1 = matrix1.scale(2, 2);
-		should(matrix1.invert()).be.an.Object;
+		should(matrix1.invert()).be.an.Object();
 		matrix1 = matrix1.rotate(90);
-		should(matrix1.invert()).be.an.Object;
+		should(matrix1.invert()).be.an.Object();
 		matrix1 = matrix1.translate(2, 2);
-		should(matrix1.invert()).be.an.Object;
+		should(matrix1.invert()).be.an.Object();
 		matrix1 = matrix1.multiply(matrix2);
-		should(matrix1.invert()).be.an.Object;
+		should(matrix1.invert()).be.an.Object();
 	});
 
 	it('#multiply()', function () {
 		var matrix1 = Ti.UI.create2DMatrix();
 		var matrix2 = Ti.UI.create2DMatrix();
-		should(matrix1.multiply(matrix2)).be.an.Object;
-		should(matrix1.multiply(matrix1)).be.an.Object;
+		should(matrix1.multiply(matrix2)).be.an.Object();
+		should(matrix1.multiply(matrix1)).be.an.Object();
 		if (utilities.isAndroid()) {
 			matrix1 = matrix1.rotate(90);
 			matrix2 = matrix2.scale(2, 1);
@@ -61,26 +61,26 @@ describe('Titanium.UI.2DMatrix', function () {
 
 	it('#rotate()', function () {
 		var matrix1 = Ti.UI.create2DMatrix();
-		should(matrix1.rotate(0)).be.an.Object;
-		should(matrix1.rotate(90)).be.an.Object;
-		should(matrix1.rotate(360)).be.an.Object;
-		should(matrix1.rotate(-180)).be.an.Object;
-		should(matrix1.rotate(-720)).be.an.Object;
-		should(matrix1.rotate(-0)).be.an.Object;
+		should(matrix1.rotate(0)).be.an.Object();
+		should(matrix1.rotate(90)).be.an.Object();
+		should(matrix1.rotate(360)).be.an.Object();
+		should(matrix1.rotate(-180)).be.an.Object();
+		should(matrix1.rotate(-720)).be.an.Object();
+		should(matrix1.rotate(-0)).be.an.Object();
 	});
 
 	it('#scale()', function () {
 		var matrix1 = Ti.UI.create2DMatrix();
-		should(matrix1.scale(50, 50)).be.an.Object;
-		should(matrix1.scale(0, -1)).be.an.Object;
-		should(matrix1.scale(-100, -100)).be.an.Object;
+		should(matrix1.scale(50, 50)).be.an.Object();
+		should(matrix1.scale(0, -1)).be.an.Object();
+		should(matrix1.scale(-100, -100)).be.an.Object();
 	});
 
 	it('#translate()', function () {
 		var matrix1 = Ti.UI.create2DMatrix();
-		should(matrix1.translate(-1, 0)).be.an.Object;
-		should(matrix1.translate(50, 50)).be.an.Object;
-		should(matrix1.translate(0, -1)).be.an.Object;
-		should(matrix1.translate(-100, -100)).be.an.Object;
+		should(matrix1.translate(-1, 0)).be.an.Object();
+		should(matrix1.translate(50, 50)).be.an.Object();
+		should(matrix1.translate(0, -1)).be.an.Object();
+		should(matrix1.translate(-100, -100)).be.an.Object();
 	});
 });

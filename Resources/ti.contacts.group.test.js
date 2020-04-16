@@ -15,7 +15,7 @@ var should = require('./utilities/assertions'),
 (utilities.isAndroid() ? describe.skip : describe)('Titanium.Contacts.Group', function () {
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	(utilities.isIOS() ? it.skip : it)('apiName', function () {
-		should(Ti.Contacts.Group).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Contacts.Group).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(Ti.Contacts.Group.apiName).be.eql('Ti.Contacts.Group');
 	});
 
@@ -24,7 +24,7 @@ var should = require('./utilities/assertions'),
 		var group = Ti.Contacts.createGroup();
 		// must call Ti.Contacts.save to write group!
 		should(group.identifier).not.be.undefined;
-		// should(group.identifier).be.a.String; // null until saved?
+		// should(group.identifier).be.a.String(); // null until saved?
 		// TODO Test read-only
 	});
 
@@ -32,7 +32,7 @@ var should = require('./utilities/assertions'),
 	(utilities.isIOS() ? it.skip : it)('name', function () {
 		var group = Ti.Contacts.createGroup({ name: 'example' });
 		should(group.name).not.be.undefined;
-		should(group.name).be.a.String;
+		should(group.name).be.a.String();
 		// TODO Test modifying the name
 	});
 
@@ -41,14 +41,14 @@ var should = require('./utilities/assertions'),
 		var group = Ti.Contacts.createGroup();
 		should(group.recordId).not.be.undefined;
 		// must call Ti.Contacts.save first to get recordId?
-		// should(group.recordId).be.a.Number;
+		// should(group.recordId).be.a.Number();
 		// TODO Number on iOS, String on Windows?
 	});
 
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	(utilities.isIOS() ? it.skip : it)('add', function () {
 		var group = Ti.Contacts.createGroup();
-		should(group.add).be.a.Function;
+		should(group.add).be.a.Function();
 		// TODO Test the method
 		// Handle null/undefined as arg
 		// test non-Person as arg
@@ -58,15 +58,15 @@ var should = require('./utilities/assertions'),
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	(utilities.isIOS() ? it.skip : it)('members', function () {
 		var group = Ti.Contacts.createGroup();
-		should(group.members).be.a.Function;
-		should(group.members()).be.an.Array;
+		should(group.members).be.a.Function();
+		should(group.members()).be.an.Array();
 		// TODO Test the method
 	});
 
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	(utilities.isIOS() ? it.skip : it)('remove', function () {
 		var group = Ti.Contacts.createGroup();
-		should(group.remove).be.a.Function;
+		should(group.remove).be.a.Function();
 		// TODO Test the method
 		// Handle null/undefined as arg
 		// test non-Person as arg
@@ -76,8 +76,8 @@ var should = require('./utilities/assertions'),
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	(utilities.isIOS() ? it.skip : it)('sortedMembers', function () {
 		var group = Ti.Contacts.createGroup();
-		should(group.sortedMembers).be.a.Function;
-		should(group.sortedMembers(Ti.Contacts.CONTACTS_SORT_LAST_NAME)).be.an.Array;
+		should(group.sortedMembers).be.a.Function();
+		should(group.sortedMembers(Ti.Contacts.CONTACTS_SORT_LAST_NAME)).be.an.Array();
 		// TODO Test the method
 		// Test non Ti.Contants.CONTACTS_SORT values as arg
 	});

@@ -19,7 +19,7 @@ describe('Titanium.UI.AttributedString', function () {
 		var attributedString = Ti.UI.createAttributedString({
 			text: 'abc'
 		});
-		should(attributedString).have.readOnlyProperty('apiName').which.is.a.String;
+		should(attributedString).have.readOnlyProperty('apiName').which.is.a.String();
 		should(attributedString.apiName).be.eql('Ti.UI.AttributedString');
 	});
 
@@ -28,8 +28,8 @@ describe('Titanium.UI.AttributedString', function () {
 			text: 'abc'
 		});
 
-		should(attributedString).be.a.Object;
-		should(attributedString.text).be.a.String;
+		should(attributedString).be.a.Object();
+		should(attributedString.text).be.a.String();
 		should(attributedString.text).be.eql('abc');
 	});
 

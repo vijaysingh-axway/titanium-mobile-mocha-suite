@@ -17,18 +17,18 @@ describe('Titanium.UI.Switch', function () {
 
 	it('apiName', function () {
 		var switch_ctrl = Ti.UI.createSwitch();
-		should(switch_ctrl).have.readOnlyProperty('apiName').which.is.a.String;
+		should(switch_ctrl).have.readOnlyProperty('apiName').which.is.a.String();
 		should(switch_ctrl.apiName).be.eql('Ti.UI.Switch');
 	});
 
 	it('createSwitch', function () {
 		should(Ti.UI.createSwitch).not.be.undefined;
-		should(Ti.UI.createSwitch).be.a.Function;
+		should(Ti.UI.createSwitch).be.a.Function();
 
 		// Create switch
 		var switch_ctrl = Ti.UI.createSwitch({ value: true });
-		should(switch_ctrl).be.a.Object;
-		should(switch_ctrl.apiName).be.a.String;
+		should(switch_ctrl).be.a.Object();
+		should(switch_ctrl.apiName).be.a.String();
 		should(switch_ctrl.apiName).be.eql('Ti.UI.Switch');
 
 		// Validate switch value

@@ -145,7 +145,7 @@ describe('Titanium.UI.TabGroup', function () {
 		tabGroup.addEventListener('open', () => {
 			try {
 				tabGroup.setActiveTab(tabB);
-				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
 				finish();
 			} catch (err) {
@@ -180,11 +180,11 @@ describe('Titanium.UI.TabGroup', function () {
 			try {
 				tabGroup.disableTabNavigation(true);
 				tabGroup.setActiveTab(tabB);
-				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab A');
 				tabGroup.disableTabNavigation(false);
 				tabGroup.setActiveTab(tabB);
-				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
 				finish();
 			} catch (err) {
@@ -205,7 +205,7 @@ describe('Titanium.UI.TabGroup', function () {
 			title: 'My title'
 		});
 
-		should(tabGroup.getTitle()).be.a.String;
+		should(tabGroup.getTitle()).be.a.String();
 		should(tabGroup.getTitle()).eql('My title');
 	});
 
@@ -300,7 +300,7 @@ describe('Titanium.UI.TabGroup', function () {
 		tabGroup.addEventListener('open', () => {
 			try {
 				tabGroup.setActiveTab(tabB);
-				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
 				finish();
 			} catch (err) {
@@ -333,7 +333,7 @@ describe('Titanium.UI.TabGroup', function () {
 		// Can we test this without even opening tab group?
 		tabGroup.addEventListener('open', () => {
 			try {
-				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
 				finish();
 			} catch (err) {
@@ -367,7 +367,7 @@ describe('Titanium.UI.TabGroup', function () {
 		tabGroup.addEventListener('open', () => {
 			try {
 				tabGroup.activeTab = tabB;
-				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
 				finish();
 			} catch (err) {
@@ -400,7 +400,7 @@ describe('Titanium.UI.TabGroup', function () {
 		// Can we test this without even opening tab group?
 		tabGroup.addEventListener('open', () => {
 			try {
-				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
 				finish();
 			} catch (err) {
@@ -434,7 +434,7 @@ describe('Titanium.UI.TabGroup', function () {
 		// Can we test this without even opening tab group?
 		tabGroup.addEventListener('open', () => {
 			try {
-				should(tabGroup.getActiveTab().title).be.a.String;
+				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
 				finish();
 			} catch (err) {
@@ -461,7 +461,7 @@ describe('Titanium.UI.TabGroup', function () {
 			tabGroup.setActiveTab(tabB);
 		});
 		tabB.addEventListener('selected', () => {
-			should(tabGroup.title).be.a.String;
+			should(tabGroup.title).be.a.String();
 			should(tabGroup.title).eql('newTitle');
 		});
 	});

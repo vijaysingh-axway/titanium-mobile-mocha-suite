@@ -19,7 +19,7 @@ describe('Error', function () {
 			Ti.API.info(e.test.crash);
 			should.fail('Expected to throw exception');
 		} catch (ex) {
-			ex.should.have.property('message').which.is.a.String;
+			ex.should.have.property('message').which.is.a.String();
 			if (utilities.isAndroid()) {
 				ex.message.should.equal('Cannot read property \'crash\' of undefined');
 			} else {
@@ -27,7 +27,7 @@ describe('Error', function () {
 			}
 
 			// has typical stack property
-			ex.should.have.property('stack').which.is.a.String;
+			ex.should.have.property('stack').which.is.a.String();
 			if (utilities.isAndroid()) {
 				ex.stack.should.containEql('TypeError: Cannot read property \'crash\' of undefined');
 			}
@@ -52,7 +52,7 @@ describe('Error', function () {
 			should.fail('Expected to throw exception');
 		} catch (ex) {
 			// message property
-			ex.should.have.property('message').which.is.a.String;
+			ex.should.have.property('message').which.is.a.String();
 			if (utilities.isAndroid()) {
 				ex.message.should.equal('Unable to convert null');
 			} else if (utilities.isIOS()) {
@@ -62,7 +62,7 @@ describe('Error', function () {
 			}
 
 			// has typical stack property for JS
-			ex.should.have.property('stack').which.is.a.String;
+			ex.should.have.property('stack').which.is.a.String();
 			if (utilities.isAndroid()) {
 				ex.stack.should.containEql('Error: Unable to convert null'); // TODO Verify app.js in stack?
 			}
@@ -71,7 +71,7 @@ describe('Error', function () {
 			// Looks like this happens under the covers in JSC and I don't see how to affect it.
 
 			// has special nativeStack property for native stacktrace
-			ex.should.have.property('nativeStack').which.is.a.String;
+			ex.should.have.property('nativeStack').which.is.a.String();
 			if (utilities.isAndroid()) {
 				ex.nativeStack.should.containEql('org.appcelerator.titanium.util.TiConvert.toInt(TiConvert.java:'); // points to Java code in stack
 			} else if (utilities.isIOS()) {
@@ -85,7 +85,7 @@ describe('Error', function () {
 		try {
 			throw ('this is my error string'); // eslint-disable-line no-throw-literal
 		} catch (ex) {
-			ex.should.be.a.String;
+			ex.should.be.a.String();
 			ex.should.equal('this is my error string');
 			ex.should.not.have.property('message');
 			ex.should.not.have.property('stack');

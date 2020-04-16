@@ -31,26 +31,26 @@ describe('Titanium.Network.Socket.TCP', function () {
 			}
 		});
 		should(socket.connect).not.be.null;
-		should(socket.connect).be.a.Function;
+		should(socket.connect).be.a.Function();
 		socket.connect();
 	});
 
 	it('#accept()', function () {
 		socket = Ti.Network.Socket.createTCP();
 		should(socket.accept).not.be.null;
-		should(socket.accept).be.a.Function;
+		should(socket.accept).be.a.Function();
 	});
 
 	it('#listen()', function () {
 		socket = Ti.Network.Socket.createTCP();
 		should(socket.listen).not.be.null;
-		should(socket.listen).be.a.Function;
+		should(socket.listen).be.a.Function();
 	});
 
 	it('#close()', function () {
 		socket = Ti.Network.Socket.createTCP();
 		should(socket.close).not.be.null;
-		should(socket.close).be.a.Function;
+		should(socket.close).be.a.Function();
 	});
 
 	// FIXME: Android chokes with : android.os.NetworkOnMainThreadException
@@ -59,7 +59,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 			host: 'www.appcelerator.com', port: 80,
 			connected: function () {
 				should(socket.write).not.be.null;
-				should(socket.write).be.a.Function;
+				should(socket.write).be.a.Function();
 				socket.write(Ti.createBuffer({ value: 'GET / HTTP/1.1\r\nHost: www.appcelerator.com\r\nConnection: close\r\n\r\n' }));
 				finish();
 			},
@@ -68,7 +68,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 			}
 		});
 		should(socket.connect).not.be.null;
-		should(socket.connect).be.a.Function;
+		should(socket.connect).be.a.Function();
 		socket.connect();
 	});
 
@@ -82,7 +82,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 			connected: function (e) {
 				// receive callback
 				should(socket.read).not.be.null;
-				should(socket.read).be.a.Function;
+				should(socket.read).be.a.Function();
 				Ti.Stream.pump(e.socket, function (e) {
 					if (e.buffer) {
 						buffer += e.buffer.toString();
@@ -100,7 +100,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 
 				// send GET request
 				should(socket.write).not.be.null;
-				should(socket.write).be.a.Function;
+				should(socket.write).be.a.Function();
 				socket.write(Ti.createBuffer({ value: 'GET /anything?q=SUCCESS HTTP/1.1\r\nHost: www.httpbin.org\r\nConnection: close\r\n\r\n' }));
 			},
 			error: function (e) {
@@ -108,7 +108,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 			}
 		});
 		should(socket.connect).not.be.null;
-		should(socket.connect).be.a.Function;
+		should(socket.connect).be.a.Function();
 		socket.connect();
 	});
 
@@ -118,7 +118,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 			port: 80,
 			connected: function () {
 				should(socket.write).not.be.null;
-				should(socket.write).be.a.Function;
+				should(socket.write).be.a.Function();
 				socket.write(Ti.createBuffer({ value: 'GET / HTTP/1.1\r\nHost: www.appcelerator.com\r\nConnection: close\r\n\r\n' }), function (evt) {
 					try {
 						evt.success.should.eql(true);
@@ -134,7 +134,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 			}
 		});
 		should(socket.connect).not.be.null;
-		should(socket.connect).be.a.Function;
+		should(socket.connect).be.a.Function();
 		socket.connect();
 	});
 
@@ -147,11 +147,11 @@ describe('Titanium.Network.Socket.TCP', function () {
 			connected: function (e) {
 				// receive callback
 				should(socket.read).not.be.null;
-				should(socket.read).be.a.Function;
+				should(socket.read).be.a.Function();
 
 				// send GET request
 				should(socket.write).not.be.null;
-				should(socket.write).be.a.Function;
+				should(socket.write).be.a.Function();
 				socket.write(Ti.createBuffer({ value: 'GET /anything?q=SUCCESS HTTP/1.1\r\nHost: www.httpbin.org\r\nConnection: close\r\n\r\n' }), function (evt) {
 					evt.success.should.eql(true);
 
@@ -176,7 +176,7 @@ describe('Titanium.Network.Socket.TCP', function () {
 			}
 		});
 		should(socket.connect).not.be.null;
-		should(socket.connect).be.a.Function;
+		should(socket.connect).be.a.Function();
 		socket.connect();
 	});
 });

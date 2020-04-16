@@ -15,21 +15,21 @@ let os;
 describe('os', function () {
 	it('should be required as core module', function () {
 		os = require('os');
-		os.should.be.an.Object;
+		os.should.be.an.Object();
 	});
 
 	it('.EOL', () => {
-		os.should.have.a.property('EOL').which.is.a.String;
+		os.should.have.a.property('EOL').which.is.a.String();
 		// TODO: Validate \n or \r\n based on platform!
 	});
 
 	describe('#arch()', () => {
 		it('is a function', function () {
-			os.arch.should.be.a.Function;
+			os.arch.should.be.a.Function();
 		});
 
 		it('returns a String', function () {
-			os.arch().should.be.a.String;
+			os.arch().should.be.a.String();
 		});
 
 		// node values: 'arm', 'arm64', 'ia32', 'mips', 'mipsel', 'ppc', 'ppc64', 's390', 's390x', 'x32', and 'x64'.
@@ -40,30 +40,30 @@ describe('os', function () {
 
 	describe('.constants', () => {
 		it('is an Object', () => {
-			os.should.have.a.property('constants').which.is.an.Object;
+			os.should.have.a.property('constants').which.is.an.Object();
 		});
 
 		it('has a signals property which is an Object', () => {
-			os.constants.should.have.a.property('signals').which.is.an.Object;
+			os.constants.should.have.a.property('signals').which.is.an.Object();
 		});
 
 		it('has a errno property which is an Object', () => {
-			os.constants.should.have.a.property('errno').which.is.an.Object;
+			os.constants.should.have.a.property('errno').which.is.an.Object();
 		});
 
 		it('has a priority property which is an Object', () => {
-			os.constants.should.have.a.property('priority').which.is.an.Object;
+			os.constants.should.have.a.property('priority').which.is.an.Object();
 		});
 	});
 
 	describe('#cpus()', () => {
 		it('is a function', () => {
-			os.cpus.should.be.a.Function;
+			os.cpus.should.be.a.Function();
 		});
 
 		it('returns array of objects whose length matches Ti.Platform.processorCount', () => {
 			const cpus = os.cpus();
-			cpus.should.be.an.Array;
+			cpus.should.be.an.Array();
 			cpus.should.have.length(Ti.Platform.processorCount);
 			// TODO: test that the elements are objects with properties: 'model', 'speed', 'times'
 		});
@@ -71,7 +71,7 @@ describe('os', function () {
 
 	describe('#endianness()', () => {
 		it('is a function', () => {
-			os.endianness.should.be.a.Function;
+			os.endianness.should.be.a.Function();
 		});
 
 		it('returns "LE" or "BE", value is consistent with Ti.Codec#getNativeByteOrder()', () => {
@@ -86,7 +86,7 @@ describe('os', function () {
 
 	describe('#freemem()', () => {
 		it('is a function', () => {
-			os.freemem.should.be.a.Function;
+			os.freemem.should.be.a.Function();
 		});
 
 		it('returns a positive Number', () => {
@@ -96,7 +96,7 @@ describe('os', function () {
 
 	describe('#getPriority()', () => {
 		it('is a function', () => {
-			os.getPriority.should.be.a.Function;
+			os.getPriority.should.be.a.Function();
 		});
 
 		it('returns 0', () => {
@@ -106,7 +106,7 @@ describe('os', function () {
 
 	describe('#homedir()', () => {
 		it('is a function', () => {
-			os.homedir.should.be.a.Function;
+			os.homedir.should.be.a.Function();
 		});
 
 		it('returns Ti.Filesystem.applicationDataDirectory value', () => {
@@ -116,7 +116,7 @@ describe('os', function () {
 
 	describe('#hostname()', () => {
 		it('is a function', () => {
-			os.hostname.should.be.a.Function;
+			os.hostname.should.be.a.Function();
 		});
 
 		it('returns Ti.Platform.address value', () => {
@@ -127,7 +127,7 @@ describe('os', function () {
 
 	describe('#loadavg()', () => {
 		it('is a function', () => {
-			os.loadavg.should.be.a.Function;
+			os.loadavg.should.be.a.Function();
 		});
 
 		it('returns [0, 0, 0]', () => {
@@ -137,7 +137,7 @@ describe('os', function () {
 
 	describe('#networkInterfaces()', () => {
 		it('is a function', () => {
-			os.networkInterfaces.should.be.a.Function;
+			os.networkInterfaces.should.be.a.Function();
 		});
 
 		// TODO: Implement in some way?
@@ -148,7 +148,7 @@ describe('os', function () {
 
 	describe('#platform()', () => {
 		it('is a function', () => {
-			os.platform.should.be.a.Function;
+			os.platform.should.be.a.Function();
 		});
 
 		it('returns process.platform value', () => {
@@ -158,7 +158,7 @@ describe('os', function () {
 
 	describe('#release()', () => {
 		it('is a function', () => {
-			os.release.should.be.a.Function;
+			os.release.should.be.a.Function();
 		});
 
 		it('returns Ti.Platform.version value', () => {
@@ -168,7 +168,7 @@ describe('os', function () {
 
 	describe('#setPriority()', () => {
 		it('is a function', () => {
-			os.setPriority.should.be.a.Function;
+			os.setPriority.should.be.a.Function();
 		});
 
 		it('doesn\'t blow up when called (but is no-op)', () => {
@@ -180,7 +180,7 @@ describe('os', function () {
 
 	describe('#tmpdir()', () => {
 		it('is a function', () => {
-			os.tmpdir.should.be.a.Function;
+			os.tmpdir.should.be.a.Function();
 		});
 
 		it('returns Ti.Filesystem.tempDirectory value', () => {
@@ -190,7 +190,7 @@ describe('os', function () {
 
 	describe('#totalmem()', () => {
 		it('is a function', () => {
-			os.totalmem.should.be.a.Function;
+			os.totalmem.should.be.a.Function();
 		});
 
 		it('returns a positive Number', () => {
@@ -201,18 +201,18 @@ describe('os', function () {
 
 	describe('#type()', () => {
 		it('is a function', () => {
-			os.type.should.be.a.Function;
+			os.type.should.be.a.Function();
 		});
 
 		it('returns a String', () => {
-			os.type().should.be.a.String; // what values make sense here? We're coercing to node style values now, and I think that's probably wrong
+			os.type().should.be.a.String(); // what values make sense here? We're coercing to node style values now, and I think that's probably wrong
 			// 'Linux', 'Windows_NT', or 'Darwin'!
 		});
 	});
 
 	describe('#uptime()', () => {
 		it('is a function', () => {
-			os.uptime.should.be.a.Function;
+			os.uptime.should.be.a.Function();
 		});
 
 		it('returns a positive Number', () => {
@@ -227,15 +227,15 @@ describe('os', function () {
 
 	describe('#userInfo()', () => {
 		it('is a function', () => {
-			os.userInfo.should.be.a.Function;
+			os.userInfo.should.be.a.Function();
 		});
 
 		it('returns an Object', () => {
 			const userInfo = os.userInfo();
-			userInfo.should.be.an.Object;
+			userInfo.should.be.an.Object();
 			userInfo.should.have.a.property('uid').which.eql(-1);
 			userInfo.should.have.a.property('guid').which.eql(-1);
-			userInfo.should.have.a.property('username').which.is.a.String; // "iPhone 7 Plus" on ios Simulator, "android-build" on android emulator
+			userInfo.should.have.a.property('username').which.is.a.String(); // "iPhone 7 Plus" on ios Simulator, "android-build" on android emulator
 			userInfo.should.have.a.property('homedir').which.eql(os.homedir());
 			userInfo.should.have.a.property('shell').which.eql(null);
 		});

@@ -13,25 +13,25 @@ var should = require('./utilities/assertions'),
 describe('Titanium.UI', function () {
 
 	it.ios('.AUTOFILL_TYPE_NEW_PASSWORD', function () {
-		should(Ti.UI).have.a.constant('AUTOFILL_TYPE_NEW_PASSWORD').which.is.a.String;
+		should(Ti.UI).have.a.constant('AUTOFILL_TYPE_NEW_PASSWORD').which.is.a.String();
 	});
 
 	it.ios('.AUTOFILL_TYPE_ONE_TIME_CODE', function () {
-		should(Ti.UI).have.a.constant('AUTOFILL_TYPE_ONE_TIME_CODE').which.is.a.String;
+		should(Ti.UI).have.a.constant('AUTOFILL_TYPE_ONE_TIME_CODE').which.is.a.String();
 	});
 
 	it.androidMissing('TEXT_STYLE_* constants', function () {
-		should(Ti.UI.TEXT_STYLE_HEADLINE).be.a.String;
-		should(Ti.UI.TEXT_STYLE_SUBHEADLINE).be.a.String;
-		should(Ti.UI.TEXT_STYLE_BODY).be.a.String;
-		should(Ti.UI.TEXT_STYLE_FOOTNOTE).be.a.String;
-		should(Ti.UI.TEXT_STYLE_CAPTION1).be.a.String;
-		should(Ti.UI.TEXT_STYLE_CAPTION2).be.a.String;
-		should(Ti.UI.TEXT_STYLE_CALLOUT).be.a.String;
-		should(Ti.UI.TEXT_STYLE_TITLE1).be.a.String;
-		should(Ti.UI.TEXT_STYLE_TITLE2).be.a.String;
-		should(Ti.UI.TEXT_STYLE_TITLE3).be.a.String;
-		should(Ti.UI.TEXT_STYLE_LARGE_TITLE).be.a.String;
+		should(Ti.UI.TEXT_STYLE_HEADLINE).be.a.String();
+		should(Ti.UI.TEXT_STYLE_SUBHEADLINE).be.a.String();
+		should(Ti.UI.TEXT_STYLE_BODY).be.a.String();
+		should(Ti.UI.TEXT_STYLE_FOOTNOTE).be.a.String();
+		should(Ti.UI.TEXT_STYLE_CAPTION1).be.a.String();
+		should(Ti.UI.TEXT_STYLE_CAPTION2).be.a.String();
+		should(Ti.UI.TEXT_STYLE_CALLOUT).be.a.String();
+		should(Ti.UI.TEXT_STYLE_TITLE1).be.a.String();
+		should(Ti.UI.TEXT_STYLE_TITLE2).be.a.String();
+		should(Ti.UI.TEXT_STYLE_TITLE3).be.a.String();
+		should(Ti.UI.TEXT_STYLE_LARGE_TITLE).be.a.String();
 	});
 
 	// TODO Use the JSCA file to generate tests!
@@ -228,12 +228,12 @@ describe('Titanium.UI', function () {
 			}
 			if (constants[name].type === 'Number') {
 				it(name, function () { // eslint-disable-line no-loop-func
-					should(Ti.UI).have.a.constant(name).which.is.a.Number;
+					should(Ti.UI).have.a.constant(name).which.is.a.Number();
 				});
 			} else if (constants[name].type === 'String') {
 				// FIXME These special constants are failing on Android and iOS. They appear to be hard-coded numbers (and not unique!)
 				([ 'FILL', 'SIZE', 'UNIT_CM', 'UNIT_DIP', 'UNIT_IN', 'UNIT_MM', 'UNIT_PX' ].indexOf(name) !== -1 ? it.skip : it)(name, function () { // eslint-disable-line no-loop-func
-					should(Ti.UI).have.a.constant(name).which.is.a.String;
+					should(Ti.UI).have.a.constant(name).which.is.a.String();
 				});
 			}
 		}
@@ -249,9 +249,9 @@ describe('Titanium.UI', function () {
 		// FIXME Get these working on iOS, Android, and Windows.
 		it.allBroken(constantsVary[i], function () { // eslint-disable-line no-loop-func
 			if (utilities.isAndroid()) {
-				should(Ti.UI).have.a.constant(constantsVary[i]).which.is.a.String;
+				should(Ti.UI).have.a.constant(constantsVary[i]).which.is.a.String();
 			} else {
-				should(Ti.UI).have.a.constant(constantsVary[i]).which.is.a.Number;
+				should(Ti.UI).have.a.constant(constantsVary[i]).which.is.a.Number();
 			}
 		});
 	}

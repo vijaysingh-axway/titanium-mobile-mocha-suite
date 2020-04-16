@@ -20,15 +20,15 @@ describe('ES6 Import', function () {
 	it('imported module', function () {
 
 		should(a).not.be.undefined;
-		should(a.testExport).be.a.Function;
+		should(a.testExport).be.a.Function();
 		should(a.testExport()).equal(SUCCESS);
 
 		should(b).not.be.undefined;
-		should(b).be.a.Function;
+		should(b).be.a.Function();
 		should(b()).equal(SUCCESS);
 
 		should(testExport).not.be.undefined;
-		should(testExport).be.a.Function;
+		should(testExport).be.a.Function();
 		should(testExport()).equal(SUCCESS);
 	});
 });

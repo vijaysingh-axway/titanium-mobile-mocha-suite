@@ -43,7 +43,7 @@ describe('Titanium.UI.Button', function () {
 		var button = Ti.UI.createButton({
 			title: 'this is some text'
 		});
-		should(button).have.readOnlyProperty('apiName').which.is.a.String;
+		should(button).have.readOnlyProperty('apiName').which.is.a.String();
 		should(button.apiName).be.eql('Ti.UI.Button');
 	});
 
@@ -51,8 +51,8 @@ describe('Titanium.UI.Button', function () {
 		var bar = Ti.UI.createButton({
 			title: 'this is some text'
 		});
-		should(bar.title).be.a.String;
-		should(bar.getTitle).be.a.Function;
+		should(bar.title).be.a.String();
+		should(bar.getTitle).be.a.Function();
 		should(bar.title).eql('this is some text');
 		should(bar.getTitle()).eql('this is some text');
 		bar.title = 'other text';
@@ -65,8 +65,8 @@ describe('Titanium.UI.Button', function () {
 		var bar = Ti.UI.createButton({
 			titleid: 'this_is_my_key'
 		});
-		should(bar.titleid).be.a.String;
-		should(bar.getTitleid).be.a.Function;
+		should(bar.titleid).be.a.String();
+		should(bar.getTitleid).be.a.Function();
 		should(bar.titleid).eql('this_is_my_key');
 		should(bar.getTitleid()).eql('this_is_my_key');
 		should(bar.title).eql('this is my value');
@@ -111,7 +111,7 @@ describe('Titanium.UI.Button', function () {
 		win.addEventListener('focus', function () {
 			try {
 				view.image = Ti.Filesystem.getFile('Logo.png').read();
-				should(view.image).be.an.Object; // ios gives null
+				should(view.image).be.an.Object(); // ios gives null
 
 				finish();
 			} catch (err) {
@@ -131,8 +131,8 @@ describe('Titanium.UI.Button', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.backgroundColor).be.a.String; // undefined on iOS and Android
-				should(view.backgroundImage).be.a.String;
+				should(view.backgroundColor).be.a.String(); // undefined on iOS and Android
+				should(view.backgroundImage).be.a.String();
 				view.backgroundColor = 'white';
 				view.backgroundImage = 'Logo.png';
 				should(view.backgroundColor).be.eql('white');
@@ -156,8 +156,8 @@ describe('Titanium.UI.Button', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.backgroundFocusedColor).be.a.String; // undefined on iOS and Android
-				should(view.backgroundFocusedImage).be.a.String;
+				should(view.backgroundFocusedColor).be.a.String(); // undefined on iOS and Android
+				should(view.backgroundFocusedImage).be.a.String();
 				view.backgroundFocusedColor = 'white';
 				view.backgroundFocusedImage = 'Logo.png';
 				should(view.backgroundFocusedColor).be.eql('white');
@@ -181,8 +181,8 @@ describe('Titanium.UI.Button', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.backgroundSelectedColor).be.a.String; // undefined on iOS and Android
-				should(view.backgroundSelectedImage).be.a.String;
+				should(view.backgroundSelectedColor).be.a.String(); // undefined on iOS and Android
+				should(view.backgroundSelectedImage).be.a.String();
 				view.backgroundSelectedColor = 'white';
 				view.backgroundSelectedImage = 'Logo.png';
 				should(view.backgroundSelectedColor).be.eql('white');
@@ -206,8 +206,8 @@ describe('Titanium.UI.Button', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.backgroundDisabledColor).be.a.String; // undefined on iOS and Android
-				should(view.backgroundDisabledImage).be.a.String;
+				should(view.backgroundDisabledColor).be.a.String(); // undefined on iOS and Android
+				should(view.backgroundDisabledImage).be.a.String();
 				view.backgroundDisabledColor = 'white';
 				view.backgroundDisabledImage = 'Logo.png';
 				should(view.backgroundDisabledColor).be.eql('white');
@@ -241,9 +241,9 @@ describe('Titanium.UI.Button', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(view.backgroundGradient.type).be.eql('linear');
-				should(view.backgroundGradient.startPoint).be.an.Object;
-				should(view.backgroundGradient.endPoint).be.an.Object;
-				should(view.backgroundGradient.colors).be.an.Array; // undefined on iOS
+				should(view.backgroundGradient.startPoint).be.an.Object();
+				should(view.backgroundGradient.endPoint).be.an.Object();
+				should(view.backgroundGradient.colors).be.an.Array(); // undefined on iOS
 
 				finish();
 			} catch (err) {
@@ -264,8 +264,8 @@ describe('Titanium.UI.Button', function () {
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
-				should(view.borderColor).be.a.String; // undefined on iOS and Android
-				should(view.borderWidth).be.a.Number; // '0' (as a string!) on Windows
+				should(view.borderColor).be.a.String(); // undefined on iOS and Android
+				should(view.borderWidth).be.a.Number(); // '0' (as a string!) on Windows
 				view.borderColor = 'blue';
 				view.borderWidth = 2;
 				should(view.borderColor).be.eql('blue');
@@ -292,11 +292,11 @@ describe('Titanium.UI.Button', function () {
 				Ti.API.info('Got postlayout event');
 				Ti.API.info(JSON.stringify(view.rect));
 				Ti.API.info(JSON.stringify(view.size));
-				should(view.rect).be.an.Object;
+				should(view.rect).be.an.Object();
 				should(view.rect.width).be.above(0);
 				should(view.rect.height).be.above(0);
-				should(view.rect.x).be.a.Number;
-				should(view.rect.y).be.a.Number;
+				should(view.rect.x).be.a.Number();
+				should(view.rect.y).be.a.Number();
 				should(view.size.width).be.above(0);
 				should(view.size.height).be.above(0);
 
@@ -323,10 +323,10 @@ describe('Titanium.UI.Button', function () {
 			}),
 			button = Ti.UI.createButton({ attributedString: attr });
 
-		should(button.attributedString).be.an.Object;
-		should(button.attributedString.text).be.a.String;
+		should(button.attributedString).be.an.Object();
+		should(button.attributedString.text).be.a.String();
 		should(button.attributedString.text).eql('Titanium rocks!');
-		should(button.attributedString.attributes).be.an.Array;
+		should(button.attributedString.attributes).be.an.Array();
 		should(button.attributedString.attributes[0].type).eql(Ti.UI.ATTRIBUTE_UNDERLINES_STYLE);
 		should(button.attributedString.attributes[0].value).eql(Ti.UI.ATTRIBUTE_UNDERLINE_STYLE_NONE);
 		should(button.attributedString.attributes[0].range[0]).eql(0);

@@ -39,7 +39,7 @@ describe('buffer', () => {
 
 	describe('#transcode()', () => {
 		it('is a function', () => {
-			should(BufferModule.transcode).be.a.Function;
+			should(BufferModule.transcode).be.a.Function();
 		});
 
 		it.allBroken('transcodes a Buffer from one encoding to another', () => {
@@ -107,7 +107,7 @@ describe('Buffer', () => {
 
 	describe('.from()', () => {
 		it('is a function', () => {
-			should(Buffer.from).be.a.Function;
+			should(Buffer.from).be.a.Function();
 		});
 
 		it('should allocate a new Buffer using an array of octets', () => {
@@ -145,7 +145,7 @@ describe('Buffer', () => {
 
 	describe('.alloc()', () => {
 		it('is a function', () => {
-			should(Buffer.alloc).be.a.Function;
+			should(Buffer.alloc).be.a.Function();
 		});
 
 		it('with just length', () => {
@@ -165,7 +165,7 @@ describe('Buffer', () => {
 
 	describe('.allocUnsafe()', () => {
 		it('is a function', () => {
-			should(Buffer.allocUnsafe).be.a.Function;
+			should(Buffer.allocUnsafe).be.a.Function();
 		});
 
 		it('returns Buffer of given length', () => {
@@ -176,7 +176,7 @@ describe('Buffer', () => {
 
 	describe('.allocUnsafeSlow()', () => {
 		it('is a function', () => {
-			should(Buffer.allocUnsafeSlow).be.a.Function;
+			should(Buffer.allocUnsafeSlow).be.a.Function();
 		});
 
 		it('returns Buffer of given length', () => {
@@ -187,7 +187,7 @@ describe('Buffer', () => {
 
 	describe('.byteLength()', () => {
 		it('is a function', () => {
-			should(Buffer.byteLength).be.a.Function;
+			should(Buffer.byteLength).be.a.Function();
 		});
 
 		it('returns byte length, not string length for utf-8 strings', () => {
@@ -221,7 +221,7 @@ describe('Buffer', () => {
 
 	describe('.compare()', () => {
 		it('is a function', () => {
-			should(Buffer.compare).be.a.Function;
+			should(Buffer.compare).be.a.Function();
 		});
 
 		it('throws TypeError if first argument is not a Buffer', () => {
@@ -234,7 +234,7 @@ describe('Buffer', () => {
 
 	describe('.concat()', () => {
 		it('is a function', () => {
-			should(Buffer.concat).be.a.Function;
+			should(Buffer.concat).be.a.Function();
 		});
 
 		it('creates a single Buffer from a list of three instances', () => {
@@ -270,7 +270,7 @@ describe('Buffer', () => {
 
 	describe('.isBuffer()', () => {
 		it('is a function', () => {
-			should(Buffer.isBuffer).be.a.Function;
+			should(Buffer.isBuffer).be.a.Function();
 		});
 
 		it('returns true for a Buffer', () => {
@@ -288,7 +288,7 @@ describe('Buffer', () => {
 
 	describe('.isEncoding()', () => {
 		it('is a function', () => {
-			should(Buffer.isEncoding).be.a.Function;
+			should(Buffer.isEncoding).be.a.Function();
 		});
 
 		// utf8, ucs2, ascii, latin1, utf16le
@@ -328,7 +328,7 @@ describe('Buffer', () => {
 	describe('#toString()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.toString).be.a.Function;
+			should(buf.toString).be.a.Function();
 		});
 
 		it('supports a range', () => {
@@ -448,7 +448,7 @@ describe('Buffer', () => {
 	describe('#compare()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('ABC');
-			should(buf.compare).be.a.Function;
+			should(buf.compare).be.a.Function();
 		});
 
 		it('returns 0 for same Buffer', () => {
@@ -525,7 +525,7 @@ describe('Buffer', () => {
 	describe('#copy()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.copy).be.a.Function;
+			should(buf.copy).be.a.Function();
 		});
 
 		it('copies range of bytes from one Buffer to another', () => {
@@ -557,7 +557,7 @@ describe('Buffer', () => {
 	describe('#entries()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.entries).be.a.Function;
+			should(buf.entries).be.a.Function();
 		});
 
 		it('returns an Iterator holding an array of index to value', () => {
@@ -583,7 +583,7 @@ describe('Buffer', () => {
 	describe('#equals()', () => {
 		it('is a function', () => {
 			const buf = Buffer.allocUnsafe(1);
-			should(buf.equals).be.a.Function;
+			should(buf.equals).be.a.Function();
 		});
 
 		it('returns true for same Buffer object', () => {
@@ -614,7 +614,7 @@ describe('Buffer', () => {
 	describe('#fill()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.fill).be.a.Function;
+			should(buf.fill).be.a.Function();
 		});
 
 		it('handles simple ascii character fill', () => {
@@ -649,7 +649,7 @@ describe('Buffer', () => {
 	describe('#indexOf()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.indexOf).be.a.Function;
+			should(buf.indexOf).be.a.Function();
 		});
 
 		it('finds a string with no specified encoding', () => {
@@ -692,7 +692,7 @@ describe('Buffer', () => {
 	describe('#includes()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.includes).be.a.Function;
+			should(buf.includes).be.a.Function();
 		});
 
 		// TODO: search for a number, Buffer and string!
@@ -701,7 +701,7 @@ describe('Buffer', () => {
 	describe('#keys()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.keys).be.a.Function;
+			should(buf.keys).be.a.Function();
 		});
 
 		it('returns an Iterator holding indices', () => {
@@ -727,7 +727,7 @@ describe('Buffer', () => {
 	describe('#readDoubleBE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readDoubleBE).be.a.Function;
+			should(buf.readDoubleBE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -746,7 +746,7 @@ describe('Buffer', () => {
 	describe('#readDoubleLE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readDoubleLE).be.a.Function;
+			should(buf.readDoubleLE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -765,7 +765,7 @@ describe('Buffer', () => {
 	describe('#readFloatBE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readFloatBE).be.a.Function;
+			should(buf.readFloatBE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -784,7 +784,7 @@ describe('Buffer', () => {
 	describe('#readFloatLE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readFloatLE).be.a.Function;
+			should(buf.readFloatLE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -803,7 +803,7 @@ describe('Buffer', () => {
 	describe('#readInt8()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readInt8).be.a.Function;
+			should(buf.readInt8).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -827,7 +827,7 @@ describe('Buffer', () => {
 	describe('#readInt16BE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readInt16BE).be.a.Function;
+			should(buf.readInt16BE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -851,7 +851,7 @@ describe('Buffer', () => {
 	describe('#readInt16LE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readInt16LE).be.a.Function;
+			should(buf.readInt16LE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -875,7 +875,7 @@ describe('Buffer', () => {
 	describe('#readInt32BE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readInt32BE).be.a.Function;
+			should(buf.readInt32BE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -899,7 +899,7 @@ describe('Buffer', () => {
 	describe('#readInt32LE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readInt32LE).be.a.Function;
+			should(buf.readInt32LE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -923,7 +923,7 @@ describe('Buffer', () => {
 	describe('#readUInt8()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readUInt8).be.a.Function;
+			should(buf.readUInt8).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -947,7 +947,7 @@ describe('Buffer', () => {
 	describe('#readUInt16BE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readUInt16BE).be.a.Function;
+			should(buf.readUInt16BE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -972,7 +972,7 @@ describe('Buffer', () => {
 	describe('#readUInt16LE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readUInt16LE).be.a.Function;
+			should(buf.readUInt16LE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -997,7 +997,7 @@ describe('Buffer', () => {
 	describe('#readUInt32BE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readUInt32BE).be.a.Function;
+			should(buf.readUInt32BE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -1021,7 +1021,7 @@ describe('Buffer', () => {
 	describe('#readUInt32LE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readUInt32LE).be.a.Function;
+			should(buf.readUInt32LE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -1045,7 +1045,7 @@ describe('Buffer', () => {
 	describe('#readUIntBE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readUIntLE).be.a.Function;
+			should(buf.readUIntLE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -1064,7 +1064,7 @@ describe('Buffer', () => {
 	describe('#readUIntLE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.readUIntLE).be.a.Function;
+			should(buf.readUIntLE).be.a.Function();
 		});
 
 		it('returns unsigned value', () => {
@@ -1083,7 +1083,7 @@ describe('Buffer', () => {
 	describe('#slice()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.slice).be.a.Function;
+			should(buf.slice).be.a.Function();
 		});
 
 		it('sliced Buffer holds non-0 byteOffset, correct length', () => {
@@ -1137,7 +1137,7 @@ describe('Buffer', () => {
 	describe('#subarray()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.subarray).be.a.Function;
+			should(buf.subarray).be.a.Function();
 		});
 
 		it('sliced Buffer holds non-0 byteOffset, correct length', () => {
@@ -1151,7 +1151,7 @@ describe('Buffer', () => {
 	describe('#swap16()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.swap16).be.a.Function;
+			should(buf.swap16).be.a.Function();
 		});
 
 		it('swaps endianness of each 2-byte pair', () => {
@@ -1170,7 +1170,7 @@ describe('Buffer', () => {
 	describe('#swap32()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.swap32).be.a.Function;
+			should(buf.swap32).be.a.Function();
 		});
 
 		it('swaps endianness of each 4-byte pair', () => {
@@ -1189,7 +1189,7 @@ describe('Buffer', () => {
 	describe('#swap64()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.swap64).be.a.Function;
+			should(buf.swap64).be.a.Function();
 		});
 
 		it('swaps endianness of each 8-byte pair', () => {
@@ -1208,7 +1208,7 @@ describe('Buffer', () => {
 	describe('#toJSON()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.toJSON).be.a.Function;
+			should(buf.toJSON).be.a.Function();
 		});
 
 		it('returns an object with type: "Buffer" and data holding byte array', () => {
@@ -1223,7 +1223,7 @@ describe('Buffer', () => {
 	describe('#values()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.values).be.a.Function;
+			should(buf.values).be.a.Function();
 		});
 
 		it('returns an Iterator holding indices', () => {
@@ -1258,7 +1258,7 @@ describe('Buffer', () => {
 	describe('#writeDoubleBE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeDoubleBE).be.a.Function;
+			should(buf.writeDoubleBE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1278,7 +1278,7 @@ describe('Buffer', () => {
 	describe('#writeDoubleLE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeDoubleLE).be.a.Function;
+			should(buf.writeDoubleLE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1298,7 +1298,7 @@ describe('Buffer', () => {
 	describe('#writeFloatBE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeFloatBE).be.a.Function;
+			should(buf.writeFloatBE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1318,7 +1318,7 @@ describe('Buffer', () => {
 	describe('#writeFloatLE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeFloatLE).be.a.Function;
+			should(buf.writeFloatLE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1338,7 +1338,7 @@ describe('Buffer', () => {
 	describe('#writeInt8()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeInt8).be.a.Function;
+			should(buf.writeInt8).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1369,7 +1369,7 @@ describe('Buffer', () => {
 	describe('#writeInt16BE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeInt16BE).be.a.Function;
+			should(buf.writeInt16BE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1400,7 +1400,7 @@ describe('Buffer', () => {
 	describe('#writeInt16LE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeInt16LE).be.a.Function;
+			should(buf.writeInt16LE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1431,7 +1431,7 @@ describe('Buffer', () => {
 	describe('#writeInt32BE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeInt32BE).be.a.Function;
+			should(buf.writeInt32BE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1461,7 +1461,7 @@ describe('Buffer', () => {
 	describe('#writeInt32LE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeInt32LE).be.a.Function;
+			should(buf.writeInt32LE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1491,7 +1491,7 @@ describe('Buffer', () => {
 	describe('#writeIntBE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeIntBE).be.a.Function;
+			should(buf.writeIntBE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1533,7 +1533,7 @@ describe('Buffer', () => {
 	describe('#writeIntLE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeIntLE).be.a.Function;
+			should(buf.writeIntLE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1575,7 +1575,7 @@ describe('Buffer', () => {
 	describe('#writeUInt8()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeUInt8).be.a.Function;
+			should(buf.writeUInt8).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1608,7 +1608,7 @@ describe('Buffer', () => {
 	describe('#writeUInt16BE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeUInt16BE).be.a.Function;
+			should(buf.writeUInt16BE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1639,7 +1639,7 @@ describe('Buffer', () => {
 	describe('#writeUInt16LE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeUInt16LE).be.a.Function;
+			should(buf.writeUInt16LE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1670,7 +1670,7 @@ describe('Buffer', () => {
 	describe('#writeUInt32BE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeUInt32BE).be.a.Function;
+			should(buf.writeUInt32BE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1700,7 +1700,7 @@ describe('Buffer', () => {
 	describe('#writeUInt32LE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeUInt32LE).be.a.Function;
+			should(buf.writeUInt32LE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1730,7 +1730,7 @@ describe('Buffer', () => {
 	describe('#writeUIntBE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeUIntBE).be.a.Function;
+			should(buf.writeUIntBE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {
@@ -1774,7 +1774,7 @@ describe('Buffer', () => {
 	describe('#writeUIntLE()', () => {
 		it('is a function', () => {
 			const buf = Buffer.from('test');
-			should(buf.writeUIntLE).be.a.Function;
+			should(buf.writeUIntLE).be.a.Function();
 		});
 
 		it('handles good value and offset', () => {

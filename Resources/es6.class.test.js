@@ -26,10 +26,10 @@ describe('ES6 Class', function () {
 
 		should(Test.testStaticConstant).equal(SUCCESS);
 
-		should(test.testMethod).be.a.Function;
+		should(test.testMethod).be.a.Function();
 		should(test.testMethod()).equal(SUCCESS);
 
-		should(Test.testStaticMethod).be.a.Function;
+		should(Test.testStaticMethod).be.a.Function();
 		should(Test.testStaticMethod()).equal(SUCCESS);
 	});
 });

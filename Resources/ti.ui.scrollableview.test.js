@@ -41,14 +41,14 @@ describe('Titanium.UI.ScrollableView', function () {
 
 	it('apiName', function () {
 		var scrollableView = Ti.UI.createScrollableView({});
-		should(scrollableView).have.readOnlyProperty('apiName').which.is.a.String;
+		should(scrollableView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(scrollableView.apiName).be.eql('Ti.UI.ScrollableView');
 	});
 
 	it('views', function () {
 		var bar = Ti.UI.createScrollableView({});
-		should(bar.views).be.an.Array; // iOS returns undefined
-		should(bar.getViews).be.a.Function;
+		should(bar.views).be.an.Array(); // iOS returns undefined
+		should(bar.getViews).be.a.Function();
 		should(bar.views).be.empty;
 		should(bar.getViews()).be.empty;
 		bar.views = [ Ti.UI.createView(), Ti.UI.createView() ];
@@ -91,7 +91,7 @@ describe('Titanium.UI.ScrollableView', function () {
 
 		win = Ti.UI.createWindow();
 		win.addEventListener('open', function () {
-			should(scrollableView.padding).be.an.Object;
+			should(scrollableView.padding).be.an.Object();
 			should(scrollableView.padding.left).eql(20);
 			should(scrollableView.padding.right).eql(20);
 			finish();
@@ -110,8 +110,8 @@ describe('Titanium.UI.ScrollableView', function () {
 	// FIXME explicitly setting currentPage doesn't seem to update value on Android
 	it.androidBroken('currentPage', function () {
 		var bar = Ti.UI.createScrollableView({});
-		should(bar.currentPage).be.a.Number;
-		should(bar.getCurrentPage).be.a.Function;
+		should(bar.currentPage).be.a.Number();
+		should(bar.getCurrentPage).be.a.Function();
 		should(bar.currentPage).eql(0);
 		should(bar.getCurrentPage()).eql(0);
 		bar.views = [ Ti.UI.createView(), Ti.UI.createView() ];
@@ -132,19 +132,19 @@ describe('Titanium.UI.ScrollableView', function () {
 					testName = 'moveNext';
 					Ti.API.info('Testing ScrollableView.moveNext()');
 					nextPageIndex = bar.currentPage + 1;
-					should(bar.moveNext).be.a.Function;
+					should(bar.moveNext).be.a.Function();
 					bar.moveNext();
 				} else if (testName === 'moveNext') {
 					testName = 'movePrevious';
 					Ti.API.info('Testing ScrollableView.movePrevious()');
 					nextPageIndex = bar.currentPage - 1;
-					should(bar.movePrevious).be.a.Function;
+					should(bar.movePrevious).be.a.Function();
 					bar.movePrevious();
 				} else if (testName === 'movePrevious') {
 					testName = 'scrollToView';
 					Ti.API.info('Testing ScrollableView.scrollToView()');
 					nextPageIndex = 2;
-					should(bar.scrollToView).be.a.Function;
+					should(bar.scrollToView).be.a.Function();
 					bar.scrollToView(nextPageIndex);
 				} else if (testName === 'scrollToView') {
 					finish();

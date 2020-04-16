@@ -19,7 +19,7 @@ describe.windows('Titanium.Network.Socket', function () {
 				}, 1000);
 			}
 		});
-		should(socket).have.readOnlyProperty('apiName').which.is.a.String;
+		should(socket).have.readOnlyProperty('apiName').which.is.a.String();
 		should(socket.apiName).be.eql('Ti.Network.Socket.UDP');
 	});
 });
@@ -42,7 +42,7 @@ describe.windows('Titanium.Network.Socket.UDP', function () {
 			}
 		});
 		should(socket.start).not.be.null;
-		should(socket.start).be.a.Function;
+		should(socket.start).be.a.Function();
 		socket.start(43210);
 	});
 
@@ -71,7 +71,7 @@ describe.windows('Titanium.Network.Socket.UDP', function () {
 			}
 		});
 		should(socket.sendString).not.be.null;
-		should(socket.sendString).be.a.Function;
+		should(socket.sendString).be.a.Function();
 		socket.start(43211);
 	});
 
@@ -100,7 +100,7 @@ describe.windows('Titanium.Network.Socket.UDP', function () {
 			}
 		});
 		should(socket.sendBytes).not.be.null;
-		should(socket.sendBytes).be.a.Function;
+		should(socket.sendBytes).be.a.Function();
 		socket.start(43212);
 	});
 });

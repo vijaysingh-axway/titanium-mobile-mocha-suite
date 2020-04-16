@@ -13,50 +13,50 @@ var should = require('./utilities/assertions'),
 describe('Titanium.Filesystem', function () {
 	it('apiName', function () {
 		should(Ti.Filesystem.apiName).be.eql('Ti.Filesystem');
-		should(Ti.Filesystem).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Filesystem).have.readOnlyProperty('apiName').which.is.a.String();
 	});
 
 	it('MODE_APPEND', function () {
-		should(Ti.Filesystem).have.constant('MODE_APPEND').which.is.a.Number;
+		should(Ti.Filesystem).have.constant('MODE_APPEND').which.is.a.Number();
 	});
 
 	it('MODE_READ', function () {
-		should(Ti.Filesystem).have.constant('MODE_READ').which.is.a.Number;
+		should(Ti.Filesystem).have.constant('MODE_READ').which.is.a.Number();
 	});
 
 	it('MODE_WRITE', function () {
-		should(Ti.Filesystem).have.constant('MODE_WRITE').which.is.a.Number;
+		should(Ti.Filesystem).have.constant('MODE_WRITE').which.is.a.Number();
 	});
 
 	// Android doesn't support Ti.Filesystem.applicationDirectory
 	it.androidMissing('applicationDirectory', function () {
-		should(Ti.Filesystem).have.readOnlyProperty('applicationDirectory').which.is.a.String;
+		should(Ti.Filesystem).have.readOnlyProperty('applicationDirectory').which.is.a.String();
 	});
 
 	it('applicationDataDirectory', function () {
-		should(Ti.Filesystem).have.readOnlyProperty('applicationDataDirectory').which.is.a.String;
+		should(Ti.Filesystem).have.readOnlyProperty('applicationDataDirectory').which.is.a.String();
 	});
 
 	it('resourcesDirectory', function () {
-		should(Ti.Filesystem).have.readOnlyProperty('resourcesDirectory').which.is.a.String;
+		should(Ti.Filesystem).have.readOnlyProperty('resourcesDirectory').which.is.a.String();
 	});
 
 	it.android('resRawDirectory', function () {
-		should(Ti.Filesystem).have.readOnlyProperty('resRawDirectory').which.is.a.String;
+		should(Ti.Filesystem).have.readOnlyProperty('resRawDirectory').which.is.a.String();
 	});
 
 	// On Windows Runtime, applicationSupportDirectory may return null if app doesn't have permission
 	// although it should not throw exception
 	it.androidMissing('applicationSupportDirectory', function () {
 		should(Ti.Filesystem.applicationSupportDirectory).not.be.undefined;
-		should(Ti.Filesystem).have.a.readOnlyProperty('applicationSupportDirectory').which.is.a.String;
+		should(Ti.Filesystem).have.a.readOnlyProperty('applicationSupportDirectory').which.is.a.String();
 	});
 
 	// On Windows Runtime, externalStorageDirectory may return null if app doesn't have permission
 	// although it should not throw exception
 	it.iosMissing('externalStorageDirectory', function () {
 		should(Ti.Filesystem.externalStorageDirectory).not.be.undefined;
-		should(Ti.Filesystem).have.a.readOnlyProperty('externalStorageDirectory').which.is.a.String;
+		should(Ti.Filesystem).have.a.readOnlyProperty('externalStorageDirectory').which.is.a.String();
 	});
 
 	it('applicationCacheDirectory', function () {
@@ -64,16 +64,16 @@ describe('Titanium.Filesystem', function () {
 		if (utilities.isWindowsDesktop()) {
 			should(Ti.Filesystem.applicationCacheDirectory).be.undefined;
 		} else {
-			should(Ti.Filesystem).have.readOnlyProperty('applicationCacheDirectory').which.is.a.String;
+			should(Ti.Filesystem).have.readOnlyProperty('applicationCacheDirectory').which.is.a.String();
 		}
 	});
 
 	it('tempDirectory', function () {
-		should(Ti.Filesystem).have.readOnlyProperty('tempDirectory').which.is.a.String;
+		should(Ti.Filesystem).have.readOnlyProperty('tempDirectory').which.is.a.String();
 	});
 
 	it('separator', function () {
-		should(Ti.Filesystem).have.a.readOnlyProperty('separator').which.is.a.String;
+		should(Ti.Filesystem).have.a.readOnlyProperty('separator').which.is.a.String();
 		if (utilities.isWindows()) {
 			should(Ti.Filesystem.separator).be.eql('\\');
 		} else {
@@ -82,7 +82,7 @@ describe('Titanium.Filesystem', function () {
 	});
 
 	it('lineEnding', function () {
-		should(Ti.Filesystem).have.a.readOnlyProperty('lineEnding').which.is.a.String;
+		should(Ti.Filesystem).have.a.readOnlyProperty('lineEnding').which.is.a.String();
 		if (utilities.isWindows()) {
 			should(Ti.Filesystem.lineEnding).be.eql('\r\n');
 		} else {
@@ -92,7 +92,7 @@ describe('Titanium.Filesystem', function () {
 
 	it('getFile()', function () {
 		var file;
-		should(Ti.Filesystem.getFile).be.a.Function;
+		should(Ti.Filesystem.getFile).be.a.Function();
 		file = Ti.Filesystem.getFile('app.js');
 		should(file).be.ok; // not null or undefined. should(file).not.be.null causes a stack overflow somehow.
 	});
@@ -100,7 +100,7 @@ describe('Titanium.Filesystem', function () {
 	it('openStream()', function () {
 		var stream;
 		should(Ti.Filesystem.openStream).not.be.undefined;
-		should(Ti.Filesystem.openStream).be.a.Function;
+		should(Ti.Filesystem.openStream).be.a.Function();
 		stream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_READ, 'app.js');
 		should(stream).be.ok; // not null or undefined. should(stream).not.be.null causes a stack overflow somehow.
 		stream.close();
@@ -110,7 +110,7 @@ describe('Titanium.Filesystem', function () {
 	it.androidBroken('createTempDirectory()', function () {
 		var dir;
 		should(Ti.Filesystem.createTempDirectory).not.be.undefined;
-		should(Ti.Filesystem.createTempDirectory).be.a.Function;
+		should(Ti.Filesystem.createTempDirectory).be.a.Function();
 		dir = Ti.Filesystem.createTempDirectory();
 		should.exist(dir);
 		should.exist(dir.name);
@@ -123,10 +123,10 @@ describe('Titanium.Filesystem', function () {
 	it('createTempFile()', function () {
 		var file;
 		should(Ti.Filesystem.createTempFile).not.be.undefined;
-		should(Ti.Filesystem.createTempFile).be.a.Function;
+		should(Ti.Filesystem.createTempFile).be.a.Function();
 		file = Ti.Filesystem.createTempFile();
 		should(file).be.ok; // not null or undefined. should(file).not.; causes a stack overflow somehow.
-		should(file.name).be.a.String;
+		should(file.name).be.a.String();
 		should(file.exists()).be.true;
 		should(file.deleteFile()).be.true;
 		should(file.exists()).be.false;
@@ -145,9 +145,9 @@ describe('Titanium.Filesystem', function () {
 	it.ios('getAsset()', function () {
 		var blob;
 		should(Ti.Filesystem.getAsset).not.be.undefined;
-		should(Ti.Filesystem.getAsset).be.a.Function;
+		should(Ti.Filesystem.getAsset).be.a.Function();
 		blob = Ti.Filesystem.getAsset('Logo.png');
-		should(blob).be.an.Object;
+		should(blob).be.an.Object();
 	});
 
 	it('#getFile() should handle files with spaces in path - TIMOB-18765', function () {

@@ -9,7 +9,7 @@ The unit testing app for [Axway Titanium](https://github.com/appcelerator/titani
 ```js
 describe('Your test suite', function () {
 	it('Your unit test', function () {
-		should(Ti.Platform).have.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Platform).have.readOnlyProperty('apiName').which.is.a.String();
 		should(Ti.Platform.apiName).be.eql('Ti.Platform');
 	});
 });

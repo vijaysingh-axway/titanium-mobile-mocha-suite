@@ -16,7 +16,7 @@ describe('Titanium.UI.Tab', function () {
 		var tab = Ti.UI.createTab({
 			text: 'this is some text'
 		});
-		should(tab).have.readOnlyProperty('apiName').which.is.a.String;
+		should(tab).have.readOnlyProperty('apiName').which.is.a.String();
 		should(tab.apiName).be.eql('Ti.UI.Tab');
 	});
 
@@ -24,8 +24,8 @@ describe('Titanium.UI.Tab', function () {
 		var tab = Ti.UI.createTab({
 			title: 'this is some text'
 		});
-		should(tab.title).be.a.String;
-		should(tab.getTitle).be.a.Function;
+		should(tab.title).be.a.String();
+		should(tab.getTitle).be.a.Function();
 		should(tab.title).eql('this is some text');
 		should(tab.getTitle()).eql('this is some text');
 		tab.title = 'other text';
@@ -37,8 +37,8 @@ describe('Titanium.UI.Tab', function () {
 		var bar = Ti.UI.createTab({
 			titleid: 'this_is_my_key'
 		});
-		should(bar.titleid).be.a.String;
-		should(bar.getTitleid).be.a.Function;
+		should(bar.titleid).be.a.String();
+		should(bar.getTitleid).be.a.Function();
 		should(bar.titleid).eql('this_is_my_key');
 		should(bar.getTitleid()).eql('this_is_my_key');
 		should(bar.title).eql('this is my value');

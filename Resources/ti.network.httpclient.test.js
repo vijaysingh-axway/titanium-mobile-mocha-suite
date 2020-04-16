@@ -14,7 +14,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 	it('apiName', function () {
 		var client = Ti.Network.createHTTPClient();
-		should(client).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(client).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(client.apiName).be.eql('Ti.Network.HTTPClient');
 	});
 
@@ -50,7 +50,7 @@ describe('Titanium.Network.HTTPClient', function () {
 	// Test for TIMOB-4513
 	it('secureValidateProperty', function () {
 		var xhr = Ti.Network.createHTTPClient();
-		should(xhr).be.an.Object;
+		should(xhr).be.an.Object();
 
 		should(xhr.validatesSecureCertificate).be.undefined;
 		xhr.validatesSecureCertificate = true;

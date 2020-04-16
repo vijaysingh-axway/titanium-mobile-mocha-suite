@@ -12,8 +12,8 @@ var should = require('./utilities/assertions');
 describe.ios('Titanium.UI.iOS.TableViewStyle', function () {
 
 	it('#constants', function () {
-		should(Titanium.UI.iOS.TableViewStyle.PLAIN).be.a.Number;
-		should(Titanium.UI.iOS.TableViewStyle.GROUPED).be.a.Number;
-		should(Titanium.UI.iOS.TableViewStyle.INSET_GROUPED).be.a.Number;
+		should(Titanium.UI.iOS.TableViewStyle.PLAIN).be.a.Number();
+		should(Titanium.UI.iOS.TableViewStyle.GROUPED).be.a.Number();
+		should(Titanium.UI.iOS.TableViewStyle.INSET_GROUPED).be.a.Number();
 	});
 });

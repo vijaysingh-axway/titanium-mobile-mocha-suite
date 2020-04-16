@@ -14,7 +14,7 @@ describe.android('Titanium.UI.Android.ProgressIndicator', function () {
 
 	it('apiName', () => {
 		const progressIndicator = Ti.UI.Android.createProgressIndicator();
-		should(progressIndicator).have.readOnlyProperty('apiName').which.is.a.String;
+		should(progressIndicator).have.readOnlyProperty('apiName').which.is.a.String();
 		should(progressIndicator.apiName).be.eql('Ti.UI.Android.ProgressIndicator');
 	});
 

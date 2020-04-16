@@ -16,7 +16,7 @@ describe('Titanium.UI.OptionDialog', function () {
 		var optionDialog = Ti.UI.createOptionDialog({
 			title: 'this is some text'
 		});
-		should(optionDialog).have.readOnlyProperty('apiName').which.is.a.String;
+		should(optionDialog).have.readOnlyProperty('apiName').which.is.a.String();
 		should(optionDialog.apiName).be.eql('Ti.UI.OptionDialog');
 	});
 
@@ -24,8 +24,8 @@ describe('Titanium.UI.OptionDialog', function () {
 		var bar = Ti.UI.createOptionDialog({
 			title: 'this is some text'
 		});
-		should(bar.title).be.a.String;
-		should(bar.getTitle).be.a.Function;
+		should(bar.title).be.a.String();
+		should(bar.getTitle).be.a.Function();
 		should(bar.title).eql('this is some text');
 		should(bar.getTitle()).eql('this is some text');
 		bar.title = 'other text';
@@ -38,8 +38,8 @@ describe('Titanium.UI.OptionDialog', function () {
 		var bar = Ti.UI.createOptionDialog({
 			titleid: 'this_is_my_key'
 		});
-		should(bar.titleid).be.a.String;
-		should(bar.getTitleid).be.a.Function;
+		should(bar.titleid).be.a.String();
+		should(bar.getTitleid).be.a.Function();
 		should(bar.titleid).eql('this_is_my_key');
 		should(bar.getTitleid()).eql('this_is_my_key');
 		should(bar.title).eql('this is my value'); // iOS returns undefined!
@@ -53,8 +53,8 @@ describe('Titanium.UI.OptionDialog', function () {
 	// FIXME defaults to undefined on Android, empty array on Windows.
 	it.androidBrokenAndIosMissing('buttonNames', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.buttonNames).be.an.Array; // undefined on Android
-		should(bar.getButtonNames).be.a.Function;
+		should(bar.buttonNames).be.an.Array(); // undefined on Android
+		should(bar.getButtonNames).be.a.Function();
 		should(bar.buttonNames).be.empty;
 		should(bar.getButtonNames()).be.empty;
 		bar.buttonNames = [ 'this', 'other' ];
@@ -65,8 +65,8 @@ describe('Titanium.UI.OptionDialog', function () {
 	// FIXME Get working on iOS and Android. options is defaulting to undefined, where for Windows we do empty array
 	it.androidAndIosBroken('options', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.options).be.an.Array; // undefined on iOS and Android
-		should(bar.getOptions).be.a.Function;
+		should(bar.options).be.an.Array(); // undefined on iOS and Android
+		should(bar.getOptions).be.a.Function();
 		should(bar.options).be.empty;
 		should(bar.getOptions()).be.empty;
 		bar.options = [ 'this', 'other' ];
@@ -77,8 +77,8 @@ describe('Titanium.UI.OptionDialog', function () {
 	// FIXME Get working on iOS and Android. cancel is defaulting to undefined? Docs say should be -1
 	it.androidAndIosBroken('cancel', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.cancel).be.a.Number; // undefined on iOS and Android
-		should(bar.getCancel).be.a.Function;
+		should(bar.cancel).be.a.Number(); // undefined on iOS and Android
+		should(bar.getCancel).be.a.Function();
 		bar.cancel = 1;
 		should(bar.cancel).eql(1);
 		should(bar.getCancel()).eql(1);
@@ -87,8 +87,8 @@ describe('Titanium.UI.OptionDialog', function () {
 	// FIXME Get working on iOS and Android. persistent is defaulting to undefined? Docs say should be true
 	it.androidAndIosBroken('persistent', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.persistent).be.a.Boolean; // undefined on iOS and Android
-		should(bar.getPersistent).be.a.Function;
+		should(bar.persistent).be.a.Boolean(); // undefined on iOS and Android
+		should(bar.getPersistent).be.a.Function();
 		should(bar.persistent).be.true;
 		should(bar.getPersistent()).be.true;
 		bar.persistent = false;
@@ -100,8 +100,8 @@ describe('Titanium.UI.OptionDialog', function () {
 	// FIXME Get working on Android, defaults to undefined on Android, Windows has Number
 	it.androidBrokenAndIosMissing('selectedIndex', function () {
 		var bar = Ti.UI.createOptionDialog({});
-		should(bar.selectedIndex).be.a.Number; // undefined on Android
-		should(bar.getSelectedIndex).be.a.Function;
+		should(bar.selectedIndex).be.a.Number(); // undefined on Android
+		should(bar.getSelectedIndex).be.a.Function();
 		should(bar.selectedIndex).eql(0);
 		should(bar.getSelectedIndex()).eql(0);
 		bar.selectedIndex = 1;

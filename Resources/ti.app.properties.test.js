@@ -22,7 +22,7 @@ Array.prototype.contains = function (obj) {
 describe('Titanium.App.Properties', function () {
 
 	it('apiName', function () {
-		should(Ti.App.Properties).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.App.Properties).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(Ti.App.Properties.apiName).be.eql('Ti.App.Properties');
 	});
 
@@ -121,14 +121,14 @@ describe('Titanium.App.Properties', function () {
 	it('listProperties', function () {
 		Ti.App.Properties.setBool('test_property', true);
 		var properties = Ti.App.Properties.listProperties();
-		should(properties).be.a.Object;
+		should(properties).be.a.Object();
 		should(properties.contains('test_property')).be.eql(true);
 	});
 
 	// FIXME Get working on iOS
 	it.iosBroken('listProperties contains tiapp properties', function () {
 		var properties = Ti.App.Properties.listProperties();
-		should(properties).be.a.Object;
+		should(properties).be.a.Object();
 		should(properties.contains('ti.ui.defaultunit')).be.eql(true);
 		should(properties.contains('ti.deploytype')).be.eql(true); // This isn't present on iOS!
 		should(properties.contains('presetBool')).be.eql(true);
@@ -137,7 +137,7 @@ describe('Titanium.App.Properties', function () {
 	it('removeProperty', function () {
 		Ti.App.Properties.setBool('test_property', true);
 		var properties = Ti.App.Properties.listProperties();
-		should(properties).be.a.Object;
+		should(properties).be.a.Object();
 		should(properties.contains('test_property')).be.eql(true);
 		Ti.App.Properties.removeProperty('test_property');
 		properties = Ti.App.Properties.listProperties();
@@ -146,7 +146,7 @@ describe('Titanium.App.Properties', function () {
 
 	it('removeProperty doesnt remove properties from tiapp', function () {
 		var properties = Ti.App.Properties.listProperties();
-		should(properties).be.a.Object;
+		should(properties).be.a.Object();
 		should(properties.contains('presetString')).be.eql(true);
 		Ti.App.Properties.removeProperty('presetString');
 		properties = Ti.App.Properties.listProperties();
@@ -168,7 +168,7 @@ describe('Titanium.App.Properties', function () {
 	it.androidAndIosBroken('change events', function (finish) {
 		var eventCount = 0;
 		Ti.App.Properties.addEventListener('change', function (properties) {
-			should(properties.source).be.a.Object;
+			should(properties.source).be.a.Object();
 			should(properties.type).be.eql('change');
 			eventCount++;
 		});

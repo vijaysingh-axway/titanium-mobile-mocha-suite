@@ -21,7 +21,7 @@ describe('EventEmitter', () => {
 	describe('#emit()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.emit).be.a.Function;
+			should(e.emit).be.a.Function();
 		});
 
 		it('fires to listeners in order added', () => {
@@ -107,13 +107,13 @@ describe('EventEmitter', () => {
 	describe('#eventNames()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.eventNames).be.a.Function;
+			should(e.eventNames).be.a.Function();
 		});
 
 		it('initially returns empty array', () => {
 			const e = new EventEmitter();
 			const eventNames = e.eventNames();
-			should(eventNames).be.an.Array;
+			should(eventNames).be.an.Array();
 			eventNames.should.have.length(0);
 		});
 
@@ -147,7 +147,7 @@ describe('EventEmitter', () => {
 	describe('#on()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.on).be.a.Function;
+			should(e.on).be.a.Function();
 		});
 
 		it('is called multiple times via multiple emits', finished => {
@@ -174,7 +174,7 @@ describe('EventEmitter', () => {
 	describe('#addListener()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.addListener).be.a.Function;
+			should(e.addListener).be.a.Function();
 		});
 
 		it('is called multiple times via multiple emits', () => {
@@ -194,7 +194,7 @@ describe('EventEmitter', () => {
 	describe('#once()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.once).be.a.Function;
+			should(e.once).be.a.Function();
 		});
 
 		it('is called only once despite multiple emits', finished => {
@@ -248,7 +248,7 @@ describe('EventEmitter', () => {
 	describe('#listenerCount()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.listenerCount).be.a.Function;
+			should(e.listenerCount).be.a.Function();
 		});
 
 		it('returns 0 for event name with no listeners', () => {
@@ -288,14 +288,14 @@ describe('EventEmitter', () => {
 	describe('#off()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.off).be.a.Function;
+			should(e.off).be.a.Function();
 		});
 	});
 
 	describe('#removeListener()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.removeListener).be.a.Function;
+			should(e.removeListener).be.a.Function();
 		});
 
 		it('properly removes listener added via addListener', () => {
@@ -322,7 +322,7 @@ describe('EventEmitter', () => {
 	describe('#removeAllListeners()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.removeAllListeners).be.a.Function;
+			should(e.removeAllListeners).be.a.Function();
 		});
 
 		it('with no argument removes for all event types', () => {
@@ -331,12 +331,12 @@ describe('EventEmitter', () => {
 			e.once('pong', () => {});
 			e.on('foo', () => {});
 			const eventNames = e.eventNames();
-			eventNames.should.be.an.Array;
+			eventNames.should.be.an.Array();
 			eventNames.should.have.length(3);
 			eventNames.should.eql([ 'ping', 'pong', 'foo' ]);
 			e.removeAllListeners();
 			const eventNames2 = e.eventNames();
-			eventNames2.should.be.an.Array;
+			eventNames2.should.be.an.Array();
 			eventNames2.should.have.length(0);
 		});
 
@@ -348,12 +348,12 @@ describe('EventEmitter', () => {
 			e.on('foo', () => {});
 			e.listenerCount('ping').should.eql(2);
 			const eventNames = e.eventNames();
-			eventNames.should.be.an.Array;
+			eventNames.should.be.an.Array();
 			eventNames.should.have.length(3);
 			eventNames.should.eql([ 'ping', 'pong', 'foo' ]);
 			e.removeAllListeners('ping');
 			const eventNames2 = e.eventNames();
-			eventNames2.should.be.an.Array;
+			eventNames2.should.be.an.Array();
 			eventNames2.should.have.length(2);
 			eventNames2.should.eql([ 'pong', 'foo' ]);
 			e.listenerCount('ping').should.eql(0);
@@ -363,35 +363,35 @@ describe('EventEmitter', () => {
 	describe('#prependListener()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.prependListener).be.a.Function;
+			should(e.prependListener).be.a.Function();
 		});
 	});
 
 	describe('#prependOnceListener()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.prependOnceListener).be.a.Function;
+			should(e.prependOnceListener).be.a.Function();
 		});
 	});
 
 	describe('#setMaxListeners()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.setMaxListeners).be.a.Function;
+			should(e.setMaxListeners).be.a.Function();
 		});
 	});
 
 	describe('#getMaxListeners()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.getMaxListeners).be.a.Function;
+			should(e.getMaxListeners).be.a.Function();
 		});
 	});
 
 	describe('#rawListeners()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.rawListeners).be.a.Function;
+			should(e.rawListeners).be.a.Function();
 		});
 
 		it('does not unwrap once listeners', () => {
@@ -408,7 +408,7 @@ describe('EventEmitter', () => {
 	describe('#listeners()', () => {
 		it('is a function', () => {
 			const e = new EventEmitter();
-			should(e.listeners).be.a.Function;
+			should(e.listeners).be.a.Function();
 		});
 
 		it('unwraps once listeners', () => {

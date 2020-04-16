@@ -11,6 +11,6 @@ var should = require('./utilities/assertions');
 
 describe('global', function () {
 	it('exists at top-level', function () {
-		should(global).be.an.Object;
+		should(global).be.an.Object();
 	});
 });

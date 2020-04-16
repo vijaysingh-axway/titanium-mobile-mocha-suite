@@ -18,7 +18,7 @@ describe('Titanium.UI.ShortcutItem', () => {
 
 	it.android('createShortcutItem', () => {
 		should(Ti.UI.createShortcutItem).not.be.undefined;
-		should(Ti.UI.createShortcutItem).be.a.Function;
+		should(Ti.UI.createShortcutItem).be.a.Function();
 
 		// create shortcut
 		const shortcut = Ti.UI.createShortcutItem({
@@ -27,10 +27,10 @@ describe('Titanium.UI.ShortcutItem', () => {
 			description: 'Test shortcut description',
 			icon: Ti.Android.R.drawable.ic_menu_send
 		});
-		should(shortcut).be.a.Object;
+		should(shortcut).be.a.Object();
 
 		// verify `apiName`
-		should(shortcut).have.readOnlyProperty('apiName').which.is.a.String;
+		should(shortcut).have.readOnlyProperty('apiName').which.is.a.String();
 		should(shortcut.apiName).be.eql('Ti.UI.ShortcutItem');
 
 		// ONLY compatible with Android 7.1+, end test early
@@ -53,15 +53,15 @@ describe('Titanium.UI.ShortcutItem', () => {
 
 		// verify `show()`
 		should(shortcut.show).not.be.undefined;
-		should(shortcut.show).be.a.Function;
+		should(shortcut.show).be.a.Function();
 
 		// verify `hide()`
 		should(shortcut.hide).not.be.undefined;
-		should(shortcut.hide).be.a.Function;
+		should(shortcut.hide).be.a.Function();
 
 		// verify `pin`
 		should(shortcut.pin).not.be.undefined;
-		should(shortcut.pin).be.a.Function;
+		should(shortcut.pin).be.a.Function();
 	});
 
 	it.android('handle duplicate shortcuts', () => {

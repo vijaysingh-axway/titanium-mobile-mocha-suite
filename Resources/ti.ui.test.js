@@ -217,7 +217,7 @@ describe('Titanium.UI', function () {
 
 		if (isiOS13) {
 			// This returns a TiColor object on iOS 13+, which will automatically "adapt" to light/dark mode change
-			should(Ti.UI.fetchSemanticColor('textColor')).be.an.Object;
+			should(Ti.UI.fetchSemanticColor('textColor')).be.an.Object();
 		} else {
 			should(Ti.UI.fetchSemanticColor('textColor')).equal(semanticColors.textColor.light);
 			Ti.UI.semanticColorType = Ti.UI.SEMANTIC_COLOR_TYPE_DARK;

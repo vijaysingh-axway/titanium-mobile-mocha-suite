@@ -11,18 +11,18 @@ var should = require('./utilities/assertions');
 
 describe('require()', function () {
 	it('exists as a Function at top-level', function () {
-		should(require).be.a.Function;
+		should(require).be.a.Function();
 	});
 
 	it('returns an Object', function () {
 		var object = require('ti.require.test_test');
-		should(object).be.an.Object;
+		should(object).be.an.Object();
 	});
 
 	it('throws when requiring invalid file', function () {
 		(function () {
 			var object = require('requireJS_test_notfound');
-			should(object).not.be.an.Object;
+			should(object).not.be.an.Object();
 		}).should.throw();
 	});
 
@@ -30,8 +30,8 @@ describe('require()', function () {
 	it('caches results for same module id', function () {
 		var object1 = require('ti.require.test_test');
 		var object2 = require('ti.require.test_test');
-		should(object1).be.an.Object;
-		should(object2).be.an.Object;
+		should(object1).be.an.Object();
+		should(object2).be.an.Object();
 		should(object1 ==  object2).be.true; // eslint-disable-line eqeqeq
 		should(object1 === object2).be.true;
 	});
@@ -39,7 +39,7 @@ describe('require()', function () {
 	// local function and variable should not be exposed
 	it('does not expose un-exported local variable or function', function () {
 		var object = require('ti.require.test_test');
-		should(object).be.an.Object;
+		should(object).be.an.Object();
 		should(object.localVariable).be.undefined;
 		should(object.localFunction).be.undefined;
 	});
@@ -48,10 +48,10 @@ describe('require()', function () {
 	it('does expose exported function', function () {
 		var object = require('ti.require.test_test'),
 			result;
-		should(object).be.an.Object;
-		should(object.testFunc0).a.Function;
+		should(object).be.an.Object();
+		should(object.testFunc0).a.Function();
 		result = object.testFunc0();
-		should(result).be.a.String;
+		should(result).be.a.String();
 		should(result).be.eql('testFunc0');
 	});
 
@@ -60,10 +60,10 @@ describe('require()', function () {
 	it('does expose exported function accepting single argument', function () {
 		var object = require('ti.require.test_test'),
 			result;
-		should(object).be.an.Object;
-		should(object.testFunc1).be.a.Function;
+		should(object).be.an.Object();
+		should(object.testFunc1).be.a.Function();
 		result = object.testFunc1('A');
-		should(result).be.a.String;
+		should(result).be.a.String();
 		should(result).be.eql('testFunc1 A');
 	});
 
@@ -71,55 +71,55 @@ describe('require()', function () {
 	it('does expose exported function accepting two arguments', function () {
 		var object = require('ti.require.test_test'),
 			result;
-		should(object).be.an.Object;
-		should(object.testFunc2).be.a.Function;
+		should(object).be.an.Object();
+		should(object.testFunc2).be.a.Function();
 		result = object.testFunc2('A', 'B');
-		should(result).be.a.String;
+		should(result).be.a.String();
 		should(result).be.eql('testFunc2 A B');
 	});
 
 	// public string variable
 	it('does expose exported String variable', function () {
 		var object = require('ti.require.test_test');
-		should(object).be.an.Object;
-		should(object.testStrVar).be.a.String;
+		should(object).be.an.Object();
+		should(object.testStrVar).be.a.String();
 		should(object.testStrVar).be.eql('testVar0');
 	});
 
 	// public number variable
 	it('does expose exported Number variable', function () {
 		var object = require('ti.require.test_test');
-		should(object).be.an.Object;
-		should(object.testNumVar).be.a.Number;
+		should(object).be.an.Object();
+		should(object.testNumVar).be.a.Number();
 		should(object.testNumVar).be.eql(101);
 	});
 
 	// public boolean variable
 	it('does expose exported Boolean variable', function () {
 		var object = require('ti.require.test_test');
-		should(object).be.an.Object;
-		should(object.testBoolVar).be.a.Boolean;
+		should(object).be.an.Object();
+		should(object.testBoolVar).be.a.Boolean();
 		should(object.testBoolVar).be.true;
 	});
 
 	// public null variable
 	it('does expose exported null variable', function () {
 		var object = require('ti.require.test_test');
-		should(object).be.an.Object;
+		should(object).be.an.Object();
 		should(object.testNullVar).be.null;
 	});
 
 	it('exposes __filename inside required module', function () {
 		var object = require('ti.require.test_test');
-		should(object).be.an.Object;
-		should(object.filename).be.a.String;
+		should(object).be.an.Object();
+		should(object.filename).be.a.String();
 		should(object.filename).be.eql('/ti.require.test_test.js');
 	});
 
 	it('exposes __dirname isnide required module', function () {
 		var object = require('ti.require.test_test');
-		should(object).be.an.Object;
-		should(object.dirname).be.a.String;
+		should(object).be.an.Object();
+		should(object.dirname).be.a.String();
 		should(object.dirname).be.eql('/');
 	});
 
@@ -196,7 +196,7 @@ describe('require()', function () {
 	// Crashes Windows Desktop
 	it.windowsDesktopBroken('should load a node module by id in node_modules folder living at same level as requirer', function () {
 		var abbrev = require('abbrev');
-		should(abbrev).be.a.Function;
+		should(abbrev).be.a.Function();
 		should(abbrev('foo', 'fool', 'folding', 'flop')).eql({ fl: 'flop', flo: 'flop', flop: 'flop', fol: 'folding', fold: 'folding', foldi: 'folding', foldin: 'folding', folding: 'folding', foo: 'foo', fool: 'fool' });
 	});
 

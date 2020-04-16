@@ -12,7 +12,7 @@ var should = require('./utilities/assertions');
 describe('Timers', function () {
 	describe('#setTimeout', function () {
 		it('is a function', function () {
-			should(setTimeout).be.a.Function;
+			should(setTimeout).be.a.Function();
 		});
 
 		it('accepts callback and interval', function (finish) {
@@ -38,7 +38,7 @@ describe('Timers', function () {
 				try {
 					argOne.should.eql(2);
 					argTwo.should.eql('3');
-					argThree.should.be.an.Object;
+					argThree.should.be.an.Object();
 					argThree.should.have.a.property('name').which.eql('four');
 					finish();
 				} catch (err) {
@@ -56,7 +56,7 @@ describe('Timers', function () {
 
 	describe('#setInterval', function () {
 		it('is a function', function () {
-			should(setInterval).be.a.Function;
+			should(setInterval).be.a.Function();
 		});
 
 		it('accepts callback and interval', function (finish) {
@@ -110,7 +110,7 @@ describe('Timers', function () {
 				try {
 					argOne.should.eql(2);
 					argTwo.should.eql('3');
-					argThree.should.be.an.Object;
+					argThree.should.be.an.Object();
 					argThree.should.have.a.property('name').which.eql('four');
 					finish();
 				} catch (err) {
@@ -128,7 +128,7 @@ describe('Timers', function () {
 
 	describe('#clearTimeout', function () {
 		it('is a function', function () {
-			should(clearTimeout).be.a.Function;
+			should(clearTimeout).be.a.Function();
 		});
 
 		it('clears timer created with #setTimeout()', function (finish) {
@@ -154,7 +154,7 @@ describe('Timers', function () {
 
 	describe('#clearInterval', function () {
 		it('is a function', function () {
-			should(clearInterval).be.a.Function;
+			should(clearInterval).be.a.Function();
 		});
 
 		it('clears timer created with #setTimeout()', function (finish) {
@@ -191,7 +191,7 @@ describe('Timers', function () {
 
 	describe('#setImmediate()', () => {
 		it('is a function', () => {
-			should(global.setImmediate).be.a.Function;
+			should(global.setImmediate).be.a.Function();
 		});
 
 		it('accepts callback', finish => {
@@ -220,7 +220,7 @@ describe('Timers', function () {
 
 	describe('#clearImmediate()', () => {
 		it('is a function', () => {
-			should(global.clearImmediate).be.a.Function;
+			should(global.clearImmediate).be.a.Function();
 		});
 
 		it('clears immediate created with #setImmediate()', finish => {

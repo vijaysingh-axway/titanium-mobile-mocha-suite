@@ -17,13 +17,13 @@ let util;
 describe('util', () => {
 	it('should be required as core module', () => {
 		util = require('util');
-		util.should.be.an.Object;
+		util.should.be.an.Object();
 	});
 
 	// For copious tests, see https://github.com/nodejs/node/blob/master/test/parallel/test-util-format.js
 	describe('#format()', () => {
 		it('is a function', () => {
-			util.format.should.be.a.Function;
+			util.format.should.be.a.Function();
 		});
 
 		it('if placeholder has no corresponding argument, don\'t replace placeholder', () => {
@@ -520,7 +520,7 @@ describe('util', () => {
 
 	describe('#inspect()', () => {
 		it('is a function', () => {
-			util.inspect.should.be.a.Function;
+			util.inspect.should.be.a.Function();
 		});
 
 		it('handles string literal', () => {
@@ -826,7 +826,7 @@ describe('util', () => {
 
 	describe('#inherits()', () => {
 		it('is a function', () => {
-			util.inherits.should.be.a.Function;
+			util.inherits.should.be.a.Function();
 		});
 
 		it('hooks subclass to super constructor', (finished) => {
@@ -996,7 +996,7 @@ describe('util', () => {
 
 	describe('#promisify()', () => {
 		it('is a function', () => {
-			util.promisify.should.be.a.Function;
+			util.promisify.should.be.a.Function();
 		});
 
 		it('wraps callback function to return promise with resolve', (finished) => {
@@ -1037,7 +1037,7 @@ describe('util', () => {
 
 	describe('#callbackify()', () => {
 		it('is a function', () => {
-			util.callbackify.should.be.a.Function;
+			util.callbackify.should.be.a.Function();
 		});
 
 		it('wraps function returning Promise to return function accepting callback (with success)', (finished) => {
@@ -1098,7 +1098,7 @@ describe('util', () => {
 
 	describe('#deprecate()', () => {
 		it('is a function', () => {
-			util.deprecate.should.be.a.Function;
+			util.deprecate.should.be.a.Function();
 		});
 
 		it('wraps function to emit warning', () => {
@@ -1120,7 +1120,7 @@ describe('util', () => {
 
 	describe('#log()', () => {
 		it('is a function', () => {
-			util.log.should.be.a.Function;
+			util.log.should.be.a.Function();
 		});
 
 		it('prepends timestamp to message', () => {
@@ -1139,7 +1139,7 @@ describe('util', () => {
 
 	describe('#print()', () => {
 		it('is a function', () => {
-			util.print.should.be.a.Function;
+			util.print.should.be.a.Function();
 		});
 
 		it('concatenates with no join', () => {
@@ -1158,7 +1158,7 @@ describe('util', () => {
 
 	describe('#puts()', () => {
 		it('is a function', () => {
-			util.puts.should.be.a.Function;
+			util.puts.should.be.a.Function();
 		});
 
 		it('concatenates with newline join', () => {
@@ -1177,7 +1177,7 @@ describe('util', () => {
 
 	describe('#debug()', () => {
 		it('is a function', () => {
-			util.debug.should.be.a.Function;
+			util.debug.should.be.a.Function();
 		});
 
 		it('concatenates with newline join', () => {
@@ -1196,7 +1196,7 @@ describe('util', () => {
 
 	describe('#error()', () => {
 		it('is a function', () => {
-			util.error.should.be.a.Function;
+			util.error.should.be.a.Function();
 		});
 
 		it('concatenates with newline join', () => {
@@ -1267,7 +1267,7 @@ describe('util', () => {
 
 		describe('#isNativeError()', () => {
 			it('is a function', () => {
-				util.types.isNativeError.should.be.a.Function;
+				util.types.isNativeError.should.be.a.Function();
 			});
 
 			it('returns true for Error instance', () => {
@@ -1306,7 +1306,7 @@ describe('util', () => {
 
 		describe('#isNumberObject()', () => {
 			it('is a function', () => {
-				util.types.isNumberObject.should.be.a.Function;
+				util.types.isNumberObject.should.be.a.Function();
 			});
 
 			it('returns true for boxed Number', () => {
@@ -1321,7 +1321,7 @@ describe('util', () => {
 
 		describe('#isStringObject()', () => {
 			it('is a function', () => {
-				util.types.isStringObject.should.be.a.Function;
+				util.types.isStringObject.should.be.a.Function();
 			});
 
 			it('returns true for boxed String', () => {
@@ -1336,7 +1336,7 @@ describe('util', () => {
 
 		describe('#isBooleanObject()', () => {
 			it('is a function', () => {
-				util.types.isBooleanObject.should.be.a.Function;
+				util.types.isBooleanObject.should.be.a.Function();
 			});
 
 			it('returns true for boxed Boolean', () => {
@@ -1352,7 +1352,7 @@ describe('util', () => {
 		// TODO: Re-enable when we have BigInt support
 		// describe('#isBigIntObject()', () => {
 		// 	it('is a function', () => {
-		// 		util.types.isBigIntObject.should.be.a.Function;
+		// 		util.types.isBigIntObject.should.be.a.Function();
 		// 	});
 
 		// 	it('returns true for boxed BigInt', () => {
@@ -1372,7 +1372,7 @@ describe('util', () => {
 
 		describe('#isSymbolObject()', () => {
 			it('is a function', () => {
-				util.types.isSymbolObject.should.be.a.Function;
+				util.types.isSymbolObject.should.be.a.Function();
 			});
 
 			it('returns true for boxed Symbol', () => {
@@ -1387,7 +1387,7 @@ describe('util', () => {
 
 		describe('#isBoxedPrimitive()', () => {
 			it('is a function', () => {
-				util.types.isBoxedPrimitive.should.be.a.Function;
+				util.types.isBoxedPrimitive.should.be.a.Function();
 			});
 
 			it('returns false for primitive Boolean', () => {
@@ -1415,7 +1415,7 @@ describe('util', () => {
 
 		describe('#isSet()', () => {
 			it('is a function', () => {
-				util.types.isSet.should.be.a.Function;
+				util.types.isSet.should.be.a.Function();
 			});
 
 			it('returns true for Set instance', () => {
@@ -1440,7 +1440,7 @@ describe('util', () => {
 
 		describe('#isMap()', () => {
 			it('is a function', () => {
-				util.types.isMap.should.be.a.Function;
+				util.types.isMap.should.be.a.Function();
 			});
 
 			it('returns true for Map instance', () => {
@@ -1477,7 +1477,7 @@ describe('util', () => {
 
 		describe('#isDate()', () => {
 			it('is a function', () => {
-				util.types.isDate.should.be.a.Function;
+				util.types.isDate.should.be.a.Function();
 			});
 
 			it('returns true for built-in Date instance', () => {
@@ -1497,7 +1497,7 @@ describe('util', () => {
 
 		describe('#isRegExp()', () => {
 			it('is a function', () => {
-				util.types.isRegExp.should.be.a.Function;
+				util.types.isRegExp.should.be.a.Function();
 			});
 
 			it('returns true for RegExp instance', () => {

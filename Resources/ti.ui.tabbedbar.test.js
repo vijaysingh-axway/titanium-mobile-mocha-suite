@@ -45,7 +45,7 @@ describe.windowsMissing('Titanium.UI.TabbedBar', function () {
 
 	it('apiName', () => {
 		const tabbedBar = Ti.UI.createTabbedBar();
-		should(tabbedBar).have.readOnlyProperty('apiName').which.is.a.String;
+		should(tabbedBar).have.readOnlyProperty('apiName').which.is.a.String();
 		should(tabbedBar.apiName).be.eql('Ti.UI.TabbedBar');
 	});
 

@@ -45,7 +45,7 @@ describe('Titanium.UI.ListView', function () {
 
 	it('apiName', function () {
 		var listView = Ti.UI.createListView();
-		should(listView).have.readOnlyProperty('apiName').which.is.a.String;
+		should(listView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(listView.apiName).be.eql('Ti.UI.ListView');
 	});
 
@@ -70,15 +70,15 @@ describe('Titanium.UI.ListView', function () {
 			section_1_set;
 		// Validate createListView()
 		should(Ti.UI.createListView).not.be.undefined;
-		should(Ti.UI.createListView).be.a.Function;
+		should(Ti.UI.createListView).be.a.Function();
 
 		// Create ListView
 		listView = Ti.UI.createListView();
-		should(listView).be.a.Object;
+		should(listView).be.a.Object();
 
 		// Create list section
 		section_0 = Ti.UI.createListSection({ headerTitle: 'Zero' });
-		should(section_0).be.a.Object;
+		should(section_0).be.a.Object();
 
 		// Set section items
 		section_0_set = [
@@ -96,7 +96,7 @@ describe('Titanium.UI.ListView', function () {
 
 		// Create list section
 		section_1 = Ti.UI.createListSection({ headerTitle: 'One' });
-		should(section_1).be.a.Object;
+		should(section_1).be.a.Object();
 
 		// Set section items
 		section_1_set = [
@@ -599,8 +599,8 @@ describe('Titanium.UI.ListView', function () {
 
 		// Validate items
 		items = section.items;
-		should(items).be.an.Array;
-		should(items.length).be.a.Number;
+		should(items).be.an.Array();
+		should(items.length).be.a.Number();
 		should(items.length).be.eql(1);
 
 		// Validate single item
@@ -611,28 +611,28 @@ describe('Titanium.UI.ListView', function () {
 		// Validate item template
 		should(item).have.ownProperty('template');
 		should(template).not.be.undefined;
-		should(template).be.a.Number;
+		should(template).be.a.Number();
 		should(template).eql(Ti.UI.LIST_ITEM_TEMPLATE_CONTACTS);
 
 		// Validate item properties
 		should(item).have.ownProperty('properties');
 		should(properties).not.be.undefined;
-		should(properties).be.an.Object;
+		should(properties).be.an.Object();
 
 		// Validate properties subtitleColor and selectedSubtitleColor
 		should(properties).have.ownProperty('subtitleColor');
-		should(properties.subtitleColor).be.a.String;
+		should(properties.subtitleColor).be.a.String();
 		should(properties.subtitleColor).be.eql('red');
 		should(properties).have.ownProperty('selectedSubtitleColor');
-		should(properties.selectedSubtitleColor).be.a.String;
+		should(properties.selectedSubtitleColor).be.a.String();
 		should(properties.selectedSubtitleColor).be.eql('green');
 
 		// Validate properties title & subtitle
 		should(properties).have.ownProperty('title');
-		should(properties.title).be.a.String;
+		should(properties.title).be.a.String();
 		should(properties.title).be.eql('My Title');
 		should(properties).have.ownProperty('subtitle');
-		should(properties.subtitle).be.a.String;
+		should(properties.subtitle).be.a.String();
 		should(properties.subtitle).be.eql('My Subtitle');
 	});
 
@@ -967,6 +967,6 @@ describe('Titanium.UI.ListView', function () {
 	it.android('.fastScroll', function () {
 		var listView = Ti.UI.createListView();
 		should(listView.fastScroll).be.eql(false);
-		should(listView.setFastScroll).be.a.Function;
+		should(listView.setFastScroll).be.a.Function();
 	});
 });

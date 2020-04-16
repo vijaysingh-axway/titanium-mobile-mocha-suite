@@ -12,6 +12,6 @@ var should = require('./utilities/assertions');
 describe.windowsMissing('Titanium.Calendar', function () {
 	it('apiName', function () {
 		should(Ti.Calendar.apiName).be.eql('Ti.Calendar');
-		should(Ti.Calendar).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(Ti.Calendar).have.a.readOnlyProperty('apiName').which.is.a.String();
 	});
 });

@@ -12,7 +12,7 @@ var should = require('./utilities/assertions');
 describe('Titanium.Network.Cookie', function () {
 	it('apiName', function () {
 		var client = Ti.Network.createHTTPClient();
-		should(client).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(client).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(client.apiName).be.eql('Ti.Network.HTTPClient');
 	});
 

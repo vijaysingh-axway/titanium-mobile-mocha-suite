@@ -45,8 +45,8 @@ describe('Titanium.UI.Window', function () {
 		win = Ti.UI.createWindow({
 			title: 'this is some text'
 		});
-		should(win.title).be.a.String;
-		should(win.getTitle).be.a.Function;
+		should(win.title).be.a.String();
+		should(win.getTitle).be.a.Function();
 		should(win.title).eql('this is some text');
 		should(win.getTitle()).eql('this is some text');
 		win.title = 'other text';
@@ -58,8 +58,8 @@ describe('Titanium.UI.Window', function () {
 		win = Ti.UI.createWindow({
 			titleid: 'this_is_my_key'
 		});
-		should(win.titleid).be.a.String;
-		should(win.getTitleid).be.a.Function;
+		should(win.titleid).be.a.String();
+		should(win.getTitleid).be.a.Function();
 		should(win.titleid).eql('this_is_my_key');
 		should(win.getTitleid()).eql('this_is_my_key');
 		should(win.title).eql('this is my value');
@@ -395,7 +395,7 @@ describe('Titanium.UI.Window', function () {
 	it.iosAndWindowsBroken('#toString()', function () {
 		win = Ti.UI.createWindow();
 		should(win.toString()).be.eql('[object Window]'); // Windows: '[object class TitaniumWindows::UI::Window]', iOS: '[object TiUIWindow]'
-		should(win.apiName).be.a.String;
+		should(win.apiName).be.a.String();
 		should(win.apiName).be.eql('Ti.UI.Window');
 	});
 
@@ -495,9 +495,9 @@ describe('Titanium.UI.Window', function () {
 			largeTitleEnabled: true
 		});
 
-		should(win.largeTitleEnabled).be.a.Boolean;
-		should(win.getLargeTitleEnabled).be.a.Function;
-		should(win.setLargeTitleEnabled).be.a.Function;
+		should(win.largeTitleEnabled).be.a.Boolean();
+		should(win.getLargeTitleEnabled).be.a.Function();
+		should(win.setLargeTitleEnabled).be.a.Function();
 
 		should(win.largeTitleEnabled).eql(true);
 		should(win.getLargeTitleEnabled()).eql(true);
@@ -517,9 +517,9 @@ describe('Titanium.UI.Window', function () {
 			largeTitleDisplayMode: Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS
 		});
 
-		should(win.largeTitleDisplayMode).be.a.Number;
-		should(win.getLargeTitleDisplayMode).be.a.Function;
-		should(win.setLargeTitleDisplayMode).be.a.Function;
+		should(win.largeTitleDisplayMode).be.a.Number();
+		should(win.getLargeTitleDisplayMode).be.a.Function();
+		should(win.setLargeTitleDisplayMode).be.a.Function();
 
 		should(win.largeTitleDisplayMode).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS);
 		should(win.getLargeTitleDisplayMode()).eql(Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS);
@@ -543,7 +543,7 @@ describe('Titanium.UI.Window', function () {
 
 		win.addEventListener('open', function () {
 			try {
-				should(win.safeAreaView).be.a.Object;
+				should(win.safeAreaView).be.a.Object();
 				finish();
 			} catch (e) {
 				finish(e);
@@ -560,7 +560,7 @@ describe('Titanium.UI.Window', function () {
 
 		win.addEventListener('open', function () {
 			try {
-				should(win.homeIndicatorAutoHidden).be.a.Boolean;
+				should(win.homeIndicatorAutoHidden).be.a.Boolean();
 				should(win.homeIndicatorAutoHidden).be.false;
 				win.setHomeIndicatorAutoHidden(true);
 				should(win.homeIndicatorAutoHidden).be.true;
@@ -587,10 +587,10 @@ describe('Titanium.UI.Window', function () {
 		});
 		window2.addEventListener('open', function () {
 			try {
-				should(window2.hidesBackButton).be.a.Boolean;
+				should(window2.hidesBackButton).be.a.Boolean();
 
-				should(window2.getHidesBackButton).be.a.Function;
-				should(window2.setHidesBackButton).be.a.Function;
+				should(window2.getHidesBackButton).be.a.Function();
+				should(window2.setHidesBackButton).be.a.Function();
 
 				should(window2.hidesBackButton).be.eql(true);
 				should(window2.getHidesBackButton()).be.eql(true);
@@ -638,7 +638,7 @@ describe('Titanium.UI.Window', function () {
 
 		win.addEventListener('open', function () {
 			try {
-				should(win.statusBarStyle).be.a.Number;
+				should(win.statusBarStyle).be.a.Number();
 				should(win.statusBarStyle).eql(Ti.UI.iOS.StatusBar.LIGHT_CONTENT);
 				win.setStatusBarStyle(Ti.UI.iOS.StatusBar.GRAY);
 				should(win.statusBarStyle).eql(Ti.UI.iOS.StatusBar.GRAY);
@@ -661,7 +661,7 @@ describe('Titanium.UI.Window', function () {
 
 			try {
 				var padding = win.safeAreaPadding;
-				should(padding).be.a.Object;
+				should(padding).be.a.Object();
 				should(padding.left).be.eql(0);
 				should(padding.top).be.eql(0);
 				should(padding.right).be.eql(0);
@@ -689,7 +689,7 @@ describe('Titanium.UI.Window', function () {
 
 			try {
 				var padding = win.safeAreaPadding;
-				should(padding).be.a.Object;
+				should(padding).be.a.Object();
 				should(padding.top).be.aboveOrEqual(0);
 				should(padding.bottom).be.aboveOrEqual(0);
 				should(padding.left).be.aboveOrEqual(0);
@@ -743,7 +743,7 @@ describe('Titanium.UI.Window', function () {
 
 			try {
 				var padding = window.safeAreaPadding;
-				should(padding).be.a.Object;
+				should(padding).be.a.Object();
 				// top padding should always be 0 when inside a navigation window, notch or not
 				should(padding.top).be.eql(0);
 				should(padding.left).be.eql(0);

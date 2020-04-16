@@ -43,7 +43,7 @@ describe('Titanium.UI.TextField', function () {
 		var textField = Ti.UI.createTextField({
 			value: 'this is some text'
 		});
-		should(textField).have.readOnlyProperty('apiName').which.is.a.String;
+		should(textField).have.readOnlyProperty('apiName').which.is.a.String();
 		should(textField.apiName).be.eql('Ti.UI.TextField');
 	});
 
@@ -51,8 +51,8 @@ describe('Titanium.UI.TextField', function () {
 		var textfield = Ti.UI.createTextField({
 			value: 'this is some text'
 		});
-		should(textfield.value).be.a.String;
-		should(textfield.getValue).be.a.Function;
+		should(textfield.value).be.a.String();
+		should(textfield.getValue).be.a.Function();
 		should(textfield.value).eql('this is some text');
 		should(textfield.getValue()).eql('this is some text');
 		textfield.value = 'other text';
@@ -69,9 +69,9 @@ describe('Titanium.UI.TextField', function () {
 				right: 20
 			}
 		});
-		should(textfield.padding).be.a.Object;
-		should(textfield.getPadding).be.a.Function;
-		should(textfield.setPadding).be.a.Function;
+		should(textfield.padding).be.a.Object();
+		should(textfield.getPadding).be.a.Function();
+		should(textfield.setPadding).be.a.Function();
 
 		should(textfield.padding.left).eql(20);
 		should(textfield.padding.right).eql(20);
@@ -96,11 +96,11 @@ describe('Titanium.UI.TextField', function () {
 		});
 		// FIXME Parity issue!
 		if (utilities.isAndroid()) {
-			should(textfield.textAlign).be.a.String;
+			should(textfield.textAlign).be.a.String();
 		} else {
-			should(textfield.textAlign).be.a.Number;
+			should(textfield.textAlign).be.a.Number();
 		}
-		should(textfield.getTextAlign).be.a.Function;
+		should(textfield.getTextAlign).be.a.Function();
 		should(textfield.textAlign).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
 		should(textfield.getTextAlign()).eql(Titanium.UI.TEXT_ALIGNMENT_CENTER);
 		textfield.textAlign = Titanium.UI.TEXT_ALIGNMENT_RIGHT;
@@ -115,11 +115,11 @@ describe('Titanium.UI.TextField', function () {
 		});
 		// FIXME Parity issue!
 		if (utilities.isAndroid()) {
-			should(textfield.verticalAlign).be.a.String;
+			should(textfield.verticalAlign).be.a.String();
 		} else {
-			should(textfield.verticalAlign).be.a.Number;
+			should(textfield.verticalAlign).be.a.Number();
 		}
-		should(textfield.getVerticalAlign).be.a.Function;
+		should(textfield.getVerticalAlign).be.a.Function();
 		should(textfield.verticalAlign).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
 		should(textfield.getVerticalAlign()).eql(Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM);
 		textfield.verticalAlign = Titanium.UI.TEXT_VERTICAL_ALIGNMENT_TOP;
@@ -160,7 +160,7 @@ describe('Titanium.UI.TextField', function () {
 		var textfield = Ti.UI.createTextField({
 			hintText: 'Enter E-Mail ...'
 		});
-		should(textfield.getHintText).be.a.Function;
+		should(textfield.getHintText).be.a.Function();
 		should(textfield.hintText).eql('Enter E-Mail ...');
 		should(textfield.getHintText()).eql('Enter E-Mail ...');
 		textfield.hintText = 'Enter Name ...';
@@ -173,7 +173,7 @@ describe('Titanium.UI.TextField', function () {
 			hintText: 'Enter E-Mail ...',
 			hintTextColor: 'red'
 		});
-		should(textfield.getHintTextColor).be.a.Function;
+		should(textfield.getHintTextColor).be.a.Function();
 		should(textfield.hintTextColor).eql('red');
 		should(textfield.getHintTextColor()).eql('red');
 		textfield.hintTextColor = 'blue';
@@ -186,7 +186,7 @@ describe('Titanium.UI.TextField', function () {
 			hintText: 'Enter E-Mail ...',
 			hintType: Ti.UI.HINT_TYPE_ANIMATED
 		});
-		should(textfield.getHintType).be.a.Function;
+		should(textfield.getHintType).be.a.Function();
 		should(textfield.hintType).eql(Ti.UI.HINT_TYPE_ANIMATED);
 		should(textfield.getHintType()).eql(Ti.UI.HINT_TYPE_ANIMATED);
 		textfield.hintType = Ti.UI.HINT_TYPE_STATIC;

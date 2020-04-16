@@ -7,16 +7,14 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
-describe('Titanium.Media', function () {
-	it('#createAudioPlayer()', function () {
-		should(Ti.Media.createAudioPlayer).be.a.Function;
-	});
+describe('Titanium.Media', () => {
+	it('#createAudioPlayer()', () => should(Ti.Media.createAudioPlayer).be.a.Function());
 });
 
 describe('Titanium.Media.AudioPlayer', function () {
-	var audioPlayer;
+	let audioPlayer;
 
 	this.timeout(5000);
 
@@ -33,15 +31,15 @@ describe('Titanium.Media.AudioPlayer', function () {
 	});
 
 	it('apiName', function () {
-		should(audioPlayer).have.a.readOnlyProperty('apiName').which.is.a.String;
+		should(audioPlayer).have.a.readOnlyProperty('apiName').which.is.a.String();
 		should(audioPlayer.apiName).be.eql('Ti.Media.AudioPlayer');
 	});
 
 	// Updated existing test-case, please replace with old one
 	it('.url', function (finish) {
-		should(audioPlayer.url).be.a.String;
-		should(audioPlayer.getUrl).be.a.Function;
-		should(audioPlayer.setUrl).be.a.Function;
+		should(audioPlayer.url).be.a.String();
+		should(audioPlayer.getUrl).be.a.Function();
+		should(audioPlayer.setUrl).be.a.Function();
 		should(audioPlayer.url).eql(audioPlayer.getUrl());
 
 		// Re-set URL to test TIMOB-26334, this should not crash
@@ -54,8 +52,8 @@ describe('Titanium.Media.AudioPlayer', function () {
 	});
 
 	it('#start, #stop', function (finish) {
-		should(audioPlayer.start).be.a.Function;
-		should(audioPlayer.stop).be.a.Function;
+		should(audioPlayer.start).be.a.Function();
+		should(audioPlayer.stop).be.a.Function();
 
 		audioPlayer.start();
 
@@ -70,7 +68,7 @@ describe('Titanium.Media.AudioPlayer', function () {
 	});
 
 	it('#pause', function (finish) {
-		should(audioPlayer.pause).be.a.Function;
+		should(audioPlayer.pause).be.a.Function();
 
 		audioPlayer.start();
 
@@ -85,7 +83,7 @@ describe('Titanium.Media.AudioPlayer', function () {
 	});
 
 	it.windowsBroken('#restart', function (finish) {
-		should(audioPlayer.restart).be.a.Function;
+		should(audioPlayer.restart).be.a.Function();
 
 		audioPlayer.start();
 
@@ -105,7 +103,7 @@ describe('Titanium.Media.AudioPlayer', function () {
 
 		setTimeout(function () {
 			try {
-				should(audioPlayer.duration).be.a.Number;
+				should(audioPlayer.duration).be.a.Number();
 				// give a tiny bit of fudge room here. iOS and Android differ by 5ms on this file
 				should(audioPlayer.duration).be.within(45250, 45500); // 45 seconds. iOS gives us 45322, Android gives 45327
 				finish();

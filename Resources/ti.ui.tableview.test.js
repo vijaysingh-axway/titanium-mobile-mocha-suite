@@ -46,7 +46,7 @@ describe('Titanium.UI.TableView', function () {
 
 	it('apiName', function () {
 		var tableView = Ti.UI.createTableView();
-		should(tableView).have.readOnlyProperty('apiName').which.is.a.String;
+		should(tableView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(tableView.apiName).be.eql('Ti.UI.TableView');
 	});
 
@@ -91,20 +91,20 @@ describe('Titanium.UI.TableView', function () {
 			tableView;
 		// Validate createTableView()
 		should(Ti.UI.createTableView).not.be.undefined;
-		should(Ti.UI.createTableView).be.a.Function;
+		should(Ti.UI.createTableView).be.a.Function();
 
 		// Validate createTableViewSection()
 		should(Ti.UI.createTableViewSection).not.be.undefined;
-		should(Ti.UI.createTableViewSection).be.a.Function;
+		should(Ti.UI.createTableViewSection).be.a.Function();
 
 		// Validate createTableViewRow()
 		should(Ti.UI.createTableViewRow).not.be.undefined;
-		should(Ti.UI.createTableViewRow).be.a.Function;
+		should(Ti.UI.createTableViewRow).be.a.Function();
 
 		// Create TableView section
 		section_0 = Ti.UI.createTableViewSection({ headerTitle: 'Zero' });
-		should(section_0).be.a.Object;
-		should(section_0.apiName).be.a.String;
+		should(section_0).be.a.Object();
+		should(section_0.apiName).be.a.String();
 		should(section_0.apiName).be.eql('Ti.UI.TableViewSection');
 
 		// Create and add two rows to the section
@@ -120,7 +120,7 @@ describe('Titanium.UI.TableView', function () {
 
 		// Create another TableView section
 		section_1 = Ti.UI.createTableViewSection({ headerTitle: 'One' });
-		should(section_1).be.a.Object;
+		should(section_1).be.a.Object();
 
 		// Create and add three rows to the section
 		section_1.add(Ti.UI.createTableViewRow({ title: 'Green' }));
@@ -132,15 +132,15 @@ describe('Titanium.UI.TableView', function () {
 
 		// Validate a section row title
 		should(section_1.rows[2].title).be.eql('Blue');
-		should(section_1.rows[2].apiName).be.a.String;
+		should(section_1.rows[2].apiName).be.a.String();
 		should(section_1.rows[2].apiName).be.eql('Ti.UI.TableViewRow'); // iOS says 'Ti.View'
 
 		// Create TableView, set data property
 		tableView = Ti.UI.createTableView({
 			data: [ section_0 ]
 		});
-		should(tableView).be.a.Object;
-		should(tableView.apiName).be.a.String;
+		should(tableView).be.a.Object();
+		should(tableView.apiName).be.a.String();
 		should(tableView.apiName).be.eql('Ti.UI.TableView');
 
 		// Validate tableView section count
@@ -167,7 +167,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(1);
 				should(tableView.sections[0].rows[0].title).be.eql('Red');
 
@@ -212,7 +212,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(1);
 				should(tableView.sections[0].rows[0].title).be.eql('Red');
 
@@ -252,7 +252,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(2);
 				should(tableView.sections[0].rows[0].title).be.eql('Red');
 				should(tableView.sections[0].rows[1].title).be.eql('White');
@@ -294,7 +294,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(2);
 				should(tableView.sections[0].rows[0].title).be.eql('Red');
 				should(tableView.sections[0].rows[1].title).be.eql('White');
@@ -330,7 +330,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(1);
 				should(tableView.sections[0].rows[0].title).be.eql('Red');
 
@@ -370,7 +370,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(1);
 				should(tableView.sections[0].rows[0].title).be.eql('Red');
 
@@ -418,7 +418,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(1);
 				should(tableView.sections[0].rows[0].title).be.eql('Red');
 
@@ -461,7 +461,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(1);
 				should(tableView.sections[0].rows[0].title).be.eql('Red');
 				section_0.add(Ti.UI.createTableViewRow({ title: 'White' }));
@@ -504,7 +504,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(3);
 
 				should(tableView.sections[0].rows[1].title).be.eql('White');
@@ -556,7 +556,7 @@ describe('Titanium.UI.TableView', function () {
 		win.addEventListener('focus', function () {
 			try {
 				should(tableView.sectionCount).be.eql(1);
-				should(tableView.sections[0]).be.an.Object;
+				should(tableView.sections[0]).be.an.Object();
 				should(tableView.sections[0].rowCount).be.eql(3);
 
 				should(tableView.sections[0].rows[1].title).be.eql('White');
@@ -998,7 +998,7 @@ describe('Titanium.UI.TableView', function () {
 
 			for (i = 0; i < references; i++) {
 				should(views[i]).not.be.undefined;
-				should(views[i]).be.an.Object;
+				should(views[i]).be.an.Object();
 			}
 
 			Ti.API.info('success, created ' + references + ' references!');
@@ -1021,7 +1021,7 @@ describe('Titanium.UI.TableView', function () {
 				blob = Ti.createBuffer({ length: 1 }).toBlob();
 
 				should(blob).not.be.undefined;
-				should(blob).be.an.Object;
+				should(blob).be.an.Object();
 
 				if (!(i % Math.floor(references / 10))) {
 					Ti.API.info('creating temporary references... ' + i + '/' + references);
@@ -1125,7 +1125,7 @@ describe('Titanium.UI.TableView', function () {
 			data: [ section_0 ],
 			separatorStyle: Ti.UI.TABLE_VIEW_SEPARATOR_STYLE_SINGLE_LINE
 		});
-		should(tableView.getSeparatorStyle).be.a.Function;
+		should(tableView.getSeparatorStyle).be.a.Function();
 		should(tableView.separatorStyle).eql(Ti.UI.TABLE_VIEW_SEPARATOR_STYLE_SINGLE_LINE);
 		should(tableView.getSeparatorStyle()).eql(Ti.UI.TABLE_VIEW_SEPARATOR_STYLE_SINGLE_LINE);
 		tableView.setSeparatorStyle(Ti.UI.TABLE_VIEW_SEPARATOR_STYLE_NONE);
@@ -1144,7 +1144,7 @@ describe('Titanium.UI.TableView', function () {
 			data: [ section_0 ],
 			separatorColor: 'red'
 		});
-		should(tableView.getSeparatorColor).be.a.Function;
+		should(tableView.getSeparatorColor).be.a.Function();
 		should(tableView.separatorColor).eql('red');
 		should(tableView.getSeparatorColor()).eql('red');
 		tableView.setSeparatorColor('blue');
@@ -1163,7 +1163,7 @@ describe('Titanium.UI.TableView', function () {
 			data: [ section_0 ],
 			resultsBackgroundColor: 'red'
 		});
-		should(tableView.getResultsBackgroundColor).be.a.Function;
+		should(tableView.getResultsBackgroundColor).be.a.Function();
 		should(tableView.resultsBackgroundColor).eql('red');
 		should(tableView.getResultsBackgroundColor()).eql('red');
 	});
@@ -1179,7 +1179,7 @@ describe('Titanium.UI.TableView', function () {
 			data: [ section_0 ],
 			resultsSeparatorColor: 'red'
 		});
-		should(tableView.getResultsSeparatorColor).be.a.Function;
+		should(tableView.getResultsSeparatorColor).be.a.Function();
 		should(tableView.resultsSeparatorColor).eql('red');
 		should(tableView.getResultsSeparatorColor()).eql('red');
 	});
@@ -1195,7 +1195,7 @@ describe('Titanium.UI.TableView', function () {
 			data: [ section_0 ],
 			resultsSeparatorStyle: Ti.UI.TABLE_VIEW_SEPARATOR_STYLE_SINGLE_LINE
 		});
-		should(tableView.getResultsSeparatorStyle).be.a.Function;
+		should(tableView.getResultsSeparatorStyle).be.a.Function();
 		should(tableView.resultsSeparatorStyle).eql(Ti.UI.TABLE_VIEW_SEPARATOR_STYLE_SINGLE_LINE);
 		should(tableView.getResultsSeparatorStyle()).eql(Ti.UI.TABLE_VIEW_SEPARATOR_STYLE_SINGLE_LINE);
 	});
