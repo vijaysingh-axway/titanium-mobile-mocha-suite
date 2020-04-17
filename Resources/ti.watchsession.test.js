@@ -46,6 +46,6 @@ describe.ios('Titanium.WatchSession', function () {
 	it('.hasContentPending', () => should(Ti.WatchSession.hasContentPending).be.a.Boolean());
 
 	it('.remainingComplicationUserInfoTransfers', () => {
-		should(Ti.WatchSession.remainingComplicationUserInfoTransfers).be.a.Boolean();
+		should(Ti.WatchSession.remainingComplicationUserInfoTransfers).be.a.Number();
 	});
 });
