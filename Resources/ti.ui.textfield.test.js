@@ -134,9 +134,9 @@ describe('Titanium.UI.TextField', function () {
 				value: text
 			});
 		// passwordMask should default to false
-		should(textfield.passwordMask).be.false; // undefined on Android
+		should(textfield.passwordMask).be.false(); // undefined on Android
 		textfield.passwordMask = true;
-		should(textfield.passwordMask).be.true;
+		should(textfield.passwordMask).be.true();
 		// it should have same text before
 		should(textfield.value).be.eql(text);
 	});
@@ -362,8 +362,8 @@ describe('Titanium.UI.TextField', function () {
 
 		win.add(textFieldB);
 
-		should(textFieldA.hasText()).be.true;
-		should(textFieldB.hasText()).be.true;
+		should(textFieldA.hasText()).be.true();
+		should(textFieldB.hasText()).be.true();
 
 		win.open();
 	});

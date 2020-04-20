@@ -29,8 +29,8 @@ describe('Titanium.Locale', function () {
 	});
 
 	it('exists', function () {
-		should(Ti.Locale).not.be.undefined;
-		should(Ti.Locale).not.be.null;
+		should(Ti.Locale).not.be.undefined();
+		should(Ti.Locale).not.be.null();
 		should(Ti.Locale).be.an.Object();
 	});
 

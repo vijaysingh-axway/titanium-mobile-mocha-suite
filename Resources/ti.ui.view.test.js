@@ -368,11 +368,11 @@ describe('Titanium.UI.View', function () {
 		win.addEventListener('focus', function () {
 			try {
 				Ti.API.info('Got focus event');
-				should(win.visible).be.true;
+				should(win.visible).be.true();
 				win.hide();
-				should(win.visible).be.false; // iOS returns true
+				should(win.visible).be.false(); // iOS returns true
 				win.show();
-				should(win.visible).be.true;
+				should(win.visible).be.true();
 
 				finish();
 			} catch (err) {

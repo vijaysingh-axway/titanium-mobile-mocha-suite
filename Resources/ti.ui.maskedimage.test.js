@@ -8,10 +8,10 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe.windowsMissing('Titanium.UI.MaskedImage', function () {
-	var win;
+	let win;
 
 	afterEach(function (done) {
 		if (win) {
@@ -39,11 +39,11 @@ describe.windowsMissing('Titanium.UI.MaskedImage', function () {
 		}
 	});
 
-	it('Ti.UI.MaskedImage', function () {
-		should(Ti.UI.MaskedImage).not.be.undefined;
+	it.iosBroken('Ti.UI.MaskedImage', () => { // should this be defined?
+		should(Ti.UI.MaskedImage).not.be.undefined();
 	});
 
-	it('apiName', function () {
+	it('.apiName', function () {
 		var view = Ti.UI.createMaskedImage();
 		should(view).be.a.Object();
 		should(view).have.readOnlyProperty('apiName').which.is.a.String();
@@ -57,7 +57,7 @@ describe.windowsMissing('Titanium.UI.MaskedImage', function () {
 		should(view.mode).be.eql(Ti.UI.BLEND_MODE_DESTINATION_IN);
 	});
 
-	it('mask-tint', function (finish) {
+	it('.tint', function (finish) {
 		this.timeout(5000);
 		win = Ti.UI.createWindow();
 		win.add(Ti.UI.createMaskedImage({
@@ -75,7 +75,7 @@ describe.windowsMissing('Titanium.UI.MaskedImage', function () {
 		win.open();
 	});
 
-	it('mask-image', function (finish) {
+	it('.image', function (finish) {
 		this.timeout(5000);
 		win = Ti.UI.createWindow();
 		win.add(Ti.UI.createMaskedImage({

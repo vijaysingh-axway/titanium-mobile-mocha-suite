@@ -23,7 +23,7 @@ describe.ios('Titanium.App.iOS', function () {
 	});
 
 	it('supportedUserActivityTypes', function () {
-		should(Ti.App.iOS.supportedUserActivityTypes).be.undefined; // Only non-null if set via Info.plist NSUserActivityTypes key
+		should(Ti.App.iOS.supportedUserActivityTypes).be.undefined(); // Only non-null if set via Info.plist NSUserActivityTypes key
 	});
 
 	// --- methods ---

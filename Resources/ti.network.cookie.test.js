@@ -30,7 +30,7 @@ describe('Titanium.Network.Cookie', function () {
 			path: '/'
 		});
 
-		should(cookie1.isValid()).be.true;
-		should(cookie2.isValid()).be.false;
+		should(cookie1.isValid()).be.true();
+		should(cookie2.isValid()).be.false();
 	});
 });

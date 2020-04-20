@@ -83,8 +83,8 @@ describe.ios('Titanium.UI.iOS.NavigationWindow', function () {
 		});
 
 		win.addEventListener('open', function () {
-			should(nav).not.be.undefined;
-			should(win.navigationWindow).not.be.undefined;
+			should(nav).not.be.undefined();
+			should(win.navigationWindow).not.be.undefined();
 
 			should(win.navigationWindow).eql(nav);
 

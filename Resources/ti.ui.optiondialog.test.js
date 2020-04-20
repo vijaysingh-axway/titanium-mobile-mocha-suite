@@ -89,11 +89,11 @@ describe('Titanium.UI.OptionDialog', function () {
 		var bar = Ti.UI.createOptionDialog({});
 		should(bar.persistent).be.a.Boolean(); // undefined on iOS and Android
 		should(bar.getPersistent).be.a.Function();
-		should(bar.persistent).be.true;
-		should(bar.getPersistent()).be.true;
+		should(bar.persistent).be.true();
+		should(bar.getPersistent()).be.true();
 		bar.persistent = false;
-		should(bar.persistent).be.false;
-		should(bar.getPersistent()).be.false;
+		should(bar.persistent).be.false();
+		should(bar.getPersistent()).be.false();
 	});
 
 	// Intentionally skip. property not on iOS

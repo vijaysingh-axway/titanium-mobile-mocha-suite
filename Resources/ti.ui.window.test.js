@@ -561,9 +561,9 @@ describe('Titanium.UI.Window', function () {
 		win.addEventListener('open', function () {
 			try {
 				should(win.homeIndicatorAutoHidden).be.a.Boolean();
-				should(win.homeIndicatorAutoHidden).be.false;
+				should(win.homeIndicatorAutoHidden).be.false();
 				win.setHomeIndicatorAutoHidden(true);
-				should(win.homeIndicatorAutoHidden).be.true;
+				should(win.homeIndicatorAutoHidden).be.true();
 				finish();
 			} catch (e) {
 				finish(e);

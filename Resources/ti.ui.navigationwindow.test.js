@@ -7,7 +7,7 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
 	var nav;
@@ -21,32 +21,32 @@ describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
 		nav = null;
 	});
 
-	it('Ti.UI.NavigationWindow', function () {
-		should(Ti.UI.NavigationWindow).not.be.undefined;
+	it.iosBroken('Ti.UI.NavigationWindow', () => { // should this be defined?
+		should(Ti.UI.NavigationWindow).not.be.undefined();
 	});
 
-	it('apiName', function () {
+	it('.apiName', function () {
 		var view = Ti.UI.createNavigationWindow();
 		should(view).have.readOnlyProperty('apiName').which.is.a.String();
 		should(view.apiName).be.eql('Ti.UI.NavigationWindow');
 	});
 
-	it('#open', function () {
+	it('#open()', function () {
 		var view = Ti.UI.createNavigationWindow();
 		should(view.open).be.a.Function();
 	});
 
-	it('#openWindow', function () {
+	it('#openWindow()', function () {
 		var view = Ti.UI.createNavigationWindow();
 		should(view.openWindow).be.a.Function();
 	});
 
-	it('#close', function () {
+	it('#close()', function () {
 		var view = Ti.UI.createNavigationWindow();
 		should(view.close).be.a.Function();
 	});
 
-	it('#closeWindow', function () {
+	it('#closeWindow()', function () {
 		var view = Ti.UI.createNavigationWindow();
 		should(view.closeWindow).be.a.Function();
 	});
@@ -132,7 +132,7 @@ describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
 		nav.open();
 	});
 
-	it('#popToRootWindow', function (finish) {
+	it('#popToRootWindow()', function (finish) {
 		var rootWindow = Ti.UI.createWindow();
 		var subWindow = Ti.UI.createWindow();
 
@@ -224,7 +224,7 @@ describe('Titanium.UI.Window', function () {
 
 		rootWindow.addEventListener('open', function () {
 			try {
-				should(nav).not.be.undefined;
+				should(nav).not.be.undefined();
 				should(rootWindow.navigationWindow).eql(nav);
 				should(rootWindow.navigationWindow.apiName).eql('Ti.UI.NavigationWindow');
 

@@ -785,14 +785,14 @@ describe.windowsBroken('Titanium.XML', function () {
 		should(importedNode.ownerDocument).be.an.Object();
 		should(importedNode.ownerDocument).eql(doc);
 		should(importedNode.parentNode === null).eql(true);
-		should(importedNode.hasChildNodes()).be.true;
+		should(importedNode.hasChildNodes()).be.true();
 		should(importedNode.childNodes.length).be.greaterThan(0);
 		should(importedNode.namespaceURI).eql('http://example.com');
 		// test shallow import
 		should(function () {
 			importedNode = doc.importNode(cakeNode, false);
 		}).not.throw();
-		should(importedNode.hasChildNodes()).be.false;
+		should(importedNode.hasChildNodes()).be.false();
 		should(importedNode.ownerDocument === null).be.eql(false);
 		should(importedNode.ownerDocument).be.an.Object();
 		should(importedNode.ownerDocument).eql(doc);
@@ -923,7 +923,7 @@ describe.windowsBroken('Titanium.XML', function () {
 		// Per spec, clone should have no parent and no children
 		should(clonedNode.parentNode === null).eql(true);
 		should(clonedNode.hasChildNodes()).be.a.Boolean();
-		should(clonedNode.hasChildNodes()).be.false;
+		should(clonedNode.hasChildNodes()).be.false();
 		// Deep
 		should(function () {
 			clonedNode = parentNode.cloneNode(true);
@@ -942,7 +942,7 @@ describe.windowsBroken('Titanium.XML', function () {
 		should(attrValue).be.equal('attr value');
 		// this one should have children since it's deep.
 		should(clonedNode.hasChildNodes()).be.a.Boolean();
-		should(clonedNode.hasChildNodes()).be.true;
+		should(clonedNode.hasChildNodes()).be.true();
 		should(clonedNode.firstChild === null).be.eql(false);
 		should(clonedNode.firstChild.nodeValue).eql(parentNode.firstChild.nodeValue);
 		should(clonedNode.lastChild === null).be.eql(false);
@@ -1138,7 +1138,7 @@ describe.windowsBroken('Titanium.XML', function () {
 		should(attr.ownerElement).be.an.Object();
 		should(attr.ownerElement).eql(node);
 		should(attr.specified).be.a.Boolean();
-		should(attr.specified).be.true;
+		should(attr.specified).be.true();
 		should(attr.value).be.a.String();
 		should(attr.value).eql('node 1');
 		// Now new attribute
@@ -1172,7 +1172,7 @@ describe.windowsBroken('Titanium.XML', function () {
 		should(attr.value === null).be.eql(false);
 		should(attr.value).eql('new value');
 		should(attr.specified).be.a.Boolean();
-		should(attr.specified).be.true;
+		should(attr.specified).be.true();
 		// Per spec, an attribute with no owner element (i.e., it has just
 		// been created and not yet put on to an element) will have
 		// 'true' for specified.
@@ -1180,7 +1180,7 @@ describe.windowsBroken('Titanium.XML', function () {
 		should(thirdNewAttr === null).be.eql(false);
 		should(thirdNewAttr.ownerElement === null).eql(true);
 		should(thirdNewAttr.specified).be.a.Boolean();
-		should(thirdNewAttr.specified).be.true;
+		should(thirdNewAttr.specified).be.true();
 	});
 
 	it.ios('parseString (invalid xml)', function () {

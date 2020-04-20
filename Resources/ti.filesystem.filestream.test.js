@@ -169,7 +169,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 		var pumpInputFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'stream_test_in.txt');
 		should(pumpInputFile).be.an.Object();
 		should(pumpInputFile.open).be.a.Function();
-		should(pumpInputFile.exists()).be.true;
+		should(pumpInputFile.exists()).be.true();
 		var step = 10;
 		var pumpTotal = 0;
 		function pumpCallback(e) {
@@ -205,7 +205,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 			source: inBuffer,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(inStream).not.be.null;
+		should(inStream).not.be.null();
 
 		outFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_WRITE, Ti.Filesystem.applicationDataDirectory, 'stream_test_out.txt');
 		should(outFileStream).be.an.Object();
@@ -235,7 +235,7 @@ describe('Titanium.Filesystem.FileStream', function () {
 			source: inBuffer,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(inStream).not.be.null;
+		should(inStream).not.be.null();
 
 		outFileStream = Ti.Filesystem.openStream(Ti.Filesystem.MODE_WRITE, Ti.Filesystem.applicationDataDirectory, 'stream_test_truncate.txt');
 		should(outFileStream).be.an.Object();

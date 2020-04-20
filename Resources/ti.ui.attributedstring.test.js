@@ -7,33 +7,37 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
+
+describe('Titanium.UI', () => {
+	it('#createAttributedString()', () => {
+		should(Ti.UI.createAttributedString).be.a.Function();
+		const attributedString = Ti.UI.createAttributedString({
+			text: 'abc'
+		});
+
+		should(attributedString).be.a.Object();
+	});
+});
 
 describe('Titanium.UI.AttributedString', function () {
-
-	it.ios('Ti.UI.AttributedString', function () {
-		should(Ti.UI.AttributedString).not.be.undefined;
-	});
-
-	it.ios('apiName', function () {
-		var attributedString = Ti.UI.createAttributedString({
+	it('apiName', () => {
+		const attributedString = Ti.UI.createAttributedString({
 			text: 'abc'
 		});
 		should(attributedString).have.readOnlyProperty('apiName').which.is.a.String();
 		should(attributedString.apiName).be.eql('Ti.UI.AttributedString');
 	});
 
-	it.ios('createAttributedString', function () {
-		var attributedString = Ti.UI.createAttributedString({
+	it('.text', () => {
+		const attributedString = Ti.UI.createAttributedString({
 			text: 'abc'
 		});
-
-		should(attributedString).be.a.Object();
 		should(attributedString.text).be.a.String();
 		should(attributedString.text).be.eql('abc');
 	});
 
-	it.ios('attributes', function () {
+	it('.attributes', function () {
 		var str = 'Lorem ipsum dolor sit amet.';
 		var attributedString = Ti.UI.createAttributedString({
 			text: str,

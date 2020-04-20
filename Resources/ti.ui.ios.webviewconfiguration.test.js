@@ -12,14 +12,14 @@ var should = require('./utilities/assertions');
 describe.ios('Titanium.UI.iOS', function () {
 
 	it('#createWebViewProcessPool()', function () {
-		should(Ti.UI.iOS.createWebViewProcessPool).not.be.undefined;
+		should(Ti.UI.iOS.createWebViewProcessPool).not.be.undefined();
 		should(Ti.UI.iOS.createWebViewProcessPool).be.a.Function();
 		var pool = Ti.UI.iOS.createWebViewProcessPool();
 		should(pool).be.an.Object();
 	});
 
 	it('#createWebViewConfiguration()', function () {
-		should(Ti.UI.iOS.createWebViewConfiguration).not.be.undefined;
+		should(Ti.UI.iOS.createWebViewConfiguration).not.be.undefined();
 		should(Ti.UI.iOS.createWebViewConfiguration).be.a.Function();
 		var configuration = Ti.UI.iOS.createWebViewConfiguration();
 		should(configuration).be.an.Object();

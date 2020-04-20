@@ -11,7 +11,7 @@ var should = require('./utilities/assertions');
 
 describe.ios('Titanium.UI.iOS', function () {
 	it('#createTabbedBar()', function () {
-		should(Ti.UI.iOS.createTabbedBar).not.be.undefined;
+		should(Ti.UI.iOS.createTabbedBar).not.be.undefined();
 		should(Ti.UI.iOS.createTabbedBar).be.a.Function();
 	});
 });

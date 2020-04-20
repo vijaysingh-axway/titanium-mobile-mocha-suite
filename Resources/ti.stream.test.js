@@ -48,14 +48,14 @@ describe('Titanium.Stream', function () {
 				mode: Ti.Stream.MODE_READ
 			});
 		}).not.throw();
-		should(rstream).not.be.null;
+		should(rstream).not.be.null();
 		should(rstream.apiName).be.eql('Ti.BufferStream'); // iOS is returning Ti.IOStream
 		for (i = 0; i < this.streamFuncs.length; i++) {
 			func = rstream[this.streamFuncs[i]];
 			should(func).be.a.Function();
 		}
-		should(rstream.isReadable()).be.true;
-		should(rstream.isWritable()).be.false;
+		should(rstream.isReadable()).be.true();
+		should(rstream.isWritable()).be.false();
 		// create write stream
 		should(function () {
 			wstream = Ti.Stream.createStream({
@@ -63,13 +63,13 @@ describe('Titanium.Stream', function () {
 				mode: Ti.Stream.MODE_WRITE
 			});
 		}).not.throw();
-		should(wstream).not.be.null;
+		should(wstream).not.be.null();
 		for (i = 0; i < this.streamFuncs.length; i++) {
 			func = wstream[this.streamFuncs[i]];
 			should(func).be.a.Function();
 		}
-		should(wstream.isReadable()).be.false;
-		should(wstream.isWritable()).be.true;
+		should(wstream.isReadable()).be.false();
+		should(wstream.isWritable()).be.true();
 		// create append stream
 		should(function () {
 			astream = Ti.Stream.createStream({
@@ -77,13 +77,13 @@ describe('Titanium.Stream', function () {
 				mode: Ti.Stream.MODE_APPEND
 			});
 		}).not.throw();
-		should(astream).not.be.null;
+		should(astream).not.be.null();
 		for (i = 0; i < this.streamFuncs.length; i++) {
 			func = astream[this.streamFuncs[i]];
 			should(func).be.a.Function();
 		}
-		should(astream.isReadable()).be.false;
-		should(astream.isWritable()).be.true;
+		should(astream.isReadable()).be.false();
+		should(astream.isWritable()).be.true();
 		destBuffer = Ti.createBuffer({
 			length: 30
 		});
@@ -124,13 +124,13 @@ describe('Titanium.Stream', function () {
 				mode: Ti.Stream.MODE_READ
 			});
 		}).not.throw();
-		should(stream).not.be.null;
+		should(stream).not.be.null();
 		for (i = 0; i < this.streamFuncs.length; i++) {
 			func = stream[this.streamFuncs[i]];
 			should(func).be.a.Function();
 		}
-		should(stream.isReadable()).be.true;
-		should(stream.isWritable()).be.false;
+		should(stream.isReadable()).be.true();
+		should(stream.isWritable()).be.false();
 		destBuffer = Ti.createBuffer({
 			length: 50
 		});
@@ -176,11 +176,11 @@ describe('Titanium.Stream', function () {
 			source: sourceBuffer,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(bufferStream).not.be.null;
+		should(bufferStream).not.be.null();
 		dest = Ti.createBuffer({
 			length: 50
 		});
-		should(dest).not.be.null;
+		should(dest).not.be.null();
 		// Perform read(source,dest,callback)
 		Ti.Stream.read(bufferStream, dest, function (e) {
 			var i;
@@ -197,7 +197,7 @@ describe('Titanium.Stream', function () {
 			source: sourceBlob,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(blobStream).not.be.null;
+		should(blobStream).not.be.null();
 		should(blobStream.apiName).be.eql('Ti.BlobStream'); // iOS is returning Ti.IOStream
 		blobStr = sourceBlob.toString();
 		// Performing the second read while the first read is happening
@@ -240,13 +240,13 @@ describe('Titanium.Stream', function () {
 		dest = Ti.createBuffer({
 			length: sourceBuffer.length
 		});
-		should(dest).not.be.null;
+		should(dest).not.be.null();
 
 		bufferStream = Ti.Stream.createStream({
 			source: dest,
 			mode: Ti.Stream.MODE_WRITE
 		});
-		should(bufferStream).not.be.null;
+		should(bufferStream).not.be.null();
 
 		// Need to perform offset/length write first so that the destination buffer doesn't fill
 		Ti.Stream.write(bufferStream, sourceBuffer, offset, length, function (e) {
@@ -303,13 +303,13 @@ describe('Titanium.Stream', function () {
 			source: sourceBuffer,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(bufferStream).not.be.null;
+		should(bufferStream).not.be.null();
 
 		function assignBuffer() {
 			buffer = Ti.Stream.readAll(bufferStream);
 		}
 		should(assignBuffer).not.throw();
-		should(buffer).not.be.null;
+		should(buffer).not.be.null();
 		should(buffer.length).be.equal(sourceBuffer.length);
 		for (i = 0; i < buffer.length; i++) {
 			should(buffer[i]).be.equal(sourceBuffer[i]);
@@ -318,12 +318,12 @@ describe('Titanium.Stream', function () {
 			source: sourceBlob,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(blobStream).not.be.null;
+		should(blobStream).not.be.null();
 		// TODO: Should we be required to create this buffer, or should it be autocreated?
 		dest = Ti.createBuffer({
 			length: sourceBlobStr.length
 		});
-		should(dest).not.be.null;
+		should(dest).not.be.null();
 		Ti.Stream.readAll(blobStream, dest, function (e) {
 			var x;
 			should(e.code).be.a.Number();
@@ -362,12 +362,12 @@ describe('Titanium.Stream', function () {
 			source: dest,
 			mode: Ti.Stream.MODE_WRITE
 		});
-		should(destStream).not.be.null;
+		should(destStream).not.be.null();
 		blobStream = Ti.Stream.createStream({
 			source: sourceBlob,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(blobStream).not.be.null;
+		should(blobStream).not.be.null();
 		Ti.Stream.writeStream(blobStream, destStream, 10);
 		for (i = 0; i < dest.length; i++) {
 			should(dest[i]).be.equal(sourceBlobStr.charCodeAt(i));
@@ -376,12 +376,12 @@ describe('Titanium.Stream', function () {
 			source: dest,
 			mode: Ti.Stream.MODE_WRITE
 		});
-		should(destStream2).not.be.null;
+		should(destStream2).not.be.null();
 		bufferStream = Ti.Stream.createStream({
 			source: sourceBuffer,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(bufferStream).not.be.null;
+		should(bufferStream).not.be.null();
 		Ti.Stream.writeStream(bufferStream, destStream2, 20, function (e) {
 			var x;
 			should(e.code).be.a.Number();
@@ -419,7 +419,7 @@ describe('Titanium.Stream', function () {
 				should(e.code).be.a.Number();
 				should(e.success).be.a.Boolean();
 				should(e.bytesProcessed).be.within(0, chunksize);
-				should(e.buffer).not.be.null;
+				should(e.buffer).not.be.null();
 				for (i = 0; i < e.buffer.length; i++) {
 					should(e.buffer[i]).be.equal(sourceValue(i, totalsize));
 				}
@@ -443,7 +443,7 @@ describe('Titanium.Stream', function () {
 			source: sourceBuffer,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(bufferStream).not.be.null;
+		should(bufferStream).not.be.null();
 
 		// Synch pump
 		Ti.Stream.pump(bufferStream, handler, chunksize);
@@ -454,7 +454,7 @@ describe('Titanium.Stream', function () {
 			source: sourceBlob,
 			mode: Ti.Stream.MODE_READ
 		});
-		should(blobStream).not.be.null;
+		should(blobStream).not.be.null();
 		// Asynch pump
 		totalsize = 0;
 		Ti.Stream.pump(blobStream, handler, chunksize, true);

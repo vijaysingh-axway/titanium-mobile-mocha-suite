@@ -209,7 +209,7 @@ describe('Titanium.UI.ImageView', function () {
 		});
 		imageView.addEventListener('start', function () {
 			try {
-				should(imageView.animating).be.true;
+				should(imageView.animating).be.true();
 			} catch (err) {
 				error = err;
 			}
@@ -218,7 +218,7 @@ describe('Titanium.UI.ImageView', function () {
 		});
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.animating).be.false;
+				should(imageView.animating).be.false();
 			} catch (err) {
 				error = err;
 			}
@@ -246,7 +246,7 @@ describe('Titanium.UI.ImageView', function () {
 		});
 		imageView.addEventListener('start', function () {
 			try {
-				should(imageView.animating).be.true;
+				should(imageView.animating).be.true();
 			} catch (err) {
 				error = err;
 			}
@@ -255,7 +255,7 @@ describe('Titanium.UI.ImageView', function () {
 		});
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.animating).be.false;
+				should(imageView.animating).be.false();
 				imageView.start();
 			} catch (err) {
 				error = err;
@@ -284,7 +284,7 @@ describe('Titanium.UI.ImageView', function () {
 
 		imageView.addEventListener('start', function () {
 			try {
-				should(imageView.animating).be.true;
+				should(imageView.animating).be.true();
 			} catch (err) {
 				error = err;
 			}
@@ -293,7 +293,7 @@ describe('Titanium.UI.ImageView', function () {
 		});
 		imageView.addEventListener('load', function () {
 			try {
-				should(imageView.animating).be.false;
+				should(imageView.animating).be.false();
 			} catch (err) {
 				error = err;
 			}

@@ -8,21 +8,21 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.Switch', function () {
-	it('Ti.UI.Switch', function () {
-		should(Ti.UI.Switch).not.be.undefined;
+	it.iosBroken('Ti.UI.Switch', function () { // should this be defined?
+		should(Ti.UI.Switch).not.be.undefined();
 	});
 
-	it('apiName', function () {
+	it('.apiName', function () {
 		var switch_ctrl = Ti.UI.createSwitch();
 		should(switch_ctrl).have.readOnlyProperty('apiName').which.is.a.String();
 		should(switch_ctrl.apiName).be.eql('Ti.UI.Switch');
 	});
 
 	it('createSwitch', function () {
-		should(Ti.UI.createSwitch).not.be.undefined;
+		should(Ti.UI.createSwitch).not.be.undefined();
 		should(Ti.UI.createSwitch).be.a.Function();
 
 		// Create switch
@@ -38,7 +38,7 @@ describe('Titanium.UI.Switch', function () {
 		should(switch_ctrl.value).be.eql(false);
 	});
 
-	it('defaultValue', function () {
+	it('.value', function () {
 		var switch_ctrl = Ti.UI.createSwitch();
 		should(switch_ctrl.value).be.eql(false);
 		switch_ctrl.value = true;

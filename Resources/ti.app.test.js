@@ -82,13 +82,13 @@ describe('Titanium.App', function () {
 
 	it.ios('forceSplashAsSnapshot', function () {
 		should(Ti.App.forceSplashAsSnapshot).be.a.Boolean();
-		should(Ti.App.forceSplashAsSnapshot).be.false;
+		should(Ti.App.forceSplashAsSnapshot).be.false();
 
 		Ti.App.forceSplashAsSnapshot = true;
-		should(Ti.App.forceSplashAsSnapshot).be.true;
+		should(Ti.App.forceSplashAsSnapshot).be.true();
 
 		Ti.App.forceSplashAsSnapshot = false;
-		should(Ti.App.forceSplashAsSnapshot).be.false;
+		should(Ti.App.forceSplashAsSnapshot).be.false();
 	});
 
 	it.ios('#getForceSplashAsSnapshot()', function () {
@@ -117,13 +117,13 @@ describe('Titanium.App', function () {
 	it.ios('idleTimerDisabled', function () {
 		// FIXME Windows has this property and getter below and defaults to false, but you can't change it
 		should(Ti.App.idleTimerDisabled).be.a.Boolean();
-		should(Ti.App.idleTimerDisabled).be.false;
+		should(Ti.App.idleTimerDisabled).be.false();
 	});
 
 	it.ios('#getIdleTimerDisabled()', function () {
 		should(Ti.App.getIdleTimerDisabled).be.a.Function();
 		should(Ti.App.getIdleTimerDisabled()).be.a.Boolean();
-		should(Ti.App.getIdleTimerDisabled()).be.false;
+		should(Ti.App.getIdleTimerDisabled()).be.false();
 	});
 
 	// TODO Add to Android API?
@@ -214,7 +214,7 @@ describe('Titanium.App', function () {
 	// TIMOB-23542 test searchQuery
 	it.ios('searchQuery', function () {
 		var searchQuery;
-		should(Ti.App.iOS.createSearchQuery).not.be.undefined;
+		should(Ti.App.iOS.createSearchQuery).not.be.undefined();
 		should(Ti.App.iOS.createSearchQuery).be.a.Function();
 		searchQuery = Ti.App.iOS.createSearchQuery({
 			queryString: 'title == "Titanium*"',
@@ -261,18 +261,18 @@ describe('Titanium.App', function () {
 			var obj = e.obj;
 
 			should(obj).be.an.Object();
-			should(obj.nl).be.null;
+			should(obj.nl).be.null();
 			should(obj.num).eql(123);
 			should(obj.str).eql('tirocks');
 			should(obj.arr).be.an.Array();
-			should(obj.arr[0]).be.null;
+			should(obj.arr[0]).be.null();
 			should(obj.arr[1]).eql(123);
 			should(obj.arr[2]).eql('tirocks');
 			should(obj.arr[3]).be.an.Object();
 			should(obj.arr[3].num).eql(123);
 			should(obj.arr[3].str).eql('tirocks');
 			should(obj.obj).be.an.Object();
-			should(obj.obj.nl).be.null;
+			should(obj.obj.nl).be.null();
 			should(obj.obj.num).eql(321);
 			should(obj.obj.str).eql('skcorit');
 
@@ -334,7 +334,7 @@ describe('Titanium.App', function () {
 		Ti.App.addEventListener('paused', function pausedEventHandler(e) {
 			Ti.API.info('Received event: ' + e.type);
 			Ti.App.removeEventListener(e.type, pausedEventHandler);
-			should(wasPauseEventReceived).be.true;
+			should(wasPauseEventReceived).be.true();
 			Ti.Android.currentActivity.startActivity(Ti.App.Android.launchIntent); // Resume this app.
 		});
 		Ti.App.addEventListener('resume', function resumeEventHandler(e) {
@@ -345,7 +345,7 @@ describe('Titanium.App', function () {
 		Ti.App.addEventListener('resumed', function resumedEventHandler(e) {
 			Ti.API.info('Received event: ' + e.type);
 			Ti.App.removeEventListener(e.type, resumedEventHandler);
-			should(wasResumeEventReceived).be.true;
+			should(wasResumeEventReceived).be.true();
 			finish();
 		});
 

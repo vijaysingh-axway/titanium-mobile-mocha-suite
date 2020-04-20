@@ -183,9 +183,9 @@ describe('Timers', function () {
 		const methodNames = [ 'setTimeout', 'clearTimeout', 'setInterval', 'clearInterval' ];
 		for (const methodName of methodNames) {
 			const descriptor = Object.getOwnPropertyDescriptor(global, methodName);
-			should(descriptor.configurable).be.true;
-			should(descriptor.enumerable).be.true;
-			should(descriptor.writable).be.true;
+			should(descriptor.configurable).be.true();
+			should(descriptor.enumerable).be.true();
+			should(descriptor.writable).be.true();
 		}
 	});
 

@@ -7,14 +7,14 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.Slider', function () {
-	it('Ti.UI.Slider', function () {
-		should(Ti.UI.Slider).not.be.undefined;
+	it.iosBroken('Ti.UI.Slider', function () { // should this be defined?
+		should(Ti.UI.Slider).not.be.undefined();
 	});
 
-	it('apiName', function () {
+	it('.apiName', function () {
 		var slider = Ti.UI.createSlider();
 		should(slider).have.readOnlyProperty('apiName').which.is.a.String();
 		should(slider.apiName).be.eql('Ti.UI.Slider');
@@ -22,7 +22,7 @@ describe('Titanium.UI.Slider', function () {
 
 	it('createSlider', function () {
 		var slider;
-		should(Ti.UI.createSlider).not.be.undefined;
+		should(Ti.UI.createSlider).not.be.undefined();
 		should(Ti.UI.createSlider).be.a.Function();
 
 		// Create slider

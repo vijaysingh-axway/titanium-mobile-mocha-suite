@@ -23,7 +23,7 @@ var should = require('./utilities/assertions'),
 	(utilities.isIOS() ? it.skip : it)('identifier', function () {
 		var group = Ti.Contacts.createGroup();
 		// must call Ti.Contacts.save to write group!
-		should(group.identifier).not.be.undefined;
+		should(group.identifier).not.be.undefined();
 		// should(group.identifier).be.a.String(); // null until saved?
 		// TODO Test read-only
 	});
@@ -31,7 +31,7 @@ var should = require('./utilities/assertions'),
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	(utilities.isIOS() ? it.skip : it)('name', function () {
 		var group = Ti.Contacts.createGroup({ name: 'example' });
-		should(group.name).not.be.undefined;
+		should(group.name).not.be.undefined();
 		should(group.name).be.a.String();
 		// TODO Test modifying the name
 	});
@@ -39,7 +39,7 @@ var should = require('./utilities/assertions'),
 	// FIXME This holds for permission prompt on iOS and hangs the tests. How can we "click OK" for user?
 	(utilities.isIOS() ? it.skip : it)('recordId', function () {
 		var group = Ti.Contacts.createGroup();
-		should(group.recordId).not.be.undefined;
+		should(group.recordId).not.be.undefined();
 		// must call Ti.Contacts.save first to get recordId?
 		// should(group.recordId).be.a.Number();
 		// TODO Number on iOS, String on Windows?

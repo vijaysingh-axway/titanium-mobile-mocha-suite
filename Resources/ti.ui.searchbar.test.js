@@ -43,10 +43,10 @@ describe('Titanium.UI.SearchBar', function () {
 			showBookmark: true
 		});
 		should(searchBar.getShowBookmark).be.a.Function();
-		should(searchBar.showBookmark).be.true;
-		should(searchBar.getShowBookmark()).be.true;
+		should(searchBar.showBookmark).be.true();
+		should(searchBar.getShowBookmark()).be.true();
 		searchBar.showBookmark = false;
-		should(searchBar.showBookmark).be.false;
+		should(searchBar.showBookmark).be.false();
 		should(searchBar.getShowBookmark()).be.fasle;
 	});
 
@@ -67,11 +67,11 @@ describe('Titanium.UI.SearchBar', function () {
 			autocorrect: true
 		});
 		should(searchBar.getAutocorrect).be.a.Function();
-		should(searchBar.autocorrect).be.true;
-		should(searchBar.getAutocorrect()).be.true;
+		should(searchBar.autocorrect).be.true();
+		should(searchBar.getAutocorrect()).be.true();
 		searchBar.autocorrect = false;
-		should(searchBar.autocorrect).be.false;
-		should(searchBar.getAutocorrect()).be.false;
+		should(searchBar.autocorrect).be.false();
+		should(searchBar.getAutocorrect()).be.false();
 	});
 
 	it.ios('.autocapitalization', function () {
@@ -300,7 +300,7 @@ describe('Titanium.UI.SearchBar', function () {
 				win.add(table);
 
 				should(sb.getHeight()).eql(44);
-				should(sb.getShowCancel()).be.false;
+				should(sb.getShowCancel()).be.false();
 				should(sb.getBarColor()).eql('blue');
 				finish();
 			} catch (err) {

@@ -14,7 +14,7 @@ var should = require('./utilities/assertions'),
 if (utilities.isWindows()) {
 	describe('Titanium.UI.Windows.CommandBar', function () {
 		it('constructor', function (finish) {
-			should(Ti.UI.Windows).not.be.undefined;
+			should(Ti.UI.Windows).not.be.undefined();
 			should(Ti.UI.Windows.createCommandBar).be.a.Function();
 			should(Ti.UI.Windows.createAppBarButton).be.a.Function();
 			should(Ti.UI.Windows.createAppBarToggleButton).be.a.Function();
@@ -35,8 +35,8 @@ if (utilities.isWindows()) {
 		it('AppBarButton', function (finish) {
 			var button = Ti.UI.Windows.createAppBarButton();
 			should(button).be.an.Object();
-			should(button.icon).not.be.undefined;
-			should(button.touchEnabled).not.be.undefined;
+			should(button.icon).not.be.undefined();
+			should(button.touchEnabled).not.be.undefined();
 			should(button.touchEnabled).be.a.Boolean();
 			should(button.apiName).be.eql('Ti.UI.Windows.AppBarButton');
 
@@ -46,9 +46,9 @@ if (utilities.isWindows()) {
 		it('AppBarToggleButton', function (finish) {
 			var button = Ti.UI.Windows.createAppBarToggleButton();
 			should(button).be.an.Object();
-			should(button.icon).not.be.undefined;
-			should(button.touchEnabled).not.be.undefined;
-			should(button.checked).not.be.undefined;
+			should(button.icon).not.be.undefined();
+			should(button.touchEnabled).not.be.undefined();
+			should(button.checked).not.be.undefined();
 			should(button.touchEnabled).be.a.Boolean();
 			should(button.checked).be.a.Boolean();
 			should(button.apiName).be.eql('Ti.UI.Windows.AppBarToggleButton');

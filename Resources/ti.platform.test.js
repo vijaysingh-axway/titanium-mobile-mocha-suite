@@ -7,27 +7,26 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 describe('Titanium.Platform', function () {
 
-	it('apiName', function () {
+	it('apiName', () => {
 		should(Ti.Platform).have.readOnlyProperty('apiName').which.is.a.String();
 		should(Ti.Platform.apiName).be.eql('Ti.Platform');
 	});
 
 	// TODO: Expose on Android as well?
-	it.androidMissing('canOpenURL()', function () {
+	it.androidMissing('canOpenURL()', () => {
 		should(Ti.Platform.canOpenURL).be.a.Function(); // Android gives undefined?
 		should(Ti.Platform.canOpenURL('http://www.appcelerator.com/')).be.a.Boolean();
 	});
 
-	it('createUUID()', function () {
-		var result;
+	it('#createUUID()', () => {
 		should(Ti.Platform.createUUID).be.a.Function();
 
-		result = Ti.Platform.createUUID();
+		const result = Ti.Platform.createUUID();
 		should(result).be.a.String();
 		should(result.length).eql(36);
 		// Verify format using regexp!
@@ -36,51 +35,54 @@ describe('Titanium.Platform', function () {
 		should(result.charAt(result.length - 1)).not.eql('}');
 	});
 
-	it('openURL()', function () {
+	it('#openURL()', () => {
 		should(Ti.Platform.openURL).be.a.Function();
 	});
 
-	it('is24HourTimeFormat()', function () {
+	it('#is24HourTimeFormat()', () => {
 		should(Ti.Platform.is24HourTimeFormat).be.a.Function();
 		should(Ti.Platform.is24HourTimeFormat()).be.a.Boolean();
 	});
 
-	it('BATTERY_STATE_CHARGING', function () {
+	it('.BATTERY_STATE_CHARGING', () => {
 		should(Ti.Platform).have.constant('BATTERY_STATE_CHARGING').which.is.a.Number();
 	});
 
-	it('BATTERY_STATE_FULL', function () {
+	it('.BATTERY_STATE_FULL', () => {
 		should(Ti.Platform).have.constant('BATTERY_STATE_FULL').which.is.a.Number();
 	});
 
-	it('BATTERY_STATE_UNKNOWN', function () {
+	it('.BATTERY_STATE_UNKNOWN', () => {
 		should(Ti.Platform).have.constant('BATTERY_STATE_UNKNOWN').which.is.a.Number();
 	});
 
-	it('BATTERY_STATE_UNPLUGGED', function () {
+	it('.BATTERY_STATE_UNPLUGGED', () => {
 		should(Ti.Platform).have.constant('BATTERY_STATE_UNPLUGGED').which.is.a.Number();
 	});
 
 	// TODO Add tests for getters!
-	it('address', function () {
-		should(Ti.Platform).have.readOnlyProperty('address').which.is.a.String();
-		// TODO Verify the format of the String. SHould be an IP address, so like: /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
+	it('.address', () => {
+		should(Ti.Platform).have.readOnlyProperty('address');
+		if (Ti.Platform.address) { // we typically get undefined on iOS sim
+			should(Ti.Platform.address).match(/\d+\.\d+\.\d+\.\d+/);
+		}
+		// TODO Verify the format of the String. Should be an IP address, so like: /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
 	});
 
-	it('architecture', function () {
+	it('.architecture', () => {
 		should(Ti.Platform).have.readOnlyProperty('architecture').which.is.a.String();
 	});
 
-	it('availableMemory', function () {
+	it('.availableMemory', () => {
 		should(Ti.Platform).have.readOnlyProperty('availableMemory').which.is.a.Number();
 	});
 
-	it('batteryLevel', function () {
+	it('.batteryLevel', () => {
 		// batteryLevel should be a number and only accessible from phone
 		should(Ti.Platform).have.readOnlyProperty('batteryLevel').which.is.a.Number();
 	});
 
-	it('batteryMonitoring', function () {
+	it('.batteryMonitoring', () => {
 		should(Ti.Platform.batteryMonitoring).be.a.Boolean();
 		// Note: Windows 10 Mobile doesn't support battery monitoring
 		if (utilities.isWindowsPhone() && !/^10\./.test(Ti.Platform.version)) {
@@ -90,72 +92,76 @@ describe('Titanium.Platform', function () {
 		}
 	});
 
-	it('batteryState', function () {
+	it('.batteryState', () => {
 		should(Ti.Platform).have.readOnlyProperty('batteryState').which.is.a.Number();
 		// Must be one of the constant values
-		[ Ti.Platform.BATTERY_STATE_CHARGING,
+		should(Ti.Platform.batteryState).be.equalOneOf([
+			Ti.Platform.BATTERY_STATE_CHARGING,
 			Ti.Platform.BATTERY_STATE_FULL,
 			Ti.Platform.BATTERY_STATE_UNKNOWN,
-			Ti.Platform.BATTERY_STATE_UNPLUGGED ].indexOf(Ti.Platform.batteryState).should.not.eql(-1);
+			Ti.Platform.BATTERY_STATE_UNPLUGGED ]);
 	});
 
-	it('displayCaps', function () {
+	it('.displayCaps', () => {
 		should(Ti.Platform.displayCaps).be.an.Object();
-		should(Ti.Platform.displayCaps).not.be.null;
+		should(Ti.Platform.displayCaps).not.be.null();
 		should(Ti.Platform.displayCaps.apiName).eql('Ti.Platform.DisplayCaps');
 	});
 
-	it('id', function () {
+	it('.id', () => {
 		should(Ti.Platform).have.readOnlyProperty('id').which.is.a.String();
 		// TODO Verify format?!
 	});
 
-	it('locale', function () {
+	it('.locale', () => {
 		should(Ti.Platform).have.readOnlyProperty('locale').which.is.a.String();
 		// TODO Verify format of the string, i.e. 'en-US', 'en-GB' typically a 2-letter or two 2-letter segments combined with hyphen
 	});
 
-	it('macaddress', function () {
+	it('.macaddress', () => {
 		should(Ti.Platform).have.readOnlyProperty('macaddress').which.is.a.String();
 	});
 
-	it('manufacturer', function () {
+	it('.manufacturer', () => {
 		should(Ti.Platform).have.readOnlyProperty('manufacturer').which.is.a.String();
 	});
 
-	it('model', function () {
+	it('.model', () => {
 		should(Ti.Platform).have.readOnlyProperty('model').which.is.a.String();
 	});
 
-	it('name', function () {
+	it('.name', () => {
 		should(Ti.Platform).have.readOnlyProperty('name').which.is.a.String();
-		[ 'android', 'iOS', 'windows', 'mobileweb' ].indexOf(Ti.Platform.name).should.not.eql(-1);
+		should(Ti.Platform.name).be.equalOneOf([ 'android', 'iOS', 'windows', 'mobileweb' ]);
 		// TODO match with osname!
 	});
 
-	it('netmask', function () {
-		should(Ti.Platform).have.readOnlyProperty('netmask').which.is.a.String();
-		// TODO Verify format of string
+	it('.netmask', () => {
+		should(Ti.Platform).have.readOnlyProperty('netmask');
+		if (Ti.Platform.netmask) { // undefined on iOS sim
+			should(Ti.Platform.netmask).match(/\d+\.\d+\.\d+\.\d+/);
+		}
 	});
 
-	it('osname', function () {
+	it('.osname', () => {
 		should(Ti.Platform).have.readOnlyProperty('osname').which.is.a.String();
 		// Must be one of the known platforms!
-		[ 'android', 'iphone', 'ipad', 'windowsphone', 'windowsstore', 'mobileweb' ].indexOf(Ti.Platform.osname).should.not.eql(-1);
+		should(Ti.Platform.osname).be.equalOneOf([ 'android', 'iphone', 'ipad', 'windowsphone', 'windowsstore', 'mobileweb' ]);
 		// TODO match up Ti.Platform.name?
 	});
 
-	it('ostype', function () {
+	it('.ostype', () => {
 		should(Ti.Platform).have.readOnlyProperty('ostype').which.is.a.String();
 		// Verify it's one of the known values
-		[ '64bit', '32bit', 'unknown' ].indexOf(Ti.Platform.ostype).should.not.eql(-1);
+		should(Ti.Platform.ostype).be.equalOneOf([ '64bit', '32bit', 'unknown' ]);
 	});
 
-	it('processorCount', function () {
+	it('.processorCount', () => {
 		should(Ti.Platform).have.readOnlyProperty('processorCount').which.is.a.Number();
 	});
 
-	it('runtime', function () {
+	it('.runtime', () => {
+		should(Ti.Platform).have.readOnlyProperty('runtime').which.is.a.String();
 		if (utilities.isAndroid()) {
 			should(Ti.Platform.runtime).eql('v8');
 		} else if (utilities.isIOS() || utilities.isWindows()) {
@@ -163,26 +169,25 @@ describe('Titanium.Platform', function () {
 		} else {
 			should(Ti.Platform.runtime.length).be.greaterThan(0);
 		}
-		should(Ti.Platform).have.readOnlyProperty('runtime').which.is.a.String();
 	});
 
-	it('version', function () {
+	it('.version', () => {
 		should(Ti.Platform).have.readOnlyProperty('version').which.is.a.String();
 	});
 
-	it.ios('identifierForVendor', function () {
+	it.ios('.identifierForVendor', () => {
 		should(Ti.Platform.identifierForVendor).be.a.String();
 		should(Ti.Platform.getIdentifierForVendor).be.a.Function();
 		should(Ti.Platform.identifierForVendor).eql(Ti.Platform.getIdentifierForVendor());
 	});
 
-	it.ios('identifierForAdvertising', function () {
+	it.ios('.identifierForAdvertising', () => {
 		should(Ti.Platform.identifierForAdvertising).be.a.String();
 		should(Ti.Platform.getIdentifierForAdvertising).be.a.Function();
 		should(Ti.Platform.identifierForAdvertising).eql(Ti.Platform.getIdentifierForAdvertising());
 	});
 
-	it.ios('isAdvertisingTrackingEnabled', function () {
+	it.ios('.isAdvertisingTrackingEnabled', () => {
 		should(Ti.Platform.isAdvertisingTrackingEnabled).be.a.Boolean();
 	});
 });

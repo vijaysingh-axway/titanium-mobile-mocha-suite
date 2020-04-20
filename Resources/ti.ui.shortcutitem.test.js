@@ -13,11 +13,11 @@ const should = require('./utilities/assertions');
 describe('Titanium.UI.ShortcutItem', () => {
 
 	it.android('Ti.UI.ShortcutItem', () => {
-		should(Ti.UI.ShortcutItem).not.be.undefined;
+		should(Ti.UI.ShortcutItem).not.be.undefined();
 	});
 
 	it.android('createShortcutItem', () => {
-		should(Ti.UI.createShortcutItem).not.be.undefined;
+		should(Ti.UI.createShortcutItem).not.be.undefined();
 		should(Ti.UI.createShortcutItem).be.a.Function();
 
 		// create shortcut
@@ -52,15 +52,15 @@ describe('Titanium.UI.ShortcutItem', () => {
 		should(shortcut.icon).be.eql(Ti.Android.R.drawable.ic_menu_send);
 
 		// verify `show()`
-		should(shortcut.show).not.be.undefined;
+		should(shortcut.show).not.be.undefined();
 		should(shortcut.show).be.a.Function();
 
 		// verify `hide()`
-		should(shortcut.hide).not.be.undefined;
+		should(shortcut.hide).not.be.undefined();
 		should(shortcut.hide).be.a.Function();
 
 		// verify `pin`
-		should(shortcut.pin).not.be.undefined;
+		should(shortcut.pin).not.be.undefined();
 		should(shortcut.pin).be.a.Function();
 	});
 

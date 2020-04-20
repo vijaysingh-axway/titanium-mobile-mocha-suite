@@ -32,16 +32,16 @@ describe('require()', function () {
 		var object2 = require('ti.require.test_test');
 		should(object1).be.an.Object();
 		should(object2).be.an.Object();
-		should(object1 ==  object2).be.true; // eslint-disable-line eqeqeq
-		should(object1 === object2).be.true;
+		should(object1 ==  object2).be.true(); // eslint-disable-line eqeqeq
+		should(object1 === object2).be.true();
 	});
 
 	// local function and variable should not be exposed
 	it('does not expose un-exported local variable or function', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object();
-		should(object.localVariable).be.undefined;
-		should(object.localFunction).be.undefined;
+		should(object.localVariable).be.undefined();
+		should(object.localFunction).be.undefined();
 	});
 
 	// public function with 0 argument
@@ -99,14 +99,14 @@ describe('require()', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object();
 		should(object.testBoolVar).be.a.Boolean();
-		should(object.testBoolVar).be.true;
+		should(object.testBoolVar).be.true();
 	});
 
 	// public null variable
 	it('does expose exported null variable', function () {
 		var object = require('ti.require.test_test');
 		should(object).be.an.Object();
-		should(object.testNullVar).be.null;
+		should(object.testNullVar).be.null();
 	});
 
 	it('exposes __filename inside required module', function () {
@@ -268,7 +268,7 @@ describe('require()', function () {
 				}
 			);
 			if (obj.filename === 'nan') {
-				isNaN(result).should.be.true;
+				isNaN(result).should.be.true();
 			}  else {
 				should(result).be.exactly(obj.expected);
 			}

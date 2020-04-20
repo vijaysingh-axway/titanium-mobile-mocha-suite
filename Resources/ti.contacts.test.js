@@ -52,7 +52,7 @@ describe('Titanium.Contacts', function () {
 
 	it('contactsAuthorization', function () {
 		should(function () {
-			should(Ti.Contacts.contactsAuthorization).not.be.undefined;
+			should(Ti.Contacts.contactsAuthorization).not.be.undefined();
 			should(Ti.Contacts.contactsAuthorization).be.a.Number();
 			// should be one of the authorization contants
 			should([
@@ -84,7 +84,7 @@ describe('Titanium.Contacts', function () {
 		groups = Ti.Contacts.getAllGroups();
 		should(groups).be.an.Array();
 		for (i = 0; i < groups.length; i++) {
-			should(groups[i]).not.be.null;
+			should(groups[i]).not.be.null();
 			should(groups[i].apiName).be.eql('Ti.Contacts.Group');
 		}
 	});
@@ -98,7 +98,7 @@ describe('Titanium.Contacts', function () {
 		people = Ti.Contacts.getAllPeople();
 		should(people).be.an.Array();
 		for (i = 0; i < people.length; i++) {
-			should(people[i]).not.be.null;
+			should(people[i]).not.be.null();
 			should(people[i].apiName).be.eql('Ti.Contacts.Person');
 		}
 	});
@@ -115,7 +115,7 @@ describe('Titanium.Contacts', function () {
 		var noGroup;
 		should(Ti.Contacts.getGroupByIdentifier).be.a.Function();
 		noGroup = Ti.Contacts.getGroupByIdentifier('doesntexist');
-		should(noGroup).be.null;
+		should(noGroup).be.null();
 	});
 
 	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
@@ -138,7 +138,7 @@ describe('Titanium.Contacts', function () {
 		Ti.Contacts.save();
 
 		queriedGroup = Ti.Contacts.getGroupByIdentifier(group.identifier);
-		should(queriedGroup).not.be.null;
+		should(queriedGroup).not.be.null();
 		should(queriedGroup.name).be.eql(group.name);
 		should(queriedGroup.identifier).be.eql(group.identifier);
 
@@ -148,7 +148,7 @@ describe('Titanium.Contacts', function () {
 
 		// Make sure it was removed
 		queriedGroup = Ti.Contacts.getGroupByIdentifier(group.identifier);
-		should(queriedGroup).be.null;
+		should(queriedGroup).be.null();
 	});
 
 	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
@@ -165,7 +165,7 @@ describe('Titanium.Contacts', function () {
 		should(Ti.Contacts.getPersonByIdentifier).be.a.Function();
 		// check for a person by bad identifier
 		const noPerson = Ti.Contacts.getPersonByIdentifier('doesntexist');
-		should(noPerson).be.null;
+		should(noPerson).be.null();
 	});
 
 	// FIXME This holds for permission prompt on iOS & Windows and hangs the tests. How can we "click OK" for user?
@@ -183,7 +183,7 @@ describe('Titanium.Contacts', function () {
 
 		// Query for person we created
 		queriedPerson = Ti.Contacts.getPersonByIdentifier(person.identifier);
-		should(queriedPerson).not.be.null;
+		should(queriedPerson).not.be.null();
 		should(queriedPerson.firstName).be.eql(person.firstName);
 		should(queriedPerson.lastName).be.eql(person.lastName);
 		should(queriedPerson.identifier).be.eql(person.identifier);
@@ -194,7 +194,7 @@ describe('Titanium.Contacts', function () {
 
 		// Make sure they got removed
 		queriedPerson = Ti.Contacts.getPersonByIdentifier(person.identifier);
-		should(queriedPerson).be.null;
+		should(queriedPerson).be.null();
 	});
 
 	// Intentionally skip method that doesn't exist on Android

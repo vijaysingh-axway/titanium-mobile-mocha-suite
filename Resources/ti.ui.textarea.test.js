@@ -62,17 +62,17 @@ describe('Titanium.UI.TextArea', function () {
 	it('editable', function () {
 		var textArea = Ti.UI.createTextArea();
 		should(textArea.editable).be.a.Boolean();
-		should(textArea.editable).be.true;
+		should(textArea.editable).be.true();
 		textArea.setEditable(false);
-		should(textArea.editable).be.false;
+		should(textArea.editable).be.false();
 	});
 
 	it.ios('scrollsToTop', function () {
 		var textArea = Ti.UI.createTextArea();
 		should(textArea.scrollsToTop).be.a.Boolean();
-		should(textArea.scrollsToTop).be.true;
+		should(textArea.scrollsToTop).be.true();
 		textArea.setScrollsToTop(false);
-		should(textArea.scrollsToTop).be.false;
+		should(textArea.scrollsToTop).be.false();
 	});
 
 	it('backgroundColor', function () {

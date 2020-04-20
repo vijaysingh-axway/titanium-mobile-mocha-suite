@@ -56,31 +56,31 @@ describe('Titanium.Media', function () {
 
 	// video recording quality constants tests
 	it('Video recording quality 640x480', function () {
-		should(Ti.Media.QUALITY_640x480).not.be.undefined;
+		should(Ti.Media.QUALITY_640x480).not.be.undefined();
 	});
 
 	it('Video recording quality HIGH', function () {
-		should(Ti.Media.QUALITY_HIGH).not.be.undefined;
+		should(Ti.Media.QUALITY_HIGH).not.be.undefined();
 	});
 
 	it('Video recording quality IFRAME_1280x720', function () {
-		should(Ti.Media.QUALITY_IFRAME_1280x720).not.be.undefined;
+		should(Ti.Media.QUALITY_IFRAME_1280x720).not.be.undefined();
 	});
 
-	it.ios('Video recording quality 960x540', function () {
-		should(Ti.Media.QUALITY_960x540).not.be.undefined;
+	it.ios('Video recording quality QUALITY_IFRAME_960x540', function () {
+		should(Ti.Media.QUALITY_IFRAME_960x540).not.be.undefined();
 	});
 
 	it('Video recording quality LOW', function () {
-		should(Ti.Media.QUALITY_LOW).not.be.undefined;
+		should(Ti.Media.QUALITY_LOW).not.be.undefined();
 	});
 
 	it.ios('Video recording quality MEDIUM', function () {
-		should(Ti.Media.QUALITY_MEDIUM).not.be.undefined;
+		should(Ti.Media.QUALITY_MEDIUM).not.be.undefined();
 	});
 
 	it.windowsMissing('takeScreenshot', function (finish) {
-		should(Ti.Media.takeScreenshot).not.be.undefined;
+		should(Ti.Media.takeScreenshot).not.be.undefined();
 		should(Ti.Media.takeScreenshot).be.a.Function();
 
 		// take a screenshot
@@ -94,7 +94,7 @@ describe('Titanium.Media', function () {
 	});
 
 	it.android('previewImage', function () {
-		should(Ti.Media.previewImage).not.be.undefined;
+		should(Ti.Media.previewImage).not.be.undefined();
 		should(Ti.Media.previewImage).be.a.Function();
 	});
 
@@ -152,7 +152,7 @@ describe('Titanium.Media', function () {
 	});
 
 	it('openPhotoGallery', function () {
-		should(Ti.Media.openPhotoGallery).not.be.undefined;
+		should(Ti.Media.openPhotoGallery).not.be.undefined();
 		should(Ti.Media.openPhotoGallery).be.a.Function();
 	});
 });

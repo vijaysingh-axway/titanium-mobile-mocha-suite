@@ -193,7 +193,7 @@ describe('Titanium.App.Properties', function () {
 		should(Ti.App.Properties.getString('char256')).be.eql(char256);
 
 		Ti.App.Properties.removeProperty('char256');
-		should(Ti.App.Properties.hasProperty('char256')).be.false;
+		should(Ti.App.Properties.hasProperty('char256')).be.false();
 	});
 
 	it('set and get large String (512)', function () {
@@ -202,7 +202,7 @@ describe('Titanium.App.Properties', function () {
 		should(Ti.App.Properties.getString('char512')).be.eql(char512);
 
 		Ti.App.Properties.removeProperty('char512');
-		should(Ti.App.Properties.hasProperty('char512')).be.false;
+		should(Ti.App.Properties.hasProperty('char512')).be.false();
 	});
 
 	it('set and get large String (1024)', function () {
@@ -211,7 +211,7 @@ describe('Titanium.App.Properties', function () {
 		should(Ti.App.Properties.getString('char1024')).be.eql(char1024);
 
 		Ti.App.Properties.removeProperty('char1024');
-		should(Ti.App.Properties.hasProperty('char1024')).be.false;
+		should(Ti.App.Properties.hasProperty('char1024')).be.false();
 	});
 
 	it('set and get large String (2048)', function () {
@@ -220,7 +220,7 @@ describe('Titanium.App.Properties', function () {
 		should(Ti.App.Properties.getString('char2048')).be.eql(char2048);
 
 		Ti.App.Properties.removeProperty('char2048');
-		should(Ti.App.Properties.hasProperty('char2048')).be.false;
+		should(Ti.App.Properties.hasProperty('char2048')).be.false();
 	});
 
 	it('set and get large String (4096)', function () {
@@ -229,16 +229,16 @@ describe('Titanium.App.Properties', function () {
 		should(Ti.App.Properties.getString('char4096')).be.eql(char4096);
 
 		Ti.App.Properties.removeProperty('char4096');
-		should(Ti.App.Properties.hasProperty('char4096')).be.false;
+		should(Ti.App.Properties.hasProperty('char4096')).be.false();
 	});
 
 	it('#removeAllProperties() should remove all properties', function () {
 		Ti.App.Properties.setString('test_removeAllProperties1', 'test1');
 		Ti.App.Properties.setString('test_removeAllProperties2', 'test2');
-		should(Ti.App.Properties.hasProperty('test_removeAllProperties1')).be.true;
-		should(Ti.App.Properties.hasProperty('test_removeAllProperties2')).be.true;
+		should(Ti.App.Properties.hasProperty('test_removeAllProperties1')).be.true();
+		should(Ti.App.Properties.hasProperty('test_removeAllProperties2')).be.true();
 		Ti.App.Properties.removeAllProperties();
-		should(Ti.App.Properties.hasProperty('test_removeAllProperties1')).be.false;
-		should(Ti.App.Properties.hasProperty('test_removeAllProperties2')).be.false;
+		should(Ti.App.Properties.hasProperty('test_removeAllProperties1')).be.false();
+		should(Ti.App.Properties.hasProperty('test_removeAllProperties2')).be.false();
 	});
 });

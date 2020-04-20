@@ -67,16 +67,16 @@ describe('Titanium.UI.Layout', function () {
 
 			try {
 				Ti.API.info('Got postlayout');
-				should(view.size).not.be.undefined;
-				should(view.size.width).not.be.undefined;
-				should(view.size.height).not.be.undefined;
-				should(view.size.x).not.be.undefined;
-				should(view.size.y).not.be.undefined;
-				should(view.rect).not.be.undefined;
-				should(view.rect.width).not.be.undefined;
-				should(view.rect.height).not.be.undefined;
-				should(view.rect.x).not.be.undefined;
-				should(view.rect.y).not.be.undefined;
+				should(view.size).not.be.undefined();
+				should(view.size.width).not.be.undefined();
+				should(view.size.height).not.be.undefined();
+				should(view.size.x).not.be.undefined();
+				should(view.size.y).not.be.undefined();
+				should(view.rect).not.be.undefined();
+				should(view.rect.width).not.be.undefined();
+				should(view.rect.height).not.be.undefined();
+				should(view.rect.x).not.be.undefined();
+				should(view.rect.y).not.be.undefined();
 				// size and rect properties return the same width and height
 				should(view.size.width).eql(view.rect.width);
 				should(view.size.height).eql(view.rect.height);
@@ -84,19 +84,19 @@ describe('Titanium.UI.Layout', function () {
 				should(view.size.x).eql(0);
 				should(view.size.y).eql(0);
 				// Functional test case 1025
-				should(view.top).be.undefined;
-				should(view.bottom).be.undefined;
-				should(view.left).be.undefined;
-				should(view.right).be.undefined;
-				should(view.center).be.undefined;
-				should(view.zIndex).be.undefined;
+				should(view.top).be.undefined();
+				should(view.bottom).be.undefined();
+				should(view.left).be.undefined();
+				should(view.right).be.undefined();
+				should(view.center).be.undefined();
+				should(view.zIndex).be.undefined();
 				// Functonal test case 1025a
-				should(label.top).be.undefined;
-				should(label.bottom).be.undefined;
-				should(label.left).be.undefined;
-				should(label.right).be.undefined;
-				should(label.center).be.undefined;
-				should(label.zIndex).be.undefined;
+				should(label.top).be.undefined();
+				should(label.bottom).be.undefined();
+				should(label.left).be.undefined();
+				should(label.right).be.undefined();
+				should(label.center).be.undefined();
+				should(label.zIndex).be.undefined();
 				// FILL behavior
 				should(view.rect.x).eql(0);
 				should(view.rect.y).eql(0);
@@ -134,11 +134,11 @@ describe('Titanium.UI.Layout', function () {
 				should(view.left).eql(10);
 				should(view.rect.x).eql(10);
 				should(view.rect.width).eql(10);
-				should(view.right).be.undefined;
+				should(view.right).be.undefined();
 				should(view2.right).eql(10);
 				should(view2.rect.x).be.approximately(win.size.width - 20, 1);
 				should(view2.rect.width).eql(10);
-				should(view2.left).be.undefined;
+				should(view2.left).be.undefined();
 
 				finish();
 			} catch (e) {
@@ -171,11 +171,11 @@ describe('Titanium.UI.Layout', function () {
 				should(view.top).eql(10);
 				should(view.rect.y).eql(10);
 				should(view.rect.height).eql(10);
-				should(view.bottom).be.undefined;
+				should(view.bottom).be.undefined();
 				should(view2.bottom).eql(10);
 				should(view2.rect.y).eql(win.size.height - 20);
 				should(view2.rect.height).eql(10);
-				should(view2.top).be.undefined;
+				should(view2.top).be.undefined();
 
 				finish();
 			} catch (e) {
@@ -235,10 +235,10 @@ describe('Titanium.UI.Layout', function () {
 				should(view.size.width).eql(10);
 				should(view.height).eql(10);
 				should(view.size.height).eql(10);
-				should(view.left).be.undefined;
-				should(view.right).be.undefined;
-				should(view.top).be.undefined;
-				should(view.bottom).be.undefined;
+				should(view.left).be.undefined();
+				should(view.right).be.undefined();
+				should(view.top).be.undefined();
+				should(view.bottom).be.undefined();
 				// Centered View with width and height defined
 				// FIXME There's nothing to indicate that x/y should be integers, but this test assumed they were, so I had to rewrite to wrap them in Math.floor
 				should(view.rect.x).be.approximately(Math.floor((win.size.width - view.size.width) / 2), 1);
@@ -324,9 +324,9 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view1.width).be.undefined;
-				should(view2.width).be.undefined;
-				should(view3.width).be.undefined;
+				should(view1.width).be.undefined();
+				should(view2.width).be.undefined();
+				should(view3.width).be.undefined();
 				should(view1.rect.width).eql(85);
 				/*
 				// This is wrong... i think
@@ -371,21 +371,21 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view1.left).be.undefined;
-				should(view2.left).be.undefined;
-				should(view3.left).be.undefined;
-				should(view1.rect.x).not.be.undefined;
-				should(view2.rect.x).not.be.undefined;
-				should(view3.rect.x).not.be.undefined;
-				should(view1.rect.y).not.be.undefined;
-				should(view2.rect.y).not.be.undefined;
-				should(view3.rect.y).not.be.undefined;
-				should(view1.rect.width).not.be.undefined;
-				should(view2.rect.width).not.be.undefined;
-				should(view3.rect.width).not.be.undefined;
-				should(view1.rect.height).not.be.undefined;
-				should(view2.rect.height).not.be.undefined;
-				should(view3.rect.height).not.be.undefined;
+				should(view1.left).be.undefined();
+				should(view2.left).be.undefined();
+				should(view3.left).be.undefined();
+				should(view1.rect.x).not.be.undefined();
+				should(view2.rect.x).not.be.undefined();
+				should(view3.rect.x).not.be.undefined();
+				should(view1.rect.y).not.be.undefined();
+				should(view2.rect.y).not.be.undefined();
+				should(view3.rect.y).not.be.undefined();
+				should(view1.rect.width).not.be.undefined();
+				should(view2.rect.width).not.be.undefined();
+				should(view3.rect.width).not.be.undefined();
+				should(view1.rect.height).not.be.undefined();
+				should(view2.rect.height).not.be.undefined();
+				should(view3.rect.height).not.be.undefined();
 
 				finish();
 			} catch (e) {
@@ -406,9 +406,9 @@ describe('Titanium.UI.Layout', function () {
 			view.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.center).be.undefined;
+				should(view.center).be.undefined();
 				// Dynamic center can be calculated from view.rect
-				should(view.rect).not.be.undefined;
+				should(view.rect).not.be.undefined();
 
 				finish();
 			} catch (e) {
@@ -433,7 +433,7 @@ describe('Titanium.UI.Layout', function () {
 			view.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.right).be.undefined;
+				should(view.right).be.undefined();
 				// this is wrong
 				// should(view.rect.width).eql(80);
 				should(view.rect.x).eql(10);
@@ -475,9 +475,9 @@ describe('Titanium.UI.Layout', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				should(view1.height).be.undefined;
-				should(view2.height).be.undefined;
-				should(view3.height).be.undefined;
+				should(view1.height).be.undefined();
+				should(view2.height).be.undefined();
+				should(view3.height).be.undefined();
 				should(view1.rect.height).eql(85);
 				// should(view2.rect.height).eql(10);
 				// should(view3.rect.height).eql(30);
@@ -519,9 +519,9 @@ describe('Titanium.UI.Layout', function () {
 
 			try {
 				// Static Tops
-				should(view1.top).be.undefined;
-				should(view2.top).be.undefined;
-				should(view3.top).be.undefined;
+				should(view1.top).be.undefined();
+				should(view2.top).be.undefined();
+				should(view3.top).be.undefined();
 				// Dynamic Tops
 				should(view1.rect.y).eql(175);
 				if (win.size.height <= 250) { // View Height of 0 positioned at center
@@ -557,9 +557,9 @@ describe('Titanium.UI.Layout', function () {
 			view.removeEventListener('postlayout', listener);
 
 			try {
-				should(view.bottom).be.undefined;
+				should(view.bottom).be.undefined();
 				// Dynamic bottom is rect.y rect.height
-				should(view.rect.height).not.be.undefined;
+				should(view.rect.height).not.be.undefined();
 
 				finish();
 			} catch (e) {
@@ -785,10 +785,10 @@ describe('Titanium.UI.Layout', function () {
 				// SCROLLVIEW HAS FILL BEHAVIOR
 				// LABEL will have 0 size (no text)
 				// LABEL2 will have non 0 size (has text/pins)
-				should(label.size).not.be.undefined;
-				should(label2.size).not.be.undefined;
-				should(scrollView.size).not.be.undefined;
-				should(scrollView2.size).not.be.undefined;
+				should(label.size).not.be.undefined();
+				should(label2.size).not.be.undefined();
+				should(scrollView.size).not.be.undefined();
+				should(scrollView2.size).not.be.undefined();
 				if (utilities.isIPhone()) {
 					// Android does not return 0 height even when there is no text
 					should(label.size.width).eql(0);

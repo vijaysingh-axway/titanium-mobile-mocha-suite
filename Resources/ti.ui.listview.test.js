@@ -7,7 +7,7 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.ListView', function () {
 	var win;
@@ -39,17 +39,17 @@ describe('Titanium.UI.ListView', function () {
 		}
 	});
 
-	it('Ti.UI.ListView', function () {
-		should(Ti.UI.ListView).not.be.undefined;
+	it.iosBroken('Ti.UI.ListView', () => { // Should this be defined?
+		should(Ti.UI.ListView).not.be.undefined();
 	});
 
-	it('apiName', function () {
+	it('.apiName', function () {
 		var listView = Ti.UI.createListView();
 		should(listView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(listView.apiName).be.eql('Ti.UI.ListView');
 	});
 
-	it.windowsMissing('canScroll', function () {
+	it.windowsMissing('.canScroll', function () {
 		var listView = Ti.UI.createListView({ canScroll: false });
 		should(listView.canScroll).be.eql(false);
 		should(listView.getCanScroll()).be.eql(false);
@@ -69,7 +69,7 @@ describe('Titanium.UI.ListView', function () {
 			section_1,
 			section_1_set;
 		// Validate createListView()
-		should(Ti.UI.createListView).not.be.undefined;
+		should(Ti.UI.createListView).not.be.undefined();
 		should(Ti.UI.createListView).be.a.Function();
 
 		// Create ListView
@@ -610,13 +610,13 @@ describe('Titanium.UI.ListView', function () {
 
 		// Validate item template
 		should(item).have.ownProperty('template');
-		should(template).not.be.undefined;
+		should(template).not.be.undefined();
 		should(template).be.a.Number();
 		should(template).eql(Ti.UI.LIST_ITEM_TEMPLATE_CONTACTS);
 
 		// Validate item properties
 		should(item).have.ownProperty('properties');
-		should(properties).not.be.undefined;
+		should(properties).not.be.undefined();
 		should(properties).be.an.Object();
 
 		// Validate properties subtitleColor and selectedSubtitleColor

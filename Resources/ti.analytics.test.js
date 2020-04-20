@@ -19,7 +19,7 @@ describe('Titanium.Analytics', function () {
 
 	// FIXME: this is an invalid test as lastEvent can return null or undefined if an event is not queued
 	it.allBroken('lastEvent', function () {
-		should(Ti.Analytics.lastEvent).not.be.undefined;
+		should(Ti.Analytics.lastEvent).not.be.undefined();
 		// FIXME: iOS and Android return a JSON string value here, while Windows has an Object!
 		if (utilities.isWindows()) {
 			should(Ti.Analytics.lastEvent).be.a.Object();
@@ -29,23 +29,23 @@ describe('Titanium.Analytics', function () {
 	});
 
 	it('#getLastEvent()', function () {
-		should(Ti.Analytics.getLastEvent).not.be.undefined;
+		should(Ti.Analytics.getLastEvent).not.be.undefined();
 		should(Ti.Analytics.getLastEvent).be.a.Function();
 	});
 
 	it('#featureEvent()', function () {
-		should(Ti.Analytics.featureEvent).not.be.undefined;
+		should(Ti.Analytics.featureEvent).not.be.undefined();
 		should(Ti.Analytics.featureEvent).be.a.Function();
 	});
 
 	// TODO: implement Titanium.Analytics.filterEvents on Windows?
 	it.windowsMissing('#filterEvents()', function () {
-		should(Ti.Analytics.filterEvents).not.be.undefined;
+		should(Ti.Analytics.filterEvents).not.be.undefined();
 		should(Ti.Analytics.filterEvents).be.a.Function();
 	});
 
 	it('#navEvent()', function () {
-		should(Ti.Analytics.navEvent).not.be.undefined;
+		should(Ti.Analytics.navEvent).not.be.undefined();
 		should(Ti.Analytics.navEvent).be.a.Function();
 	});
 

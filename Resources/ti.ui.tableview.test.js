@@ -7,10 +7,10 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.TableView', function () {
-	var win;
+	let win;
 
 	this.timeout(5000);
 
@@ -40,11 +40,11 @@ describe('Titanium.UI.TableView', function () {
 		}
 	});
 
-	it('Ti.UI.TableView', function () {
-		should(Ti.UI.TableView).not.be.undefined;
+	it.iosBroken('Ti.UI.TableView', function () { // should this be defined?
+		should(Ti.UI.TableView).not.be.undefined();
 	});
 
-	it('apiName', function () {
+	it('.apiName', function () {
 		var tableView = Ti.UI.createTableView();
 		should(tableView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(tableView.apiName).be.eql('Ti.UI.TableView');
@@ -90,15 +90,15 @@ describe('Titanium.UI.TableView', function () {
 			section_1,
 			tableView;
 		// Validate createTableView()
-		should(Ti.UI.createTableView).not.be.undefined;
+		should(Ti.UI.createTableView).not.be.undefined();
 		should(Ti.UI.createTableView).be.a.Function();
 
 		// Validate createTableViewSection()
-		should(Ti.UI.createTableViewSection).not.be.undefined;
+		should(Ti.UI.createTableViewSection).not.be.undefined();
 		should(Ti.UI.createTableViewSection).be.a.Function();
 
 		// Validate createTableViewRow()
-		should(Ti.UI.createTableViewRow).not.be.undefined;
+		should(Ti.UI.createTableViewRow).not.be.undefined();
 		should(Ti.UI.createTableViewRow).be.a.Function();
 
 		// Create TableView section
@@ -997,7 +997,7 @@ describe('Titanium.UI.TableView', function () {
 			should(views.length).be.eql(references);
 
 			for (i = 0; i < references; i++) {
-				should(views[i]).not.be.undefined;
+				should(views[i]).not.be.undefined();
 				should(views[i]).be.an.Object();
 			}
 
@@ -1020,7 +1020,7 @@ describe('Titanium.UI.TableView', function () {
 			for (i = 0; i < references; i++) {
 				blob = Ti.createBuffer({ length: 1 }).toBlob();
 
-				should(blob).not.be.undefined;
+				should(blob).not.be.undefined();
 				should(blob).be.an.Object();
 
 				if (!(i % Math.floor(references / 10))) {
@@ -1229,14 +1229,14 @@ describe('Titanium.UI.TableView', function () {
 			});
 
 		win.addEventListener('open', function () {
-			should(table.headerView).not.be.null;
-			should(table.footerView).not.be.null;
+			should(table.headerView).not.be.null();
+			should(table.footerView).not.be.null();
 
 			table.headerView = null;
 			table.footerView = null;
 
-			should(table.headerView).be.null;
-			should(table.footerView).be.null;
+			should(table.headerView).be.null();
+			should(table.footerView).be.null();
 
 			win.close();
 			finish();

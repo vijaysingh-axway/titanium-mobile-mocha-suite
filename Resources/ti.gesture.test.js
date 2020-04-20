@@ -16,7 +16,7 @@ describe('Titanium.Gesture', function () {
 	});
 
 	it('Ti.Gesture', function () {
-		should(Ti.Gesture).not.be.undefined;
+		should(Ti.Gesture).not.be.undefined();
 		should(Ti.Gesture.addEventListener).be.a.Function();
 		should(Ti.Gesture.removeEventListener).be.a.Function();
 	});
@@ -34,33 +34,33 @@ describe('Titanium.Gesture', function () {
 	});
 
 	it('getLandscape()', function () {
-		should(Ti.Gesture.getLandscape).not.be.undefined;
+		should(Ti.Gesture.getLandscape).not.be.undefined();
 		should(Ti.Gesture.getLandscape).be.a.Function();
 		should(Ti.Gesture.getLandscape()).be.a.Boolean();
 	});
 
 	it('getPortrait()', function () {
-		should(Ti.Gesture.getPortrait).not.be.undefined;
+		should(Ti.Gesture.getPortrait).not.be.undefined();
 		should(Ti.Gesture.getPortrait).be.a.Function();
 		should(Ti.Gesture.getPortrait()).be.a.Boolean();
 	});
 
 	// FIXME Seems like only Windows has this? Was it deprecated/removed?
 	it.windows('isFaceDown()', function () {
-		should(Ti.Gesture.isFaceDown).not.be.undefined;
+		should(Ti.Gesture.isFaceDown).not.be.undefined();
 		should(Ti.Gesture.isFaceDown).be.a.Function();
 		should(Ti.Gesture.isFaceDown()).be.a.Boolean();
 	});
 
 	// FIXME Seems like only Windows has this? Was it deprecated/removed?
 	it.windows('isFaceUp()', function () {
-		should(Ti.Gesture.isFaceUp).not.be.undefined;
+		should(Ti.Gesture.isFaceUp).not.be.undefined();
 		should(Ti.Gesture.isFaceUp).be.a.Function();
 		should(Ti.Gesture.isFaceUp()).be.a.Boolean();
 	});
 
 	it('getOrientation()', function () {
-		should(Ti.Gesture.getOrientation).not.be.undefined;
+		should(Ti.Gesture.getOrientation).not.be.undefined();
 		should(Ti.Gesture.getOrientation).be.a.Function();
 		should(Ti.Gesture.getOrientation()).be.a.Number();
 	});

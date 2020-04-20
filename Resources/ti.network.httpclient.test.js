@@ -7,7 +7,7 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.Network.HTTPClient', function () {
 	this.timeout(6e4);
@@ -26,7 +26,7 @@ describe('Titanium.Network.HTTPClient', function () {
 
 		xhr.onload = function () {
 			try {
-				should(xhr.responseXML === null).be.false;
+				should(xhr.responseXML === null).be.false();
 				should(xhr.responseXML.nodeType).eql(9); // DOCUMENT_NODE
 				finish();
 			} catch (err) {
@@ -52,16 +52,16 @@ describe('Titanium.Network.HTTPClient', function () {
 		var xhr = Ti.Network.createHTTPClient();
 		should(xhr).be.an.Object();
 
-		should(xhr.validatesSecureCertificate).be.undefined;
+		should(xhr.validatesSecureCertificate).not.be.ok(); // FIXME: undefined on iOS, false on Android!
 		xhr.validatesSecureCertificate = true;
-		should(xhr.validatesSecureCertificate).be.true;
+		should(xhr.validatesSecureCertificate).be.true();
 		xhr.validatesSecureCertificate = false;
-		should(xhr.validatesSecureCertificate).be.false;
+		should(xhr.validatesSecureCertificate).be.false();
 
 		xhr.setValidatesSecureCertificate(true);
-		should(xhr.getValidatesSecureCertificate()).be.true;
+		should(xhr.getValidatesSecureCertificate()).be.true();
 		xhr.setValidatesSecureCertificate(false);
-		should(xhr.getValidatesSecureCertificate()).be.false;
+		should(xhr.getValidatesSecureCertificate()).be.false();
 	});
 
 	it('downloadLargeFile', function (finish) {
@@ -636,7 +636,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			try {
 				// verify that the destination file now exists
 				// TODO: Verify some known contents match?
-				should(xhr.file.exists()).be.true;
+				should(xhr.file.exists()).be.true();
 
 				finish();
 			} catch (err) {

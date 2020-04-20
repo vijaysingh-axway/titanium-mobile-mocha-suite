@@ -11,14 +11,14 @@ var should = require('./utilities/assertions');
 
 describe.android('Titanium.Android', function () {
 	it('currentActivity', function () {
-		should(Ti.Android.currentActivity).not.be.undefined;
+		should(Ti.Android.currentActivity).not.be.undefined();
 		should(Ti.Android.currentActivity).be.a.Object();
 	});
 
 	it('rootActivity', function () {
-		should(Ti.Android.rootActivity).not.be.undefined;
+		should(Ti.Android.rootActivity).not.be.undefined();
 		should(Ti.Android.rootActivity).be.a.Object();
-		should(Ti.Android.rootActivity.intent).not.be.undefined;
+		should(Ti.Android.rootActivity.intent).not.be.undefined();
 		should(Ti.Android.rootActivity.intent).be.a.Object();
 	});
 
@@ -42,11 +42,11 @@ describe.android('Titanium.Android', function () {
 					should(intent.data).eql(newIntent.data);
 					should(intent.packageName).eql(newIntent.packageName);
 					should(intent.className).eql(newIntent.className);
-					should(intent.hasExtra('MyBoolean')).be.true;
+					should(intent.hasExtra('MyBoolean')).be.true();
 					should(intent.getBooleanExtra('MyBoolean', false)).eql(true);
-					should(intent.hasExtra('MyDouble')).be.true;
+					should(intent.hasExtra('MyDouble')).be.true();
 					should(intent.getDoubleExtra('MyDouble', 0)).eql(123.456);
-					should(intent.hasExtra('MyString')).be.true;
+					should(intent.hasExtra('MyString')).be.true();
 					should(intent.getStringExtra('MyString')).eql('Hello World');
 				}
 				Ti.API.info('- Validating: e.intent');
@@ -120,13 +120,13 @@ describe.android('Titanium.Android', function () {
 		});
 		win.addEventListener('close', function () {
 			try {
-				should(wasOnCreateCalled).be.true;
-				should(wasOnRestartCalled).be.true;
-				should(wasOnStartCalled).be.true;
-				should(wasOnResumeCalled).be.true;
-				should(wasOnPauseCalled).be.true;
-				should(wasOnStopCalled).be.true;
-				should(wasOnDestroyCalled).be.true;
+				should(wasOnCreateCalled).be.true();
+				should(wasOnRestartCalled).be.true();
+				should(wasOnStartCalled).be.true();
+				should(wasOnResumeCalled).be.true();
+				should(wasOnPauseCalled).be.true();
+				should(wasOnStopCalled).be.true();
+				should(wasOnDestroyCalled).be.true();
 				finish();
 			} catch (err) {
 				finish(err);

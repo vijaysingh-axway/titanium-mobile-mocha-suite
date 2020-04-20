@@ -42,7 +42,7 @@ describe('Titanium.Utils', function () {
 	});
 
 	it('exists', function () {
-		should(Ti.Utils).not.be.undefined;
+		should(Ti.Utils).not.be.undefined();
 		should(Ti.Utils).be.an.Object();
 	});
 
@@ -61,7 +61,7 @@ describe('Titanium.Utils', function () {
 		should(test.getText()).be.eql('test');
 
 		// Test string without padding
-		should(!Ti.Utils.base64decode('eyJzdWIiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0IiwiYXVkIjoidGVzdCIsImp0aSI6ImxvTHM4d2o5aWxBQUtWckNxbzhaMFMiLCJpc3MiOiJodHRwczpcL1wvc3NvLmV4YW1wbGUuY29tIiwiaWF0IjoxNTI2MTY3NDc3LCJleHAiOjE1MjYxNjc0NzcsInBpLnRlc3QiOiJMSTRmMW81Q2pqU2tHU2xTanM0bHlPeVlROCJ9')).not.be.null;
+		should(!Ti.Utils.base64decode('eyJzdWIiOiJ0ZXN0IiwiZW1haWwiOiJ0ZXN0IiwiYXVkIjoidGVzdCIsImp0aSI6ImxvTHM4d2o5aWxBQUtWckNxbzhaMFMiLCJpc3MiOiJodHRwczpcL1wvc3NvLmV4YW1wbGUuY29tIiwiaWF0IjoxNTI2MTY3NDc3LCJleHAiOjE1MjYxNjc0NzcsInBpLnRlc3QiOiJMSTRmMW81Q2pqU2tHU2xTanM0bHlPeVlROCJ9')).not.be.null();
 
 		// More padding tests
 		should(Ti.Utils.base64decode('Zg').text).eql('f');

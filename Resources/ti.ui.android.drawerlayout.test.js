@@ -38,66 +38,66 @@ describe.android('Titanium.UI.Android.DrawerLayout', function () {
 	it('isLeftOpen', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		should(drawerLayout.isLeftOpen).be.a.Boolean();
-		should(drawerLayout.isLeftOpen).be.false; // default value
+		should(drawerLayout.isLeftOpen).be.false(); // default value
 	});
 
 	it('isRightOpen', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		should(drawerLayout.isRightOpen).be.a.Boolean();
-		should(drawerLayout.isRightOpen).be.false; // default value
+		should(drawerLayout.isRightOpen).be.false(); // default value
 	});
 
 	it('isLeftVisible', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		should(drawerLayout.isLeftVisible).be.a.Boolean();
-		should(drawerLayout.isLeftVisible).be.false; // default value
+		should(drawerLayout.isLeftVisible).be.false(); // default value
 	});
 
 	it('isRightVisible', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		should(drawerLayout.isRightVisible).be.a.Boolean();
-		should(drawerLayout.isRightVisible).be.false; // default value
+		should(drawerLayout.isRightVisible).be.false(); // default value
 	});
 
 	it('leftWidth', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		// should(drawerLayout.leftWidth).be.a.Number();
 		// FIXME Default value is undefined, can't verify it's supposed to be a number unless we've opened the left drawer
-		should(drawerLayout.leftWidth).be.undefined;
+		should(drawerLayout.leftWidth).be.undefined();
 	});
 
 	it('rightWidth', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		// should(drawerLayout.rightWidth).be.a.Number();
 		// FIXME Default value is undefined, can't verify it's supposed to be a number unless we've opened the right drawer
-		should(drawerLayout.rightWidth).be.undefined;
+		should(drawerLayout.rightWidth).be.undefined();
 	});
 
 	it('leftView', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		// should(drawerLayout.leftView).be.a.Object();
 		// FIXME Default value is undefined, can't verify it's supposed to be an object unless we've set a value
-		should(drawerLayout.leftView).be.undefined;
+		should(drawerLayout.leftView).be.undefined();
 	});
 
 	it('rightView', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		// should(drawerLayout.rightView).be.a.Object();
 		// FIXME Default value is undefined, can't verify it's supposed to be an object unless we've set a value
-		should(drawerLayout.rightView).be.undefined;
+		should(drawerLayout.rightView).be.undefined();
 	});
 
 	it('centerView', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		// should(drawerLayout.centerView).be.a.Object();
 		// FIXME Default value is undefined, can't verify it's supposed to be an object unless we've set a value
-		should(drawerLayout.centerView).be.undefined;
+		should(drawerLayout.centerView).be.undefined();
 	});
 
 	it('drawerIndicatorEnabled', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		should(drawerLayout.drawerIndicatorEnabled).be.a.Boolean();
-		should(drawerLayout.drawerIndicatorEnabled).be.true; // default value
+		should(drawerLayout.drawerIndicatorEnabled).be.true(); // default value
 	});
 
 	it('drawerLockMode', function () {
@@ -110,7 +110,7 @@ describe.android('Titanium.UI.Android.DrawerLayout', function () {
 	it('toolbarEnabled', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		should(drawerLayout.toolbarEnabled).be.a.Boolean();
-		should(drawerLayout.toolbarEnabled).be.true; // default value
+		should(drawerLayout.toolbarEnabled).be.true(); // default value
 	});
 
 	// Test for theme with disabled default ActionBar
@@ -119,13 +119,13 @@ describe.android('Titanium.UI.Android.DrawerLayout', function () {
 		var drawerLayout = Titanium.UI.Android.createDrawerLayout();
 		window.add(drawerLayout);
 		should(drawerLayout.toolbarEnabled).be.a.Boolean();
-		should(drawerLayout.toolbarEnabled).be.true; // default value
+		should(drawerLayout.toolbarEnabled).be.true(); // default value
 		drawerLayout.toolbarEnabled = false;
 		should(drawerLayout.toolbarEnabled).be.a.Boolean();
-		should(drawerLayout.toolbarEnabled).be.false;
+		should(drawerLayout.toolbarEnabled).be.false();
 		drawerLayout.toolbarEnabled = true;
 		should(drawerLayout.toolbarEnabled).be.a.Boolean();
-		should(drawerLayout.toolbarEnabled).be.true;
+		should(drawerLayout.toolbarEnabled).be.true();
 	});
 
 	it.android('Toolbar used as toolbar', function (finish) {

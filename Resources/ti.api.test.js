@@ -20,12 +20,12 @@ describe('Titanium.API', function () {
 		should(Ti.API.debug).be.a.Function();
 		// return value is void/undefined
 		// TODO How can we verify behavior, accepting array of string args, or accepting/rejecting non string args?
-		should(Ti.API.debug('debug')).be.undefined;
+		should(Ti.API.debug('debug')).be.undefined();
 	});
 
 	it('#error()', function () {
 		should(Ti.API.error).be.a.Function();
-		should(Ti.API.error('error')).be.undefined;
+		should(Ti.API.error('error')).be.undefined();
 	});
 
 	describe('#info()', function () {
@@ -61,7 +61,7 @@ describe('Titanium.API', function () {
 	describe('#log()', function () {
 		it('is a Function', function () {
 			should(Ti.API.log).be.a.Function();
-			should(Ti.API.log('debug', 'log')).be.undefined;
+			should(Ti.API.log('debug', 'log')).be.undefined();
 		});
 
 		it('accepts one non-String parameter', function () {
@@ -76,17 +76,17 @@ describe('Titanium.API', function () {
 	// TODO Should timestamp function be available on other platforms?
 	it.ios('#timestamp()', function () {
 		should(Ti.API.timestamp).be.a.Function();
-		should(Ti.API.debug('timestamp')).be.undefined;
+		should(Ti.API.debug('timestamp')).be.undefined();
 	});
 
 	it('#trace()', function () {
 		should(Ti.API.trace).be.a.Function();
-		should(Ti.API.trace('trace')).be.undefined;
+		should(Ti.API.trace('trace')).be.undefined();
 	});
 
 	it('#warn()', function () {
 		should(Ti.API.warn).be.a.Function();
-		should(Ti.API.warn('warn')).be.undefined;
+		should(Ti.API.warn('warn')).be.undefined();
 	});
 
 	it.android('TIMOB-25757', function () {

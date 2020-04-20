@@ -33,7 +33,7 @@ describe('Titanium.Database', function () {
 
 	describe('.install()', () => {
 		it('is a function', () => {
-			should(Ti.Database.install).not.be.undefined;
+			should(Ti.Database.install).not.be.undefined();
 			should(Ti.Database.install).be.a.Function();
 		});
 
@@ -158,7 +158,7 @@ describe('Titanium.Database', function () {
 		// Check if open exists and make sure it does not throw exception
 		// FIXME Get working on Android, either lastInsertRowId or rowsAffected is starting as 1, not 0
 		it.androidBroken('opens or creates database', function () {
-			should(Ti.Database.open).not.be.undefined;
+			should(Ti.Database.open).not.be.undefined();
 			should(Ti.Database.open).be.a.Function();
 
 			// Database name
@@ -218,8 +218,8 @@ describe('Titanium.Database', function () {
 			should(rows).be.a.Object();
 			should(rows.rowCount).be.eql(2);
 			should(rows.fieldCount).be.eql(3);
-			should(rows.validRow).be.true;
-			should(rows.isValidRow()).be.true;
+			should(rows.validRow).be.true();
+			should(rows.isValidRow()).be.true();
 
 			// Loop through each row
 			var index = 1;
@@ -305,7 +305,7 @@ describe('Titanium.Database', function () {
 		should(rows).be.a.Object();
 		should(rows.rowCount).be.eql(2);
 		should(rows.fieldCount).be.eql(3);
-		should(rows.validRow).be.true;
+		should(rows.validRow).be.true();
 
 		// Close the 'rows' object
 		rows.close();
@@ -313,7 +313,7 @@ describe('Titanium.Database', function () {
 		// Make sure row is not 'valid'
 		should(rows.rowCount).be.eql(0); // Android still reports 2
 		should(rows.fieldCount).be.eql(0);
-		should(rows.validRow).be.false;
+		should(rows.validRow).be.false();
 
 		// Validate the rowid field
 		var rowid = rows.fieldByName('rowid');
@@ -327,7 +327,7 @@ describe('Titanium.Database', function () {
 		should(field2).not.exist; // null or undefined
 
 		// Make sure next doesn't cause crash and return false
-		should(rows.next()).be.false;
+		should(rows.next()).be.false();
 
 		// Make sure closing again doesn't cause crash
 		rows.close();
@@ -360,7 +360,7 @@ describe('Titanium.Database', function () {
 				// Confirm 'db' is an object
 				should(db).be.a.Object();
 				const rows = db.execute('pragma table_info(\'category\');');
-				should(rows).be.null;
+				should(rows).be.null();
 			} finally {
 				// Remove the 'category' database file
 				db.remove();
@@ -459,7 +459,7 @@ describe('Titanium.Database', function () {
 								should(rows).be.a.Object();
 								should(rows.rowCount).be.eql(1);
 								should(rows.fieldCount).be.eql(3);
-								should(rows.validRow).be.true;
+								should(rows.validRow).be.true();
 
 								finish();
 							} catch (e) {
@@ -530,7 +530,7 @@ describe('Titanium.Database', function () {
 				should(rows).be.a.Object();
 				should(rows.rowCount).be.eql(1);
 				should(rows.fieldCount).be.eql(3);
-				should(rows.validRow).be.true;
+				should(rows.validRow).be.true();
 
 				finish();
 			} catch (e) {
@@ -604,7 +604,7 @@ describe('Titanium.Database', function () {
 						should(rows).be.a.Object();
 						should(rows.rowCount).be.eql(1);
 						should(rows.fieldCount).be.eql(3);
-						should(rows.validRow).be.true;
+						should(rows.validRow).be.true();
 
 						finish();
 					} catch (e) {
@@ -652,7 +652,7 @@ describe('Titanium.Database', function () {
 						should(rows).be.a.Object();
 						should(rows.rowCount).be.eql(1);
 						should(rows.fieldCount).be.eql(3);
-						should(rows.validRow).be.true;
+						should(rows.validRow).be.true();
 
 						finish();
 					} catch (e) {

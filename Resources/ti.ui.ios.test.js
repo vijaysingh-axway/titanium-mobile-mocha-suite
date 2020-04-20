@@ -13,23 +13,23 @@ describe.ios('Titanium.UI.iOS', function () {
 	const isiOS13 =  (parseInt(Ti.Platform.version.split('.')[0]) >= 13);
 
 	// --- properties ---
-	it('appBadge', function () {
-		should(Ti.UI.iOS.appBadge).be.undefined;
+	it.iosBroken('.appBadge', function () {
+		should(Ti.UI.iOS.appBadge).be.undefined(); // FIXME: Defaults to 0!
 		// TODO Set the value and test it got set
 	});
 
-	it('appSupportsShakeToEdit', function () {
-		should(Ti.UI.iOS.appSupportsShakeToEdit).be.true; // TODO Set default to true in docs?
+	it('.appSupportsShakeToEdit', function () {
+		should(Ti.UI.iOS.appSupportsShakeToEdit).be.true(); // TODO Set default to true in docs?
 		// TODO Set the value and test it got set
 	});
 
-	it('forceTouchSupported', function () {
+	it('.forceTouchSupported', function () {
 		should(Ti.UI.iOS).have.readOnlyProperty('forceTouchSupported').which.is.a.Boolean();
 		// TODO Validate the value based on the device?
 	});
 
-	it('statusBarBackgroundColor', function () {
-		should(Ti.UI.iOS.statusBarBackgroundColor).be.undefined;
+	it('.statusBarBackgroundColor', function () {
+		should(Ti.UI.iOS.statusBarBackgroundColor).be.undefined();
 		// TODO Test that this accepts normal color values (names, hex, etc)
 	});
 
@@ -38,7 +38,7 @@ describe.ios('Titanium.UI.iOS', function () {
 	// TIMOB-23542 test livePhotoBadge
 	it('#createLivePhotoBadge()', function () {
 		var livePhotoBadge;
-		should(Ti.UI.iOS.createLivePhotoBadge).not.be.undefined;
+		should(Ti.UI.iOS.createLivePhotoBadge).not.be.undefined();
 		should(Ti.UI.iOS.createLivePhotoBadge).be.a.Function();
 		livePhotoBadge = Ti.UI.iOS.createLivePhotoBadge(Ti.UI.iOS.LIVEPHOTO_BADGE_OPTIONS_OVER_CONTENT);
 		should(livePhotoBadge).be.an.Object();
@@ -133,7 +133,7 @@ describe.ios('Titanium.UI.iOS', function () {
 
 	it('#createStepper()', function () {
 		var stepper;
-		should(Ti.UI.iOS.createStepper).not.be.undefined;
+		should(Ti.UI.iOS.createStepper).not.be.undefined();
 		should(Ti.UI.iOS.createStepper).be.a.Function();
 		stepper = Ti.UI.iOS.createStepper({
 			steps: 3,
@@ -148,7 +148,7 @@ describe.ios('Titanium.UI.iOS', function () {
 
 	it('#systemImage()', function () {
 		if (isiOS13) {
-			should(Ti.UI.iOS.systemImage).not.be.undefined;
+			should(Ti.UI.iOS.systemImage).not.be.undefined();
 			should(Ti.UI.iOS.systemImage).be.a.Function();
 			const systemImage = Ti.UI.iOS.systemImage('drop.triangle.fill');
 			should(systemImage).be.an.Object();
