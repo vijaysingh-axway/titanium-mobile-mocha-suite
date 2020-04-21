@@ -664,7 +664,7 @@ describe('Titanium.UI.WebView', function () {
 		});
 
 		webView.addEventListener('error', function (e) {
-			finish(e);
+			finish(new Error(e.error));
 		});
 
 		win.add(webView);

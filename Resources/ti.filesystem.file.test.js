@@ -746,15 +746,16 @@ describe('Titanium.Filesystem.File', function () {
 		});
 
 		it.windowsBroken('can access resource directory files', function () {
-			let rootDir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory),
-				rootPath,
-				filesFound = {};
+			const rootDir = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory);
+
 			should(rootDir.exists()).be.true();
 			should(rootDir.getDirectoryListing).be.a.Function();
 			should(rootDir.getDirectoryListing()).be.an.Array();
 
 			// Traverse entire Resources directory tree looking for files/directories in "filesFound".
-			rootPath = rootDir.nativePath;
+			const rootPath = rootDir.nativePath;
+
+			const filesFound = {};
 			filesFound[rootPath + 'app.js'] = false;
 			filesFound[rootPath + 'ti.ui.webview.test.html'] = false;
 			filesFound[rootPath + 'fixtures' + Ti.Filesystem.separator] = false; // Subdirectory containing only JS files.
@@ -769,6 +770,7 @@ describe('Titanium.Filesystem.File', function () {
 							let nextFile = Ti.Filesystem.getFile(file.nativePath, fileList[index]);
 							if (nextFile) {
 								let absolutePath = nextFile.nativePath;
+								Ti.API.debug(absolutePath);
 								if (absolutePath in filesFound) {
 									filesFound[absolutePath] = true;
 								}
@@ -780,8 +782,8 @@ describe('Titanium.Filesystem.File', function () {
 			}
 			searchFileTree(rootDir);
 			for (let key in filesFound) {
-				Ti.API.info('Checking if found file: ' + key);
-				should(filesFound[key]).be.true();
+				Ti.API.info(`Checking if found file: ${key}`);
+				should(filesFound[key]).be.true(key); // FIXMEL: Failing for app.js on iOS on build machine
 			}
 		});
 	});
