@@ -754,6 +754,7 @@ describe('Titanium.Filesystem.File', function () {
 
 			// Traverse entire Resources directory tree looking for files/directories in "filesFound".
 			const rootPath = rootDir.nativePath;
+			Ti.API.info(`root path: ${rootPath}`);
 
 			const filesFound = {};
 			filesFound[rootPath + 'app.js'] = false;
