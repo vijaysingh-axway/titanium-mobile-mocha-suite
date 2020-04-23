@@ -754,13 +754,16 @@ describe('Titanium.Filesystem.File', function () {
 
 			// Traverse entire Resources directory tree looking for files/directories in "filesFound".
 			const rootPath = rootDir.nativePath;
-			Ti.API.info(`root path: ${rootPath}`);
 
 			const filesFound = {};
-			filesFound[rootPath + 'app.js'] = false;
+			// FIXME: If this is ios and the JS files are encrypted, we cannot get the resource dir listing properly
+			// See TIMOB-27646 - encrypted JS files won't be in the listing
+			if (!utilities.isIOS() || !Ti.App.Properties.getBool('js.encrypted', false)) {
+				filesFound[rootPath + 'app.js'] = false;
+				filesFound[rootPath + 'fixtures' + Ti.Filesystem.separator + 'empty-double.js'] = false;
+			}
 			filesFound[rootPath + 'ti.ui.webview.test.html'] = false;
 			filesFound[rootPath + 'fixtures' + Ti.Filesystem.separator] = false; // Subdirectory containing only JS files.
-			filesFound[rootPath + 'fixtures' + Ti.Filesystem.separator + 'empty-double.js'] = false;
 			filesFound[rootPath + 'txtFiles' + Ti.Filesystem.separator] = false; // Subdirectory containing only assets.
 			filesFound[rootPath + 'txtFiles' + Ti.Filesystem.separator + 'text.txt'] = false;
 			function searchFileTree(file) {
@@ -784,7 +787,7 @@ describe('Titanium.Filesystem.File', function () {
 			searchFileTree(rootDir);
 			for (let key in filesFound) {
 				Ti.API.info(`Checking if found file: ${key}`);
-				should(filesFound[key]).be.true(key); // FIXMEL: Failing for app.js on iOS on build machine
+				should(filesFound[key]).be.true(key);
 			}
 		});
 	});
