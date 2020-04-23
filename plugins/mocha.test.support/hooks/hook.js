@@ -26,6 +26,7 @@ exports.init = (logger, config, cli) => {
 
 	cli.on('build.pre.compile', async (builder, done) => {
 		builder.tiapp.properties['Ti.version'] = { type: 'string', value: builder.titaniumSdkVersion };
+		builder.tiapp.properties['js.encrypted'] = { type: 'boolean', value: builder.encryptJS };
 		done();
 	});
 
