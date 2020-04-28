@@ -464,4 +464,19 @@ describe('Titanium.UI.ImageView', function () {
 		win.add(imageView);
 		win.open();
 	});
+
+	it('image error event', function (finish) {
+		win = Ti.UI.createWindow();
+
+		const img = Ti.UI.createImageView({
+			image: 'https://invalid.host.com/image.jpg'
+		});
+
+		img.addEventListener('error', () => {
+			finish();
+		});
+
+		win.add(img);
+		win.open();
+	});
 });

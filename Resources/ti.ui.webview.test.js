@@ -711,4 +711,42 @@ describe('Titanium.UI.WebView', function () {
 		win.add(webView);
 		win.open();
 	});
+
+	it('progress event', function (finish) {
+		this.slow(5000);
+		this.timeout(10000);
+
+		win = Ti.UI.createWindow();
+		const webView = Ti.UI.createWebView({
+			url: 'https://www.google.com'
+		});
+		const isIOS = utilities.isIOS();
+		webView.addEventListener('progress', function (e) {
+			try {
+				should(e).have.a.property('value').which.is.a.Number();
+				should(e.value).be.within(0, 1);
+
+				// webview.progress may have updated before we got this event fired, so can't compare
+
+				should(e).have.a.property('url').which.is.a.String();
+				// depending on os and version it may have a trailing slash
+				should(e.url).be.equalOneOf([ 'https://www.google.com/', 'https://www.google.com' ]);
+			} catch (err) {
+				return finish(err);
+			}
+			if (e.value === 1) {
+				finish();
+			}
+		});
+
+		win.add(webView);
+		win.open();
+	});
+
+	it('.progress', () => {
+		const webView = Ti.UI.createWebView({
+			url: 'https://www.google.com'
+		});
+		should(webView).have.a.property('progress').which.is.a.Number(); // should default to 0 until we start loading the page.
+	});
 });

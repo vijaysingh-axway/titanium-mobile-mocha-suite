@@ -389,4 +389,47 @@ describe('Titanium.UI.Picker', function () {
 			}
 		}
 	});
+
+	it('minDate/maxDate - change after open', (finish) => {
+		let minDate = new Date(2020, 4, 1);
+		let maxDate = new Date(2020, 6, 31);
+		const picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_DATE,
+			minDate: minDate,
+			maxDate: maxDate,
+			value: new Date(2020, 5, 1)
+		});
+
+		win = Ti.UI.createWindow();
+		win.addEventListener('open', () => {
+			try {
+				should(picker.minDate).be.eql(minDate);
+				should(picker.maxDate).be.eql(maxDate);
+				should(picker.value.getTime()).be.aboveOrEqual(minDate.getTime());
+				should(picker.value.getTime()).be.belowOrEqual(maxDate.getTime());
+				minDate = new Date(2018, 0, 1);
+				maxDate = new Date(2018, 2, 31);
+				picker.minDate = minDate;
+				picker.maxDate = maxDate;
+				picker.value = new Date(2018, 1, 1); // Used to crash Android after changing range.
+			} catch (err) {
+				return finish(err);
+			}
+
+			setTimeout(() => {
+				try {
+					should(picker.minDate).be.eql(minDate);
+					should(picker.maxDate).be.eql(maxDate);
+					should(picker.value.getTime()).be.aboveOrEqual(minDate.getTime());
+					should(picker.value.getTime()).be.belowOrEqual(maxDate.getTime());
+				} catch (err) {
+					return finish(err);
+				}
+
+				finish();
+			}, 1);
+		});
+		win.add(picker);
+		win.open();
+	});
 });
