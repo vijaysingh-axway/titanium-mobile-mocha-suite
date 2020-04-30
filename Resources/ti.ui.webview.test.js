@@ -720,7 +720,6 @@ describe('Titanium.UI.WebView', function () {
 		const webView = Ti.UI.createWebView({
 			url: 'https://www.google.com'
 		});
-		const isIOS = utilities.isIOS();
 		webView.addEventListener('progress', function (e) {
 			try {
 				should(e).have.a.property('value').which.is.a.Number();
@@ -729,8 +728,9 @@ describe('Titanium.UI.WebView', function () {
 				// webview.progress may have updated before we got this event fired, so can't compare
 
 				should(e).have.a.property('url').which.is.a.String();
-				// depending on os and version it may have a trailing slash
-				should(e.url).be.equalOneOf([ 'https://www.google.com/', 'https://www.google.com' ]);
+				should(e.url).startWith('https://www.google.com');
+				// Sometimes we get an url like: https://www.google.com/#spf=1588254369582
+				// should(e.url).be.equalOneOf([ 'https://www.google.com/', 'https://www.google.com' ]);
 			} catch (err) {
 				return finish(err);
 			}
