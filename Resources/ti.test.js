@@ -31,7 +31,7 @@ describe('Titanium', () => {
 	it('buildDate', () => {
 		should(Ti).have.readOnlyProperty('buildDate').which.is.a.String();
 		should(Ti.buildDate).not.eql('__TIMESTAMP__'); // This is the placeholder value used in iOS, let's ensure we replaced it!
-		should(Ti.buildDate).match(/[01]?\d\/[0123]\d\/20\d{2} \d{2}:\d{2}/); // i.e. '4/14/2020 18:48'
+		should(Ti.buildDate).match(/[01]?\d\/[0123]?\d\/20\d{2} \d{2}:\d{2}/); // i.e. '4/14/2020 18:48'
 	});
 
 	it('#getBuildDate()', () => {
