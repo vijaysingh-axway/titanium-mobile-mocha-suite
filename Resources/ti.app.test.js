@@ -332,10 +332,14 @@ describe('Titanium.App', function () {
 			wasPauseEventReceived = true;
 		});
 		Ti.App.addEventListener('paused', function pausedEventHandler(e) {
-			Ti.API.info('Received event: ' + e.type);
-			Ti.App.removeEventListener(e.type, pausedEventHandler);
-			should(wasPauseEventReceived).be.true();
-			Ti.Android.currentActivity.startActivity(Ti.App.Android.launchIntent); // Resume this app.
+			try {
+				Ti.API.info('Received event: ' + e.type);
+				Ti.App.removeEventListener(e.type, pausedEventHandler);
+				should(wasPauseEventReceived).be.true();
+				Ti.Android.currentActivity.startActivity(Ti.App.Android.launchIntent); // Resume this app.
+			} catch (err) {
+				finish(err);
+			}
 		});
 		Ti.App.addEventListener('resume', function resumeEventHandler(e) {
 			Ti.API.info('Received event: ' + e.type);
@@ -343,9 +347,13 @@ describe('Titanium.App', function () {
 			wasResumeEventReceived = true;
 		});
 		Ti.App.addEventListener('resumed', function resumedEventHandler(e) {
-			Ti.API.info('Received event: ' + e.type);
-			Ti.App.removeEventListener(e.type, resumedEventHandler);
-			should(wasResumeEventReceived).be.true();
+			try {
+				Ti.API.info('Received event: ' + e.type);
+				Ti.App.removeEventListener(e.type, resumedEventHandler);
+				should(wasResumeEventReceived).be.true();
+			} catch (err) {
+				return finish(err);
+			}
 			finish();
 		});
 
