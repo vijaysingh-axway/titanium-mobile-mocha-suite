@@ -123,8 +123,8 @@ describe('Titanium.Media.VideoPlayer', function () {
 	});
 
 	it.ios('playableDuration in milliseconds', function (finish) {
-		var videoPlayer = Ti.Media.createVideoPlayer({
-			url: 'https://www.w3schools.com/html/mov_bbb.mp4',
+		const videoPlayer = Ti.Media.createVideoPlayer({
+			url: 'https://raw.githubusercontent.com/appcelerator/titanium-mobile-mocha-suite/master/remote/mov_bbb.mp4',
 			autoplay: true,
 			showsControls: false,
 			height: 200
@@ -139,10 +139,10 @@ describe('Titanium.Media.VideoPlayer', function () {
 				e.duration.should.be.above(1000);
 				videoPlayer.duration.should.be.above(1000);
 				videoPlayer.playableDuration.should.be.above(1000);
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		}
 		videoPlayer.addEventListener('durationavailable', durationavailable);
 
