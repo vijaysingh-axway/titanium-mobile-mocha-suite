@@ -91,9 +91,5 @@ describe('Titanium', () => {
 	});
 
 	it('#createBuffer()', () => should(Ti.createBuffer).be.a.Function());
-
-	// FIXME Is this really a method we want to expose on our API?
-	it('#createProxy()', () => should(Ti.createProxy).be.a.Function());
-
 	it('#fireEvent()', () => should(Ti.fireEvent).be.a.Function());
 });
