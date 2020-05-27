@@ -199,30 +199,74 @@ describe('Titanium.UI', function () {
 
 	// Constants are tested in ti.ui.constants.test.js
 
-	it('.SEMANTIC_COLOR_TYPE_DARK', function () {
-		should(Ti.UI).have.a.constant('SEMANTIC_COLOR_TYPE_DARK').which.is.a.string;
+	it('.SEMANTIC_COLOR_TYPE_DARK', () => {
+		should(Ti.UI).have.a.constant('SEMANTIC_COLOR_TYPE_DARK').which.is.a.String;
 	});
 
-	it('.SEMANTIC_COLOR_TYPE_LIGHT', function () {
-		should(Ti.UI).have.a.constant('SEMANTIC_COLOR_TYPE_LIGHT').which.is.a.string;
+	it('.SEMANTIC_COLOR_TYPE_LIGHT', () => {
+		should(Ti.UI).have.a.constant('SEMANTIC_COLOR_TYPE_LIGHT').which.is.a.String;
 	});
 
-	it('.semanticColorType defaults to SEMANTIC_COLOR_TYPE_LIGHT', function () {
+	it('.semanticColorType defaults to SEMANTIC_COLOR_TYPE_LIGHT', () => {
 		should(Ti.UI.semanticColorType).eql(Ti.UI.SEMANTIC_COLOR_TYPE_LIGHT);
 	});
 
-	it('#fetchSemanticColor()', function () {
-		var isiOS13 = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad') && (parseInt(Ti.Platform.version.split('.')[0]) >= 13);
+	it('.USER_INTERFACE_STYLE_LIGHT', () => {
+		should(Ti.UI).have.a.constant('USER_INTERFACE_STYLE_LIGHT').which.is.a.Number;
+	});
+
+	it('.USER_INTERFACE_STYLE_DARK', () => {
+		should(Ti.UI).have.a.constant('USER_INTERFACE_STYLE_DARK').which.is.a.Number;
+	});
+
+	it('.USER_INTERFACE_STYLE_UNSPECIFIED', () => {
+		should(Ti.UI).have.a.constant('USER_INTERFACE_STYLE_UNSPECIFIED').which.is.a.Number;
+	});
+
+	it('.userInterfaceStyle defaults to USER_INTERFACE_STYLE_LIGHT', () => {
+		// FIXME: we can't gurantee the emulator theme didn't get changed. Just specify it has to be one of the constants?
+		should(Ti.UI.userInterfaceStyle).eql(Ti.UI.USER_INTERFACE_STYLE_LIGHT);
+	});
+
+	it('#fetchSemanticColor()', () => {
+		const isIOS = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad');
+		const isIOS13Plus = isIOS && parseInt(Ti.Platform.version.split('.')[0]) >= 13;
 		const semanticColors = require('./semantic.colors.json');
 
-		if (isiOS13) {
-			// This returns a TiColor object on iOS 13+, which will automatically "adapt" to light/dark mode change
-			should(Ti.UI.fetchSemanticColor('textColor')).be.an.Object();
+		const result = Ti.UI.fetchSemanticColor('textColor');
+		if (isIOS13Plus) {
+			// We get a Ti.UI.Color proxy on iOS 13+
+			should(result).be.an.Object;
+			should(result.apiName).eql('Ti.UI.Color');
+			result.toHex().toLowerCase().should.eql(semanticColors.textColor[Ti.UI.semanticColorType].toLowerCase());
 		} else {
-			should(Ti.UI.fetchSemanticColor('textColor')).equal(semanticColors.textColor.light);
-			Ti.UI.semanticColorType = Ti.UI.SEMANTIC_COLOR_TYPE_DARK;
-			should(Ti.UI.fetchSemanticColor('textColor')).equal(semanticColors.textColor.dark);
-
+			// check alpha values
+			const green100 = Ti.UI.fetchSemanticColor('green_100.0');
+			const blue75 = Ti.UI.fetchSemanticColor('blue_75.0');
+			const cyan50 = Ti.UI.fetchSemanticColor('cyan_50.0');
+			const red25 = Ti.UI.fetchSemanticColor('red_25.0');
+			const magenta0 = Ti.UI.fetchSemanticColor('magenta_0');
+			const yellowNoAlpha = Ti.UI.fetchSemanticColor('yellow_noalpha');
+			const greenHex8 = Ti.UI.fetchSemanticColor('green_hex8');
+			if (Ti.UI.userInterfaceStyle === Ti.UI.USER_INTERFACE_STYLE_LIGHT) {
+				result.should.eql('rgba(255, 31, 31, 1.000)');
+				green100.should.eql('rgba(0, 255, 0, 1.000)');
+				blue75.should.eql('rgba(0, 0, 255, 0.750)');
+				cyan50.should.eql('rgba(0, 255, 255, 0.500)');
+				red25.should.eql('rgba(255, 0, 0, 0.250)');
+				magenta0.should.eql('rgba(255, 0, 255, 0.000)');
+				yellowNoAlpha.should.eql('rgba(255, 255, 0, 1.000)');
+				greenHex8.should.eql('rgba(0, 255, 0, 0.502)'); // NOTE: hex => % gives more precise value, but this will effectively become 50% under the covers
+			} else {
+				result.should.eql('rgba(255, 133, 226, 1.000)');
+				green100.should.eql('rgba(0, 128, 0, 1.000)');
+				blue75.should.eql('rgba(0, 0, 128, 0.750)');
+				cyan50.should.eql('rgba(0, 128, 128, 0.500)');
+				red25.should.eql('rgba(128, 0, 0, 0.250)');
+				magenta0.should.eql('rgba(128, 0, 128, 0.000)');
+				yellowNoAlpha.should.eql('rgba(128, 128, 0, 1.000)');
+				greenHex8.should.eql('rgba(0, 128, 0, 0.502)'); // NOTE: hex => % gives more precise value, but this will effectively become 50% under the covers
+			}
 		}
 	});
 

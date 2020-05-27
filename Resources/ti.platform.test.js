@@ -190,4 +190,12 @@ describe('Titanium.Platform', function () {
 	it.ios('.isAdvertisingTrackingEnabled', () => {
 		should(Ti.Platform.isAdvertisingTrackingEnabled).be.a.Boolean();
 	});
+
+	it.ios('#openURL(url, callback)', function (finish) {
+		Ti.Platform.openURL('randomapp://', _e => finish());
+	});
+
+	it.ios('#openURL(url, options, callback)', function (finish) {
+		Ti.Platform.openURL('randomapp://', {}, _e => finish());
+	});
 });

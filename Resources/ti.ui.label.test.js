@@ -302,4 +302,32 @@ describe('Titanium.UI.Label', function () {
 		should(label.minimumFontSize).eql(22);
 		should(label.getMinimumFontSize()).eql(22);
 	});
+
+	it('animate font color', function (finish) {
+		win = Ti.UI.createWindow();
+
+		const label = Ti.UI.createLabel({
+			text: 'this is some text',
+			color: '#f00',
+		});
+		const animation = Ti.UI.createAnimation({
+			color: '#fff',
+			duration: 1000
+		});
+		animation.addEventListener('complete', function () {
+			// FIXME: iOS fires right away because text color doesn't transition over time, it just changes immediately.
+			// See https://stackoverflow.com/questions/2426614/how-to-animate-the-textcolor-property-of-an-uilabel
+			try {
+				should(label.color).be.eql('#fff');
+			} catch (err) {
+				return finish(err);
+			}
+			finish();
+		});
+		win.addEventListener('open', function () {
+			setTimeout(() => label.animate(animation), 200);
+		});
+		win.add(label);
+		win.open();
+	});
 });
