@@ -304,6 +304,8 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it('animate font color', function (finish) {
+		this.slow(2000);
+		this.timeout(5000);
 		win = Ti.UI.createWindow();
 
 		const label = Ti.UI.createLabel({
