@@ -40,7 +40,7 @@ describe.ipad('Titanium.UI.iPad.Popover', function () {
 		}
 	});
 
-	it('Should pass', function (finish) {
+	it.iosBroken('Should pass', function (finish) {
 		win = Ti.UI.createWindow({ backgroundColor: 'white' });
 
 		const button = Ti.UI.createButton({ title: 'Open Popover!' });
