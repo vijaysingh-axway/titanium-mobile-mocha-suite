@@ -319,7 +319,8 @@ describe('Titanium.UI.WebView', function () {
 
 	it.windowsBroken('userAgent', function (finish) {
 		const webView = Ti.UI.createWebView({
-			userAgent: 'TEST AGENT'
+			userAgent: 'TEST AGENT',
+			ignoreSslError: true // Older Android complains about the cert at this site!
 		});
 		const url = 'https://www.whatismybrowser.com/detect/what-is-my-user-agent';
 		let retry = 3;
