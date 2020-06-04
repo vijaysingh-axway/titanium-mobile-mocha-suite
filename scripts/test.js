@@ -349,9 +349,10 @@ async function handleBuild(prc) {
 		}
 
 		function getDeviceName(token) {
-			const matches = /^[\s\b]+\[([^\]]+)\]\s/g.exec(token.substring(token.indexOf(':') + 1));
-			if (matches && matches.length === 2) {
-				return matches[1];
+			// eslint-disable-next-line no-control-regex
+			const matches = /^([\s\b]|\u001b\[3\dm)+\[([^\]]+)\]\s/g.exec(token.substring(token.indexOf(':') + 1));
+			if (matches && matches.length === 3) {
+				return matches[2];
 			}
 			return '';
 		}
