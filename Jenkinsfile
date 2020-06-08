@@ -63,8 +63,8 @@ def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 					// pipeline-library?
 					if ('android'.equals(os)) {
 						timeout(5) {
-							sh returnStatus: true, script: 'adb shell am force-stop com.appcelerator.testApp.testing'
-							sh returnStatus: true, script: 'adb uninstall com.appcelerator.testApp.testing'
+							sh returnStatus: true, script: './adb-all.sh shell am force-stop com.appcelerator.testApp.testing'
+							sh returnStatus: true, script: './adb-all.sh uninstall com.appcelerator.testApp.testing'
 						}
 						killAndroidEmulators()
 					}
