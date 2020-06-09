@@ -40,6 +40,36 @@ describe('Titanium.UI.TabGroup', function () {
 		}
 	});
 
+	it('.barColor', () => {
+		tabGroup = Ti.UI.createTabGroup({
+			title: 'TabGroup',
+			barColor: 'red'
+		});
+
+		should(tabGroup.barColor).be.a.String;
+		should(tabGroup.barColor).eql('red');
+	});
+
+	it('.tintColor', () => {
+		tabGroup = Ti.UI.createTabGroup({
+			title: 'TabGroup',
+			tintColor: 'red'
+		});
+
+		should(tabGroup.tintColor).be.a.String;
+		should(tabGroup.tintColor).eql('red');
+	});
+
+	it('.activeTintColor', () => {
+		tabGroup = Ti.UI.createTabGroup({
+			title: 'TabGroup',
+			activeTintColor: 'red'
+		});
+
+		should(tabGroup.activeTintColor).be.a.String;
+		should(tabGroup.activeTintColor).eql('red');
+	});
+
 	it.windowsBroken('add Map.View to TabGroup', function (finish) {
 		this.slow(5000);
 		this.timeout(15000);

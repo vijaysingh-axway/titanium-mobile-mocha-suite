@@ -68,6 +68,17 @@ describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
 		navigation.open();
 	});
 
+	it('open/close events', finish => {
+		const window = Ti.UI.createWindow();
+
+		nav = Ti.UI.createNavigationWindow({ window });
+
+		nav.addEventListener('open', () => nav.close());
+		nav.addEventListener('close', () => finish());
+
+		nav.open();
+	});
+
 	it('basic open/close navigation', function (finish) {
 		var rootWindow = Ti.UI.createWindow(),
 			window2 = Ti.UI.createWindow(),

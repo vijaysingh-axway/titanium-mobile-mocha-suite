@@ -48,4 +48,39 @@ describe('Titanium.UI.Tab', function () {
 		should(bar.title).eql('this is my value'); // FIXME Windows: https://jira.appcelerator.org/browse/TIMOB-23498
 	});
 
+	it('.titleColor', () => {
+		const tab = Ti.UI.createTab({
+			titleColor: 'red'
+		});
+
+		should(tab.titleColor).be.a.String;
+		should(tab.titleColor).eql('red');
+	});
+
+	it('.activeTitleColor', () => {
+		const tab = Ti.UI.createTab({
+			activeTitleColor: 'red'
+		});
+
+		should(tab.activeTitleColor).be.a.String;
+		should(tab.activeTitleColor).eql('red');
+	});
+
+	it('.tintColor', () => {
+		const tab = Ti.UI.createTab({
+			tintColor: 'red'
+		});
+
+		should(tab.tintColor).be.a.String;
+		should(tab.tintColor).eql('red');
+	});
+
+	it('.activeTintColor', () => {
+		const tab = Ti.UI.createTab({
+			activeTintColor: 'red'
+		});
+
+		should(tab.activeTintColor).be.a.String;
+		should(tab.activeTintColor).eql('red');
+	});
 });
