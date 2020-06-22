@@ -16,7 +16,7 @@ describe('Titanium.UI.Switch', function () {
 	});
 
 	it('.apiName', function () {
-		var switch_ctrl = Ti.UI.createSwitch();
+		const switch_ctrl = Ti.UI.createSwitch();
 		should(switch_ctrl).have.readOnlyProperty('apiName').which.is.a.String();
 		should(switch_ctrl.apiName).be.eql('Ti.UI.Switch');
 	});
@@ -26,7 +26,7 @@ describe('Titanium.UI.Switch', function () {
 		should(Ti.UI.createSwitch).be.a.Function();
 
 		// Create switch
-		var switch_ctrl = Ti.UI.createSwitch({ value: true });
+		const switch_ctrl = Ti.UI.createSwitch({ value: true });
 		should(switch_ctrl).be.a.Object();
 		should(switch_ctrl.apiName).be.a.String();
 		should(switch_ctrl.apiName).be.eql('Ti.UI.Switch');
@@ -39,7 +39,7 @@ describe('Titanium.UI.Switch', function () {
 	});
 
 	it('.value', function () {
-		var switch_ctrl = Ti.UI.createSwitch();
+		const switch_ctrl = Ti.UI.createSwitch();
 		should(switch_ctrl.value).be.eql(false);
 		switch_ctrl.value = true;
 		should(switch_ctrl.value).be.eql(true);

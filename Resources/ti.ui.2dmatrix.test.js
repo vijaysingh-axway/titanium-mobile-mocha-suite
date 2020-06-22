@@ -8,13 +8,13 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 // FIXME: We're moving the name to Ti.UI.Matrix2D now!
 describe('Titanium.UI.2DMatrix', function () {
 	it('apiName', function () {
-		var matrix = Ti.UI.create2DMatrix();
+		const matrix = Ti.UI.create2DMatrix();
 		should(matrix).have.readOnlyProperty('apiName').which.is.a.String();
 		if (utilities.isWindows()) {
 			should(matrix.apiName).be.eql('Ti.UI.Matrix2D');

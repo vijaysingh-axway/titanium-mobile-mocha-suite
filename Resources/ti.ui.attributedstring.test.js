@@ -38,8 +38,8 @@ describe('Titanium.UI.AttributedString', function () {
 	});
 
 	it('.attributes', function () {
-		var str = 'Lorem ipsum dolor sit amet.';
-		var attributedString = Ti.UI.createAttributedString({
+		const str = 'Lorem ipsum dolor sit amet.';
+		const attributedString = Ti.UI.createAttributedString({
 			text: str,
 			attributes: [ {
 				type: Ti.UI.ATTRIBUTE_PARAGRAPH_STYLE,

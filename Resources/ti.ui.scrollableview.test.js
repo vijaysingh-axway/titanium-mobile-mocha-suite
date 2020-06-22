@@ -7,28 +7,16 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.ScrollableView', function () {
-	var win;
 	this.timeout(5000);
 
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -40,13 +28,13 @@ describe('Titanium.UI.ScrollableView', function () {
 	});
 
 	it('apiName', function () {
-		var scrollableView = Ti.UI.createScrollableView({});
+		const scrollableView = Ti.UI.createScrollableView({});
 		should(scrollableView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(scrollableView.apiName).be.eql('Ti.UI.ScrollableView');
 	});
 
 	it('views', function () {
-		var bar = Ti.UI.createScrollableView({});
+		const bar = Ti.UI.createScrollableView({});
 		should(bar.views).be.an.Array(); // iOS returns undefined
 		should(bar.getViews).be.a.Function();
 		should(bar.views).be.empty;
@@ -60,7 +48,7 @@ describe('Titanium.UI.ScrollableView', function () {
 		this.slow(5000);
 		this.timeout(5000);
 
-		var scrollableView = Ti.UI.createScrollableView({
+		const scrollableView = Ti.UI.createScrollableView({
 			clipViews: true
 		});
 
@@ -70,9 +58,9 @@ describe('Titanium.UI.ScrollableView', function () {
 			finish();
 		});
 
-		var view1 = Ti.UI.createView({ id: 'view1', backgroundColor: '#836' });
-		var view2 = Ti.UI.createView({ id: 'view2', backgroundColor: '#246' });
-		var view3 = Ti.UI.createView({ id: 'view3', backgroundColor: '#48b' });
+		const view1 = Ti.UI.createView({ id: 'view1', backgroundColor: '#836' });
+		const view2 = Ti.UI.createView({ id: 'view2', backgroundColor: '#246' });
+		const view3 = Ti.UI.createView({ id: 'view3', backgroundColor: '#48b' });
 
 		scrollableView.setViews([ view1, view2, view3 ]);
 
@@ -85,7 +73,7 @@ describe('Titanium.UI.ScrollableView', function () {
 		this.slow(5000);
 		this.timeout(5000);
 
-		var scrollableView = Ti.UI.createScrollableView({
+		const scrollableView = Ti.UI.createScrollableView({
 			padding: { left: 20, right: 20 }
 		});
 
@@ -97,9 +85,9 @@ describe('Titanium.UI.ScrollableView', function () {
 			finish();
 		});
 
-		var view1 = Ti.UI.createView({ id: 'view1', backgroundColor: '#836' });
-		var view2 = Ti.UI.createView({ id: 'view2', backgroundColor: '#246' });
-		var view3 = Ti.UI.createView({ id: 'view3', backgroundColor: '#48b' });
+		const view1 = Ti.UI.createView({ id: 'view1', backgroundColor: '#836' });
+		const view2 = Ti.UI.createView({ id: 'view2', backgroundColor: '#246' });
+		const view3 = Ti.UI.createView({ id: 'view3', backgroundColor: '#48b' });
 
 		scrollableView.setViews([ view1, view2, view3 ]);
 
@@ -109,7 +97,7 @@ describe('Titanium.UI.ScrollableView', function () {
 
 	// FIXME explicitly setting currentPage doesn't seem to update value on Android
 	it.androidBroken('currentPage', function () {
-		var bar = Ti.UI.createScrollableView({});
+		const bar = Ti.UI.createScrollableView({});
 		should(bar.currentPage).be.a.Number();
 		should(bar.getCurrentPage).be.a.Function();
 		should(bar.currentPage).eql(0);

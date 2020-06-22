@@ -10,24 +10,11 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.UI.SearchBar', function () {
-	var win;
-
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -340,5 +327,43 @@ describe('Titanium.UI.SearchBar', function () {
 			}, 100);
 		});
 		win.open();
+	});
+
+	it('.focused', done => {
+		win = Ti.UI.createWindow({ backgroundColor: '#fff' });
+		const searchbar = Ti.UI.createSearchBar({
+			backgroundColor: '#fafafa',
+			color: 'green',
+			width: 250,
+			height: 40
+		});
+		win.add(searchbar);
+		try {
+			searchbar.should.have.a.property('focused').which.is.a.Boolean();
+			searchbar.focused.should.eql(false); // haven't opened it yet, so shouldn't be focused
+			searchbar.addEventListener('focus', () => {
+				try {
+					searchbar.focused.should.eql(true);
+				} catch (e) {
+					return done(e);
+				}
+				win.close();
+			});
+			win.addEventListener('open', () => {
+				searchbar.focus(); // force focus!
+			});
+			win.addEventListener('close', () => {
+				try {
+					// we've been closed (or are closing?) so hopefully shouldn't say that we're focused
+					searchbar.focused.should.eql(false);
+				} catch (e) {
+					return done(e);
+				}
+				done();
+			});
+			win.open();
+		} catch (e) {
+			return done(e);
+		}
 	});
 });

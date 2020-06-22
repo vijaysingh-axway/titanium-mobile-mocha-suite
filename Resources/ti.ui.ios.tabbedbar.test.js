@@ -7,7 +7,7 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe.ios('Titanium.UI.iOS', function () {
 	it('#createTabbedBar()', function () {
@@ -19,7 +19,7 @@ describe.ios('Titanium.UI.iOS', function () {
 describe.ios('Titanium.UI.iOS.TabbedBar', function () {
 
 	it('#labels', function () {
-		var tabbedBar = Ti.UI.iOS.createTabbedBar({
+		const tabbedBar = Ti.UI.iOS.createTabbedBar({
 			labels: [ 'One', 'Two', 'Three' ],
 		});
 		should(tabbedBar.labels).be.an.Array();
@@ -31,7 +31,7 @@ describe.ios('Titanium.UI.iOS.TabbedBar', function () {
 	});
 
 	it('#index', function () {
-		var tabbedBar = Ti.UI.iOS.createTabbedBar({
+		const tabbedBar = Ti.UI.iOS.createTabbedBar({
 			labels: [ 'One', 'Two', 'Three' ],
 			index: 1
 		});

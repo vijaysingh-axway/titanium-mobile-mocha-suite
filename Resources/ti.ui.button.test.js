@@ -7,28 +7,16 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.Button', function () {
-	var win;
 	this.timeout(5000);
 
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -39,8 +27,8 @@ describe('Titanium.UI.Button', function () {
 		}
 	});
 
-	it('apiName', function () {
-		var button = Ti.UI.createButton({
+	it('apiName', () => {
+		const button = Ti.UI.createButton({
 			title: 'this is some text'
 		});
 		should(button).have.readOnlyProperty('apiName').which.is.a.String();
@@ -48,7 +36,7 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	it('title', function () {
-		var bar = Ti.UI.createButton({
+		const bar = Ti.UI.createButton({
 			title: 'this is some text'
 		});
 		should(bar.title).be.a.String();
@@ -62,7 +50,7 @@ describe('Titanium.UI.Button', function () {
 
 	// FIXME Parity issue - iOS and Android retains old title if titleid can't be found, Windows uses key
 	it('titleid', function () {
-		var bar = Ti.UI.createButton({
+		const bar = Ti.UI.createButton({
 			titleid: 'this_is_my_key'
 		});
 		should(bar.titleid).be.a.String();
@@ -77,21 +65,19 @@ describe('Titanium.UI.Button', function () {
 	});
 
 	it('image(String)', function (finish) {
-		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		view = Ti.UI.createButton({ title: 'push button' });
+		const view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
 				view.image = 'Logo.png';
 				should(view.image).be.eql('Logo.png');
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
@@ -99,24 +85,22 @@ describe('Titanium.UI.Button', function () {
 	// Skip on Windows 10 and 8.1 desktop for now, it hangs
 	// FIXME iOS getFile().read() returns null for Logo.png
 	it.iosAndWindowsBroken('image(Blob)', function (finish) {
-		var view;
 		this.slow(1000);
 		this.timeout(20000);
 
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		view = Ti.UI.createButton({ title: 'push button' });
+		const view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
 				view.image = Ti.Filesystem.getFile('Logo.png').read();
 				should(view.image).be.an.Object(); // ios gives null
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
@@ -148,11 +132,10 @@ describe('Titanium.UI.Button', function () {
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
 	it.androidAndIosBroken('backgroundFocusedColor/Image', function (finish) {
-		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		view = Ti.UI.createButton({ title: 'push button' });
+		const view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
@@ -162,22 +145,20 @@ describe('Titanium.UI.Button', function () {
 				view.backgroundFocusedImage = 'Logo.png';
 				should(view.backgroundFocusedColor).be.eql('white');
 				should(view.backgroundFocusedImage).be.eql('Logo.png');
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
 	it.androidAndIosBroken('backgroundSelectedColor/Image', function (finish) {
-		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		view = Ti.UI.createButton({ title: 'push button' });
+		const view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
@@ -187,22 +168,20 @@ describe('Titanium.UI.Button', function () {
 				view.backgroundSelectedImage = 'Logo.png';
 				should(view.backgroundSelectedColor).be.eql('white');
 				should(view.backgroundSelectedImage).be.eql('Logo.png');
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
 
 	// FIXME Get working on iOS and Android. borderColor defaults to undefined there, we're verifying it's a String
 	it.androidAndIosBroken('backgroundDisabledColor/Image', function (finish) {
-		var view;
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		view = Ti.UI.createButton({ title: 'push button' });
+		const view = Ti.UI.createButton({ title: 'push button' });
 		win.add(view);
 		win.addEventListener('focus', function () {
 			try {
@@ -212,25 +191,23 @@ describe('Titanium.UI.Button', function () {
 				view.backgroundDisabledImage = 'Logo.png';
 				should(view.backgroundDisabledColor).be.eql('white');
 				should(view.backgroundDisabledImage).be.eql('Logo.png');
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
 
 	// FIXME Get working on iOS
 	it.iosBroken('backgroundGradient', function (finish) {
-		var view;
 		this.slow(1000);
 		this.timeout(20000);
 
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue'
 		});
-		view = Ti.UI.createButton({ title: 'push button' });
+		const view = Ti.UI.createButton({ title: 'push button' });
 		view.backgroundGradient = {
 			type: 'linear',
 			startPoint: { x: '0%', y: '50%' },
@@ -244,11 +221,10 @@ describe('Titanium.UI.Button', function () {
 				should(view.backgroundGradient.startPoint).be.an.Object();
 				should(view.backgroundGradient.endPoint).be.an.Object();
 				should(view.backgroundGradient.colors).be.an.Array(); // undefined on iOS
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});

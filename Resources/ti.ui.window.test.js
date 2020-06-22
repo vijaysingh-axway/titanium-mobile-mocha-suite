@@ -11,26 +11,13 @@ const should = require('./utilities/assertions');
 const utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.Window', function () {
-	var win;
-
 	this.timeout(5000);
 
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -41,7 +28,7 @@ describe('Titanium.UI.Window', function () {
 		}
 	});
 
-	it('.title', function () {
+	it('.title', () => {
 		win = Ti.UI.createWindow({
 			title: 'this is some text'
 		});
@@ -54,7 +41,7 @@ describe('Titanium.UI.Window', function () {
 		should(win.getTitle()).eql('other text');
 	});
 
-	it('.titleid', function () {
+	it('.titleid', () => {
 		win = Ti.UI.createWindow({
 			titleid: 'this_is_my_key'
 		});
@@ -82,30 +69,30 @@ describe('Titanium.UI.Window', function () {
 				try {
 					win.orientationModes.should.have.length(1);
 					win.orientationModes[0].should.eql(orientation);
-					win.orientation.should.eql(orientation); // FIXME Fails on LANDSCAPE_RIGHT
-					finish();
+					win.orientation.should.eql(orientation); // FIXME: Fails on LANDSCAPE_RIGHT
 				} catch (e) {
-					finish(e);
+					return finish(e);
 				}
+				finish();
 			});
 			win.open();
 		}
 
-		it('PORTRAIT', function (finish) {
+		it('PORTRAIT', finish => {
 			doOrientationModeTest(Ti.UI.PORTRAIT, finish);
 		});
 
-		it.androidBroken('LANDSCAPE_LEFT', function (finish) {
+		it('LANDSCAPE_LEFT', finish => {
 			doOrientationModeTest(Ti.UI.LANDSCAPE_LEFT, finish);
 		});
 
-		it.androidBroken('LANDSCAPE_RIGHT', function (finish) {
+		it.androidBroken('LANDSCAPE_RIGHT', finish => {
 			doOrientationModeTest(Ti.UI.LANDSCAPE_RIGHT, finish);
 		});
 	});
 
 	// FIXME Move these rect/size tests into Ti.UI.View!
-	it.windowsBroken('.size is read-only', function (finish) {
+	it.windowsBroken('.size is read-only', finish => {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'blue',
 			width: 100,
@@ -130,16 +117,15 @@ describe('Titanium.UI.Window', function () {
 				win.size.height.should.eql(100);
 				win.size.x.should.eql(0);
 				win.size.y.should.eql(0);
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
 
-	it.androidAndWindowsBroken('.rect is read-only', function (finish) {
+	it.androidAndWindowsBroken('.rect is read-only', finish => {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'green',
 			left: 100,
@@ -148,13 +134,11 @@ describe('Titanium.UI.Window', function () {
 		win.addEventListener('postlayout', function listener () {
 			win.removeEventListener('postlayout', listener);
 
-			let width,
-				height;
 			try {
-				win.rect.x.should.eql(100); // get 0 on Android
+				win.rect.x.should.eql(100); // FiXME: get 0 on Android
 				win.rect.y.should.eql(0);
-				width = win.rect.width;
-				height = win.rect.height;
+				const width = win.rect.width;
+				const height = win.rect.height;
 
 				// try to change the rect
 				win.rect.x = 120;
@@ -167,24 +151,22 @@ describe('Titanium.UI.Window', function () {
 				win.rect.y.should.eql(0);
 				win.rect.width.should.eql(width);
 				win.rect.height.should.eql(height);
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
 
 	it('#remove(View)', function (finish) {
-		var view;
 		this.slow(1000);
 		this.timeout(20000);
 
 		win = Ti.UI.createWindow({
 			backgroundColor: 'gray'
 		});
-		view = Ti.UI.createView();
+		const view = Ti.UI.createView();
 		win.addEventListener('focus', function listener () {
 			win.removeEventListener('focus', listener);
 
@@ -192,11 +174,10 @@ describe('Titanium.UI.Window', function () {
 				should(win.children.length).be.eql(1);
 				win.remove(win.children[0]);
 				should(win.children.length).be.eql(0);
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.add(view);
 		win.open();
@@ -224,14 +205,9 @@ describe('Titanium.UI.Window', function () {
 			win = Ti.UI.createWindow({
 				backgroundColor: 'pink'
 			});
-
-			win.addEventListener('blur', function () {
-				finish();
-			});
+			win.addEventListener('blur', () => finish());
 			win.addEventListener('open', function () {
-				setTimeout(function () {
-					win.close();
-				}, 500);
+				setTimeout(() => win.close(), 1);
 			});
 			win.open();
 		});
@@ -242,10 +218,7 @@ describe('Titanium.UI.Window', function () {
 			win = Ti.UI.createWindow({
 				backgroundColor: 'pink'
 			});
-
-			win.addEventListener('focus', function () {
-				finish();
-			});
+			win.addEventListener('focus', () => finish());
 			win.open();
 		});
 
@@ -255,10 +228,7 @@ describe('Titanium.UI.Window', function () {
 			win = Ti.UI.createWindow({
 				backgroundColor: 'pink'
 			});
-
-			win.addEventListener('open', function () {
-				finish();
-			});
+			win.addEventListener('open', () => finish());
 			win.open();
 		});
 
@@ -274,8 +244,21 @@ describe('Titanium.UI.Window', function () {
 				}
 				finish();
 			});
-			win.addEventListener('open', function listener () {
+			win.addEventListener('open', () => win.close());
+			win.open();
+		});
+
+		it('fires close event', done => {
+			win.addEventListener('open', () => {
 				win.close();
+			});
+			win.addEventListener('close', () => {
+				try {
+					win.closed.should.eql(true); // we're being notified the window is open, so should report closed as false!
+				} catch (e) {
+					return done(e);
+				}
+				done();
 			});
 			win.open();
 		});
@@ -284,15 +267,13 @@ describe('Titanium.UI.Window', function () {
 	// For this test, you should see errors in the console, it is expected.
 	// What you should not see is a crash
 	it('should_not_crash', function (finish) {
-		var win1,
-			win2;
 		this.slow(5000);
 		this.timeout(20000);
 
-		win1 = Ti.UI.createWindow();
+		const win1 = Ti.UI.createWindow();
 		win1.open();
 		win1.close();
-		win2 = Ti.UI.createWindow();
+		const win2 = Ti.UI.createWindow();
 		win2.close();
 		win1.open();
 		win2.close();
@@ -306,14 +287,12 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it('window_close_order_1', function (finish) {
-		var win2,
-			win3;
 		this.slow(5000);
 		this.timeout(30000);
 
 		win = Ti.UI.createWindow({ backgroundColor: 'green' });
-		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
-		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
+		const win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		const win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		function focus() {
 			win.removeEventListener('focus', focus);
@@ -335,14 +314,12 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it('window_close_order_2', function (finish) {
-		var win2,
-			win3;
 		this.slow(5000);
 		this.timeout(20000);
 
 		win = Ti.UI.createWindow({ backgroundColor: 'green' });
-		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
-		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
+		const win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		const win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		function focus() {
 			win.removeEventListener('focus', focus);
@@ -364,14 +341,12 @@ describe('Titanium.UI.Window', function () {
 
 	// TIMOB-20600
 	it('TIMOB-20600', function (finish) {
-		var win2,
-			win3;
 		this.slow(5000);
 		this.timeout(30000);
 
 		win = Ti.UI.createWindow({ backgroundColor: 'green' });
-		win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
-		win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
+		const win2 = Ti.UI.createWindow({ backgroundColor: 'blue' });
+		const win3 = Ti.UI.createWindow({ backgroundColor: 'gray' });
 
 		function focus() {
 			win.removeEventListener('focus', focus);
@@ -392,96 +367,109 @@ describe('Titanium.UI.Window', function () {
 		win.open();
 	});
 
-	it.iosAndWindowsBroken('#toString()', function () {
+	it.iosAndWindowsBroken('#toString()', () => {
 		win = Ti.UI.createWindow();
 		should(win.toString()).be.eql('[object Window]'); // Windows: '[object class TitaniumWindows::UI::Window]', iOS: '[object TiUIWindow]'
 		should(win.apiName).be.a.String();
 		should(win.apiName).be.eql('Ti.UI.Window');
 	});
 
-	it('Stringify unopened Window', function () {
+	it('Stringify unopened Window', () => {
 		win = Ti.UI.createWindow();
 		Ti.API.info(JSON.stringify(win));
 	});
 
-	// Times out on Android and Windows Desktop
-	it.androidAndWindowsDesktopBroken('window_navigation', function (finish) {
-		var rootWindowFocus = 0;
-		var rootWindowBlur = 0;
-		var rootWindowOpen = 0;
-		var rootWindowClose = 0;
-		var secondWindowFocus = 0;
-		var secondWindowBlur = 0;
-		var secondWindowOpen = 0;
-		var secondWindowClose = 0;
-		var thirdWindowFocus = 0;
-		var thirdWindowBlur = 0;
-		var thirdWindowOpen = 0;
-		var thirdWindowClose = 0;
+	it('window_navigation', function (finish) {
+		this.slow(5000);
+		this.timeout(30000);
+		let rootWindowFocus = 0;
+		let rootWindowBlur = 0;
+		let rootWindowOpen = 0;
+		let rootWindowClose = 0;
+		let secondWindowFocus = 0;
+		let secondWindowBlur = 0;
+		let secondWindowOpen = 0;
+		let secondWindowClose = 0;
+		let thirdWindowFocus = 0;
+		let thirdWindowBlur = 0;
+		let thirdWindowOpen = 0;
+		let thirdWindowClose = 0;
 
-		var rootWindow = Ti.UI.createWindow({
+		// Create 3 windows in sucession, opening each, then once opened create.open next. Once last one is open,
+		// schedule it to be closed, and as it gets closed schedule the one before it to close, etc.
+		// once last window is closed, verify the number of events we get fired on each window (close/open/focus/blur)
+
+		const rootWindow = Ti.UI.createWindow({
 			backgroundColor: 'navy'
 		});
 
-		rootWindow.addEventListener('focus', function () { rootWindowFocus++; }); // eslint-disable-line max-statements-per-line
-		rootWindow.addEventListener('blur', function () { rootWindowBlur++; }); // eslint-disable-line max-statements-per-line
-		rootWindow.addEventListener('open', function () { rootWindowOpen++; }); // eslint-disable-line max-statements-per-line
-		rootWindow.addEventListener('close', function () { rootWindowClose++; }); // eslint-disable-line max-statements-per-line
-		rootWindow.open();
+		rootWindow.addEventListener('focus', () => rootWindowFocus++);
+		rootWindow.addEventListener('blur', () => rootWindowBlur++);
+		rootWindow.addEventListener('open', () => {
+			rootWindowOpen++;
 
-		setTimeout(function () {
-			var secondWindow = Ti.UI.createWindow({
+			// now move on to 2nd window!
+			const secondWindow = Ti.UI.createWindow({
 				backgroundColor: 'pink'
 			});
-			secondWindow.addEventListener('focus', function () { secondWindowFocus++; }); // eslint-disable-line max-statements-per-line
-			secondWindow.addEventListener('blur', function () { secondWindowBlur++; }); // eslint-disable-line max-statements-per-line
-			secondWindow.addEventListener('open', function () { secondWindowOpen++; }); // eslint-disable-line max-statements-per-line
-			secondWindow.addEventListener('close', function () { secondWindowClose++; }); // eslint-disable-line max-statements-per-line
-			secondWindow.open();
+			secondWindow.addEventListener('focus', () => secondWindowFocus++);
+			secondWindow.addEventListener('blur', () => secondWindowBlur++);
+			secondWindow.addEventListener('open', () => {
+				secondWindowOpen++;
 
-			setTimeout(function () {
-				var thirdWindow = Ti.UI.createWindow({
+				// now move on to 3rd window
+				const thirdWindow = Ti.UI.createWindow({
 					backgroundColor: 'green'
 				});
-				thirdWindow.addEventListener('focus', function () { thirdWindowFocus++; }); // eslint-disable-line max-statements-per-line
-				thirdWindow.addEventListener('blur', function () { thirdWindowBlur++; }); // eslint-disable-line max-statements-per-line
-				thirdWindow.addEventListener('open', function () { thirdWindowOpen++; }); // eslint-disable-line max-statements-per-line
-				thirdWindow.addEventListener('close', function () { thirdWindowClose++; }); // eslint-disable-line max-statements-per-line
+				thirdWindow.addEventListener('focus', () => thirdWindowFocus++);
+				thirdWindow.addEventListener('blur', () => thirdWindowBlur++);
+				thirdWindow.addEventListener('open', () => {
+					thirdWindowOpen++;
+					// now schedule it to get closed!
+					setTimeout(() => thirdWindow.close(), 1);
+				});
+				thirdWindow.addEventListener('close', () => {
+					thirdWindowClose++;
+					// now close the 2nd window
+					setTimeout(() => secondWindow.close(), 1);
+				});
 				thirdWindow.open();
+			});
+			secondWindow.addEventListener('close', () => {
+				secondWindowClose++;
+				// now close root window
+				setTimeout(() => rootWindow.close(), 1);
+			});
+			secondWindow.open();
+		});
+		rootWindow.addEventListener('close', () => {
+			rootWindowClose++;
 
-				setTimeout(function () {
-					thirdWindow.close();
-					setTimeout(function () {
-						secondWindow.close();
-						setTimeout(function () {
-							rootWindow.close();
-							try {
-								should(rootWindowFocus).be.eql(2);
-								should(rootWindowBlur).be.eql(2);
-								should(rootWindowOpen).be.eql(1);
-								should(rootWindowClose).be.eql(1);
+			// now wrap up test!
+			try {
+				should(rootWindowFocus).be.eql(2);
+				should(rootWindowBlur).be.eql(2); // FIXME: ios gives us 1 here!
+				should(rootWindowOpen).be.eql(1);
+				should(rootWindowClose).be.eql(1);
 
-								should(secondWindowFocus).be.eql(2);
-								should(secondWindowBlur).be.eql(2);
-								should(secondWindowOpen).be.eql(1);
-								should(secondWindowClose).be.eql(1);
+				should(secondWindowFocus).be.eql(2);
+				should(secondWindowBlur).be.eql(2);
+				should(secondWindowOpen).be.eql(1);
+				should(secondWindowClose).be.eql(1);
 
-								should(thirdWindowFocus).be.eql(1);
-								should(thirdWindowBlur).be.eql(1);
-								should(thirdWindowOpen).be.eql(1);
-								should(thirdWindowClose).be.eql(1);
-								finish();
-							} catch (err) {
-								finish(err);
-							}
-						}, 500);
-					}, 500);
-				}, 500);
-			}, 500);
-		}, 500);
+				should(thirdWindowFocus).be.eql(1);
+				should(thirdWindowBlur).be.eql(1);
+				should(thirdWindowOpen).be.eql(1);
+				should(thirdWindowClose).be.eql(1);
+			} catch (err) {
+				return finish(err);
+			}
+			finish();
+		});
+		rootWindow.open();
 	});
 
-	it('#applyProperties(Object)', function () {
+	it('#applyProperties(Object)', () => {
 		win = Ti.UI.createWindow();
 		win.open();
 		should(win.custom).not.exist;
@@ -489,7 +477,7 @@ describe('Titanium.UI.Window', function () {
 		should(win.custom).be.eql(1234);
 	});
 
-	it.ios('largeTitleEnabled', function () {
+	it.ios('largeTitleEnabled', () => {
 		win = Ti.UI.createWindow({
 			title: 'this is some text',
 			largeTitleEnabled: true
@@ -511,7 +499,7 @@ describe('Titanium.UI.Window', function () {
 		should(win.getLargeTitleEnabled()).eql(true);
 	});
 
-	it.ios('largeTitleDisplayMode', function () {
+	it.ios('largeTitleDisplayMode', () => {
 		win = Ti.UI.createWindow({
 			title: 'this is some text',
 			largeTitleDisplayMode: Ti.UI.iOS.LARGE_TITLE_DISPLAY_MODE_ALWAYS
@@ -544,48 +532,48 @@ describe('Titanium.UI.Window', function () {
 		win.addEventListener('open', function () {
 			try {
 				should(win.safeAreaView).be.a.Object();
-				finish();
 			} catch (e) {
-				finish(e);
+				return finish(e);
 			}
+			finish();
 		});
 
 		win.open();
 	});
 
-	it.ios('.homeIndicatorAutoHidden', function (finish) {
+	it.ios('.homeIndicatorAutoHidden', finish => {
 		win = Ti.UI.createWindow({
 			title: 'this is some text'
 		});
 
-		win.addEventListener('open', function () {
+		win.addEventListener('open', () => {
 			try {
 				should(win.homeIndicatorAutoHidden).be.a.Boolean();
 				should(win.homeIndicatorAutoHidden).be.false();
 				win.setHomeIndicatorAutoHidden(true);
 				should(win.homeIndicatorAutoHidden).be.true();
-				finish();
 			} catch (e) {
-				finish(e);
+				return finish(e);
 			}
+			finish();
 		});
 		win.open();
 	});
 
-	it.ios('.hidesBackButton', function (finish) {
-		var window1 = Ti.UI.createWindow({
+	it.ios('.hidesBackButton', finish => {
+		const window1 = Ti.UI.createWindow({
 			backgroundColor: 'red'
 		});
 
-		var window2 = Ti.UI.createWindow({
+		const window2 = Ti.UI.createWindow({
 			hidesBackButton: true,
 			backgroundColor: 'yellow'
 		});
 
-		window1.addEventListener('focus', function () {
+		window1.addEventListener('focus', () => {
 			win.openWindow(window2, { animated: false });
 		});
-		window2.addEventListener('open', function () {
+		window2.addEventListener('open', () => {
 			try {
 				should(window2.hidesBackButton).be.a.Boolean();
 
@@ -602,10 +590,10 @@ describe('Titanium.UI.Window', function () {
 				window2.setHidesBackButton(true);
 				should(window2.hidesBackButton).be.eql(true);
 				should(window2.getHidesBackButton()).be.eql(true);
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win = Ti.UI.iOS.createNavigationWindow({
 			window: window1
@@ -624,28 +612,26 @@ describe('Titanium.UI.Window', function () {
 			opacity: 0.5,
 			orientationModes: [ Ti.UI.PORTRAIT ]
 		});
-		win.addEventListener('open', function () {
-			finish();
-		});
+		win.addEventListener('open', () => finish());
 		win.open();
 	});
 
-	it.ios('.statusBarStyle', function (finish) {
+	it.ios('.statusBarStyle', finish => {
 		win = Ti.UI.createWindow({
 			title: 'This is status bar style test',
 			statusBarStyle: Ti.UI.iOS.StatusBar.LIGHT_CONTENT
 		});
 
-		win.addEventListener('open', function () {
+		win.addEventListener('open', () => {
 			try {
 				should(win.statusBarStyle).be.a.Number();
 				should(win.statusBarStyle).eql(Ti.UI.iOS.StatusBar.LIGHT_CONTENT);
 				win.setStatusBarStyle(Ti.UI.iOS.StatusBar.GRAY);
 				should(win.statusBarStyle).eql(Ti.UI.iOS.StatusBar.GRAY);
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
@@ -660,16 +646,16 @@ describe('Titanium.UI.Window', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				var padding = win.safeAreaPadding;
-				should(padding).be.a.Object();
+				const padding = win.safeAreaPadding;
+				should(padding).be.an.Object();
 				should(padding.left).be.eql(0);
 				should(padding.top).be.eql(0);
 				should(padding.right).be.eql(0);
 				should(padding.bottom).be.eql(0);
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
@@ -688,8 +674,8 @@ describe('Titanium.UI.Window', function () {
 			win.removeEventListener('postlayout', listener);
 
 			try {
-				var padding = win.safeAreaPadding;
-				should(padding).be.a.Object();
+				const padding = win.safeAreaPadding;
+				should(padding).be.an.Object();
 				should(padding.top).be.aboveOrEqual(0);
 				should(padding.bottom).be.aboveOrEqual(0);
 				should(padding.left).be.aboveOrEqual(0);
@@ -723,7 +709,6 @@ describe('Titanium.UI.Window', function () {
 			if (majorVersion < 10) {
 				return true;
 			}
-			// at this point majorVersion is 10...
 			// iPhone X has no home button (but iPhone 8 does!)
 			if (minorVersion === 3 || minorVersion === 6) {
 				return false;
@@ -737,8 +722,8 @@ describe('Titanium.UI.Window', function () {
 		return true;
 	}
 
-	it.ios('.safeAreaPadding for window inside navigation window with extendSafeArea true', function (finish) {
-		var window = Ti.UI.createWindow({
+	it.ios('.safeAreaPadding for window inside navigation window with extendSafeArea true', finish => {
+		const window = Ti.UI.createWindow({
 			extendSafeArea: true,
 		});
 		win = Ti.UI.createNavigationWindow({
@@ -749,7 +734,7 @@ describe('Titanium.UI.Window', function () {
 
 			try {
 				var padding = window.safeAreaPadding;
-				should(padding).be.a.Object();
+				should(padding).be.an.Object();
 				// top padding should always be 0 when inside a navigation window, notch or not
 				should(padding.top).be.eql(0);
 				should(padding.left).be.eql(0);
@@ -773,10 +758,10 @@ describe('Titanium.UI.Window', function () {
 					}
 					should(padding.bottom).be.eql(bottom);
 				}
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
@@ -829,10 +814,7 @@ describe('Titanium.UI.Window', function () {
 					childWindow.close();
 				}, 750);
 			});
-			childWindow.addEventListener('close', function () {
-				// The exit animation has finished. We're done.
-				finish();
-			});
+			childWindow.addEventListener('close', () => finish()); // The exit animation has finished. We're done.
 			childWindow.open();
 		});
 		win.open();
@@ -847,18 +829,16 @@ describe('Titanium.UI.Window', function () {
 			windowSettings.backgroundColor = 'blue';
 			win = Ti.UI.createWindow(windowSettings);
 			win.addEventListener('open', function () {
-				setTimeout(function () {
+				setTimeout(() => {
 					win.close();
 					win = null;
 				}, 750);
 			});
-			win.addEventListener('close', function () {
-				finish();
-			});
+			win.addEventListener('close', () => finish());
 			win.open();
 		}
 
-		it('TRANSITION_FADE_IN/TRANSITION_FADE_OUT', function (finish) {
+		it('TRANSITION_FADE_IN/TRANSITION_FADE_OUT', finish => {
 			const windowSettings = {
 				activityEnterTransition: Ti.UI.Android.TRANSITION_FADE_IN,
 				activityReenterTransition: Ti.UI.Android.TRANSITION_FADE_IN,
@@ -872,32 +852,32 @@ describe('Titanium.UI.Window', function () {
 			doTransitionTest(windowSettings, finish);
 		});
 
-		it('TRANSITION_SLIDE_RIGHT', function (finish) {
+		it('TRANSITION_SLIDE_RIGHT', finish => {
 			doTransitionTest({ activityEnterTransition: Ti.UI.Android.TRANSITION_SLIDE_RIGHT }, finish);
 		});
 
-		it('TRANSITION_SLIDE_LEFT', function (finish) {
+		it('TRANSITION_SLIDE_LEFT', finish => {
 			doTransitionTest({ activityEnterTransition: Ti.UI.Android.TRANSITION_SLIDE_LEFT }, finish);
 		});
 
-		it('TRANSITION_SLIDE_TOP', function (finish) {
+		it('TRANSITION_SLIDE_TOP', finish => {
 			doTransitionTest({ activityEnterTransition: Ti.UI.Android.TRANSITION_SLIDE_TOP }, finish);
 		});
 
-		it('TRANSITION_SLIDE_BOTTOM', function (finish) {
+		it('TRANSITION_SLIDE_BOTTOM', finish => {
 			doTransitionTest({ activityEnterTransition: Ti.UI.Android.TRANSITION_SLIDE_BOTTOM }, finish);
 		});
 
-		it('TRANSITION_EXPLODE', function (finish) {
+		it('TRANSITION_EXPLODE', finish => {
 			doTransitionTest({ activityEnterTransition: Ti.UI.Android.TRANSITION_EXPLODE }, finish);
 		});
 
-		it('TRANSITION_NONE', function (finish) {
+		it('TRANSITION_NONE', finish => {
 			doTransitionTest({ activityEnterTransition: Ti.UI.Android.TRANSITION_NONE }, finish);
 		});
 	});
 
-	it.android('.barColor with disabled ActionBar', function (finish) {
+	it.android('.barColor with disabled ActionBar', finish => {
 		win = Ti.UI.createWindow({
 			barColor: 'blue',
 			title: 'My Title',
@@ -905,8 +885,59 @@ describe('Titanium.UI.Window', function () {
 		});
 		win.add(Ti.UI.createLabel({ text: 'Window Title Test' }));
 		win.open();
-		win.addEventListener('open', function () {
-			finish();
-		});
+		win.addEventListener('open', () => finish());
 	});
+
+	it('TIMOB-27711 will not open if close() called immediately after', finish => {
+		const win = Ti.UI.createWindow({
+			backgroundColor: '#0000ff'
+		});
+		win.addEventListener('open', _e => {
+			setTimeout(() => win.close(), 1); // close it after we fail
+			finish(new Error('Expect window to never open if we call open and then close immediately!'));
+		});
+		win.open();
+		win.close();
+		// wait until a window should have opened and fired the event...
+		setTimeout(() => finish(), 1000);
+		// locally android took 106,67,64ms
+		// ios took 1ms repeatedly
+		// so 1 second should be enough time.
+	});
+
+	it('.closed', done => {
+		win.closed.should.eql(true); // it's not yet opened, so treat as closed
+		win.addEventListener('open', () => {
+			try {
+				win.closed.should.eql(false); // we're being notified the window is open, so should report closed as false!
+			} catch (e) {
+				return done(e);
+			}
+			done();
+		});
+		win.open();
+		win.closed.should.eql(false); // should be open now
+	});
+
+	it('.focused', done => {
+		win.focused.should.eql(false); // haven't opened it yet, so shouldn't be focused
+		win.addEventListener('focus', () => {
+			try {
+				win.focused.should.eql(true);
+				win.close();
+			} catch (e) {
+				return done(e);
+			}
+		});
+		win.addEventListener('close', () => {
+			try {
+				// we've been closed (or are closing?) so hopefully shouldn't say that we're focused
+				win.focused.should.eql(false);
+			} catch (e) {
+				return done(e);
+			}
+			done();
+		});
+		win.open();
+	});	// For reference, Android fires open event and then focus event
 });

@@ -10,24 +10,11 @@
 var should = require('./utilities/assertions');
 
 describe('Titanium.UI.TextArea', function () {
-	var win;
-
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -244,5 +231,43 @@ describe('Titanium.UI.TextArea', function () {
 		});
 
 		tabGroup.open();
+	});
+
+	it('.focused', done => {
+		win = Ti.UI.createWindow({ backgroundColor: '#fff' });
+		const textarea = Ti.UI.createTextArea({
+			backgroundColor: '#fafafa',
+			color: 'green',
+			width: 250,
+			height: 40
+		});
+		win.add(textarea);
+		try {
+			textarea.should.have.a.property('focused').which.is.a.Boolean();
+			textarea.focused.should.eql(false); // haven't opened it yet, so shouldn't be focused
+			textarea.addEventListener('focus', () => {
+				try {
+					textarea.focused.should.eql(true);
+				} catch (e) {
+					return done(e);
+				}
+				win.close();
+			});
+			win.addEventListener('open', () => {
+				textarea.focus(); // force focus!
+			});
+			win.addEventListener('close', () => {
+				try {
+					// we've been closed (or are closing?) so hopefully shouldn't say that we're focused
+					textarea.focused.should.eql(false);
+				} catch (e) {
+					return done(e);
+				}
+				done();
+			});
+			win.open();
+		} catch (e) {
+			return done(e);
+		}
 	});
 });

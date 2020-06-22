@@ -8,19 +8,19 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.ProgressBar', function () {
-	it('apiName', function () {
-		var progressBar = Ti.UI.createProgressBar({
+	it('apiName', () => {
+		const progressBar = Ti.UI.createProgressBar({
 			message: 'this is some text'
 		});
 		should(progressBar).have.readOnlyProperty('apiName').which.is.a.String();
 		should(progressBar.apiName).be.eql('Ti.UI.ProgressBar');
 	});
 
-	it('message', function () {
-		var bar = Ti.UI.createProgressBar({
+	it('message', () => {
+		const bar = Ti.UI.createProgressBar({
 			message: 'this is some text'
 		});
 		should(bar.message).be.a.String();
@@ -32,8 +32,8 @@ describe('Titanium.UI.ProgressBar', function () {
 		should(bar.getMessage()).eql('other text');
 	});
 
-	it('min', function () {
-		var bar = Ti.UI.createProgressBar({
+	it('min', () => {
+		const bar = Ti.UI.createProgressBar({
 			min: 0
 		});
 		should(bar.min).be.a.Number();
@@ -45,8 +45,8 @@ describe('Titanium.UI.ProgressBar', function () {
 		should(bar.getMin()).eql(100);
 	});
 
-	it('max', function () {
-		var bar = Ti.UI.createProgressBar({
+	it('max', () => {
+		const bar = Ti.UI.createProgressBar({
 			max: 0
 		});
 		should(bar.max).be.a.Number();
@@ -58,8 +58,8 @@ describe('Titanium.UI.ProgressBar', function () {
 		should(bar.getMax()).eql(100);
 	});
 
-	it('value', function () {
-		var bar = Ti.UI.createProgressBar({
+	it('value', () => {
+		const bar = Ti.UI.createProgressBar({
 			value: 0
 		});
 		should(bar.value).be.a.Number();

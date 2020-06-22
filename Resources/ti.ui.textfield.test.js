@@ -7,28 +7,15 @@
 /* eslint-env titanium, mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.TextField', function () {
-	var win;
-
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -40,7 +27,7 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	it('apiName', function () {
-		var textField = Ti.UI.createTextField({
+		const textField = Ti.UI.createTextField({
 			value: 'this is some text'
 		});
 		should(textField).have.readOnlyProperty('apiName').which.is.a.String();
@@ -48,7 +35,7 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	it('value', function () {
-		var textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			value: 'this is some text'
 		});
 		should(textfield.value).be.a.String();
@@ -62,7 +49,7 @@ describe('Titanium.UI.TextField', function () {
 
 	// Skip on Windows Phone since not available, yet
 	it.windowsMissing('padding', function () {
-		var textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			value: 'this is some text',
 			padding: {
 				left: 20,
@@ -90,7 +77,7 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	it('textAlign', function () {
-		var textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			value: 'this is some text',
 			textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER
 		});
@@ -109,7 +96,7 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	it('verticalAlign', function () {
-		var textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			value: 'this is some text',
 			verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
 		});
@@ -129,7 +116,7 @@ describe('Titanium.UI.TextField', function () {
 
 	// FIXME Defaults to undefined on Android. Docs say default is false
 	it.androidBroken('passwordMask', function () {
-		var text = 'this is some text',
+		const text = 'this is some text',
 			textfield = Ti.UI.createTextField({
 				value: text
 			});
@@ -157,7 +144,7 @@ describe('Titanium.UI.TextField', function () {
 	// suppressReturn
 
 	it('hintText', function () {
-		var textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			hintText: 'Enter E-Mail ...'
 		});
 		should(textfield.getHintText).be.a.Function();
@@ -169,7 +156,7 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	it.windowsMissing('hintTextColor', function () {
-		var textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			hintText: 'Enter E-Mail ...',
 			hintTextColor: 'red'
 		});
@@ -182,7 +169,7 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	it.android('hintType', function () {
-		var textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			hintText: 'Enter E-Mail ...',
 			hintType: Ti.UI.HINT_TYPE_ANIMATED
 		});
@@ -195,9 +182,8 @@ describe('Titanium.UI.TextField', function () {
 	});
 
 	it('width', function (finish) {
-		var textfield;
 		this.timeout(5000);
-		textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
 			width: Ti.UI.SIZE
 		});
@@ -210,26 +196,24 @@ describe('Titanium.UI.TextField', function () {
 			try {
 				should(win.rect.width).be.greaterThan(100);
 				should(textfield.rect.width).not.be.greaterThan(win.rect.width);
-				return finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
 
 	// FIXME Intermittently failing on Android on build machine, I think due to test timeout
 	it.androidBroken('height', function (finish) {
-		var textfield,
-			bgView;
 		this.timeout(5000);
-		textfield = Ti.UI.createTextField({
+		const textfield = Ti.UI.createTextField({
 			value: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
 			width: Ti.UI.SIZE,
 			height: Ti.UI.SIZE,
 			color: 'black'
 		});
-		bgView = Ti.UI.createView({
+		const bgView = Ti.UI.createView({
 			width: 200,
 			height: 100,
 			backgroundColor: 'red'
@@ -244,23 +228,22 @@ describe('Titanium.UI.TextField', function () {
 			try {
 				should(bgView.height).be.eql(100);
 				should(textfield.height).not.be.greaterThan(100);
-				return finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
 
 	// Tests adding and removing a TextField's focus.
 	it.ios('focus-blur', function (finish) {
-		var textField;
 		this.timeout(5000);
 		win = Ti.UI.createWindow({ layout: 'vertical' });
 
 		// First TextField is needed to receive default focus on startup
 		// and to receive focus when second TextField has lost focus.
-		textField = Ti.UI.createTextField({
+		let textField = Ti.UI.createTextField({
 			width: Ti.UI.FILL,
 			height: Ti.UI.SIZE,
 		});
@@ -273,9 +256,7 @@ describe('Titanium.UI.TextField', function () {
 		});
 		textField.addEventListener('focus', function () {
 			// Focus has been received. Now test removing focus.
-			setTimeout(function () {
-				textField.blur();
-			}, 500);
+			setTimeout(() => textField.blur(), 500);
 		});
 		textField.addEventListener('blur', function () {
 			// Focus has been lost. The test was finished successfully. (Timeout means failure.)
@@ -287,20 +268,17 @@ describe('Titanium.UI.TextField', function () {
 		win.addEventListener('postlayout', function listener () {
 			win.removeEventListener('postlayout', listener);
 
-			setTimeout(function () {
-				textField.focus();
-			}, 500);
+			setTimeout(() => textField.focus(), 500);
 		});
 		win.open();
 	});
 
 	// TextField must not receive focus by default upon opening a window.
 	it('focus-win-open', function (finish) {
-		var textField;
 		this.timeout(5000);
 
 		win = Ti.UI.createWindow();
-		textField = Ti.UI.createTextField();
+		const textField = Ti.UI.createTextField();
 		textField.addEventListener('focus', function () {
 			// This should never happen.
 			finish(new Error('TextField wrongly received focus on open.'));
@@ -318,28 +296,33 @@ describe('Titanium.UI.TextField', function () {
 	// Windows ticket TIMOB-26177
 	// Android intermittently fails (but quite often)
 	it.androidAndWindowsBroken('focus-blur-bubbles', function (finish) {
-		var textField;
 		this.timeout(5000);
 
 		win = Ti.UI.createWindow();
-		textField = Ti.UI.createTextField();
+		const textField = Ti.UI.createTextField();
 		textField.addEventListener('focus', function (e) {
-			should(e.bubbles).be.eql(false);
-			textField.blur();
+			try {
+				should(e.bubbles).be.eql(false);
+				textField.blur();
+			} catch (err) {
+				return finish(err);
+			}
 		});
 		textField.addEventListener('blur', function (e) {
-			should(e.bubbles).be.eql(false);
+			try {
+				should(e.bubbles).be.eql(false);
+			} catch (err) {
+				return finish(err);
+			}
 			finish();
 		});
 		win.add(textField);
-		win.addEventListener('open', function () {
-			textField.focus();
-		});
+		win.addEventListener('open', () => textField.focus());
 		win.open();
 	});
 
 	it.ios('.passwordRules', function () {
-		var textField = Ti.UI.createTextField({
+		const textField = Ti.UI.createTextField({
 			passwordMask: true,
 			passwordRules: 'required: upper; required: lower; required: digit; max-consecutive: 2'
 		});
@@ -348,14 +331,14 @@ describe('Titanium.UI.TextField', function () {
 
 	it.ios('#hasText()', function () {
 		win = Ti.UI.createWindow();
-		var textFieldA = Ti.UI.createTextField({
+		const textFieldA = Ti.UI.createTextField({
 			top: '60dip',
 			value: 0
 		});
 
 		win.add(textFieldA);
 
-		var textFieldB = Ti.UI.createTextField({
+		const textFieldB = Ti.UI.createTextField({
 			top: '120dip',
 			value: 0
 		});
@@ -366,5 +349,43 @@ describe('Titanium.UI.TextField', function () {
 		should(textFieldB.hasText()).be.true();
 
 		win.open();
+	});
+
+	it('.focused', done => {
+		win = Ti.UI.createWindow({ backgroundColor: '#fff' });
+		const textfield = Ti.UI.createTextField({
+			backgroundColor: '#fafafa',
+			color: 'green',
+			width: 250,
+			height: 40
+		});
+		win.add(textfield);
+		try {
+			textfield.should.have.a.property('focused').which.is.a.Boolean();
+			textfield.focused.should.eql(false); // haven't opened it yet, so shouldn't be focused
+			textfield.addEventListener('focus', () => {
+				try {
+					textfield.focused.should.eql(true);
+				} catch (e) {
+					return done(e);
+				}
+				win.close();
+			});
+			win.addEventListener('open', () => {
+				textfield.focus(); // force focus!
+			});
+			win.addEventListener('close', () => {
+				try {
+					// we've been closed (or are closing?) so hopefully shouldn't say that we're focused
+					textfield.focused.should.eql(false);
+				} catch (e) {
+					return done(e);
+				}
+				done();
+			});
+			win.open();
+		} catch (e) {
+			return done(e);
+		}
 	});
 });

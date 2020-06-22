@@ -11,26 +11,14 @@ const should = require('./utilities/assertions');
 const utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.WebView', function () {
-	let win;
 	this.slow(3000);
 	this.timeout(30000);
 
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});

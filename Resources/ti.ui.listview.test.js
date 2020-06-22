@@ -10,25 +10,13 @@
 const should = require('./utilities/assertions');
 
 describe('Titanium.UI.ListView', function () {
-	var win;
 	this.timeout(6e4);
 
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -44,13 +32,13 @@ describe('Titanium.UI.ListView', function () {
 	});
 
 	it('.apiName', function () {
-		var listView = Ti.UI.createListView();
+		const listView = Ti.UI.createListView();
 		should(listView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(listView.apiName).be.eql('Ti.UI.ListView');
 	});
 
 	it.windowsMissing('.canScroll', function () {
-		var listView = Ti.UI.createListView({ canScroll: false });
+		const listView = Ti.UI.createListView({ canScroll: false });
 		should(listView.canScroll).be.eql(false);
 		should(listView.getCanScroll()).be.eql(false);
 		listView.canScroll = !listView.canScroll;
@@ -158,10 +146,10 @@ describe('Titanium.UI.ListView', function () {
 				should(listView.sections[1].items[0].properties.title).be.eql('Elevator');
 				should(listView.sections[1].items[1].properties.title).be.eql('Truck');
 				should(listView.sections[1].items[2].properties.title).be.eql('Freeway');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 
 		win.add(listView);
@@ -209,10 +197,10 @@ describe('Titanium.UI.ListView', function () {
 				should(listView.sections[1].items.length).be.eql(2);
 				should(listView.sections[1].items[0].properties.title).be.eql('Carrots');
 				should(listView.sections[1].items[1].properties.title).be.eql('Potatoes');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 
 		win.add(listView);
@@ -303,10 +291,10 @@ describe('Titanium.UI.ListView', function () {
 				should(listView.sections[2].items.length).be.eql(2);
 				should(listView.sections[2].items[0].info.text).be.eql('Corn');
 				should(listView.sections[2].items[1].info.text).be.eql('Rice');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 
 		win.add(listView);
@@ -366,11 +354,10 @@ describe('Titanium.UI.ListView', function () {
 				should(listView.sections[2].items.length).be.eql(2);
 				should(listView.sections[2].items[0].properties.title).be.eql('Cod');
 				should(listView.sections[2].items[1].properties.title).be.eql('Haddock');
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 
 		win.add(listView);
@@ -427,11 +414,10 @@ describe('Titanium.UI.ListView', function () {
 				should(listView.sections[1].items.length).be.eql(2);
 				should(listView.sections[1].items[0].properties.title).be.eql('Apple');
 				should(listView.sections[1].items[1].properties.title).be.eql('Banana');
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 
 		win.add(listView);
@@ -490,11 +476,10 @@ describe('Titanium.UI.ListView', function () {
 				should(listView.sections[1].items.length).be.eql(2);
 				should(listView.sections[1].items[0].properties.title).be.eql('Cod');
 				should(listView.sections[1].items[1].properties.title).be.eql('Haddock');
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 
 		win.add(listView);
@@ -556,11 +541,10 @@ describe('Titanium.UI.ListView', function () {
 				should(listView.sections[1].items.length).be.eql(2);
 				should(listView.sections[1].items[0].properties.title).be.eql('Cod');
 				should(listView.sections[1].items[1].properties.title).be.eql('Haddock');
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 
 		win.add(listView);
@@ -766,14 +750,18 @@ describe('Titanium.UI.ListView', function () {
 			listView.searchText = 'p';
 
 			setTimeout(function () {
-				// Make sure ListView reserves original data
-				should(listView.sectionCount).be.eql(2);
-				should(listView.sections[0].items.length).be.eql(2);
-				should(listView.sections[0].items[0].properties.title).be.eql('Apple');
-				should(listView.sections[0].items[1].properties.title).be.eql('Banana');
-				should(listView.sections[1].items.length).be.eql(2);
-				should(listView.sections[1].items[0].properties.title).be.eql('Carrots');
-				should(listView.sections[1].items[1].properties.title).be.eql('Potatoes');
+				try {
+					// Make sure ListView reserves original data
+					should(listView.sectionCount).be.eql(2);
+					should(listView.sections[0].items.length).be.eql(2);
+					should(listView.sections[0].items[0].properties.title).be.eql('Apple');
+					should(listView.sections[0].items[1].properties.title).be.eql('Banana');
+					should(listView.sections[1].items.length).be.eql(2);
+					should(listView.sections[1].items[0].properties.title).be.eql('Carrots');
+					should(listView.sections[1].items[1].properties.title).be.eql('Potatoes');
+				} catch (err) {
+					return finish(err);
+				}
 
 				finish();
 			}, 2000);
@@ -784,8 +772,8 @@ describe('Titanium.UI.ListView', function () {
 	});
 
 	// iOS-only properties
-	it.ios('ListView.getSelectedRows', function () {
-		var list = Ti.UI.createListView({
+	it.ios('ListView.getSelectedRows', function (finish) {
+		const list = Ti.UI.createListView({
 			sections: [ Ti.UI.createListSection({
 				items: [ {
 					properties: {
@@ -801,22 +789,27 @@ describe('Titanium.UI.ListView', function () {
 
 		win = Ti.UI.createWindow();
 		win.addEventListener('open', function () {
-			list.selectItem(0, 1);
-			should(list.selectedItems[0].section).be.eql(list.sections[0]);
-			should(list.selectedItems[0].sectionIndex).be.eql(0);
-			should(list.selectedItems[0].itemIndex).be.eql(1);
-			list.selectItem(0, 0);
-			should(list.selectedItems[0].section).be.eql(list.sections[0]);
-			should(list.selectedItems[0].sectionIndex).be.eql(0);
-			should(list.selectedItems[0].itemIndex).be.eql(0);
+			try {
+				list.selectItem(0, 1);
+				should(list.selectedItems[0].section).be.eql(list.sections[0]);
+				should(list.selectedItems[0].sectionIndex).be.eql(0);
+				should(list.selectedItems[0].itemIndex).be.eql(1);
+				list.selectItem(0, 0);
+				should(list.selectedItems[0].section).be.eql(list.sections[0]);
+				should(list.selectedItems[0].sectionIndex).be.eql(0);
+				should(list.selectedItems[0].itemIndex).be.eql(0);
+			} catch (err) {
+				return finish(err);
+			}
+			finish();
 		});
 		win.add(list);
 		win.open();
 	});
 
 	// iOS-only properties
-	it.ios('ListView.getSelectedRows', function () {
-		var list = Ti.UI.createListView({
+	it.ios('ListView.getSelectedRows', function (finish) {
+		const list = Ti.UI.createListView({
 			allowsMultipleSelectionDuringEditing: true,
 			sections: [ Ti.UI.createListSection({
 				items: [ {
@@ -833,24 +826,27 @@ describe('Titanium.UI.ListView', function () {
 
 		win = Ti.UI.createWindow();
 		win.addEventListener('open', function () {
-			should(list.allowsMultipleSelectionDuringEditing).be.eql(true);
-			should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(true);
+			try {
+				should(list.allowsMultipleSelectionDuringEditing).be.eql(true);
+				should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(true);
 
-			list.allowsMultipleSelectionDuringEditing = false;
-			should(list.allowsMultipleSelectionDuringEditing).be.eql(false);
-			should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(false);
-			list.setAllowsMultipleSelectionDuringEditing(true);
-			should(list.allowsMultipleSelectionDuringEditing).be.eql(true);
-			should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(true);
+				list.allowsMultipleSelectionDuringEditing = false;
+				should(list.allowsMultipleSelectionDuringEditing).be.eql(false);
+				should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(false);
+				list.setAllowsMultipleSelectionDuringEditing(true);
+				should(list.allowsMultipleSelectionDuringEditing).be.eql(true);
+				should(list.getAllowsMultipleSelectionDuringEditing()).be.eql(true);
+			} catch (err) {
+				return finish(err);
+			}
+			finish();
 		});
 		win.add(list);
 		win.open();
 	});
 
 	it.androidAndWindowsMissing('.refreshControl (in NavigationWindow)', function (finish) {
-		var window, nav, control, listView;
-
-		window = Ti.UI.createWindow({
+		const window = Ti.UI.createWindow({
 			title: 'Hello World',
 			largeTitleEnabled: true,
 			extendEdges: [ Ti.UI.EXTEND_EDGE_ALL ]
@@ -860,13 +856,13 @@ describe('Titanium.UI.ListView', function () {
 			control.beginRefreshing();
 		});
 
-		nav = Ti.UI.iOS.createNavigationWindow({
+		const nav = Ti.UI.iOS.createNavigationWindow({
 			window: window
 		});
 
-		control = Ti.UI.createRefreshControl();
+		const control = Ti.UI.createRefreshControl();
 
-		listView = Ti.UI.createListView({
+		const listView = Ti.UI.createListView({
 			refreshControl: control
 		});
 
@@ -886,17 +882,15 @@ describe('Titanium.UI.ListView', function () {
 	});
 
 	it.windowsMissing('.refreshControl (Basic)', function (finish) {
-		var control, listView;
-
 		win = Ti.UI.createWindow();
 
 		win.addEventListener('open', function () {
 			control.beginRefreshing();
 		});
 
-		control = Ti.UI.createRefreshControl();
+		const control = Ti.UI.createRefreshControl();
 
-		listView = Ti.UI.createListView({
+		const listView = Ti.UI.createListView({
 			refreshControl: control
 		});
 
@@ -918,7 +912,7 @@ describe('Titanium.UI.ListView', function () {
 		win = Ti.UI.createWindow({
 			backgroundColor: 'gray'
 		});
-		var listView = Ti.UI.createListView({
+		const listView = Ti.UI.createListView({
 				templates: {
 					test: {
 						childTemplates: [ {
@@ -946,7 +940,7 @@ describe('Titanium.UI.ListView', function () {
 			section = Ti.UI.createListSection(),
 			items = [];
 
-		[ 'A', 'B', 'C' ].forEach((item) => items.push({
+		[ 'A', 'B', 'C' ].forEach(item => items.push({
 			label: { text: item },
 			template: 'test'
 		}));
@@ -965,7 +959,7 @@ describe('Titanium.UI.ListView', function () {
 	});
 
 	it.android('.fastScroll', function () {
-		var listView = Ti.UI.createListView();
+		const listView = Ti.UI.createListView();
 		should(listView.fastScroll).be.eql(false);
 		should(listView.setFastScroll).be.a.Function();
 	});

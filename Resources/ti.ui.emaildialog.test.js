@@ -7,12 +7,12 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.EmailDialog', function () {
 	it('apiName', function () {
-		var emailDialog = Ti.UI.createEmailDialog({
+		const emailDialog = Ti.UI.createEmailDialog({
 			subject: 'this is some text'
 		});
 		should(emailDialog).have.readOnlyProperty('apiName').which.is.a.String();

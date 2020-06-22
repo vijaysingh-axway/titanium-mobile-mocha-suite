@@ -11,24 +11,11 @@ var should = require('./utilities/assertions'),
 	utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.Label', function () {
-	var win;
-
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -40,7 +27,7 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it('apiName', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
 		should(label).have.readOnlyProperty('apiName').which.is.a.String();
@@ -48,7 +35,7 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it('maxLines', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'This is a label with propably more than three lines of text. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.',
 			maxLines: 2
 		});
@@ -91,7 +78,7 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it('text', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
 		should(label.text).be.a.String();
@@ -104,7 +91,7 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it('textid', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			textid: 'this_is_my_key'
 		});
 		should(label.textid).be.a.String();
@@ -119,7 +106,7 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it('textAlign', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'this is some text',
 			textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
 		});
@@ -144,7 +131,7 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it('verticalAlign', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'this is some text',
 			verticalAlign: Ti.UI.TEXT_VERTICAL_ALIGNMENT_BOTTOM
 		});
@@ -164,7 +151,7 @@ describe('Titanium.UI.Label', function () {
 	// set ellipsize in the label
 	// Default: Ti.UI.TEXT_ELLIPSIZE_TRUNCATE_END
 	it('ellipsize', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
 		should(label.ellipsize).be.a.Number(); // Windows gives false!
@@ -180,7 +167,7 @@ describe('Titanium.UI.Label', function () {
 	// Defaults: true
 	// Intentionally skip on iOS, property not on platform.
 	it.iosMissing('wordWrap', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'this is some text'
 		});
 		should(label.wordWrap).be.a.Boolean();
@@ -195,13 +182,12 @@ describe('Titanium.UI.Label', function () {
 	// FIXME Can't rely on Ti.UI.Window.postlayout event firing because neither platform fires it for that type (only maybe bubbles up from label)
 	// Can we place the label inside a view?
 	it.androidAndIosBroken('width', function (finish) {
-		var label;
 		this.slow(1000);
 		this.timeout(10000);
 
 		win = Ti.UI.createWindow({ backgroundColor: '#ddd' });
 
-		label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
 			width: Ti.UI.SIZE
 		});
@@ -211,11 +197,10 @@ describe('Titanium.UI.Label', function () {
 
 			try {
 				should(label.size.width).not.be.greaterThan(win.size.width);
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
@@ -223,20 +208,18 @@ describe('Titanium.UI.Label', function () {
 	// FIXME Can't rely on Ti.UI.Window.postlayout event firing because neither platform fires it for that type (only maybe bubbles up from label)
 	// Can we listen to it on bgView?
 	it.androidAndIosBroken('height', function (finish) {
-		var label,
-			bgView;
 		this.slow(1000);
 		this.timeout(10000);
 
 		win = Ti.UI.createWindow({ backgroundColor: '#eee' });
 
-		label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec ullamcorper massa, eget tempor sapien. Phasellus nisi metus, tempus a magna nec, ultricies rutrum lacus. Aliquam sit amet augue suscipit, dignissim tellus eu, consectetur elit. Praesent ligula velit, blandit vel urna sit amet, suscipit euismod nunc.',
 			width: Ti.UI.SIZE,
 			height: Ti.UI.SIZE,
 			color: 'black'
 		});
-		bgView = Ti.UI.createView({
+		const bgView = Ti.UI.createView({
 			width: 200, height: 100,
 			backgroundColor: 'red'
 		});
@@ -252,11 +235,10 @@ describe('Titanium.UI.Label', function () {
 				// Uncomment below because it should be ok for label to have height greater than parent view
 				// parent view should be able to handle which areas should be shown in that case.
 				// should(label.size.height).not.be.greaterThan(100);
-
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
@@ -264,7 +246,7 @@ describe('Titanium.UI.Label', function () {
 	// Intermittent timeout on Android. FIXME Shoudl be using postlayout event, not open
 	it.androidBroken('border (without width/height)', function (finish) {
 		win = Ti.UI.createWindow();
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			borderWidth: 5,
 			borderColor: 'yellow',
 			borderRadius: 5,
@@ -272,8 +254,12 @@ describe('Titanium.UI.Label', function () {
 		});
 		win.addEventListener('open', function () {
 			setTimeout(function () {
-				should(label.size.width).be.greaterThan(0);
-				should(label.size.height).be.greaterThan(0);
+				try {
+					should(label.size.width).be.greaterThan(0);
+					should(label.size.height).be.greaterThan(0);
+				} catch (err) {
+					return finish(err);
+				}
 				finish();
 			}, 200);
 		});
@@ -282,7 +268,7 @@ describe('Titanium.UI.Label', function () {
 	});
 
 	it.ios('minimumFontSize', function () {
-		var label = Ti.UI.createLabel({
+		const label = Ti.UI.createLabel({
 			text: 'this is some text',
 			textAlign: 'left',
 			font: {

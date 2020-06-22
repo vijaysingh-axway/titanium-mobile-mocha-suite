@@ -7,7 +7,7 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe.ios('Titanium.UI.iOS', function () {
 	const isiOS13 =  (parseInt(Ti.Platform.version.split('.')[0]) >= 13);

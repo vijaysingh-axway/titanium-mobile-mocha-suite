@@ -7,14 +7,14 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.Toolbar', function () {
 	this.timeout(10000);
 
 	// FIXME Add to Windows API!
 	it.windowsMissing('SimpleToolbar', function () {
-		var send = Ti.UI.createButton({
+		const send = Ti.UI.createButton({
 				title: 'Send',
 			}),
 			camera = Ti.UI.createButton({
@@ -32,7 +32,7 @@ describe('Titanium.UI.Toolbar', function () {
 	});
 
 	it.ios('SimpleiOSToolbarDeprecated', function () {
-		var send = Ti.UI.createButton({
+		const send = Ti.UI.createButton({
 				title: 'Send',
 			}),
 			camera = Ti.UI.createButton({

@@ -8,13 +8,12 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe.ios('Titanium.UI.iOS.NavigationWindow', function () {
-	var nav;
-
 	this.timeout(10000);
 
+	let nav;
 	afterEach(function () {
 		if (nav) {
 			nav.close();

@@ -7,17 +7,17 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.AlertDialog', function () {
-	it('apiName', function () {
-		var dialog = Ti.UI.createAlertDialog();
+	it('.apiName', function () {
+		const dialog = Ti.UI.createAlertDialog();
 		should(dialog).have.readOnlyProperty('apiName').which.is.a.String();
 		should(dialog.apiName).be.eql('Ti.UI.AlertDialog');
 	});
 
-	it('title', function () {
-		var bar = Ti.UI.createAlertDialog({
+	it('.title', function () {
+		const bar = Ti.UI.createAlertDialog({
 			title: 'this is some text'
 		});
 		should(bar.title).be.a.String();
@@ -30,8 +30,8 @@ describe('Titanium.UI.AlertDialog', function () {
 	});
 
 	// FIXME titleid doesn't seem to set title on iOS?
-	it.iosBroken('titleid', function () {
-		var bar = Ti.UI.createAlertDialog({
+	it.iosBroken('.titleid', function () {
+		const bar = Ti.UI.createAlertDialog({
 			titleid: 'this_is_my_key'
 		});
 		should(bar.titleid).be.a.String();
@@ -45,8 +45,8 @@ describe('Titanium.UI.AlertDialog', function () {
 		should(bar.title).eql('this is my value'); // retains old value if key not found: https://jira.appcelerator.org/browse/TIMOB-23498
 	});
 
-	it('message', function () {
-		var bar = Ti.UI.createAlertDialog({
+	it('.message', function () {
+		const bar = Ti.UI.createAlertDialog({
 			message: 'this is some text'
 		});
 		should(bar.message).be.a.String();
@@ -60,8 +60,8 @@ describe('Titanium.UI.AlertDialog', function () {
 
 	// FIXME Get working on iOS - defaults to undefined, should be ['OK']
 	// FIXME Get working on Android - defaults to undefined, should be ['OK']
-	it.androidAndIosBroken('buttonNames', function () {
-		var bar = Ti.UI.createAlertDialog({});
+	it.androidAndIosBroken('.buttonNames', function () {
+		const bar = Ti.UI.createAlertDialog({});
 		should(bar.buttonNames).be.an.Array(); // undefined on iOS and Android
 		should(bar.getButtonNames).be.a.Function();
 		should(bar.buttonNames).be.empty;
@@ -73,8 +73,8 @@ describe('Titanium.UI.AlertDialog', function () {
 
 	// FIXME Get working on iOS - defaults to undefined, should be -1
 	// FIXME Get working on Android - defaults to undefined, should be -1
-	it.androidAndIosBroken('cancel', function () {
-		var bar = Ti.UI.createAlertDialog({});
+	it.androidAndIosBroken('.cancel', function () {
+		const bar = Ti.UI.createAlertDialog({});
 		should(bar.cancel).be.a.Number(); // undefined on iOS and Android
 		should(bar.getCancel).be.a.Function();
 		bar.cancel = 1;
@@ -82,8 +82,8 @@ describe('Titanium.UI.AlertDialog', function () {
 		should(bar.getCancel()).eql(1);
 	});
 
-	it.ios('tintColor', function () {
-		var bar = Ti.UI.createAlertDialog({
+	it.ios('.tintColor', function () {
+		const bar = Ti.UI.createAlertDialog({
 			tintColor: 'red'
 		});
 

@@ -7,28 +7,16 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.ImageView', function () {
-	var win;
 	this.timeout(5000);
 
-	afterEach(function (done) {
-		if (win) {
-			// If `win` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (win) {
-					win = null;
-					done();
-				}
-			}, 3000);
-
+	let win;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (win && !win.closed) {
 			win.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (win) {
-					win.removeEventListener('close', listener);
-				}
+				win.removeEventListener('close', listener);
 				win = null;
 				done();
 			});
@@ -39,14 +27,14 @@ describe('Titanium.UI.ImageView', function () {
 		}
 	});
 
-	it('apiName', function () {
-		var imageView = Ti.UI.createImageView();
+	it('apiName', () => {
+		const imageView = Ti.UI.createImageView();
 		should(imageView).have.readOnlyProperty('apiName').which.is.a.String();
 		should(imageView.apiName).be.eql('Ti.UI.ImageView');
 	});
 
-	it('image (URL)', function () {
-		var imageView = Ti.UI.createImageView({
+	it('image (URL)', () => {
+		const imageView = Ti.UI.createImageView({
 			image: 'https://www.google.com/images/srpr/logo11w.png'
 		});
 		should(imageView.image).be.a.String();
@@ -60,7 +48,7 @@ describe('Titanium.UI.ImageView', function () {
 
 	// FIXME Android and iOS don't fire the 'load' event! Seems liek android only fires load if image isn't in cache
 	it.androidAndIosBroken('image (local path)', function (finish) {
-		var imageView = Ti.UI.createImageView();
+		const imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
 				should(imageView.image).be.a.String();
@@ -75,7 +63,7 @@ describe('Titanium.UI.ImageView', function () {
 
 	// FIXME Android and iOS don't fire the 'load' event! Seems liek android only fires load if image isn't in cache
 	it.androidAndIosBroken('image (local path with separator)', function (finish) {
-		var imageView = Ti.UI.createImageView();
+		const imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
 				should(imageView.image).be.a.String();
@@ -92,7 +80,7 @@ describe('Titanium.UI.ImageView', function () {
 
 	// FIXME Android and iOS don't fire the 'load' event! Seems liek android only fires load if image isn't in cache
 	it.androidAndIosBroken('image (local path with /)', function (finish) {
-		var imageView = Ti.UI.createImageView();
+		const imageView = Ti.UI.createImageView();
 		imageView.addEventListener('load', function () {
 			try {
 				should(imageView.image).be.a.String();

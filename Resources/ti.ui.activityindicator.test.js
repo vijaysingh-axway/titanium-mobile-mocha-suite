@@ -8,18 +8,18 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 
-var should = require('./utilities/assertions'),
-	utilities = require('./utilities/utilities');
+const should = require('./utilities/assertions');
+const utilities = require('./utilities/utilities');
 
 describe('Titanium.UI.ActivityIndicator', function () {
-	it('apiName', function () {
-		var activityIndicator = Ti.UI.createActivityIndicator();
+	it('.apiName', function () {
+		const activityIndicator = Ti.UI.createActivityIndicator();
 		should(activityIndicator).have.readOnlyProperty('apiName').which.is.a.String();
 		should(activityIndicator.apiName).be.eql('Ti.UI.ActivityIndicator');
 	});
 
-	it('color', function () {
-		var activityIndicator = Ti.UI.createActivityIndicator({
+	it('.color', function () {
+		const activityIndicator = Ti.UI.createActivityIndicator({
 			color: '#fff'
 		});
 		should(activityIndicator.color).be.a.String();
@@ -31,8 +31,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		should(activityIndicator.getColor()).eql('#000');
 	});
 
-	it('font', function () {
-		var activityIndicator = Ti.UI.createActivityIndicator({
+	it('.font', function () {
+		const activityIndicator = Ti.UI.createActivityIndicator({
 			font: {
 				fontSize: 24,
 				fontFamily: 'Segoe UI'
@@ -50,8 +50,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		should(activityIndicator.getFont().fontFamily).eql('Segoe UI Semilight');
 	});
 
-	it('message', function () {
-		var activityIndicator = Ti.UI.createActivityIndicator({
+	it('.message', function () {
+		const activityIndicator = Ti.UI.createActivityIndicator({
 			message: 'this is some text'
 		});
 		should(activityIndicator.message).be.a.String();
@@ -63,8 +63,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		should(activityIndicator.getMessage()).eql('other text');
 	});
 
-	it('style', function () {
-		var activityIndicator = Ti.UI.createActivityIndicator({
+	it('.style', function () {
+		const activityIndicator = Ti.UI.createActivityIndicator({
 			style: Ti.UI.ActivityIndicatorStyle.BIG
 		});
 		should(activityIndicator.style).be.a.Number();
@@ -76,9 +76,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		should(activityIndicator.getStyle()).eql(Ti.UI.ActivityIndicatorStyle.DARK);
 	});
 
-	// Not supported on Android: https://jira.appcelerator.org/browse/TIMOB-23497
-	(utilities.isAndroid() ? it.skip : it)('indicatorColor', function () {
-		var activityIndicator = Ti.UI.createActivityIndicator({
+	it('.indicatorColor', function () {
+		const activityIndicator = Ti.UI.createActivityIndicator({
 			indicatorColor: '#fff'
 		});
 		should(activityIndicator.indicatorColor).be.a.String();
@@ -90,9 +89,8 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		should(activityIndicator.getIndicatorColor()).eql('#000');
 	});
 
-	// Not supported on Android: https://jira.appcelerator.org/browse/TIMOB-23497
-	(utilities.isAndroid() ? it.skip : it)('indicatorDiameter', function () {
-		var activityIndicator = Ti.UI.createActivityIndicator({
+	it('indicatorDiameter', function () {
+		const activityIndicator = Ti.UI.createActivityIndicator({
 			indicatorDiameter: '36'
 		});
 		should(activityIndicator.indicatorDiameter).be.a.String();

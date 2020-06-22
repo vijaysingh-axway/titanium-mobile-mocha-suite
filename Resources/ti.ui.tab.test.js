@@ -53,7 +53,7 @@ describe('Titanium.UI.Tab', function () {
 			titleColor: 'red'
 		});
 
-		should(tab.titleColor).be.a.String;
+		should(tab.titleColor).be.a.String();
 		should(tab.titleColor).eql('red');
 	});
 
@@ -62,7 +62,7 @@ describe('Titanium.UI.Tab', function () {
 			activeTitleColor: 'red'
 		});
 
-		should(tab.activeTitleColor).be.a.String;
+		should(tab.activeTitleColor).be.a.String();
 		should(tab.activeTitleColor).eql('red');
 	});
 
@@ -71,7 +71,7 @@ describe('Titanium.UI.Tab', function () {
 			tintColor: 'red'
 		});
 
-		should(tab.tintColor).be.a.String;
+		should(tab.tintColor).be.a.String();
 		should(tab.tintColor).eql('red');
 	});
 
@@ -80,7 +80,7 @@ describe('Titanium.UI.Tab', function () {
 			activeTintColor: 'red'
 		});
 
-		should(tab.activeTintColor).be.a.String;
+		should(tab.activeTintColor).be.a.String();
 		should(tab.activeTintColor).eql('red');
 	});
 });

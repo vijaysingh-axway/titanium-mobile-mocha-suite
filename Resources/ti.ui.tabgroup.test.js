@@ -10,26 +10,13 @@
 const should = require('./utilities/assertions'); // eslint-disable-line no-unused-vars
 
 describe('Titanium.UI.TabGroup', function () {
-	let tabGroup;
-
 	this.timeout(5000);
 
-	afterEach(function (done) {
-		if (tabGroup) {
-			// If `tabGroup` is already closed, we're done.
-			let t = setTimeout(function () {
-				if (tabGroup) {
-					tabGroup = null;
-					done();
-				}
-			}, 3000);
-
+	let tabGroup;
+	afterEach(done => { // fires after every test in sub-suites too...
+		if (tabGroup && !tabGroup.closed) {
 			tabGroup.addEventListener('close', function listener () {
-				clearTimeout(t);
-
-				if (tabGroup) {
-					tabGroup.removeEventListener('close', listener);
-				}
+				tabGroup.removeEventListener('close', listener);
 				tabGroup = null;
 				done();
 			});
@@ -46,7 +33,7 @@ describe('Titanium.UI.TabGroup', function () {
 			barColor: 'red'
 		});
 
-		should(tabGroup.barColor).be.a.String;
+		should(tabGroup.barColor).be.a.String();
 		should(tabGroup.barColor).eql('red');
 	});
 
@@ -56,7 +43,7 @@ describe('Titanium.UI.TabGroup', function () {
 			tintColor: 'red'
 		});
 
-		should(tabGroup.tintColor).be.a.String;
+		should(tabGroup.tintColor).be.a.String();
 		should(tabGroup.tintColor).eql('red');
 	});
 
@@ -66,7 +53,7 @@ describe('Titanium.UI.TabGroup', function () {
 			activeTintColor: 'red'
 		});
 
-		should(tabGroup.activeTintColor).be.a.String;
+		should(tabGroup.activeTintColor).be.a.String();
 		should(tabGroup.activeTintColor).eql('red');
 	});
 
@@ -216,13 +203,13 @@ describe('Titanium.UI.TabGroup', function () {
 				tabGroup.setActiveTab(tabB);
 				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			} finally {
 				tabGroup.removeTab(tabA);
 				tabGroup.removeTab(tabB);
 			}
+			finish();
 		});
 
 		tabGroup.addTab(tabA);
@@ -332,13 +319,13 @@ describe('Titanium.UI.TabGroup', function () {
 				tabGroup.setActiveTab(tabB);
 				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			} finally {
 				tabGroup.removeTab(tabA);
 				tabGroup.removeTab(tabB);
 			}
+			finish();
 		});
 
 		tabGroup.addTab(tabA);
@@ -365,13 +352,13 @@ describe('Titanium.UI.TabGroup', function () {
 			try {
 				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			} finally {
 				tabGroup.removeTab(tabA);
 				tabGroup.removeTab(tabB);
 			}
+			finish();
 		});
 
 		tabGroup.addTab(tabA);
@@ -399,13 +386,13 @@ describe('Titanium.UI.TabGroup', function () {
 				tabGroup.activeTab = tabB;
 				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			} finally {
 				tabGroup.removeTab(tabA);
 				tabGroup.removeTab(tabB);
 			}
+			finish();
 		});
 
 		tabGroup.addTab(tabA);
@@ -432,13 +419,13 @@ describe('Titanium.UI.TabGroup', function () {
 			try {
 				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			} finally {
 				tabGroup.removeTab(tabA);
 				tabGroup.removeTab(tabB);
 			}
+			finish();
 		});
 
 		tabGroup.addTab(tabA);
@@ -466,13 +453,13 @@ describe('Titanium.UI.TabGroup', function () {
 			try {
 				should(tabGroup.getActiveTab().title).be.a.String();
 				should(tabGroup.getActiveTab().title).eql('Tab B');
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			} finally {
 				tabGroup.removeTab(tabA);
 				tabGroup.removeTab(tabB);
 			}
+			finish();
 		});
 
 		tabGroup.addTab(tabA);
@@ -496,7 +483,7 @@ describe('Titanium.UI.TabGroup', function () {
 		});
 	});
 
-	it('icon-only tabs - default style', (finish) => {
+	it('icon-only tabs - default style', finish => {
 		this.timeout(5000);
 		tabGroup = Ti.UI.createTabGroup({
 			tabs: [
@@ -510,13 +497,11 @@ describe('Titanium.UI.TabGroup', function () {
 				}),
 			]
 		});
-		tabGroup.addEventListener('open', () => {
-			finish();
-		});
+		tabGroup.addEventListener('open', () => finish());
 		tabGroup.open();
 	});
 
-	it.android('icon-only tabs - android bottom style', (finish) => {
+	it.android('icon-only tabs - android bottom style', finish => {
 		this.timeout(5000);
 		tabGroup = Ti.UI.createTabGroup({
 			style: Ti.UI.Android.TABS_STYLE_BOTTOM_NAVIGATION,
@@ -531,9 +516,70 @@ describe('Titanium.UI.TabGroup', function () {
 				}),
 			]
 		});
-		tabGroup.addEventListener('open', () => {
-			finish();
-		});
+		tabGroup.addEventListener('open', () => finish());
 		tabGroup.open();
+	});
+
+	describe('closed/focused', () => {
+		beforeEach(() => {
+			tabGroup = Ti.UI.createTabGroup();
+			const tab = Ti.UI.createTab({
+				title: 'Tab',
+				window: Ti.UI.createWindow()
+			});
+			tabGroup.addTab(tab);
+		});
+
+		it('.closed', done => {
+			tabGroup.closed.should.eql(true); // it's not yet opened, so treat as closed
+			tabGroup.addEventListener('open', () => {
+				try {
+					tabGroup.closed.should.eql(false); // we're being notified the window is open, so should report closed as false!
+				} catch (err) {
+					return done(err);
+				}
+				done();
+			});
+			tabGroup.open();
+			tabGroup.closed.should.eql(false); // should be open now
+		});
+
+		it('fires close event', done => {
+			tabGroup.addEventListener('open', () => tabGroup.close());
+			tabGroup.addEventListener('close', () => {
+				try {
+					tabGroup.closed.should.eql(true); // we're being notified the window is open, so should report closed as false!
+				} catch (err) {
+					return done(err);
+				}
+				done();
+			});
+			tabGroup.open();
+		});
+
+		it('.focused', done => {
+			tabGroup.focused.should.eql(false); // haven't opened it yet, so shouldn't be focused
+			// NOTE: I had to modify iOS' TabGroup implementation so that the focus event fired within the same timeline as Window's
+			// The previous impl actually fired the focus event while the window was still opening, so a focus event listener
+			// would have seen the TabGroup report itself as not opened or focused yet!
+			tabGroup.addEventListener('focus', () => {
+				try {
+					tabGroup.focused.should.eql(true);
+					tabGroup.close();
+				} catch (e) {
+					return done(e);
+				}
+			});
+			tabGroup.addEventListener('close', () => {
+				try {
+					// we've been closed (or are closing?) so hopefully shouldn't say that we're focused
+					tabGroup.focused.should.eql(false);
+				} catch (e) {
+					return done(e);
+				}
+				done();
+			});
+			tabGroup.open();
+		});
 	});
 });

@@ -8,12 +8,12 @@
 /* eslint no-unused-expressions: "off" */
 'use strict';
 
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
 describe('Titanium.UI.OptionDialog', function () {
 
 	it('apiName', function () {
-		var optionDialog = Ti.UI.createOptionDialog({
+		const optionDialog = Ti.UI.createOptionDialog({
 			title: 'this is some text'
 		});
 		should(optionDialog).have.readOnlyProperty('apiName').which.is.a.String();
@@ -21,7 +21,7 @@ describe('Titanium.UI.OptionDialog', function () {
 	});
 
 	it('title', function () {
-		var bar = Ti.UI.createOptionDialog({
+		const bar = Ti.UI.createOptionDialog({
 			title: 'this is some text'
 		});
 		should(bar.title).be.a.String();
@@ -35,7 +35,7 @@ describe('Titanium.UI.OptionDialog', function () {
 
 	// FIXME Get working on iOS. Looks like it doesn't look up titleid keys?!
 	it.iosBroken('titleid', function () {
-		var bar = Ti.UI.createOptionDialog({
+		const bar = Ti.UI.createOptionDialog({
 			titleid: 'this_is_my_key'
 		});
 		should(bar.titleid).be.a.String();
@@ -52,7 +52,7 @@ describe('Titanium.UI.OptionDialog', function () {
 	// Intentionally skip for iOS. buttonNames property isn't on iOS. TODO Add it for parity?
 	// FIXME defaults to undefined on Android, empty array on Windows.
 	it.androidBrokenAndIosMissing('buttonNames', function () {
-		var bar = Ti.UI.createOptionDialog({});
+		const bar = Ti.UI.createOptionDialog({});
 		should(bar.buttonNames).be.an.Array(); // undefined on Android
 		should(bar.getButtonNames).be.a.Function();
 		should(bar.buttonNames).be.empty;
@@ -64,7 +64,7 @@ describe('Titanium.UI.OptionDialog', function () {
 
 	// FIXME Get working on iOS and Android. options is defaulting to undefined, where for Windows we do empty array
 	it.androidAndIosBroken('options', function () {
-		var bar = Ti.UI.createOptionDialog({});
+		const bar = Ti.UI.createOptionDialog({});
 		should(bar.options).be.an.Array(); // undefined on iOS and Android
 		should(bar.getOptions).be.a.Function();
 		should(bar.options).be.empty;
@@ -76,7 +76,7 @@ describe('Titanium.UI.OptionDialog', function () {
 
 	// FIXME Get working on iOS and Android. cancel is defaulting to undefined? Docs say should be -1
 	it.androidAndIosBroken('cancel', function () {
-		var bar = Ti.UI.createOptionDialog({});
+		const bar = Ti.UI.createOptionDialog({});
 		should(bar.cancel).be.a.Number(); // undefined on iOS and Android
 		should(bar.getCancel).be.a.Function();
 		bar.cancel = 1;
@@ -86,7 +86,7 @@ describe('Titanium.UI.OptionDialog', function () {
 
 	// FIXME Get working on iOS and Android. persistent is defaulting to undefined? Docs say should be true
 	it.androidAndIosBroken('persistent', function () {
-		var bar = Ti.UI.createOptionDialog({});
+		const bar = Ti.UI.createOptionDialog({});
 		should(bar.persistent).be.a.Boolean(); // undefined on iOS and Android
 		should(bar.getPersistent).be.a.Function();
 		should(bar.persistent).be.true();
@@ -99,7 +99,7 @@ describe('Titanium.UI.OptionDialog', function () {
 	// Intentionally skip. property not on iOS
 	// FIXME Get working on Android, defaults to undefined on Android, Windows has Number
 	it.androidBrokenAndIosMissing('selectedIndex', function () {
-		var bar = Ti.UI.createOptionDialog({});
+		const bar = Ti.UI.createOptionDialog({});
 		should(bar.selectedIndex).be.a.Number(); // undefined on Android
 		should(bar.getSelectedIndex).be.a.Function();
 		should(bar.selectedIndex).eql(0);

@@ -10,10 +10,9 @@
 const should = require('./utilities/assertions');
 
 describe.windowsMissing('Titanium.UI.NavigationWindow', function () {
-	var nav;
-
 	this.timeout(10000);
 
+	let nav;
 	afterEach(function () {
 		if (nav) {
 			nav.close();
