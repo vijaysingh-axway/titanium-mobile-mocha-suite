@@ -150,7 +150,7 @@ describe('Titanium.Network.HTTPClient', function () {
 			}
 		};
 
-		xhr.open('GET', 'http://www.httpbin.org/redirect-to?url=https%3A%2F%2Fuserscontent2.emaze.com%2Fimages%2Fde1f3140-6f4e-4a67-9626-14c39a8f93a2%2F18aaaec3-31fb-463b-bac9-19d848f7a583.png');
+		xhr.open('GET', 'http://www.httpbin.org/redirect-to?url=https%3A%2F%2Ftimobile.appcelerator.com.s3.amazonaws.com%2F18aaaec3-31fb-463b-bac9-19d848f7a583.png');
 		xhr.send();
 	});
 
