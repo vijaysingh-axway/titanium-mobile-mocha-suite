@@ -88,17 +88,4 @@ describe('Titanium.UI.ActivityIndicator', function () {
 		should(activityIndicator.indicatorColor).eql('#000');
 		should(activityIndicator.getIndicatorColor()).eql('#000');
 	});
-
-	it('indicatorDiameter', function () {
-		const activityIndicator = Ti.UI.createActivityIndicator({
-			indicatorDiameter: '36'
-		});
-		should(activityIndicator.indicatorDiameter).be.a.String();
-		should(activityIndicator.getIndicatorDiameter).be.a.Function();
-		should(activityIndicator.indicatorDiameter).eql('36');
-		should(activityIndicator.getIndicatorDiameter()).eql('36');
-		activityIndicator.indicatorDiameter = '12';
-		should(activityIndicator.indicatorDiameter).eql('12');
-		should(activityIndicator.getIndicatorDiameter()).eql('12');
-	});
 });
