@@ -132,25 +132,25 @@ describe('Titanium.Network.HTTPClient', function () {
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/2156-android-invalid-redirect-alert-on-xhr-file-download
 	// https://appcelerator.lighthouseapp.com/projects/32238/tickets/1381-android-buffer-large-xhr-downloads
 	it('largeFileWithRedirect', function (finish) {
-		var xhr = Ti.Network.createHTTPClient(),
-			attempts = 3;
+		const xhr = Ti.Network.createHTTPClient();
 		xhr.setTimeout(6e4);
 
 		xhr.onload = function () {
 			// should(xhr.responseData.length).be.greaterThan(0);
 			finish();
 		};
+		let attempts = 3;
 		xhr.onerror = function (e) {
 			if (attempts-- > 0) {
 				Ti.API.warn('failed, attempting to retry request...');
 				xhr.send();
 			} else {
 				Ti.API.debug(JSON.stringify(e, null, 2));
-				finish(new Error('failed to retrieve redirected large image: ' + e));
+				finish(new Error('failed to retrieve redirected large image: ' + JSON.stringify(e, null, 2)));
 			}
 		};
 
-		xhr.open('GET', 'http://www.httpbin.org/redirect-to?url=https%3A%2F%2Ftimobile.appcelerator.com.s3.amazonaws.com%2F18aaaec3-31fb-463b-bac9-19d848f7a583.png');
+		xhr.open('GET', 'http://mockbin.org/redirect/301?to=http%3A%2F%2Ftimobile.appcelerator.com.s3.amazonaws.com%2F18aaaec3-31fb-463b-bac9-19d848f7a583.png');
 		xhr.send();
 	});
 
