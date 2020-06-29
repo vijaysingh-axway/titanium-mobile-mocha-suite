@@ -6,6 +6,7 @@
 'use strict';
 
 const path = require('path');
+const os = require('os');
 const fs = require('fs-extra');
 const colors = require('colors'); // eslint-disable-line no-unused-vars
 const ejs = require('ejs');
@@ -561,9 +562,9 @@ async function sdkDir() {
 		if (osName === 'win32') {
 			return path.join(process.env.ProgramData, 'Titanium');
 		} else if (osName === 'darwin') {
-			return path.join(process.env.HOME, 'Library', 'Application Support', 'Titanium');
+			return path.join(os.homedir(), 'Library/Application Support/Titanium');
 		} else if (osName === 'linux') {
-			return path.join(process.env.HOME, '.titanium');
+			return path.join(os.homedir(), '.titanium');
 		}
 	}
 }
