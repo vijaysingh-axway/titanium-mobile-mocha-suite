@@ -233,7 +233,10 @@ describe('Titanium.UI.TextArea', function () {
 		tabGroup.open();
 	});
 
-	it('.focused', done => {
+	it('.focused', function (done) {
+		this.slow(2000);
+		this.timeout(5000);
+
 		win = Ti.UI.createWindow({ backgroundColor: '#fff' });
 		const textarea = Ti.UI.createTextArea({
 			backgroundColor: '#fafafa',

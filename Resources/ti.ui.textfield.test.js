@@ -388,4 +388,25 @@ describe('Titanium.UI.TextField', function () {
 			return done(e);
 		}
 	});
+
+	// TextField should not receive change event after setting value.
+	it.ios('change event should not fire after setting textField value', function (finish) {
+		this.timeout(5000);
+
+		win = Ti.UI.createWindow();
+		const textField = Ti.UI.createTextField({
+			value: 123
+		});
+		textField.addEventListener('change', function () {
+			// This should never happen.
+			finish(new Error('TextField wrongly received change on setting value.'));
+		});
+		win.add(textField);
+		win.addEventListener('postlayout', function listener () {
+			win.removeEventListener('postlayout', listener);
+			// If we made it this far, assume TextField did not receive change.
+			finish();
+		});
+		win.open();
+	});
 });
