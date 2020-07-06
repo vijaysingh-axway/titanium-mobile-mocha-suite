@@ -6,7 +6,6 @@
 'use strict';
 
 const path = require('path');
-const os = require('os');
 const fs = require('fs-extra');
 const colors = require('colors'); // eslint-disable-line no-unused-vars
 const ejs = require('ejs');
@@ -17,8 +16,17 @@ const { callbackify, promisify } = require('util');
 const exec = promisify(require('child_process').exec); // eslint-disable-line security/detect-child-process
 const SOURCE_DIR = path.join(__dirname, '..');
 const PROJECT_NAME = 'mocha';
+const APP_ID = 'com.appcelerator.testApp.testing';
 const PROJECT_DIR = path.join(__dirname, PROJECT_NAME);
 const JUNIT_TEMPLATE = path.join(__dirname, 'junit.xml.ejs');
+
+// The special magic strings we expect in the logs!
+const GENERATED_IMAGE_PREFIX = '!IMAGE: ';
+const DIFF_IMAGE_PREFIX = '!IMG_DIFF: ';
+const TEST_END_PREFIX = '!TEST_END: ';
+const TEST_START_PREFIX = '!TEST_START: ';
+const TEST_SUITE_STOP = '!TEST_RESULTS_STOP!';
+const OS_VERSION_PREFIX = 'OS_VERSION: ';
 
 async function clearPreviousApp() {
 	// If the project already exists, wipe it
@@ -89,7 +97,7 @@ async function generateProject(platforms) {
 			'--type', 'app',
 			'--platforms', platforms.join(','),
 			'--name', PROJECT_NAME,
-			'--id', 'com.appcelerator.testApp.testing',
+			'--id', APP_ID,
 			'--url', 'http://www.appcelerator.com',
 			'--workspace-dir', __dirname,
 			'--no-banner',
@@ -243,8 +251,10 @@ async function killiOSSimulator() {
  * @param {string} [architecture] only for 'windows' platform
  * @param {string} [deployType=undefined] 'development' || 'test'
  * @param {string} [deviceFamily=undefined] 'ipad' || 'iphone' || undefined
+ * @param {string} snapshotDir directory to place generated images
+ * @param {Promise[]} snapshotPromises array to hold promises for grabbign generated images
  */
-async function runBuild(platform, target, deviceId, architecture, deployType, deviceFamily) {
+async function runBuild(platform, target, deviceId, architecture, deployType, deviceFamily, snapshotDir, snapshotPromises) {
 
 	if (target === undefined) {
 		switch (platform) {
@@ -307,14 +317,18 @@ async function runBuild(platform, target, deviceId, architecture, deployType, de
 	args.push('--color');
 	// TODO Use fork since we're spawning off another node process
 	const prc = spawn('node', args);
-	return handleBuild(prc);
+	return handleBuild(prc, target, snapshotDir, snapshotPromises);
 }
 
 /**
  * Once a build has been spawned off this handles grabbing the test results from the output.
- * @param  {child_process}   prc  Handle of the running process from spawn
+ * @param {child_process} prc  Handle of the running process from spawn
+ * @param {string} target 'emulator' || 'simulator' || 'device'
+ * @param {string} snapshotDir directory to place generated images
+ * @param {Promise[]} snapshotPromises array to hold promises for grabbign generated images
+ * @returns {Promise<void>}
  */
-async function handleBuild(prc) {
+async function handleBuild(prc, target, snapshotDir, snapshotPromises) {
 	return new Promise((resolve, reject) => {
 		const results = [];
 		let output = '';
@@ -350,10 +364,9 @@ async function handleBuild(prc) {
 		}
 
 		function getDeviceName(token) {
-			// eslint-disable-next-line no-control-regex
-			const matches = /^([\s\b]|\u001b\[3\dm)+\[([^\]]+)\]\s/g.exec(token.substring(token.indexOf(':') + 1));
-			if (matches && matches.length === 3) {
-				return matches[2];
+			const matches = /^[\s\b]+\[([^\]]+)\]\s/g.exec(token.substring(token.indexOf(':') + 1));
+			if (matches && matches.length === 2) {
+				return matches[1];
 			}
 			return '';
 		}
@@ -397,33 +410,45 @@ async function handleBuild(prc) {
 			}
 
 			// check for test start
-			if (token.includes('!TEST_START: ')) {
+			if (token.includes(TEST_START_PREFIX)) {
 				// grab out the JSON and add to our result set
 				output = '';
 				stderr = '';
 				return;
 			}
 
+			// check for generated images
+			if (token.includes(GENERATED_IMAGE_PREFIX)) {
+				snapshotPromises.push(grabGeneratedImage(token, target, snapshotDir));
+				return;
+			}
+
+			// check for mismatched images
+			if (token.includes(DIFF_IMAGE_PREFIX)) {
+				snapshotPromises.push(handleMismatchedImage(token, target, snapshotDir));
+				return;
+			}
+
 			// obtain os version
-			if (token.includes('OS_VERSION')) {
+			if (token.includes(OS_VERSION_PREFIX)) {
 				const device = getDeviceName(token);
 				devices[device] = {
-					version: token.slice(token.indexOf('OS_VERSION') + 12).trim(),
+					version: token.slice(token.indexOf(OS_VERSION_PREFIX) + OS_VERSION_PREFIX.length).trim(),
 					completed: false
 				};
 				return;
 			}
 
 			// check for test end
-			const testEndIndex = token.indexOf('!TEST_END: ');
+			const testEndIndex = token.indexOf(TEST_END_PREFIX);
 			if (testEndIndex !== -1) {
 				const device = getDeviceName(token);
-				tryParsingTestResult(token.slice(testEndIndex + 11).trim(), device, devices[device].version);
+				tryParsingTestResult(token.slice(testEndIndex + TEST_END_PREFIX.length).trim(), device, devices[device].version);
 				return;
 			}
 
 			// check for suite end
-			if (token.includes('!TEST_RESULTS_STOP!')) {
+			if (token.includes(TEST_SUITE_STOP)) {
 
 				// device completed tests
 				const device = getDeviceName(token);
@@ -486,6 +511,91 @@ function massageJSONString(testResults) {
 		.replace(/[\u0000-\u0019]+/g, ''); // eslint-disable-line no-control-regex
 }
 
+/**
+ * Attempts to "grab" generated images
+ * @param {string} token line of output
+ * @param {string} target 'emulator' || 'simulator' || 'device'
+ * @param {string} snapshotDir directory to place generated images
+ * @returns {Promise<string>}
+ */
+async function grabGeneratedImage(token, target, snapshotDir) {
+	const imageIndex = token.indexOf(GENERATED_IMAGE_PREFIX);
+	const trimmed = token.slice(imageIndex + GENERATED_IMAGE_PREFIX.length).trim();
+	const details = JSON.parse(trimmed);
+	if (target === 'device') {
+		// TODO: Give details on the current test that generated it?
+		console.error(`Cannot grab generated image ${details.relativePath} from a device. Please run locally on a simulator and add the image to the suite.`);
+		return;
+	}
+
+	const dest = path.join(snapshotDir, details.platform, details.relativePath);
+	return saveAppImage(details, dest);
+}
+
+/**
+ * @param {object} details json from test output about image
+ * @param {string} details.path path to generated image file
+ * @param {string} details.platform name of the platform
+ * @param {string} dest destination filepath
+ */
+async function saveAppImage(details, dest) {
+	return grabAppImage(details.platform, details.path, dest);
+}
+
+async function grabAppImage(platform, filepath, dest) {
+	if (filepath.startsWith('file://')) {
+		filepath = filepath.slice(7);
+	}
+	if (platform === 'android') {
+		// Pull the file via adb shell
+		// FIXME: what if android sdk platform-tools/bin isn't on PATH!?
+		await exec(`adb shell "run-as ${APP_ID} cat '${filepath}'" > ${dest}`);
+		// TODO: handle device(s) vs emulator(s)
+		return dest;
+	} else {
+		// copy the expected image to some location
+		// iOS - How do we grab the image?
+		// For ios sim, we should just be able to do a file copy
+		// FIXME: iOS device isn't (and may not be able to be) handled!
+		await fs.copy(filepath, dest);
+		return dest;
+	}
+}
+
+/**
+ * Attempts to "grab" the actual image and place it in known location side-by-side with expected image
+ * @param {string} token line of output
+ * @param {string} target 'emulator' || 'simulator' || 'device'
+ * @param {string} snapshotDir directory to place generated images
+ * @returns {Promise<string>}
+ */
+async function handleMismatchedImage(token, target, snapshotDir) {
+	const imageIndex = token.indexOf(DIFF_IMAGE_PREFIX);
+	const trimmed = token.slice(imageIndex + DIFF_IMAGE_PREFIX.length).trim();
+	const details = JSON.parse(trimmed);
+
+	const expected = path.join(snapshotDir, details.platform, details.relativePath);
+	const diffDir = path.join(snapshotDir, '..', 'diffs', details.platform, details.relativePath.slice(0, -4)); // drop '.png'
+	await fs.ensureDir(diffDir);
+	await fs.copy(expected, path.join(diffDir, 'expected.png'));
+
+	if (target === 'device') {
+		// TODO: Give details on the current test that generated it?
+		console.error(`Cannot grab generated image ${details.relativePath} from a device. Please run locally on a simulator and add the image to the suite.`);
+		return;
+	}
+
+	const actual = path.join(diffDir, 'actual.png');
+	await saveAppImage(details, actual);
+	try {
+		const diff = path.join(diffDir, 'diff.png');
+		await grabAppImage(details.platform, details.path.slice(0, -4) + '_diff.png', diff);
+	} catch (err) {
+		// ignore, diff image may not exist
+	}
+	return actual;
+}
+
 function generateJUnitPrefix(platform, target, deviceFamily) {
 	let prefix = platform;
 	if (target) {
@@ -533,7 +643,7 @@ async function outputJUnitXML(jsonResults, prefix) {
  */
 async function cleanNonGaSDKs(sdkPath) {
 	// FIXME Use fork since we're spawning off another node process!
-	const { stdout, _stderr } = await exec(`node "${titanium}" sdk list -o json`);
+	const { stdout } = await exec(`node "${titanium}" sdk list -o json`);
 	const out = JSON.parse(stdout);
 	const installedSDKs = out.installed;
 	// Loop over the SDKs and remove any where the key doesn't end in GA, or the value isn't sdkPath
@@ -562,9 +672,9 @@ async function sdkDir() {
 		if (osName === 'win32') {
 			return path.join(process.env.ProgramData, 'Titanium');
 		} else if (osName === 'darwin') {
-			return path.join(os.homedir(), 'Library/Application Support/Titanium');
+			return path.join(process.env.HOME, 'Library', 'Application Support', 'Titanium');
 		} else if (osName === 'linux') {
-			return path.join(os.homedir(), '.titanium');
+			return path.join(process.env.HOME, '.titanium');
 		}
 	}
 }
@@ -592,21 +702,24 @@ async function cleanupModules(sdkDir) {
  * app for each platform with our mocha test suite. Outputs the results in a JUnit
  * test report, and holds onto the results in memory as a JSON object.
  *
- * @param	{String}   	branch    	branch/zip/url of SDK to install. If null/undefined, no SDK will be installed
- * @param	{String|String[]}	platforms 	   [description]
- * @param	{String}   			target		    Titanium target value to run the tests on
- * @param	{String}			deviceId	    Titanium device id target to run the tests on
- * @param	{Boolean}			skipSdkInstall	Don't try to install an SDK from `branch`
- * @param	{Boolean}			cleanup	        Delete all the non-GA SDKs when done? Defaults to true if we installed an SDK
- * @param	{String}			architecture	Target architecture to build. Only valid on Windows
- * @param   {string}            [deployType]    deployType
- * @param   {string}            [deviceFamily]  'ipad' || 'iphone'
+ * @param {String} branch branch/zip/url of SDK to install. If null/undefined, no SDK will be installed
+ * @param {String|String[]}	platforms [description]
+ * @param {String} target Titanium target value to run the tests on
+ * @param {String} deviceId Titanium device id target to run the tests on
+ * @param {Boolean} skipSdkInstall Don't try to install an SDK from `branch`
+ * @param {Boolean} cleanup Delete all the non-GA SDKs when done? Defaults to true if we installed an SDK
+ * @param {String} architecture	Target architecture to build. Only valid on Windows
+ * @param {string} [deployType] deployType
+ * @param {string} [deviceFamily] 'ipad' || 'iphone'
+ * @param {string} [snapshotDir='../Resources'] directory to place generated snapshot images
  */
-async function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, deployType, deviceFamily) {
+async function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup, architecture, deployType, deviceFamily, snapshotDir = path.join(__dirname, '../Resources')) {
 	// if we're not skipping sdk install and haven't specific whether to clean up or not, default to cleaning up non-GA SDKs
 	if (!skipSdkInstall && cleanup === undefined) {
 		cleanup = true;
 	}
+
+	const snapshotPromises = []; // place to stick commands we've fired off to pull snapshot images
 
 	const dir = await sdkDir();
 
@@ -639,10 +752,15 @@ async function test(branch, platforms, target, deviceId, skipSdkInstall, cleanup
 	// run build for each platform, and spit out JUnit report
 	const results = {};
 	for (const platform of platforms) {
-		const result = await runBuild(platform, target, deviceId, architecture, deployType, deviceFamily);
+		const result = await runBuild(platform, target, deviceId, architecture, deployType, deviceFamily, snapshotDir, snapshotPromises);
 		const prefix = generateJUnitPrefix(platform, target, deviceFamily);
 		results[prefix] = result;
 		outputJUnitXML(result, prefix);
+	}
+
+	// If we're gathering images, make sure we get them all before we move on
+	if (snapshotPromises.length !== 0) {
+		await Promise.all(snapshotPromises);
 	}
 
 	if (cleanup) {
