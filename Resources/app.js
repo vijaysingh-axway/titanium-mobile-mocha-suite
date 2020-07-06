@@ -126,6 +126,7 @@ function loadTests() {
 	require('./ti.ui.matrix2d.test');
 	require('./ti.ui.activityindicator.test');
 	require('./ti.ui.alertdialog.test');
+	require('./ti.ui.android.test');
 	require('./ti.ui.android.drawerlayout.test');
 	require('./ti.ui.android.progressindicator.test');
 	require('./ti.ui.attributedstring.test');
