@@ -1,4 +1,5 @@
 'use strict';
+/* globals OS_ANDROID,OS_IOS */
 const should = require('should');
 const utilities = require('./utilities');
 
@@ -16,7 +17,7 @@ should.Assertion.add('ownPropertyWithDescriptor', function (name, desc) {
 		const expected = (desc[key] || false);
 		const actual = (descriptor[key] || false);
 		if (expected !== actual) {
-			should.fail('Expected ' + name + '.' + key + ' = ' + expected);
+			should.fail(`Expected ${name}.${key} = ${expected}`);
 		}
 	}
 }, false);
@@ -34,7 +35,7 @@ should.Assertion.add('propertyWithDescriptor', function (propName, desc) {
 	while (!Object.prototype.hasOwnProperty.call(target, propName)) {
 		target = Object.getPrototypeOf(target); // go up the prototype chain
 		if (!target) {
-			should.fail('Unable to find property ' + propName + ' up the prototype chain!');
+			should.fail(`Unable to find property ${propName} up the prototype chain!`);
 			break;
 		}
 	}
@@ -50,7 +51,7 @@ should.Assertion.add('propertyWithDescriptor', function (propName, desc) {
  * @param {String} propName     Name of the property to test for.
  */
 should.Assertion.add('readOnlyProperty', function (propName) {
-	this.params = { operator: 'to have a read-only property with name: ' + propName };
+	this.params = { operator: `to have a read-only property with name: ${propName}` };
 	if (this.obj.apiName) {
 		this.params.obj = this.obj.apiName;
 	}
@@ -69,7 +70,7 @@ should.Assertion.add('readOnlyProperty', function (propName) {
 
 // Is this needed? Why not just test for 'property'?
 should.Assertion.add('readWriteProperty', function (propName) {
-	this.params = { operator: 'to have a read-write property with name: ' + propName };
+	this.params = { operator: `to have a read-write property with name: ${propName}` };
 	if (this.obj.apiName) {
 		this.params.obj = this.obj.apiName;
 	}
@@ -90,7 +91,7 @@ should.Assertion.add('readWriteProperty', function (propName) {
 should.Assertion.alias('readOnlyProperty', 'constant');
 
 should.Assertion.add('enumeration', function (type, names) {
-	this.params = { operator: 'to have a set of enumerated constants with names: ' + names };
+	this.params = { operator: `to have a set of enumerated constants with names: ${names}` };
 	if (this.obj.apiName) {
 		this.params.obj = this.obj.apiName;
 	}
@@ -99,6 +100,92 @@ should.Assertion.add('enumeration', function (type, names) {
 		should(this.obj).have.constant(names[i]).which.is.a[type]; // eslint-disable-line no-unused-expressions
 	}
 }, false);
+
+/**
+ * @param {Ti.Blob} blob binary data to write
+ * @param {string} imageFilePath relative file path to save image under
+ * @returns {Ti.Filesystem.File}
+ */
+function saveImage(blob, imageFilePath) {
+	const file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, imageFilePath);
+	if (!file.parent.exists()) {
+		file.parent.createDirectory();
+	}
+	file.write(blob);
+	return file;
+}
+
+should.Assertion.add('matchImage', function (imageFilePath) {
+	this.params = { operator: `view to match snapshot image: ${imageFilePath}` };
+	if (this.obj.apiName) {
+		this.params.obj = this.obj.apiName;
+	}
+
+	const view = this.obj;
+	this.have.property('toImage').which.is.a.Function();
+	// FIXME: What if use provides a non-view?
+	const blob = view.toImage();
+	const snapshot = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, imageFilePath);
+	if (!snapshot.exists()) {
+		// No snapshot. Generate one, then fail test
+		const file = saveImage(blob, imageFilePath);
+		console.log(`!IMAGE: {"path":"${file.nativePath}","platform":"${OS_ANDROID ? 'android' : 'ios'}","relativePath":"${imageFilePath}"}`);
+		should.fail(`No snapshot image to compare for platform "${OS_ANDROID ? 'android' : 'ios'}": ${imageFilePath}\nGenerated image at ${file.nativePath}`);
+		return;
+	}
+
+	// Compare versus existing image
+	const snapshotBlob = snapshot.read();
+	try {
+		if (OS_IOS) {
+			// Need to take scale into account on iOS. Original image reports 5x5 when it's 2x density while saved image is 10x10
+			// FIXME: This is a bug in Ti.Blob on iOS. It should report in pixels, not points!
+			// NOTE: That this means we need to use sizes divisible by 1, 2, or 3.
+			const scale = Ti.Platform.displayCaps.logicalDensityFactor;
+			should(blob.width * scale).equal(snapshotBlob.width, 'width');
+			should(blob.height * scale).equal(snapshotBlob.height, 'height');
+			should(blob.size * scale * scale).equal(snapshotBlob.size, 'size');
+		} else {
+			should(blob.width).equal(snapshotBlob.width, 'width');
+			should(blob.height).equal(snapshotBlob.height, 'height');
+			should(blob.size).equal(snapshotBlob.size, 'size');
+		}
+	} catch (e) {
+		// assume we failed some assertion, let's try and save the image for reference!
+		// The wrapping script should basically generate a "diffs" folder with actual vs expected PNGs in subdirectories
+		const file = saveImage(blob, imageFilePath);
+		console.log(`!IMG_DIFF: {"path":"${file.nativePath}","platform":"${OS_ANDROID ? 'android' : 'ios'}","relativePath":"${imageFilePath}"}`);
+		throw e;
+	}
+
+	// use pngjs and pixelmatch!
+	const zlib = require('browserify-zlib');
+	global.binding.register('zlib', zlib);
+	const PNG = require('pngjs').PNG;
+	const pixelmatch = require('pixelmatch');
+
+	// Need to create a Buffer around the contents of each image!
+	const expectedStream = Ti.Stream.createStream({ source: snapshotBlob, mode: Ti.Stream.MODE_READ });
+	const expectedBuffer = Buffer.from(Ti.Stream.readAll(expectedStream));
+	const expectedImg = PNG.sync.read(expectedBuffer);
+
+	const actualStream = Ti.Stream.createStream({ source: blob, mode: Ti.Stream.MODE_READ });
+	const actualBuffer = Buffer.from(Ti.Stream.readAll(actualStream));
+	const actualImg = PNG.sync.read(actualBuffer);
+
+	const { width, height } = actualImg;
+	const diff = new PNG({ width, height });
+	const pixelsDiff = pixelmatch(actualImg.data, expectedImg.data, diff.data, width, height, { threshold: 0 });
+	if (pixelsDiff !== 0) {
+		const file = saveImage(blob, imageFilePath); // save "actual"
+		// Save diff image!
+		const diffBuffer = PNG.sync.write(diff);
+		const diffFilePath = imageFilePath.slice(0, -4) + '_diff.png';
+		saveImage(diffBuffer.toTiBuffer().toBlob(), diffFilePath); // TODO Pass along path to diff file?
+		console.log(`!IMG_DIFF: {"path":"${file.nativePath}","platform":"${OS_ANDROID ? 'android' : 'ios'}","relativePath":"${imageFilePath}"}`);
+		should.fail(`Image ${imageFilePath} failed to match, had ${pixelsDiff} differing pixels. View actual/expected/diff images to compare manually.`);
+	}
+});
 
 // TODO Add an assertion for "exclusive" group of constants: A set of constants whose values must be unique (basically an enum), i.e. Ti.UI.FILL vs SIZE vs UNKNOWN
 // TODO Use more custom assertions for things like color properties?
