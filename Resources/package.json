@@ -5,7 +5,9 @@
         "abbrev": "file:fake_node_modules/abbrev",
         "bar": "file:fake_node_modules/bar",
         "baz": "file:fake_node_modules/baz",
+        "browserify-zlib": "^0.2.0",
         "foo": "file:fake_node_modules/foo",
+        "pixelmatch": "^5.2.0",
         "should": "^13.2.3"
     }
 }
