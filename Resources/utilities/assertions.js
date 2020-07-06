@@ -97,7 +97,7 @@ should.Assertion.add('enumeration', function (type, names) {
 	}
 
 	for (let i = 0; i < names.length; i++) {
-		should(this.obj).have.constant(names[i]).which.is.a[type]; // eslint-disable-line no-unused-expressions
+		should(this.obj).have.constant(names[i]).which.is.a[type](); // eslint-disable-line no-unused-expressions
 	}
 }, false);
 
