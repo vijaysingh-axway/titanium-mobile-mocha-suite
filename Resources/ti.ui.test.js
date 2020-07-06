@@ -224,8 +224,8 @@ describe('Titanium.UI', function () {
 			const semanticColors = require('./semantic.colors.json');
 
 			const result = Ti.UI.fetchSemanticColor('textColor');
-			if (isIOS13Plus) {
-				// We get a Ti.UI.Color proxy on iOS 13+
+			if (OS_IOS) {
+				// We get a Ti.UI.Color proxy on iOS
 				should(result).be.an.Object;
 				should(result.apiName).eql('Ti.UI.Color');
 				result.toHex().toLowerCase().should.eql(semanticColors.textColor[Ti.UI.semanticColorType].toLowerCase());
