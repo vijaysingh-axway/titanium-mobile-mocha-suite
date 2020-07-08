@@ -1107,7 +1107,7 @@ describe('util', () => {
 			}
 			const deprecated = util.deprecate(original, 'dont call me Al');
 			// this should get called synchronously, so I don't think we need to do any setTimeout/async finished stuff
-			process.on('warning', warning => {
+			process.once('warning', warning => {
 				warning.name.should.eql('DeprecationWarning');
 				warning.message.should.eql('dont call me Al');
 			});
