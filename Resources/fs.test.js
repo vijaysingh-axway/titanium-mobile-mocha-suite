@@ -1303,8 +1303,8 @@ describe('fs', function () {
 				// file should now exist
 				should(fs.existsSync(filename)).eql(true);
 				// contents should match what we wrote
-				should(fs.readFileSync(filename)).eql(buffer);
-
+				// should(fs.readFileSync(filename)).eql(buffer); // FIXME: Calling eql with FastBuffer vs SlowBuffer fails right now
+				should(fs.readFileSync(filename).equals(buffer)).be.true();
 			} finally {
 				fs.closeSync(fd);
 			}
