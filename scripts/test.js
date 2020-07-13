@@ -546,6 +546,7 @@ async function grabAppImage(platform, filepath, dest) {
 	if (filepath.startsWith('file://')) {
 		filepath = filepath.slice(7);
 	}
+	console.log(`Copying generated image ${filepath} to ${dest}`);
 	if (platform === 'android') {
 		// Pull the file via adb shell
 		// FIXME: what if android sdk platform-tools/bin isn't on PATH!?
