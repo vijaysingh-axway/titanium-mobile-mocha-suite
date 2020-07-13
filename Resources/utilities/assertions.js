@@ -137,19 +137,9 @@ should.Assertion.add('matchImage', function (imageFilePath) {
 	// Compare versus existing image
 	const snapshotBlob = snapshot.read();
 	try {
-		if (OS_IOS) {
-			// Need to take scale into account on iOS. Original image reports 5x5 when it's 2x density while saved image is 10x10
-			// FIXME: This is a bug in Ti.Blob on iOS. It should report in pixels, not points!
-			// NOTE: That this means we need to use sizes divisible by 1, 2, or 3.
-			const scale = Ti.Platform.displayCaps.logicalDensityFactor;
-			should(blob.width * scale).equal(snapshotBlob.width, 'width');
-			should(blob.height * scale).equal(snapshotBlob.height, 'height');
-			should(blob.size * scale * scale).equal(snapshotBlob.size, 'size');
-		} else {
-			should(blob.width).equal(snapshotBlob.width, 'width');
-			should(blob.height).equal(snapshotBlob.height, 'height');
-			should(blob.size).equal(snapshotBlob.size, 'size');
-		}
+		should(blob.width).equal(snapshotBlob.width, 'width');
+		should(blob.height).equal(snapshotBlob.height, 'height');
+		should(blob.size).equal(snapshotBlob.size, 'size');
 	} catch (e) {
 		// assume we failed some assertion, let's try and save the image for reference!
 		// The wrapping script should basically generate a "diffs" folder with actual vs expected PNGs in subdirectories
