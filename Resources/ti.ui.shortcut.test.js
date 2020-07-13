@@ -20,6 +20,17 @@ if (OS_ANDROID) {
 	}
 }
 
+describe('Titanium.UI', () => {
+	it.android('#createShortcut()', () => {
+		should(Ti.UI.createShortcutItem).not.be.undefined();
+		should(Ti.UI.createShortcut).be.a.Function();
+
+		// Create shortcut instance.
+		const shortcut = Ti.UI.createShortcut();
+		should(shortcut).be.a.Object();
+	});
+});
+
 describe.android('Titanium.UI.Shortcut', () => {
 	// Create basic shortcut item.
 	let shortcutItem;
@@ -32,83 +43,111 @@ describe.android('Titanium.UI.Shortcut', () => {
 		});
 	});
 
-	it('createShortcut', () => {
-		should(Ti.UI.createShortcutItem).not.be.undefined();
-		should(Ti.UI.createShortcut).be.a.Function();
-
-		// Create shortcut instance.
+	it('.apiName', () => {
 		const shortcut = Ti.UI.createShortcut();
-		should(shortcut).be.a.Object();
-
-		// Verify `apiName`.
 		should(shortcut).have.readOnlyProperty('apiName').which.is.a.String();
 		should(shortcut.apiName).be.eql('Ti.UI.Shortcut');
 	});
 
-	it('removeAll', () => {
-
-		if (!androidCompatible) {
-			return;
-		}
-
-		// Create shortcut instance.
-		const shortcut = Ti.UI.createShortcut();
-		should(shortcut).be.a.Object();
-
-		// Verify `removeAll()`.
-		should(shortcut.removeAll).not.be.undefined();
-		should(shortcut.removeAll).be.a.Function();
-
-		// Test `removeAll()`.
-		shortcut.removeAll();
+	describe('.items', () => {
+		it('is an Array', () => {
+			if (!androidCompatible) {
+				return;
+			}
+			const shortcut = Ti.UI.createShortcut();
+			should(shortcut.items).be.an.Array();
+		});
 	});
 
-	it('remove', () => {
+	describe('#removeAll()', () => {
+		it('is a function', () => {
+			if (!androidCompatible) {
+				return;
+			}
+			const shortcut = Ti.UI.createShortcut();
+			should(shortcut.removeAll).not.be.undefined();
+			should(shortcut.removeAll).be.a.Function();
+		});
 
-		if (!androidCompatible) {
-			return;
-		}
+		it('removes single shortcut item', () => {
+			if (!androidCompatible) {
+				return;
+			}
+			const shortcut = Ti.UI.createShortcut();
+			should(shortcut.items.length).eql(0);
+			shortcut.add(shortcutItem);
+			should(shortcut.items.length).eql(1);
 
-		// Create shortcut instance.
-		const shortcut = Ti.UI.createShortcut();
-		should(shortcut).be.a.Object();
-
-		// Detect existing shortcuts.
-		const existingShortcuts = shortcut.items;
-
-		// Verify `remove()`.
-		should(shortcut.remove).not.be.undefined();
-		should(shortcut.remove).be.a.Function();
-
-		// Test `remove()`.
-		shortcut.remove(shortcutItem);
-
-		// Check shortcut has been removed.
-		should(shortcut.items).be.lessThan(existingShortcuts);
+			shortcut.removeAll();
+			should(shortcut.items.length).eql(0);
+		});
+		// TODO: Test adding multiple items
+		// TODO: Test removing all multiple times in a row
 	});
 
-	it('add', () => {
+	describe('#remove()', () => {
+		it('is a function', () => {
+			if (!androidCompatible) {
+				return;
+			}
+			const shortcut = Ti.UI.createShortcut();
+			should(shortcut.remove).not.be.undefined();
+			should(shortcut.remove).be.a.Function();
+		});
 
-		if (!androidCompatible) {
-			return;
-		}
+		it('removes single shortcut item', () => {
+			if (!androidCompatible) {
+				return;
+			}
+			const shortcut = Ti.UI.createShortcut();
+			should(shortcut.items.length).eql(0);
+			shortcut.add(shortcutItem);
+			should(shortcut.items.length).eql(1);
 
-		// Create shortcut instance.
-		const shortcut = Ti.UI.createShortcut();
-		should(shortcut).be.a.Object();
+			shortcut.remove(shortcutItem);
+			should(shortcut.items.length).eql(0);
+		});
+		// TODO: Test removing multiple items
+		// TODO: Test removing item never added in first place
+		// TODO: Test passing in null/undefined/non-ShortcutItem
+	});
 
-		// Detect existing shortcuts.
-		const existingShortcuts = shortcut.items;
+	describe('#add()', () => {
+		it('is a function', () => {
+			if (!androidCompatible) {
+				return;
+			}
+			const shortcut = Ti.UI.createShortcut();
+			should(shortcut.add).not.be.undefined();
+			should(shortcut.add).be.a.Function();
+		});
 
-		// Verify `add()`.
-		should(shortcut.add).not.be.undefined();
-		should(shortcut.add).be.a.Function();
+		it('add a single shortcut item', () => {
+			if (!androidCompatible) {
+				return;
+			}
+			const shortcut = Ti.UI.createShortcut();
+			should(shortcut.items.length).eql(0);
+			shortcut.add(shortcutItem);
+			should(shortcut.items.length).eql(1);
+		});
 
-		// Test `add()`.
-		// NOTE: Tests run backwards, this shortcut is added first.
-		shortcut.add(shortcutItem);
+		// TODO: Test adding multiple items
+		// TODO: Test adding same item twice
+		// TODO: Test passing in null/undefined/non-ShortcutItem
+	});
 
-		// Check shortcut has been added.
-		should(shortcut.items).be.greaterThan(existingShortcuts);
+	describe('#getById()', () => {
+		it('is a function', () => {
+			if (!androidCompatible) {
+				return;
+			}
+			const shortcut = Ti.UI.createShortcut();
+			should(shortcut.getById).not.be.undefined();
+			should(shortcut.getById).be.a.Function();
+		});
+		// TODO: Test with non-existent id
+		// TODO: Test with id of added shortcut
+		// TODO: Test passing in null/undefined/number
 	});
 });

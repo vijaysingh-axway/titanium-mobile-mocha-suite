@@ -11,93 +11,138 @@
 
 const should = require('./utilities/assertions');
 
-describe.android('Titanium.UI.ShortcutItem', () => {
+// ONLY compatible with Android 7.1+, end test early.
+let androidCompatible = true;
+if (OS_ANDROID) {
+	const version = Ti.Platform.version.split('.');
+	if (parseInt(`${version[0]}${version[1]}`) < 71) {
+		androidCompatible = false;
+	}
+}
 
-	it('Ti.UI.ShortcutItem', () => {
-		should(Ti.UI.ShortcutItem).not.be.undefined();
-	});
-
-	it('createShortcutItem', () => {
+describe('Titanium.UI', () => {
+	it.android('#createShortcutItem()', () => {
 		should(Ti.UI.createShortcutItem).not.be.undefined();
 		should(Ti.UI.createShortcutItem).be.a.Function();
 	});
+});
 
-	it('basic shortcut item', () => {
-		// Create shortcut item.
-		const item = Ti.UI.createShortcutItem({
-			id: 'test_shortcut',
-			title: 'Test Shortcut',
-			description: 'Test shortcut description',
-			data: { test_data: 'data' }
-		});
-		should(item).be.an.Object();
-
-		// Verify `apiName`.
-		should(item).have.readOnlyProperty('apiName').which.is.a.String();
-		should(item.apiName).be.eql('Ti.UI.ShortcutItem');
-
-		// Verify `id`.
-		should(item.id).be.eql('test_shortcut');
-
-		// Verify `title`.
-		should(item.title).be.eql('Test Shortcut');
-
-		// Verify `description`.
-		should(item.description).be.eql('Test shortcut description');
-
-		// Verify `data`.
-		should(item.data).be.a.Object();
+describe.android('Titanium.UI.ShortcutItem', () => {
+	it('namespace exists', () => {
+		should(Ti.UI.ShortcutItem).not.be.undefined();
 	});
 
-	it.android('createShortcutItem', () => {
-		// create shortcut
-		const shortcut = Ti.UI.createShortcutItem({
-			id: 'test_shortcut',
-			title: 'Test Shortcut',
-			description: 'Test shortcut description',
-			icon: Ti.Android.R.drawable.ic_menu_send
+	if (androidCompatible) {
+
+		it('.apiName', () => {
+			const item = Ti.UI.createShortcutItem({
+				id: 'test_shortcut',
+				title: 'Test Shortcut',
+				description: 'Test shortcut description',
+			});
+			should(item).have.readOnlyProperty('apiName').which.is.a.String();
+			should(item.apiName).be.eql('Ti.UI.ShortcutItem');
 		});
 
-		// ONLY compatible with Android 7.1+, end test early
-		const version = Ti.Platform.version.split('.');
-		if (parseInt(`${version[0]}${version[1]}`) < 71) {
-			return;
-		}
+		it('.id', () => {
+			const item = Ti.UI.createShortcutItem({
+				id: 'test_shortcut',
+				title: 'Test Shortcut',
+				description: 'Test shortcut description',
+				data: { test_data: 'data' }
+			});
+			should(item.id).be.eql('test_shortcut');
+		});
 
-		// verify `id`
-		should(shortcut.id).be.eql('test_shortcut');
+		it('.title', () => {
+			const item = Ti.UI.createShortcutItem({
+				id: 'test_shortcut',
+				title: 'Test Shortcut',
+				description: 'Test shortcut description',
+				data: { test_data: 'data' }
+			});
+			should(item.title).be.eql('Test Shortcut');
+		});
 
-		// verify `title`
-		should(shortcut.title).be.eql('Test Shortcut');
+		it('.description', () => {
+			const item = Ti.UI.createShortcutItem({
+				id: 'test_shortcut',
+				title: 'Test Shortcut',
+				description: 'Test shortcut description',
+				data: { test_data: 'data' }
+			});
+			should(item.description).be.eql('Test shortcut description');
+		});
 
-		// verify `description`
-		should(shortcut.description).be.eql('Test shortcut description');
+		it('.data', () => {
+			const item = Ti.UI.createShortcutItem({
+				id: 'test_shortcut',
+				title: 'Test Shortcut',
+				description: 'Test shortcut description',
+				data: { test_data: 'data' }
+			});
+			should(item.data).be.a.Object();
+		});
 
-		// verify `icon`
-		should(shortcut.icon).be.eql(Ti.Android.R.drawable.ic_menu_send);
-
-		// verify `show()`
-		should(shortcut.show).not.be.undefined();
-		should(shortcut.show).be.a.Function();
-
-		// verify `hide()`
-		should(shortcut.hide).not.be.undefined();
-		should(shortcut.hide).be.a.Function();
-
-		// verify `pin`
-		should(shortcut.pin).not.be.undefined();
-		should(shortcut.pin).be.a.Function();
-	});
-
-	it.android('handle duplicate shortcuts', () => {
-		for (let i = 0; i < 16; i++) {
+		it('.icon', () => {
 			const shortcut = Ti.UI.createShortcutItem({
 				id: 'test_shortcut',
 				title: 'Test Shortcut',
 				description: 'Test shortcut description',
 				icon: Ti.Android.R.drawable.ic_menu_send
 			});
-			shortcut.show();
-		}
-	});
+			should(shortcut.icon).be.eql(Ti.Android.R.drawable.ic_menu_send);
+		});
+
+		describe('#show()', () => {
+			it('is a Function', () => {
+				const shortcut = Ti.UI.createShortcutItem({
+					id: 'test_shortcut',
+					title: 'Test Shortcut',
+					description: 'Test shortcut description',
+					icon: Ti.Android.R.drawable.ic_menu_send
+				});
+				should(shortcut.show).not.be.undefined();
+				should(shortcut.show).be.a.Function();
+			});
+		});
+
+		describe('#hide()', () => {
+			it('is a Function', () => {
+				const shortcut = Ti.UI.createShortcutItem({
+					id: 'test_shortcut',
+					title: 'Test Shortcut',
+					description: 'Test shortcut description',
+					icon: Ti.Android.R.drawable.ic_menu_send
+				});
+				should(shortcut.hide).not.be.undefined();
+				should(shortcut.hide).be.a.Function();
+			});
+		});
+
+		describe('#pin()', () => {
+			it('is a Function', () => {
+				const shortcut = Ti.UI.createShortcutItem({
+					id: 'test_shortcut',
+					title: 'Test Shortcut',
+					description: 'Test shortcut description',
+					icon: Ti.Android.R.drawable.ic_menu_send
+				});
+				should(shortcut.pin).not.be.undefined();
+				should(shortcut.pin).be.a.Function();
+			});
+		});
+
+		it.android('handle duplicate shortcuts', () => {
+			for (let i = 0; i < 16; i++) {
+				const shortcut = Ti.UI.createShortcutItem({
+					id: 'test_shortcut',
+					title: 'Test Shortcut',
+					description: 'Test shortcut description',
+					icon: Ti.Android.R.drawable.ic_menu_send
+				});
+				shortcut.show();
+			}
+		});
+	}
 });
