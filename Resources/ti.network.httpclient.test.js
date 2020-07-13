@@ -703,4 +703,16 @@ describe('Titanium.Network.HTTPClient', function () {
 		xhr.open('POST', 'https://httpbin.org/post');
 		xhr.send(Ti.Utils.base64encode(Ti.Filesystem.getFile('SplashScreen.png')).toString());
 	});
+
+	it('TIMOB-27767 - trigger error callback for invalid URL', function (finish) {
+		var xhr = Ti.Network.createHTTPClient();
+		xhr.setTimeout(6e4);
+
+		xhr.onerror = function (e) {
+			finish();
+		};
+
+		xhr.open('GET', 'https://www.google .com/'); // URL with space
+		xhr.send();
+	});
 });
