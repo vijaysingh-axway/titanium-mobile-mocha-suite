@@ -529,7 +529,14 @@ async function grabGeneratedImage(token, target, snapshotDir) {
 	}
 
 	const dest = path.join(snapshotDir, details.platform, details.relativePath);
-	return saveAppImage(details, dest);
+	// copied from sim/emu to file system...
+	const grabbed = await saveAppImage(details, dest);
+	// Now also place in diffs dir too with no expected.png
+	const diffDir = path.join(snapshotDir, '..', 'diffs', details.platform, details.relativePath.slice(0, -4)); // drop '.png'
+	await fs.ensureDir(diffDir);
+	const actual = path.join(diffDir, 'actual.png');
+	await fs.copy(grabbed, actual);
+	return grabbed;
 }
 
 /**
