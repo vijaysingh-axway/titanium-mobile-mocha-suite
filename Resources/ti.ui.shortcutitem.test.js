@@ -1,25 +1,55 @@
 /*
  * Appcelerator Titanium Mobile
- * Copyright (c) 2019 by Axway, Inc. All Rights Reserved.
+ * Copyright (c) 2020 by Axway, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
+/* eslint no-undef: "off" */
 'use strict';
 
 const should = require('./utilities/assertions');
 
-describe('Titanium.UI.ShortcutItem', () => {
+describe.android('Titanium.UI.ShortcutItem', () => {
 
-	it.android('Ti.UI.ShortcutItem', () => {
+	it('Ti.UI.ShortcutItem', () => {
 		should(Ti.UI.ShortcutItem).not.be.undefined();
 	});
 
-	it.android('createShortcutItem', () => {
+	it('createShortcutItem', () => {
 		should(Ti.UI.createShortcutItem).not.be.undefined();
 		should(Ti.UI.createShortcutItem).be.a.Function();
+	});
 
+	it('basic shortcut item', () => {
+		// Create shortcut item.
+		const item = Ti.UI.createShortcutItem({
+			id: 'test_shortcut',
+			title: 'Test Shortcut',
+			description: 'Test shortcut description',
+			data: { test_data: 'data' }
+		});
+		should(item).be.an.Object();
+
+		// Verify `apiName`.
+		should(item).have.readOnlyProperty('apiName').which.is.a.String();
+		should(item.apiName).be.eql('Ti.UI.ShortcutItem');
+
+		// Verify `id`.
+		should(item.id).be.eql('test_shortcut');
+
+		// Verify `title`.
+		should(item.title).be.eql('Test Shortcut');
+
+		// Verify `description`.
+		should(item.description).be.eql('Test shortcut description');
+
+		// Verify `data`.
+		should(item.data).be.a.Object();
+	});
+
+	it.android('createShortcutItem', () => {
 		// create shortcut
 		const shortcut = Ti.UI.createShortcutItem({
 			id: 'test_shortcut',
@@ -27,11 +57,6 @@ describe('Titanium.UI.ShortcutItem', () => {
 			description: 'Test shortcut description',
 			icon: Ti.Android.R.drawable.ic_menu_send
 		});
-		should(shortcut).be.a.Object();
-
-		// verify `apiName`
-		should(shortcut).have.readOnlyProperty('apiName').which.is.a.String();
-		should(shortcut.apiName).be.eql('Ti.UI.ShortcutItem');
 
 		// ONLY compatible with Android 7.1+, end test early
 		const version = Ti.Platform.version.split('.');
