@@ -1409,4 +1409,31 @@ describe('Titanium.UI.TableView', function () {
 		});
 		win.open();
 	});
+
+	it.ios('rows with vertical or horizontal layout', function (finish) {
+		const data = [];
+		for (var index = 1; index <= 20; index++) {
+			let layout = 'vertical';
+			if (index > 10) {
+				layout = 'horizontal';
+			}
+			const row = Ti.UI.createTableViewRow({ layout });
+			row.add(Ti.UI.createLabel({ text: `Row ${index}` }));
+			data.push(row);
+		}
+		const table = Ti.UI.createTableView({ data });
+		win = Ti.UI.createWindow();
+
+		win.addEventListener('postlayout', function addTableView() {
+			win.removeEventListener('postlayout', addTableView);
+			try {
+				// After adding table, app should not crash
+				win.add(table);
+			} catch (err) {
+				return finish(err);
+			}
+			finish();
+		});
+		win.open();
+	});
 });
