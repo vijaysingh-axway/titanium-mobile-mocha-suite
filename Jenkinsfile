@@ -10,8 +10,7 @@ def npmVersion = 'latest' // We can change this without any changes to Jenkins. 
 
 // Some branch flags to alter behavior
 def isPR = env.CHANGE_ID || false // CHANGE_ID is set if this is a PR. (We used to look whether branch name started with PR-, which would not be true for a branch from origin filed as PR)
-def isGreenKeeper = env.BRANCH_NAME.startsWith('greenkeeper/') || 'greenkeeper[bot]'.equals(env.CHANGE_AUTHOR) // greenkeeper needs special handling to avoid using npm ci, and to use greenkeeper-lockfile
-def targetBranch = isGreenKeeper ? 'master' : (isPR ? env.CHANGE_TARGET : (env.BRANCH_NAME ?: 'master'))
+def targetBranch = isPR ? env.CHANGE_TARGET : (env.BRANCH_NAME ?: 'master')
 
 def unitTests(os, scm, nodeVersion, npmVersion, testSuiteBranch, target = '') {
 	try {
@@ -106,7 +105,9 @@ timestamps {
 					}
 				},
 				'iOS': {
-					node('osx && xcode-10') {
+					// Don't tie to any particular xcode. SDK ties to xcode-11 to test iOS 13 APIs.
+					// But here it may be useful to try on older xcodes (9/10) to check backwards compat
+					node('osx && xcode') {
 						unitTests('ios', scm, nodeVersion, npmVersion, targetBranch)
 					}
 				}
