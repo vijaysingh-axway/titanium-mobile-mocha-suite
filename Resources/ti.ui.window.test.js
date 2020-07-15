@@ -471,10 +471,9 @@ describe('Titanium.UI.Window', function () {
 
 	it('#applyProperties(Object)', () => {
 		win = Ti.UI.createWindow();
-		win.open();
-		should(win.custom).not.exist;
+		should(win.custom).not.exist();
 		win.applyProperties({ custom: 1234 });
-		should(win.custom).be.eql(1234);
+		should(win.custom).eql(1234);
 	});
 
 	it.ios('largeTitleEnabled', () => {
