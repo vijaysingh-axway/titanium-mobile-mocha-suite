@@ -65,8 +65,10 @@ describe('Titanium.UI.Slider', function () {
 		win = Ti.UI.createWindow();
 		const slider = Ti.UI.createSlider({ min: 0, max: 100, value: 50 });
 		win.add(slider);
-		win.addEventListener('open', () => {
-			slider.addEventListener('change', (e) => {
+		win.addEventListener('open', function openListener () {
+			win.removeEventListener(openListener);
+			slider.addEventListener('change', function changeListener (e) {
+				slider.removeEventListener(changeListener);
 				try {
 					should(e.value).be.a.Number();
 					should(e.value).eql(75);
