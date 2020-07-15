@@ -17,7 +17,7 @@ const encodings = [ 'utf8', 'utf-8', 'ucs2', 'ucs-2', 'ascii', 'latin1', 'binary
 describe('buffer', () => {
 	it('can be loaded as a core module', () => {
 		BufferModule = require('buffer');
-		should(BufferModule).exist;
+		should.exist(BufferModule);
 	});
 
 	it('.INSPECT_MAX_BYTES', () => {
@@ -51,11 +51,11 @@ describe('buffer', () => {
 describe('Buffer', () => {
 	it('is available off the \'buffer\' module as Buffer', () => {
 		// eslint-disable-next-line node/prefer-global/buffer
-		should(BufferModule.Buffer).exist;
+		should.exist(BufferModule.Buffer);
 	});
 
 	it('is available off global', () => {
-		should(global.Buffer).exist;
+		should.exist(global.Buffer);
 	});
 
 	describe('constructor', () => {

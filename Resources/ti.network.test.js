@@ -93,6 +93,6 @@ describe('Titanium.Network', function () {
 	});
 
 	it('#createTCPSocket() should be removed', () => {
-		should(Ti.Network.createTCPSocket).not.exist;
+		should.not.exist(Ti.Network.createTCPSocket);
 	});
 });

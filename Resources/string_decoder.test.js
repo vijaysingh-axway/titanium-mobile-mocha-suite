@@ -13,7 +13,7 @@ let StringDecoder;
 describe('string_decoder', () => {
 	it('can be loaded as a core module', () => {
 		StringDecoder = require('string_decoder').StringDecoder;
-		should(StringDecoder).exist;
+		should.exist(StringDecoder);
 	});
 
 	it('uses \'utf8\' as the default encoding', () => {

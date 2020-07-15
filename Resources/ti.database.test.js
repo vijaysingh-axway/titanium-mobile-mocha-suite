@@ -317,14 +317,14 @@ describe('Titanium.Database', function () {
 
 		// Validate the rowid field
 		var rowid = rows.fieldByName('rowid');
-		should(rowid).not.exist; // null or undefined
+		should.not.exist(rowid); // null or undefined
 
 		// Validate the closed field
 		var field1 = rows.field(1);
-		should(field1).not.exist; // null or undefined
+		should.not.exist(field1); // null or undefined
 
 		var field2 = rows.fieldByName('number');
-		should(field2).not.exist; // null or undefined
+		should.not.exist(field2); // null or undefined
 
 		// Make sure next doesn't cause crash and return false
 		should(rows.next()).be.false();
@@ -435,10 +435,10 @@ describe('Titanium.Database', function () {
 			const db = Ti.Database.open('execute_async.db');
 			// Execute a query to create a test table
 			db.executeAsync('CREATE TABLE IF NOT EXISTS testTable (text TEXT, number INTEGER)', err => {
-				should(err).not.exist;
+				should.not.exist(err);
 				// Delete any existing data if the table already existed
 				db.executeAsync('DELETE FROM testTable', err => {
-					should(err).not.exist;
+					should.not.exist(err);
 
 					// Define test data
 					const testName = 'John Smith';
@@ -446,7 +446,7 @@ describe('Titanium.Database', function () {
 
 					// Insert test data into the table
 					db.executeAsync('INSERT INTO testTable (text, number) VALUES (?, ?)', testName, testNumber, err => {
-						should(err).not.exist;
+						should.not.exist(err);
 
 						// Validate that only one row has been affected
 						should(db.rowsAffected).be.eql(1);
@@ -454,21 +454,20 @@ describe('Titanium.Database', function () {
 						// Execute a query to return the rows of the database
 						db.executeAsync('SELECT rowid, text, number FROM testTable', (err, rows) => {
 							try {
-								should(err).not.exist;
+								should.not.exist(err);
 								// Validate the returned 'rows' object
 								should(rows).be.a.Object();
 								should(rows.rowCount).be.eql(1);
 								should(rows.fieldCount).be.eql(3);
 								should(rows.validRow).be.true();
-
-								finish();
 							} catch (e) {
-								finish(e);
+								return finish(e);
 							} finally {
 								// Close the 'rows' object
 								rows.close();
 								db.close();
 							}
+							finish();
 						});
 					});
 				});
@@ -479,13 +478,13 @@ describe('Titanium.Database', function () {
 			const db = Ti.Database.open('execute_async.db');
 			db.executeAsync('THIS IS SOME INVALID SQL', err => {
 				try {
-					should(err).exist;
-					finish();
+					should.exist(err);
 				} catch (e) {
-					finish(e);
+					return finish(e);
 				} finally {
 					db.close();
 				}
+				finish();
 			});
 		});
 	});
@@ -554,10 +553,10 @@ describe('Titanium.Database', function () {
 			try {
 				db.executeAll(queries);
 			} catch (e) {
-				should(e).exist;
+				should.exist(e);
 				// we fire a custom Error with index pointing at the offending query
 				should(e.index).eql(0);
-				should(e.results).exist;
+				should.exist(e.results);
 				return;
 			} finally {
 				db.close();
@@ -595,7 +594,7 @@ describe('Titanium.Database', function () {
 				db.executeAllAsync(queries, (err, results) => {
 					let rows;
 					try {
-						should(err).not.exist;
+						should.not.exist(err);
 						// the returned results array should be the same length as the input query array
 						should(results.length).eql(queries.length);
 
@@ -605,10 +604,8 @@ describe('Titanium.Database', function () {
 						should(rows.rowCount).be.eql(1);
 						should(rows.fieldCount).be.eql(3);
 						should(rows.validRow).be.true();
-
-						finish();
 					} catch (e) {
-						finish(e);
+						return finish(e);
 					} finally {
 						// Close the 'rows' object
 						if (rows) {
@@ -616,6 +613,7 @@ describe('Titanium.Database', function () {
 						}
 						db.close();
 					}
+					finish();
 				});
 			} catch (e) {
 				db.close();
@@ -643,7 +641,7 @@ describe('Titanium.Database', function () {
 				db.executeAllAsync(queries, (err, results) => {
 					let rows;
 					try {
-						should(err).exist;
+						should.exist(err);
 						should(err.index).eql(4);
 						should(results).be.an.Array();
 
@@ -653,16 +651,15 @@ describe('Titanium.Database', function () {
 						should(rows.rowCount).be.eql(1);
 						should(rows.fieldCount).be.eql(3);
 						should(rows.validRow).be.true();
-
-						finish();
 					} catch (e) {
-						finish(e);
+						return finish(e);
 					} finally {
 						if (rows) {
 							rows.close();
 						}
 						db.close();
 					}
+					finish();
 				});
 			} catch (e) {
 				// should call callback with error, not throw it!
@@ -689,16 +686,16 @@ describe('Titanium.Database', function () {
 			db.executeAllAsync(queries, (err, results) => {
 				// this should eventually throw an error when it gets closed mid-queries
 				try {
-					should(err).exist;
+					should.exist(err);
 					// We should be giving custom properties so user can see what index we failed on, get partial results
 					should(err.index).be.a.Number();
 					should(results).be.an.Array();
-					finish();
 				} catch (e) {
-					finish(e);
+					return finish(e);
 				} finally {
 					db.close();
 				}
+				finish();
 			});
 			// close the db while we're executing queries
 			setTimeout(() => {
@@ -726,12 +723,12 @@ describe('Titanium.Database', function () {
 			// this should just continue on until it's done...
 			db.executeAllAsync(queries, (err, results) => {
 				try {
-					should(err).not.exist;
-					should(results).exist;
-					finish();
+					should.not.exist(err);
+					should.exist(results);
 				} catch (e) {
-					finish(e);
+					return finish(e);
 				}
+				finish();
 			});
 		}
 

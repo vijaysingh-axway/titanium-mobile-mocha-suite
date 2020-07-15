@@ -701,7 +701,7 @@ describe('Titanium.UI.View', function () {
 
 				// parent is not read-only
 				view.setParent(null);
-				should(view.parent).not.exist;
+				should.not.exist(view.parent);
 			} catch (err) {
 				return finish(err);
 			}

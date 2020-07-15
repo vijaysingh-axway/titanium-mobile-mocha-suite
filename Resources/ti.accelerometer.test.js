@@ -7,17 +7,23 @@
 /* eslint-env mocha */
 /* eslint no-unused-expressions: "off" */
 'use strict';
-var should = require('./utilities/assertions');
+const should = require('./utilities/assertions');
 
-describe('Titanium.Accelerometer', function () {
-	it('apiName', function () {
-		should(Ti.Accelerometer).have.readOnlyProperty('apiName').which.is.a.String();
-		should(Ti.Accelerometer.apiName).be.eql('Ti.Accelerometer');
+describe('Titanium.Accelerometer', () => {
+	it('namespace exists', () => {
+		should.exist(Ti.Accelerometer);
 	});
 
-	it('exists', function () {
-		should(Ti.Accelerometer).exist;
+	it('.apiName', () => {
+		should(Ti.Accelerometer).have.readOnlyProperty('apiName').which.is.a.String();
+		should(Ti.Accelerometer.apiName).eql('Ti.Accelerometer');
+	});
+
+	it('#addEventListener() is a function', () => {
 		should(Ti.Accelerometer.addEventListener).be.a.Function();
+	});
+
+	it('#removeEventListener() is a function', () => {
 		should(Ti.Accelerometer.removeEventListener).be.a.Function();
 	});
 });
