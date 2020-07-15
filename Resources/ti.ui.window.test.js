@@ -249,12 +249,17 @@ describe('Titanium.UI.Window', function () {
 		});
 
 		it('fires close event', done => {
-			win.addEventListener('open', () => {
+			win = Ti.UI.createWindow({
+				backgroundColor: 'pink'
+			});
+			win.addEventListener('open', function openListener () {
+				win.removeEventListener('open', openListener);
 				win.close();
 			});
-			win.addEventListener('close', () => {
+			win.addEventListener('close', function closeListener () {
+				win.removeEventListener('close', closeListener);
 				try {
-					win.closed.should.eql(true); // we're being notified the window is open, so should report closed as false!
+					win.closed.should.be.true(); // we're being notified the window is closed, so should report closed as true!
 				} catch (e) {
 					return done(e);
 				}
@@ -471,7 +476,7 @@ describe('Titanium.UI.Window', function () {
 
 	it('#applyProperties(Object)', () => {
 		win = Ti.UI.createWindow();
-		should(win.custom).not.exist();
+		should.not.exist(win.custom);
 		win.applyProperties({ custom: 1234 });
 		should(win.custom).eql(1234);
 	});
@@ -679,10 +684,10 @@ describe('Titanium.UI.Window', function () {
 				should(padding.bottom).be.aboveOrEqual(0);
 				should(padding.left).be.aboveOrEqual(0);
 				should(padding.right).be.aboveOrEqual(0);
-				finish();
 			} catch (err) {
-				finish(err);
+				return finish(err);
 			}
+			finish();
 		});
 		win.open();
 	});
@@ -732,7 +737,7 @@ describe('Titanium.UI.Window', function () {
 			window.removeEventListener('postlayout', listener);
 
 			try {
-				var padding = window.safeAreaPadding;
+				const padding = window.safeAreaPadding;
 				should(padding).be.an.Object();
 				// top padding should always be 0 when inside a navigation window, notch or not
 				should(padding.top).be.eql(0);
@@ -891,9 +896,10 @@ describe('Titanium.UI.Window', function () {
 		const win = Ti.UI.createWindow({
 			backgroundColor: '#0000ff'
 		});
-		win.addEventListener('open', _e => {
+		win.addEventListener('open', function openListener () {
+			win.removeEventListener('open', openListener);
 			setTimeout(() => win.close(), 1); // close it after we fail
-			finish(new Error('Expect window to never open if we call open and then close immediately!'));
+			finish(new Error('Expected window to never open if we call open and then close immediately!'));
 		});
 		win.open();
 		win.close();
@@ -905,33 +911,42 @@ describe('Titanium.UI.Window', function () {
 	});
 
 	it('.closed', done => {
-		win.closed.should.eql(true); // it's not yet opened, so treat as closed
-		win.addEventListener('open', () => {
+		win = Ti.UI.createWindow({
+			backgroundColor: '#0000ff'
+		});
+		win.closed.should.be.true(); // it's not yet opened, so treat as closed
+		win.addEventListener('open', function openListener () {
+			win.removeEventListener('open', openListener);
 			try {
-				win.closed.should.eql(false); // we're being notified the window is open, so should report closed as false!
+				win.closed.should.be.false(); // we're being notified the window is open, so should report closed as false!
 			} catch (e) {
 				return done(e);
 			}
 			done();
 		});
 		win.open();
-		win.closed.should.eql(false); // should be open now
+		win.closed.should.be.false(); // should be open now
 	});
 
 	it('.focused', done => {
-		win.focused.should.eql(false); // haven't opened it yet, so shouldn't be focused
-		win.addEventListener('focus', () => {
+		win = Ti.UI.createWindow({
+			backgroundColor: '#0000ff'
+		});
+		win.focused.should.be.false(); // haven't opened it yet, so shouldn't be focused
+		win.addEventListener('focus', function focusListener() {
+			win.removeEventListener('focus', focusListener);
 			try {
-				win.focused.should.eql(true);
+				win.focused.should.be.true();
 				win.close();
 			} catch (e) {
 				return done(e);
 			}
 		});
-		win.addEventListener('close', () => {
+		win.addEventListener('close', function closeListener () {
+			win.removeEventListener('close', closeListener);
 			try {
 				// we've been closed (or are closing?) so hopefully shouldn't say that we're focused
-				win.focused.should.eql(false);
+				win.focused.should.be.false();
 			} catch (e) {
 				return done(e);
 			}
