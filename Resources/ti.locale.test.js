@@ -212,6 +212,10 @@ describe('Titanium.Locale', function () {
 			// France uses non-breaking unicode spaces for thousands separator.
 			result = Ti.Locale.parseDecimal('1\u00A0234\u00A0567,8', 'fr-FR');
 			should(Math.abs(result - 1234567.8)).be.lessThan(Number.EPSILON);
+
+			// But it was then changed to narrow non-breaking spaces!
+			result = Ti.Locale.parseDecimal('1\u202F234\u202F567,8', 'fr-FR');
+			should(Math.abs(result - 1234567.8)).be.lessThan(Number.EPSILON);
 		});
 
 		it('various values', () => {

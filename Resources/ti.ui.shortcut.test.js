@@ -21,8 +21,8 @@ if (OS_ANDROID) {
 }
 
 describe('Titanium.UI', () => {
-	it.android('#createShortcut()', () => {
-		should(Ti.UI.createShortcutItem).not.be.undefined();
+	it('#createShortcut()', () => {
+		should(Ti.UI.createShortcut).not.be.undefined();
 		should(Ti.UI.createShortcut).be.a.Function();
 
 		// Create shortcut instance.
@@ -31,7 +31,7 @@ describe('Titanium.UI', () => {
 	});
 });
 
-describe.android('Titanium.UI.Shortcut', () => {
+describe('Titanium.UI.Shortcut', () => {
 	// Create basic shortcut item.
 	let shortcutItem;
 	before(() => {

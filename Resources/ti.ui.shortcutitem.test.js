@@ -21,14 +21,14 @@ if (OS_ANDROID) {
 }
 
 describe('Titanium.UI', () => {
-	it.android('#createShortcutItem()', () => {
+	it('#createShortcutItem()', () => {
 		should(Ti.UI.createShortcutItem).not.be.undefined();
 		should(Ti.UI.createShortcutItem).be.a.Function();
 	});
 });
 
-describe.android('Titanium.UI.ShortcutItem', () => {
-	it('namespace exists', () => {
+describe('Titanium.UI.ShortcutItem', () => {
+	it.iosBroken('namespace exists', () => {
 		should(Ti.UI.ShortcutItem).not.be.undefined();
 	});
 
@@ -84,49 +84,50 @@ describe.android('Titanium.UI.ShortcutItem', () => {
 			should(item.data).be.a.Object();
 		});
 
-		it('.icon', () => {
+		// iOS returns the underlying icon object, not the numeric constant we passed in
+		it.iosBroken('.icon', () => {
+			const icon = OS_ANDROID ? Ti.Android.R.drawable.ic_menu_send : Titanium.UI.iOS.SHORTCUT_ICON_TYPE_SHARE;
 			const shortcut = Ti.UI.createShortcutItem({
 				id: 'test_shortcut',
 				title: 'Test Shortcut',
 				description: 'Test shortcut description',
-				icon: Ti.Android.R.drawable.ic_menu_send
+				icon
 			});
-			should(shortcut.icon).be.eql(Ti.Android.R.drawable.ic_menu_send);
+			should(shortcut.icon).eql(icon);
 		});
 
-		describe('#show()', () => {
+		describe.android('#show()', () => {
 			it('is a Function', () => {
 				const shortcut = Ti.UI.createShortcutItem({
 					id: 'test_shortcut',
 					title: 'Test Shortcut',
-					description: 'Test shortcut description',
-					icon: Ti.Android.R.drawable.ic_menu_send
+					description: 'Test shortcut description'
 				});
 				should(shortcut.show).not.be.undefined();
 				should(shortcut.show).be.a.Function();
 			});
 		});
 
-		describe('#hide()', () => {
+		describe.android('#hide()', () => {
+			// eslint-disable-next-line mocha/no-identical-title
 			it('is a Function', () => {
 				const shortcut = Ti.UI.createShortcutItem({
 					id: 'test_shortcut',
 					title: 'Test Shortcut',
-					description: 'Test shortcut description',
-					icon: Ti.Android.R.drawable.ic_menu_send
+					description: 'Test shortcut description'
 				});
 				should(shortcut.hide).not.be.undefined();
 				should(shortcut.hide).be.a.Function();
 			});
 		});
 
-		describe('#pin()', () => {
+		describe.android('#pin()', () => {
+			// eslint-disable-next-line mocha/no-identical-title
 			it('is a Function', () => {
 				const shortcut = Ti.UI.createShortcutItem({
 					id: 'test_shortcut',
 					title: 'Test Shortcut',
-					description: 'Test shortcut description',
-					icon: Ti.Android.R.drawable.ic_menu_send
+					description: 'Test shortcut description'
 				});
 				should(shortcut.pin).not.be.undefined();
 				should(shortcut.pin).be.a.Function();
