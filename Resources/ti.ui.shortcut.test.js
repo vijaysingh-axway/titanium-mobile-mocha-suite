@@ -84,7 +84,7 @@ describe('Titanium.UI.Shortcut', () => {
 			let expectedLength = length;
 			// If shortcut already exists, it will update data of shortcut.
 			// Length will increase only if shortcut do not exists.
-			if (shortcut.getById('test_shortcut') === null) {
+			if (shortcut.getById('test_shortcut') === undefined) {
 				expectedLength = length + 1;
 			}
 			shortcut.add(shortcutItem);
@@ -117,7 +117,7 @@ describe('Titanium.UI.Shortcut', () => {
 			let expectedLength = length;
 			// If shortcut already exists, it will update data of shortcut.
 			// Length will increase only if shortcut do not exists.
-			if (shortcut.getById('test_shortcut') === null) {
+			if (shortcut.getById('test_shortcut') === undefined) {
 				expectedLength = length + 1;
 			}
 			shortcut.add(shortcutItem);
@@ -151,7 +151,7 @@ describe('Titanium.UI.Shortcut', () => {
 			let expectedLength = length;
 			// If shortcut already exists, it will update data of shortcut.
 			// Length will increase only if shortcut do not exists.
-			if (shortcut.getById('test_shortcut') === null) {
+			if (shortcut.getById('test_shortcut') === undefined) {
 				expectedLength = length + 1;
 			}
 			shortcut.add(shortcutItem);
